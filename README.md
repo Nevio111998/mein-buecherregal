@@ -1,28 +1,63 @@
-# Mein Bücherregal – V13
+# Mein Bücherregal – Version 14
 
-## Schritt 3: Eigene Sammlungen und Ausstellungsregale
+Version 14 baut auf Version 13 auf.
 
-V13 baut auf V12.3 auf. Deine Bücher, die manuelle Reihenlogik, der Scanner, die Buchanimation und der Bibliotheksmodus bleiben erhalten.
+## Neu: Lesejournal
 
-- Erstelle persönliche Ausstellungen wie „Meine Top 10“, „Dark Fantasy“ oder „Als Nächstes lesen“.
-- Wähle Bücher aus deiner bestehenden Bibliothek. Ein Buch kann in mehreren Sammlungen stehen, ohne dupliziert zu werden.
-- Ändere Reihenfolge, Schildtext, Titelbild und den Stil des Ausstellungsregals.
-- Öffne Sammlungen als Cover- oder Buchrückenregal; die normalen Reihenansichten bleiben unabhängig.
-- Im Bibliotheksmodus kannst du zwischen Reihen und Sammlungen wechseln.
-- Im Buchdetail gibt es „Zu Sammlung“, um ein Buch direkt in eine oder mehrere Ausstellungen aufzunehmen.
-- Eine gelöschte Sammlung löscht keine Bücher. Fehlende Buchverweise bleiben erkennbar und können im Editor entfernt werden.
+Jedes Buch kann jetzt einen eigenen Journal-Eintrag bekommen:
 
-## Datensicherheit
+- Gestartet am
+- Beendet am
+- Format: Papierbuch, E-Book, Hörbuch oder gemischt
+- Gefühl: episch, düster, emotional, clever, gemütlich oder zäh
+- kurze Rezension
+- Lieblingszitat
+- Lieblingsszene / stärkster Moment
+- private Journal-Notizen
 
-Die Sammlungen werden separat unter `my_bookshelf_collections_v1` gespeichert. Sie enthalten nur Metadaten und Buch-IDs, keine zusätzlichen Buchkopien. Das neue JSON-Backup (Schema 3) enthält alle Bücher, die manuellen Reihen-Einstellungen, Sammlungen und wichtige App-Einstellungen. Alte Backups bleiben importierbar.
+Du öffnest das Journal direkt in den Buchdetails über **📖 Journal**.
 
-Bei einem alten Backup ohne Sammlungen bleiben vorhandene Sammlungen erhalten. Beim Zusammenführen werden neue Buch-IDs den vorhandenen Datensätzen zugeordnet und Sammlungsverweise entsprechend angepasst. Bei Namens-/ID-Konflikten bleiben bestehende Sammlungsdaten vorrangig. Vor dem Ersetzen wird eine Sicherheitskopie zum Download angeboten. Prüfe unbedingt, dass sie ausserhalb der App gespeichert ist.
+Wenn du ein Abschlussdatum setzt, wird das Buch automatisch als gelesen markiert.
 
-## Installation
+## Neu: Jahresrückblick
 
-1. Vor dem Update ein aktuelles JSON-Backup erstellen und in iCloud Drive sichern.
-2. Die fünf Dateien aus diesem ZIP im bestehenden GitHub-Repository ersetzen und committen.
-3. GitHub Pages neu laden, bis V13 erscheint. Keine Website-Daten löschen und die PWA nicht deinstallieren.
-4. Über „✦ Sammlungen“ die erste Ausstellung erstellen.
+Über **📖 Lesejournal** öffnest du die Jahresübersicht:
 
-Cloudflare muss nicht geändert werden. Es gibt weiterhin keine automatische Cloud-Synchronisierung. Die Kamera wurde nicht auf einem echten iPhone getestet.
+- gelesene Bücher pro Jahr
+- gelesene Seiten
+- einzigartige Autoren
+- durchschnittliche Bewertung
+- Top-Genre
+- gespeicherte Lieblingszitate
+- Monatsverteilung
+- Liste aller abgeschlossenen Bücher
+- Bücher, die als gelesen markiert sind, aber noch kein Abschlussdatum haben
+
+Gezählt werden Bücher mit einem gepflegten Abschlussdatum.
+
+## Backup
+
+Das JSON-Backup wurde auf Schema 4 erweitert und enthält jetzt zusätzlich:
+
+- alle Journal-Einträge
+- Abschlussdaten
+- Rezensionen
+- Zitate
+- private Journal-Notizen
+
+Ältere Backups aus V13 und früher bleiben importierbar. Wenn ein Backup kein Lesejournal enthält, bleiben vorhandene Journal-Daten erhalten.
+
+## Bleibt erhalten
+
+- Sammlungen & Ausstellungsregale aus V13
+- Bibliotheksmodus
+- Buchanimation / Folio-Detailansicht
+- manuelle Reihenlogik
+- lokale Speicherung
+- JSON Backup / Import / Zusammenführen
+- Kamera / Schnellscan
+- Cloudflare-Datenquelle
+
+## Update
+
+Nur GitHub Pages aktualisieren. Cloudflare bleibt unverändert.

@@ -1,4 +1,4 @@
-const CACHE = "bookshelf-v13";
+const CACHE = "bookshelf-v14";
 const STATIC = ["./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", event => {

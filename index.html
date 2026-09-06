@@ -2594,6 +2594,324 @@
     .collection-editor{width:min(970px,calc(100% - 20px));max-height:92vh}.collection-editor .modal-body{padding:12px 20px 24px}.collection-editor h2{font-family:Georgia,serif}.collection-editor-intro{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 16px}.collection-editor-form{display:flex;flex-direction:column;gap:16px}.collection-field{display:flex;flex-direction:column;gap:6px}.collection-field label{font-size:11px;font-weight:800;color:#d9c5a9}.collection-field input,.collection-field textarea,.collection-field select{background:#171310;border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:11px 12px;color:var(--text);width:100%;min-width:0;outline:none}.collection-field textarea{min-height:75px;resize:vertical}.collection-editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.collection-editor-section{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.018);border-radius:16px;padding:14px}.collection-editor-section h3{font:700 20px Georgia,serif;margin:0 0 6px;color:#efdcc1}.collection-editor-section p{font-size:11px;color:var(--muted);line-height:1.45;margin:0 0 12px}.collection-selected-list,.collection-candidate-list{display:flex;flex-direction:column;gap:7px}.collection-candidate-list{max-height:300px;overflow-y:auto;padding-right:3px}.collection-selected-row,.collection-candidate-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.055);border-radius:11px;padding:8px;min-width:0}.collection-candidate-row{cursor:pointer}.collection-candidate-row:has(input:checked){border-color:rgba(216,179,107,.4);background:rgba(216,179,107,.06)}.collection-row-cover{width:38px;height:55px;flex:0 0 38px;object-fit:cover;border-radius:4px}.collection-row-text{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}.collection-row-text strong{font-size:12px;line-height:1.3;overflow-wrap:anywhere;color:var(--text)}.collection-row-text span,.collection-row-text small{font-size:10px;color:var(--muted);line-height:1.35}.collection-candidate-row input,.collection-quick-row input{width:20px;height:20px;flex:0 0 20px;accent-color:#b98a50}.collection-selected-index{font:700 12px Georgia,serif;color:var(--gold);width:18px;text-align:center;flex:0 0 18px}.collection-reorder{display:flex;gap:4px;flex-shrink:0}.collection-reorder button{background:#322820;border:1px solid rgba(255,255,255,.1);color:var(--text);border-radius:7px;width:28px;height:30px;cursor:pointer}.collection-reorder button:disabled{opacity:.3;cursor:default}.collection-picker-empty{padding:17px 12px;border-radius:11px;border:1px dashed rgba(255,255,255,.09);font-size:11px;color:var(--muted);line-height:1.5;text-align:center}.collection-editor-error{font-size:12px;color:#e5a6a1;min-height:1.2em}.collection-editor-footer{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.07);padding-top:16px}.collection-editor-footer .collection-save-actions{display:flex;gap:8px;flex-wrap:wrap}
     .collection-quick-dialog{width:min(520px,calc(100% - 20px))}.collection-quick-dialog .modal-body{padding:12px 20px 22px}.collection-quick-list{display:flex;flex-direction:column;gap:8px;margin:14px 0;max-height:45vh;overflow:auto}.collection-quick-row{display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025)}.collection-quick-row:has(input:checked){border-color:rgba(216,179,107,.38);background:rgba(216,179,107,.06)}.collection-quick-icon{font:21px Georgia,serif;color:var(--gold);width:29px;text-align:center}.collection-quick-row>span:nth-child(2){min-width:0;flex:1}.collection-quick-row strong,.collection-quick-row small{display:block}.collection-quick-row strong{font-size:13px;color:var(--text)}.collection-quick-row small{font-size:10px;color:var(--muted);margin-top:4px}.collection-quick-dialog h2{font-family:Georgia,serif}.collection-quick-dialog p{font-size:12px;line-height:1.5;color:var(--muted)}
     .folio-actions [data-folio-action="collection"]{border-color:rgba(193,151,89,.35);color:#eed4a8}.library-mode-controls .library-mode-source select{height:36px;background:#29221d;color:#f6e9d7;border:1px solid rgba(233,203,157,.17);border-radius:10px;padding:0 10px}.library-mode-source{font-size:11px;color:#c8b7a2;display:flex;gap:6px;align-items:center;white-space:nowrap}
+
+    /* =====================================================
+       V14 — Lesejournal & Jahresrückblick
+       ===================================================== */
+    .journal-dialog{
+      width:min(1120px,calc(100% - 22px));
+      border-color:rgba(232,193,128,.16);
+      background:
+        radial-gradient(circle at 20% 0%,rgba(216,179,107,.12),transparent 32%),
+        linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99));
+    }
+    .journal-entry-dialog{
+      width:min(860px,calc(100% - 22px));
+      border-color:rgba(232,193,128,.16);
+      background:
+        radial-gradient(circle at 18% 0%,rgba(216,179,107,.10),transparent 34%),
+        linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99));
+    }
+    .journal-topbar{
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);
+      border-bottom:1px solid rgba(232,193,128,.12);
+    }
+    .journal-topbar h2{
+      font-family:Georgia,"Times New Roman",serif;
+      color:#f2ddbd;
+    }
+    .journal-hero{
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:16px;
+      align-items:end;
+      padding:18px;
+      border-radius:20px;
+      border:1px solid rgba(232,193,128,.13);
+      background:
+        radial-gradient(circle at 86% 10%,rgba(216,179,107,.12),transparent 34%),
+        linear-gradient(145deg,rgba(255,255,255,.045),rgba(255,255,255,.015));
+      box-shadow:0 18px 30px rgba(0,0,0,.18);
+    }
+    .journal-kicker{
+      color:var(--gold);
+      font-size:10px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-weight:900;
+      margin-bottom:8px;
+    }
+    .journal-hero h3{
+      margin:0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(30px,4vw,48px);
+      letter-spacing:-.04em;
+      line-height:1;
+    }
+    .journal-hero p{
+      margin:9px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .journal-year-picker{
+      min-width:145px;
+    }
+    .journal-year-picker label{
+      display:block;
+      color:var(--muted);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.09em;
+      font-weight:900;
+      margin-bottom:6px;
+    }
+    .journal-year-picker select{
+      width:100%;
+      background:#120f0d;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:12px;
+      padding:11px 12px;
+    }
+    .journal-stats{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:10px;
+      margin:16px 0;
+    }
+    .journal-stat-card{
+      min-height:92px;
+      border-radius:17px;
+      padding:14px;
+      border:1px solid rgba(255,255,255,.07);
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.012)),
+        rgba(0,0,0,.17);
+      box-shadow:0 12px 22px rgba(0,0,0,.15);
+    }
+    .journal-stat-card span{
+      display:block;
+      color:var(--muted);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:900;
+      margin-bottom:9px;
+    }
+    .journal-stat-card strong{
+      display:block;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:30px;
+      color:#f3e4ce;
+      line-height:1;
+    }
+    .journal-stat-card small{
+      display:block;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.35;
+    }
+    .journal-months{
+      display:grid;
+      grid-template-columns:repeat(12,minmax(0,1fr));
+      gap:6px;
+      padding:12px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(0,0,0,.14);
+      margin-bottom:16px;
+    }
+    .journal-month{
+      min-height:96px;
+      display:flex;
+      flex-direction:column;
+      justify-content:end;
+      gap:6px;
+      align-items:center;
+      color:var(--muted);
+      font-size:9px;
+    }
+    .journal-month-bar{
+      width:100%;
+      min-height:6px;
+      border-radius:999px 999px 3px 3px;
+      background:linear-gradient(180deg,#d8b36b,#80522e);
+      box-shadow:0 7px 12px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.15);
+    }
+    .journal-section{
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid rgba(255,255,255,.07);
+    }
+    .journal-section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:12px;
+      margin-bottom:10px;
+    }
+    .journal-section h3{
+      margin:0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:22px;
+      color:#f2ddbd;
+    }
+    .journal-section p{
+      margin:5px 0 0;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.45;
+    }
+    .journal-book-list,.journal-entry-list,.journal-missing-list{
+      display:grid;
+      gap:10px;
+    }
+    .journal-book-row{
+      display:grid;
+      grid-template-columns:58px 1fr auto;
+      gap:12px;
+      align-items:center;
+      padding:10px;
+      border-radius:15px;
+      border:1px solid rgba(255,255,255,.065);
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.026),rgba(255,255,255,.01)),
+        rgba(0,0,0,.14);
+    }
+    .journal-book-row img,.journal-row-cover{
+      width:58px;height:82px;object-fit:cover;border-radius:6px;
+      box-shadow:0 10px 18px rgba(0,0,0,.25);
+      background:#342319;
+    }
+    .journal-row-cover{
+      display:flex;align-items:center;justify-content:center;text-align:center;
+      padding:6px;font-size:9px;color:var(--muted);
+    }
+    .journal-row-title{
+      font-weight:900;
+      font-size:14px;
+      color:#f1e1cc;
+      line-height:1.2;
+    }
+    .journal-row-meta{
+      margin-top:4px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.35;
+    }
+    .journal-row-review{
+      margin-top:6px;
+      color:#d9c8b5;
+      font-size:11px;
+      line-height:1.4;
+      display:-webkit-box;
+      -webkit-line-clamp:2;
+      -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+    .journal-row-actions{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+    .journal-mini-btn{
+      border:none;
+      border-radius:999px;
+      padding:8px 10px;
+      color:var(--text);
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.065);
+      font-size:11px;
+      cursor:pointer;
+    }
+    .journal-mini-btn:hover{background:rgba(216,179,107,.14)}
+    .journal-empty{
+      padding:24px;
+      border-radius:16px;
+      border:1px dashed rgba(255,255,255,.12);
+      color:var(--muted);
+      text-align:center;
+      font-size:12px;
+      line-height:1.45;
+    }
+    .journal-entry-book{
+      display:grid;
+      grid-template-columns:70px 1fr;
+      gap:13px;
+      align-items:center;
+      padding:12px;
+      border-radius:16px;
+      background:rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.065);
+      margin-bottom:14px;
+    }
+    .journal-entry-book img,.journal-entry-book .journal-row-cover{
+      width:70px;height:98px;
+    }
+    .journal-entry-book h3{
+      margin:0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:26px;
+      line-height:1.05;
+      color:#f4e5d0;
+    }
+    .journal-entry-book p{
+      margin:7px 0 0;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .journal-form-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+    .journal-form textarea{
+      min-height:82px;
+    }
+    .journal-form-actions{
+      margin-top:16px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .journal-form-actions > div{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .journal-entry-status{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:11px;
+    }
+    .folio-actions [data-folio-action="journal"]{
+      border-color:rgba(216,179,107,.38);
+      color:#f1d8aa;
+    }
+    @media(max-width:850px){
+      .journal-stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .journal-months{grid-template-columns:repeat(6,minmax(0,1fr))}
+      .journal-book-row{grid-template-columns:50px 1fr}
+      .journal-row-actions{grid-column:2;justify-content:flex-start}
+      .journal-book-row img,.journal-row-cover{width:50px;height:72px}
+    }
+    @media(max-width:560px){
+      .journal-hero{grid-template-columns:1fr}
+      .journal-stats{grid-template-columns:1fr 1fr}
+      .journal-months{grid-template-columns:repeat(4,minmax(0,1fr))}
+      .journal-form-grid{grid-template-columns:1fr}
+      .journal-entry-book{grid-template-columns:54px 1fr}
+      .journal-entry-book img,.journal-entry-book .journal-row-cover{width:54px;height:78px}
+      .journal-entry-book h3{font-size:20px}
+      .journal-form-actions .btn{width:100%}
+      .journal-form-actions > div{width:100%}
+    }
+
     @media(max-width:700px){.collection-view{padding:14px}.collection-view-controls .btn{flex:1 1 auto}.collection-view-controls select{flex:1 1 100%}.collection-gallery,.collection-manager-list{grid-template-columns:1fr}.collection-editor-grid{grid-template-columns:1fr}.collection-manager .modal-body,.collection-editor .modal-body,.collection-quick-dialog .modal-body{padding:12px 14px 18px}.collection-editor-section{padding:11px}.collection-reorder{flex-direction:column}.collection-reorder button{height:26px}.collection-selected-row{gap:7px}.collection-row-cover{width:34px;height:49px;flex-basis:34px}.collection-tile-art{height:175px}.library-mode-source{flex:1 1 100%}.library-mode-source select{flex:1;min-width:0}}
     @media(prefers-reduced-motion:reduce){.collection-tile{transition:none!important}.collection-tile:hover{transform:none!important}}
 
@@ -2822,7 +3140,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V13</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V14</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -2830,6 +3148,7 @@
         <button class="btn secondary" id="quickScanBtn">📚 Schnellscan</button>
         <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
         <button class="btn secondary" id="collectionsBtn" type="button">✦ Sammlungen</button>
+        <button class="btn secondary" id="journalBtn" type="button">📖 Lesejournal</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
         <button class="btn secondary" id="moreExportBtn">🔒 Sicherheit & Export</button>
         <button class="btn secondary" id="sourceBtn">⚙ Datenquelle</button>
@@ -2939,7 +3258,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 13: echte Doppelseiten, langsameres Herausziehen und sanftes Zurücklegen – deine Bibliothek bleibt erhalten.
+      Version 14: Lesejournal und Jahresrückblick. Sammlungen, Ausstellungsregale und Bibliotheksmodus bleiben erhalten.
     </div>
   </div>
 
@@ -3286,6 +3605,130 @@
     <div class="modal-body"><div class="collection-view-kicker" id="addToCollectionTitle"></div><p id="addToCollectionIntro"></p><div id="addToCollectionList" class="collection-quick-list"></div><button class="btn secondary" id="addToCollectionNew" type="button">＋ Neue Sammlung mit diesem Buch</button><div class="collection-editor-error" id="addToCollectionError"></div><div class="modal-actions"><button class="btn secondary" id="addToCollectionCancel" type="button">Abbrechen</button><button class="btn primary" id="addToCollectionSave" type="button">Auswahl speichern</button></div></div>
   </dialog>
 
+
+  <dialog id="journalDialog" class="journal-dialog" aria-labelledby="journalHeading">
+    <div class="modal-head journal-topbar">
+      <h2 id="journalHeading">📖 Lesejournal & Jahresrückblick</h2>
+      <button class="icon-btn" id="journalClose" type="button" aria-label="Journal schliessen">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="journal-hero">
+        <div>
+          <div class="journal-kicker">DEIN LESEJAHR</div>
+          <h3 id="journalYearTitle">Jahresrückblick</h3>
+          <p id="journalYearSubtitle">Tracke Abschlussdaten, Rezensionen, Zitate und persönliche Eindrücke.</p>
+        </div>
+        <div class="journal-year-picker">
+          <label for="journalYearSelect">Jahr</label>
+          <select id="journalYearSelect"></select>
+        </div>
+      </div>
+
+      <div id="journalStats" class="journal-stats"></div>
+      <div id="journalMonths" class="journal-months"></div>
+
+      <div class="journal-section">
+        <div class="journal-section-head">
+          <div>
+            <h3>Gelesene Bücher im Jahr</h3>
+            <p>Gezählt werden Bücher mit Abschlussdatum im Journal.</p>
+          </div>
+        </div>
+        <div id="journalYearBooks" class="journal-book-list"></div>
+      </div>
+
+      <div class="journal-section">
+        <div class="journal-section-head">
+          <div>
+            <h3>Journal-Einträge</h3>
+            <p>Alle Bücher mit einem Lesejournal-Eintrag.</p>
+          </div>
+        </div>
+        <div id="journalEntries" class="journal-entry-list"></div>
+      </div>
+
+      <div class="journal-section">
+        <div class="journal-section-head">
+          <div>
+            <h3>Gelesen, aber ohne Abschlussdatum</h3>
+            <p>Diese Bücher zählen erst im Jahresrückblick, wenn du ein Abschlussdatum einträgst.</p>
+          </div>
+        </div>
+        <div id="journalMissingDates" class="journal-missing-list"></div>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="journalEntryDialog" class="journal-entry-dialog" aria-labelledby="journalEntryHeading">
+    <div class="modal-head journal-topbar">
+      <h2 id="journalEntryHeading">Journal-Eintrag</h2>
+      <button class="icon-btn" id="journalEntryClose" type="button" aria-label="Journal-Eintrag schliessen">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="journalEntryBook" class="journal-entry-book"></div>
+      <form id="journalEntryForm" class="journal-form">
+        <div class="journal-form-grid">
+          <div class="field">
+            <label for="journalStartedAt">Gestartet am</label>
+            <input id="journalStartedAt" type="date">
+          </div>
+          <div class="field">
+            <label for="journalFinishedAt">Beendet am</label>
+            <input id="journalFinishedAt" type="date">
+          </div>
+          <div class="field">
+            <label for="journalFormat">Format</label>
+            <select id="journalFormat">
+              <option value="">Nicht festgelegt</option>
+              <option value="paper">Papierbuch</option>
+              <option value="ebook">E-Book</option>
+              <option value="audio">Hörbuch</option>
+              <option value="mixed">Gemischt</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="journalMood">Gefühl</label>
+            <select id="journalMood">
+              <option value="">Nicht festgelegt</option>
+              <option value="epic">Episch</option>
+              <option value="dark">Düster</option>
+              <option value="emotional">Emotional</option>
+              <option value="clever">Clever</option>
+              <option value="cozy">Gemütlich</option>
+              <option value="slow">Zäh</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label for="journalReview">Kurze Rezension</label>
+            <textarea id="journalReview" maxlength="5000" placeholder="Was bleibt hängen? Was war stark, schwach oder besonders?"></textarea>
+          </div>
+          <div class="field full">
+            <label for="journalFavoriteQuote">Lieblingszitat</label>
+            <textarea id="journalFavoriteQuote" maxlength="1500" placeholder="Optional: ein kurzes Zitat oder eine Stelle, die du behalten willst."></textarea>
+          </div>
+          <div class="field full">
+            <label for="journalFavoriteScene">Lieblingsszene / stärkster Moment</label>
+            <textarea id="journalFavoriteScene" maxlength="2000" placeholder="Optional: welche Szene war am stärksten?"></textarea>
+          </div>
+          <div class="field full">
+            <label for="journalPrivateNotes">Private Journal-Notizen</label>
+            <textarea id="journalPrivateNotes" maxlength="5000" placeholder="Gedanken, Vergleich mit anderen Büchern, Fortsetzungsnotizen …"></textarea>
+          </div>
+        </div>
+
+        <div class="journal-form-actions">
+          <button class="btn danger" id="journalEntryDelete" type="button">Journal löschen</button>
+          <div>
+            <button class="btn secondary" id="journalEntryCancel" type="button">Abbrechen</button>
+            <button class="btn primary" type="submit">Journal speichern</button>
+          </div>
+        </div>
+        <div id="journalEntryStatus" class="journal-entry-status" role="status"></div>
+      </form>
+    </div>
+  </dialog>
+
+
   <input type="file" id="importFile" accept="application/json" hidden />
   <input type="file" id="coverPhotoFile" accept="image/*" capture="environment" hidden />
 
@@ -3305,7 +3748,9 @@
     const DENSITY_KEY = "my_bookshelf_density_v1";
     const AMBIENT_KEY = "my_bookshelf_ambient_v1";
     const OVERVIEW_COLLAPSED_KEY = "my_bookshelf_overview_collapsed_v1";
+    const READING_JOURNAL_KEY = "my_bookshelf_reading_journal_v1";
     let books = loadBooks();
+    let readingJournal = loadReadingJournalV14();
     let currentStream = null;
     let scanTimer = null;
     let zxingScanControls = null;
@@ -4455,6 +4900,7 @@
               ${b.notes ? `<div class="folio-notes"><strong>Deine Notizen</strong>${esc(b.notes)}</div>` : ""}
               <div class="folio-actions">
                 <button type="button" data-folio-action="collection">✦ &nbsp; Zu Sammlung</button>
+                <button type="button" data-folio-action="journal">📖 &nbsp; Journal</button>
                 <button type="button" data-folio-action="edit">✎ &nbsp; Bearbeiten</button>
                 <button type="button" data-folio-action="favorite">${b.favorite ? "★ Favorit" : "☆ Als Favorit"}</button>
                 ${b.series ? `<button type="button" data-folio-action="series">Reihe öffnen</button>` : ""}
@@ -5590,8 +6036,8 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"13",schemaVersion:3,
-        books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"14",schemaVersion:4,
+        books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
           theme:getTheme(),density:getDensity(),ambient:ambientEnabled(),
@@ -5604,7 +6050,7 @@
       const legacy=Array.isArray(data);
       const obj=legacy?{books:data}:data;
       if(!obj||typeof obj!=="object"||!Array.isArray(obj.books)) throw new Error("Diese Datei enthält keine gültige Bücherliste.");
-      if(Number(obj.schemaVersion||1)>3) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
+      if(Number(obj.schemaVersion||1)>4) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
       if(obj.books.length>100000) throw new Error("Das Backup enthält zu viele Bücher.");
       const seenIds=new Set();
       const incoming=obj.books.map((b,i)=>{
@@ -5615,6 +6061,7 @@
         return {...b,id};
       });
       const hasCollections=Object.prototype.hasOwnProperty.call(obj,"collections");
+      const hasReadingJournal=Object.prototype.hasOwnProperty.call(obj,"readingJournal");
       const meta=obj.seriesMeta;
       return {
         exportedAt:typeof obj.exportedAt==="string"?obj.exportedAt:null,
@@ -5623,6 +6070,8 @@
         hasSeriesMeta:Object.prototype.hasOwnProperty.call(obj,"seriesMeta"),
         collections:hasCollections?normalizeCollectionsV13(obj.collections,true):null,
         hasCollections,
+        readingJournal:hasReadingJournal?normalizeReadingJournalV14(obj.readingJournal,true):null,
+        hasReadingJournal,
         settings:obj.settings&&typeof obj.settings==="object"&&!Array.isArray(obj.settings)?obj.settings:{}
       };
     }
@@ -5663,6 +6112,8 @@
         <div><span>Beim Zusammenführen neu</span><strong>${merge.added}</strong></div>
         <div><span>Sammlungen im Backup</span><strong>${data.hasCollections?data.collections.length:"Nicht enthalten"}</strong></div>
         <div><span>Sammlungen aktuell</span><strong>${collections.length}</strong></div>
+        <div><span>Journal-Einträge im Backup</span><strong>${data.hasReadingJournal?Object.keys(data.readingJournal).length:"Nicht enthalten"}</strong></div>
+        <div><span>Journal-Einträge aktuell</span><strong>${Object.keys(readingJournal||{}).length}</strong></div>
         <div><span>Datenquelle</span><strong>${esc(source===DEFAULT_BOOK_API_URL?"Standard-Datenquelle":source)}</strong></div>
       </div><div class="import-warning">${data.hasCollections?"Ersetzen stellt auch die Sammlungen aus dieser Datei wieder her. Zusammenführen behält deine vorhandenen Sammlungen und ergänzt neue sowie fehlende Buchverweise.":"Dieses ältere Backup enthält keine Sammlungen. Bestehende Sammlungen werden deshalb bei beiden Importarten beibehalten."}<br><br>Vor einem Ersetzen wird eine Sicherheitskopie der aktuellen Sammlung angeboten. Speichere sie bitte zuerst ausserhalb der App.</div>`;
     }
@@ -6735,6 +7186,7 @@
       if(!b) return;
       switch(button.dataset.folioAction){
         case "collection": openAddToCollection(b.id); break;
+        case "journal": openJournalEntry(b.id); break;
         case "edit": openEdit(b.id); break;
         case "favorite": toggleFavorite(b.id); break;
         case "series":
@@ -6913,7 +7365,7 @@
     }
     function backupSnapshotV13(){
       return {
-        books,collections,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
+        books,collections,readingJournal:JSON.parse(JSON.stringify(readingJournal||{})),seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
         settings:currentBackupObject().settings,
         lastBackup:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
       };
@@ -6936,16 +7388,18 @@
     function commitImportV13(data,mode,plan){
       const old=backupSnapshotV13();
       const meta=mode==="replace"?(data.hasSeriesMeta?data.seriesMeta:old.seriesMeta):{...data.seriesMeta,...old.seriesMeta};
+      const plannedJournal=journalImportPlanV14(data,plan,mode);
       const changes=mode==="replace"?0:readIntStorage(CHANGES_SINCE_BACKUP_KEY,0)+Math.max(1,plan.added+plan.collectionAdded+plan.collectionUpdated);
       const previous={
         books:localStorage.getItem(STORAGE_KEY),collections:localStorage.getItem(COLLECTIONS_KEY),seriesMeta:localStorage.getItem(SERIES_META_KEY),
-        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
+        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),journal:localStorage.getItem(READING_JOURNAL_KEY),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
       };
       const restoreRaw=(key,value)=>{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)};
       try{
         // The canonical book store is the largest write. Do it before modifying any settings.
         localStorage.setItem(STORAGE_KEY,JSON.stringify(plan.books));
         localStorage.setItem(COLLECTIONS_KEY,JSON.stringify(plan.collections));
+        localStorage.setItem(READING_JOURNAL_KEY,JSON.stringify(plannedJournal));
         localStorage.setItem(SERIES_META_KEY,JSON.stringify(meta));
         restoreImportedSettingsV13(data.settings,mode);
         if(mode==="replace")localStorage.setItem(LAST_BACKUP_KEY,data.exportedAt||new Date().toISOString());
@@ -6955,13 +7409,13 @@
           [STORAGE_KEY,previous.books],[COLLECTIONS_KEY,previous.collections],[SERIES_META_KEY,previous.seriesMeta],
           [BOOK_API_KEY,previous.source],[VIEW_MODE_KEY,previous.view],[THEME_KEY,previous.theme],[DENSITY_KEY,previous.density],
           [AMBIENT_KEY,previous.ambient],[OVERVIEW_COLLAPSED_KEY,previous.overview],[LIBRARY_LIGHT_KEY,previous.light],
-          [LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
+          [READING_JOURNAL_KEY,previous.journal],[LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
         ]){try{restoreRaw(key,value)}catch(rollbackErr){console.error("Rollback fehlgeschlagen:",key,rollbackErr)}}
-        books=old.books;collections=old.collections;
+        books=old.books;collections=old.collections;readingJournal=old.readingJournal||{};
         alert("Der Import konnte nicht vollständig gespeichert werden. Die bisherigen Daten wurden nach Möglichkeit wiederhergestellt. Bitte lösche keine Website-Daten und behalte deine Backup-Datei.");
         return false;
       }
-      books=plan.books;collections=plan.collections;
+      books=plan.books;collections=plan.collections;readingJournal=plannedJournal;
       activeCollectionId="all";
       localStorage.setItem(COLLECTIONS_CHOICE_KEY,"all");
       pendingImportBackup=null;
@@ -7385,6 +7839,343 @@
     $("addToCollectionSave").addEventListener("click",saveAddToCollection);
     $("addToCollectionNew").addEventListener("click",collectionNewFromBook);
     $("addToCollectionDialog").addEventListener("cancel",e=>{e.preventDefault();$("addToCollectionDialog").close()});
+
+
+    /* =====================================================
+       V14 — Lesejournal & Jahresrückblick
+       ===================================================== */
+    const JOURNAL_FORMAT_LABELS = {paper:"Papierbuch",ebook:"E-Book",audio:"Hörbuch",mixed:"Gemischt"};
+    const JOURNAL_MOOD_LABELS = {epic:"Episch",dark:"Düster",emotional:"Emotional",clever:"Clever",cozy:"Gemütlich",slow:"Zäh"};
+    let journalEntryBookId = null;
+    let journalReturnFocus = null;
+
+    function normalizeDateString(value){
+      const s=String(value||"").trim();
+      if(!s) return "";
+      const m=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+      if(!m) return "";
+      const d=new Date(`${s}T00:00:00`);
+      return Number.isNaN(d.getTime()) ? "" : s;
+    }
+
+    function normalizeReadingJournalV14(value,strict=false){
+      if(value===null || value===undefined || value==="") return {};
+      if(typeof value!=="object" || Array.isArray(value)){
+        if(strict) throw new Error("Das Lesejournal muss ein Objekt sein.");
+        return {};
+      }
+      const out={};
+      for(const [rawId,rawEntry] of Object.entries(value)){
+        const id=String(rawId||"").trim();
+        if(!id) continue;
+        if(!rawEntry || typeof rawEntry!=="object" || Array.isArray(rawEntry)){
+          if(strict) throw new Error(`Journal-Eintrag für ${id} ist ungültig.`);
+          continue;
+        }
+        const entry={
+          startedAt:normalizeDateString(rawEntry.startedAt),
+          finishedAt:normalizeDateString(rawEntry.finishedAt),
+          format:["paper","ebook","audio","mixed"].includes(rawEntry.format)?rawEntry.format:"",
+          mood:["epic","dark","emotional","clever","cozy","slow"].includes(rawEntry.mood)?rawEntry.mood:"",
+          review:String(rawEntry.review||"").slice(0,5000),
+          favoriteQuote:String(rawEntry.favoriteQuote||"").slice(0,1500),
+          favoriteScene:String(rawEntry.favoriteScene||"").slice(0,2000),
+          privateNotes:String(rawEntry.privateNotes||"").slice(0,5000),
+          updatedAt:typeof rawEntry.updatedAt==="string"?rawEntry.updatedAt:new Date().toISOString()
+        };
+        if(entry.startedAt||entry.finishedAt||entry.format||entry.mood||entry.review||entry.favoriteQuote||entry.favoriteScene||entry.privateNotes){
+          out[id]=entry;
+        }
+      }
+      return out;
+    }
+
+    function loadReadingJournalV14(){
+      try{return normalizeReadingJournalV14(JSON.parse(localStorage.getItem(READING_JOURNAL_KEY)||"{}"))}
+      catch(err){
+        console.warn("Lesejournal konnte nicht gelesen werden. Die gespeicherten Daten bleiben unverändert.",err);
+        return {};
+      }
+    }
+
+    function readingJournalSnapshotV14(){
+      return JSON.parse(JSON.stringify(readingJournal||{}));
+    }
+
+    function journalEntry(id){
+      return (readingJournal||{})[String(id)] || null;
+    }
+
+    function journalHasContent(entry){
+      return !!(entry&&(entry.startedAt||entry.finishedAt||entry.format||entry.mood||entry.review||entry.favoriteQuote||entry.favoriteScene||entry.privateNotes));
+    }
+
+    function journalBookCoverHtml(b,klass="journal-row-cover"){
+      return b?.cover
+        ? `<img src="${esc(b.cover)}" alt="" onerror="this.outerHTML='<span class=&quot;${klass}&quot;>${esc((b.title||"Buch").slice(0,28))}</span>'">`
+        : `<span class="${klass}">${esc((b?.title||"Buch").slice(0,28))}</span>`;
+    }
+
+    function saveReadingJournalV14(){
+      try{
+        localStorage.setItem(READING_JOURNAL_KEY,JSON.stringify(readingJournal||{}));
+      }catch(err){
+        alert("Das Lesejournal konnte nicht gespeichert werden. Prüfe den Speicher oder erstelle ein Backup.");
+        throw err;
+      }
+      markLibraryChanged();
+      render();
+      if($("journalDialog")?.open) renderJournalDashboard();
+    }
+
+    function journalImportPlanV14(data,plan,mode){
+      if(!data.hasReadingJournal){
+        return mode==="replace" ? readingJournalSnapshotV14() : readingJournalSnapshotV14();
+      }
+      const result = mode==="merge" ? readingJournalSnapshotV14() : {};
+      const validIds=new Set(plan.books.map(b=>String(b.id)));
+      for(const [oldId,entry] of Object.entries(data.readingJournal||{})){
+        const newId=String(plan.idMap?.get(oldId)||oldId);
+        if(!validIds.has(newId)) continue;
+        if(mode==="merge" && result[newId] && journalHasContent(result[newId])) continue;
+        result[newId]={...entry,updatedAt:entry.updatedAt||new Date().toISOString()};
+      }
+      return normalizeReadingJournalV14(result);
+    }
+
+    function journalYears(){
+      const years=new Set([new Date().getFullYear()]);
+      Object.values(readingJournal||{}).forEach(e=>{
+        if(e.finishedAt) years.add(Number(e.finishedAt.slice(0,4)));
+        if(e.startedAt) years.add(Number(e.startedAt.slice(0,4)));
+      });
+      return [...years].filter(Number.isFinite).sort((a,b)=>b-a);
+    }
+
+    function journalBookRows(){
+      return Object.entries(readingJournal||{})
+        .map(([id,entry])=>({book:books.find(b=>String(b.id)===String(id)),entry,id}))
+        .filter(x=>x.book&&journalHasContent(x.entry));
+    }
+
+    function finishedRowsForYear(year){
+      return journalBookRows()
+        .filter(x=>x.entry.finishedAt && Number(x.entry.finishedAt.slice(0,4))===Number(year))
+        .sort((a,b)=>String(a.entry.finishedAt).localeCompare(String(b.entry.finishedAt)));
+    }
+
+    function pagesForBook(b){
+      const n=Number(String(b?.pages||"").replace(/[^\d]/g,""));
+      return Number.isFinite(n) && n>0 ? n : 0;
+    }
+
+    function formatDateCH(value){
+      if(!value) return "kein Datum";
+      const d=new Date(`${value}T00:00:00`);
+      return Number.isNaN(d.getTime()) ? "kein Datum" : d.toLocaleDateString("de-CH");
+    }
+
+    function journalRowMeta(book,entry){
+      const bits=[];
+      if(entry.finishedAt) bits.push(`Beendet: ${formatDateCH(entry.finishedAt)}`);
+      else if(entry.startedAt) bits.push(`Gestartet: ${formatDateCH(entry.startedAt)}`);
+      if(book.series) bits.push(`${book.series}${book.volume?` · Band ${book.volume}`:""}`);
+      if(book.genre) bits.push(book.genre);
+      if(entry.format) bits.push(JOURNAL_FORMAT_LABELS[entry.format]||entry.format);
+      if(entry.mood) bits.push(JOURNAL_MOOD_LABELS[entry.mood]||entry.mood);
+      return bits.join(" · ");
+    }
+
+    function journalBookRow({book,entry,id},extra=""){
+      const review=entry.review||entry.favoriteScene||entry.privateNotes||entry.favoriteQuote||"";
+      return `<div class="journal-book-row">
+        ${journalBookCoverHtml(book)}
+        <div>
+          <div class="journal-row-title">${esc(book.title||"Ohne Titel")}</div>
+          <div class="journal-row-meta">${esc(book.author||"Autor unbekannt")}${journalRowMeta(book,entry)?` · ${esc(journalRowMeta(book,entry))}`:""}</div>
+          ${review?`<div class="journal-row-review">${esc(review)}</div>`:""}
+          ${extra}
+        </div>
+        <div class="journal-row-actions">
+          <button class="journal-mini-btn" type="button" data-journal-open-book="${esc(id)}">Journal</button>
+          <button class="journal-mini-btn" type="button" data-journal-details="${esc(id)}">Buch öffnen</button>
+        </div>
+      </div>`;
+    }
+
+    function renderJournalDashboard(){
+      const years=journalYears();
+      const select=$("journalYearSelect");
+      const previous=select.value || String(years[0]);
+      select.replaceChildren(...years.map(y=>new Option(String(y),String(y))));
+      select.value=years.includes(Number(previous)) ? previous : String(years[0]);
+      const year=Number(select.value);
+
+      const rows=finishedRowsForYear(year);
+      const totalBooks=rows.length;
+      const pages=rows.reduce((sum,x)=>sum+pagesForBook(x.book),0);
+      const authors=new Set(rows.map(x=>x.book.author).filter(Boolean));
+      const genres=new Map();
+      rows.forEach(x=>{
+        const g=x.book.genre||"Ohne Genre";
+        genres.set(g,(genres.get(g)||0)+1);
+      });
+      const topGenre=[...genres.entries()].sort((a,b)=>b[1]-a[1])[0]?.[0]||"–";
+      const rated=rows.filter(x=>Number(x.book.rating||0)>0);
+      const avgRating=rated.length ? (rated.reduce((s,x)=>s+Number(x.book.rating||0),0)/rated.length).toFixed(1) : "–";
+      const quotes=rows.filter(x=>x.entry.favoriteQuote).length;
+
+      $("journalYearTitle").textContent=`Jahresrückblick ${year}`;
+      $("journalYearSubtitle").textContent=totalBooks
+        ? `${totalBooks} abgeschlossene Bücher · ${pages||"unbekannte"} Seiten · ${authors.size} Autor${authors.size===1?"":"en"}`
+        : "Noch keine Bücher mit Abschlussdatum in diesem Jahr.";
+
+      $("journalStats").innerHTML=[
+        ["Bücher gelesen",totalBooks,"mit Abschlussdatum"],
+        ["Seiten",pages||"–",pages?"aus gepflegten Seitenzahlen":"Seitenzahlen fehlen teilweise"],
+        ["Autoren",authors.size,"einzigartige Autoren"],
+        ["Ø Bewertung",avgRating,rated.length?`${rated.length} bewertete Bücher`:"noch keine Ratings"],
+        ["Top-Genre",topGenre,topGenre==="–"?"noch offen":"meistgelesenes Genre"],
+        ["Zitate",quotes,"gespeicherte Lieblingszitate"],
+        ["Sammlungen",collections.length,"Ausstellungsregale"],
+        ["Journal",Object.keys(readingJournal||{}).length,"Einträge insgesamt"]
+      ].map(([k,v,s])=>`<div class="journal-stat-card"><span>${esc(k)}</span><strong>${esc(v)}</strong><small>${esc(s)}</small></div>`).join("");
+
+      const months=Array.from({length:12},()=>0);
+      rows.forEach(x=>{months[Math.max(0,Math.min(11,Number(x.entry.finishedAt.slice(5,7))-1))]++});
+      const max=Math.max(1,...months);
+      const labels=["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"];
+      $("journalMonths").innerHTML=months.map((n,i)=>`<div class="journal-month"><div class="journal-month-bar" style="height:${Math.max(6,Math.round((n/max)*72))}px;opacity:${n?1:.24}"></div><strong>${n}</strong><span>${labels[i]}</span></div>`).join("");
+
+      $("journalYearBooks").innerHTML=rows.length
+        ? rows.slice().reverse().map(r=>journalBookRow(r)).join("")
+        : `<div class="journal-empty">Noch kein Abschlussdatum für ${year}. Öffne ein Buch und trage im Journal „Beendet am“ ein.</div>`;
+
+      const all=journalBookRows().sort((a,b)=>String(b.entry.updatedAt||"").localeCompare(String(a.entry.updatedAt||"")));
+      $("journalEntries").innerHTML=all.length
+        ? all.map(r=>journalBookRow(r)).join("")
+        : `<div class="journal-empty">Noch keine Journal-Einträge. Öffne ein Buch und klicke auf „📖 Journal“.</div>`;
+
+      const missing=sortBooksSmart(books.filter(b=>b.status==="read" && !journalEntry(b.id)?.finishedAt));
+      $("journalMissingDates").innerHTML=missing.length
+        ? missing.slice(0,12).map(b=>journalBookRow({book:b,entry:journalEntry(b.id)||{},id:b.id},`<div class="journal-row-review">Dieses Buch ist als gelesen markiert, hat aber noch kein Abschlussdatum.</div>`)).join("")
+        : `<div class="journal-empty">Sauber: Alle als gelesen markierten Bücher haben ein Abschlussdatum oder es gibt keine offenen Fälle.</div>`;
+    }
+
+    function openJournalDashboard(){
+      if(immersiveActive) exitLibraryMode();
+      renderJournalDashboard();
+      $("journalDialog").showModal();
+      $("journalYearSelect").focus({preventScroll:true});
+    }
+
+    function closeJournalDashboard(){
+      if($("journalDialog").open) $("journalDialog").close();
+    }
+
+    function fillJournalEntryForm(bookId){
+      const b=books.find(x=>String(x.id)===String(bookId));
+      if(!b) return false;
+      const entry=journalEntry(bookId)||{};
+      $("journalEntryHeading").textContent="Journal · " + (b.title||"Buch");
+      $("journalEntryBook").innerHTML=`${journalBookCoverHtml(b)}<div><h3>${esc(b.title||"Ohne Titel")}</h3><p>${esc(b.author||"Autor unbekannt")}${b.series?` · ${esc(b.series)}${b.volume?` · Band ${esc(b.volume)}`:""}`:""}${b.genre?` · ${esc(b.genre)}`:""}</p></div>`;
+      $("journalStartedAt").value=entry.startedAt||"";
+      $("journalFinishedAt").value=entry.finishedAt||"";
+      $("journalFormat").value=entry.format||"";
+      $("journalMood").value=entry.mood||"";
+      $("journalReview").value=entry.review||"";
+      $("journalFavoriteQuote").value=entry.favoriteQuote||"";
+      $("journalFavoriteScene").value=entry.favoriteScene||"";
+      $("journalPrivateNotes").value=entry.privateNotes||"";
+      $("journalEntryDelete").hidden=!journalHasContent(entry);
+      $("journalEntryStatus").textContent="";
+      return true;
+    }
+
+    function openJournalEntry(bookId){
+      const b=books.find(x=>String(x.id)===String(bookId));
+      if(!b) return;
+      journalEntryBookId=String(bookId);
+      journalReturnFocus=document.activeElement;
+      fillJournalEntryForm(bookId);
+      $("journalEntryDialog").showModal();
+      $("journalStartedAt").focus({preventScroll:true});
+    }
+
+    function closeJournalEntry(){
+      if($("journalEntryDialog").open) $("journalEntryDialog").close();
+      if(journalReturnFocus?.isConnected) journalReturnFocus.focus({preventScroll:true});
+      journalReturnFocus=null;
+      journalEntryBookId=null;
+    }
+
+    function saveJournalEntry(){
+      const id=journalEntryBookId;
+      const b=books.find(x=>String(x.id)===String(id));
+      if(!id||!b) return;
+      const entry={
+        startedAt:normalizeDateString($("journalStartedAt").value),
+        finishedAt:normalizeDateString($("journalFinishedAt").value),
+        format:$("journalFormat").value,
+        mood:$("journalMood").value,
+        review:$("journalReview").value.trim().slice(0,5000),
+        favoriteQuote:$("journalFavoriteQuote").value.trim().slice(0,1500),
+        favoriteScene:$("journalFavoriteScene").value.trim().slice(0,2000),
+        privateNotes:$("journalPrivateNotes").value.trim().slice(0,5000),
+        updatedAt:new Date().toISOString()
+      };
+      if(entry.startedAt && entry.finishedAt && entry.startedAt>entry.finishedAt){
+        $("journalEntryStatus").textContent="Das Startdatum liegt nach dem Abschlussdatum. Bitte korrigieren.";
+        return;
+      }
+      if(journalHasContent(entry)) readingJournal[id]=entry;
+      else delete readingJournal[id];
+
+      if(entry.finishedAt && b.status!=="read"){
+        b.status="read";
+        b.updatedAt=new Date().toISOString();
+        try{localStorage.setItem(STORAGE_KEY,JSON.stringify(books))}
+        catch(err){alert("Buchstatus konnte nicht gespeichert werden.");return}
+      }
+
+      saveReadingJournalV14();
+      if($("detailsDialog").open && String(currentDetailBookId)===String(id) && folioMotion.phase==="open"){
+        folioRefreshDetails(b);
+      }
+      $("journalEntryStatus").textContent="Journal gespeichert ✓";
+      $("journalEntryDelete").hidden=false;
+      renderJournalDashboard();
+    }
+
+    function deleteJournalEntry(){
+      const id=journalEntryBookId;
+      if(!id||!journalEntry(id)) return;
+      if(!confirm("Diesen Journal-Eintrag löschen? Das Buch selbst bleibt erhalten.")) return;
+      delete readingJournal[id];
+      saveReadingJournalV14();
+      closeJournalEntry();
+      if($("journalDialog").open) renderJournalDashboard();
+    }
+
+    document.addEventListener("click",e=>{
+      const open=e.target.closest("[data-journal-open-book]");
+      if(open){openJournalEntry(open.dataset.journalOpenBook);return}
+      const details=e.target.closest("[data-journal-details]");
+      if(details){closeJournalDashboard();openDetails(details.dataset.journalDetails);return}
+    });
+    $("journalBtn").addEventListener("click",openJournalDashboard);
+    $("journalClose").addEventListener("click",closeJournalDashboard);
+    $("journalDialog").addEventListener("cancel",e=>{e.preventDefault();closeJournalDashboard()});
+    $("journalYearSelect").addEventListener("change",renderJournalDashboard);
+    $("journalEntryClose").addEventListener("click",closeJournalEntry);
+    $("journalEntryCancel").addEventListener("click",closeJournalEntry);
+    $("journalEntryDialog").addEventListener("cancel",e=>{e.preventDefault();closeJournalEntry()});
+    $("journalEntryDelete").addEventListener("click",deleteJournalEntry);
+    $("journalEntryForm").addEventListener("submit",e=>{
+      e.preventDefault();
+      saveJournalEntry();
+    });
+
 
     initCinematicParallax();
     applyThemeUi();

@@ -1,43 +1,40 @@
-# Mein Bücherregal – Version 11.1
+# Mein Bücherregal – Version 11.2
 
-V11.1 baut direkt auf V11 auf.
+V11.2 baut direkt auf V11.1 auf und geht stärker in Richtung cineastisches Bibliotheksgefühl.
 
-## Neu in V11.1
+## Neu in V11.2
 
-### 1) Einklappbarer Überblick
-Der obere Bereich mit:
-- Spotlight
-- Statistiken
-- Reihen-Übersicht
+### 1) Buchrücken-Regal verbessert
+- nicht mehr dieser fast einheitlich braune Look
+- wieder deutlich mehr Farbvariation
+- bessere Materialwirkung
+- edlere Label-Optik
+- insgesamt lebendiger
 
-kann jetzt eingeklappt und wieder ausgeklappt werden.
+### 2) Dekorative Regalstützen
+Jedes Regal hat jetzt sichtbare Stützen und mehr architektonische Tiefe.
 
-### 2) Realistischere Regale
-Die Regalansicht wurde deutlich überarbeitet:
-- kräftigere Holzoptik
+### 3) Cineastische Ambient-Deko
+- warme Lampen links und rechts
+- kleine dekorative Stapel
+- dezente Zierformen im Hintergrund
+- insgesamt atmosphärischer
+
+### 4) Leichter Parallax-Effekt
+Beim Scrollen bewegen sich Ambient-Elemente und Regaltexturen subtil mit.
+Der Effekt bleibt bewusst leicht.
+
+### 5) Noch stärkere Regaloptik
+- bessere Brettwirkung
 - mehr Tiefe
-- sichtbarere Brettkante
-- mehr Schatten und Innenstruktur
-- stärkeres Bibliotheksgefühl
+- stärkere Regalfront
+- schönerer Bühnen-Look
 
-### 3) Schönere Cover-Regale
-Die Coveransicht wirkt jetzt hochwertiger:
-- stärkere Schatten
-- glänzendere Coverfläche
-- leichter Buchkanten-Effekt
-- besseres Hover-Feeling
-
-### 4) Schönere Buchrücken-Regale
-Die Buchrückenansicht wurde ebenfalls aufgewertet:
-- realistischere Materialwirkung
-- stärkere Struktur
-- bessere Lesbarkeit
-- schönere horizontale Regalwirkung
-- angenehmeres Scrollen im Buchrücken-Regal
-
-## Wichtig
-- Themen, Sicherheit, Backup und Import bleiben erhalten
-- Kamera bleibt unverändert stabil
+## Bleibt erhalten
+- einklappbarer Überblick
+- Themen
+- Sicherheit / Backup / Import
+- stabile Kamera-Grundlage
 
 ## Update
 Nur GitHub Pages aktualisieren.

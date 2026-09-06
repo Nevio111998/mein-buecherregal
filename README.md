@@ -1,40 +1,21 @@
-# Mein Bücherregal – Version 10
+# Mein Bücherregal – Version 10.1
 
-## Neu
+## iPhone / Safari Scanner Fix
 
-### 📚 Schnellscan
-- Kamera offen lassen
-- mehrere Bücher direkt nacheinander scannen
-- gefundene Bücher werden automatisch gespeichert
-- Duplikate werden erkannt und übersprungen
-- Standard-Status und Standort einstellbar
-- manuelle ISBN-Eingabe als Fallback
+Safari auf iOS stellt `BarcodeDetector` normalerweise nicht zur Verfügung.
+V10 hat deshalb den Scan abgebrochen, bevor Safari überhaupt nach
+Kamerazugriff fragen konnte.
 
-### 🎲 Was lese ich als Nächstes?
-- zufällige Auswahl aus deinen ungelesenen Büchern
-- neu würfeln
-- direkt zur Buchdetailansicht
+V10.1:
+- nutzt weiterhin den nativen BarcodeDetector, wenn vorhanden
+- verwendet auf iPhone/Safari automatisch ZXing als Fallback
+- funktioniert sowohl für:
+  - normalen „ISBN scannen“-Button
+  - Schnellscan
+- Schnellscan bleibt nach einem Buch offen und ist direkt für das nächste bereit
+- Duplikaterkennung bleibt aktiv
 
-### 📸 Eigenes Cover
-- Cover fotografieren oder Bild hochladen
-- wird automatisch verkleinert und komprimiert
-- sinnvoll, wenn keine externe Datenbank ein Cover findet
+Beim ersten Start des Scanners sollte Safari nun tatsächlich nach der
+Kameraberechtigung fragen.
 
-### 🛒 Wunschliste
-- Kaufpriorität hoch / mittel / niedrig
-- Wunschpreis
-- Händler / Fundort
-- eigene Wunschlisten-Ansicht nach Priorität
-
-### Export
-- vollständiges JSON-Backup
-- CSV für Excel
-- saubere Druckansicht der Bibliothek
-- JSON-Import bleibt erhalten
-
-## Update
-
-Nur die Dateien dieses Pakets auf GitHub Pages ersetzen.
-Cloudflare muss für Version 10 nicht geändert werden.
-
-Die vorhandene Sammlung bleibt kompatibel.
+Für das Update nur GitHub Pages aktualisieren. Cloudflare bleibt unverändert.

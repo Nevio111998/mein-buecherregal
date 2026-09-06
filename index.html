@@ -1014,7 +1014,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V10</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V10.1</span></h1>
         <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
       </div>
       <div class="actions">
@@ -1064,7 +1064,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 10: Schnellscan, Zufallsbuch, Wunschliste, Cover-Foto und Export. Buchdaten und Cover kommen weiterhin aus externen Katalogen; deine Sammlung bleibt lokal auf deinem Gerät.
+      Version 10.1: Schnellscan jetzt auch kompatibel mit iPhone/Safari. Buchdaten und Cover kommen weiterhin aus externen Katalogen; deine Sammlung bleibt lokal auf deinem Gerät.
     </div>
   </div>
 
@@ -1339,6 +1339,7 @@
   <input type="file" id="importFile" accept="application/json" hidden />
   <input type="file" id="coverPhotoFile" accept="image/*" capture="environment" hidden />
 
+  <script src="https://unpkg.com/@zxing/browser@0.2.1/umd/zxing-browser.min.js"></script>
   <script>
     const STORAGE_KEY = "my_bookshelf_v1";
     const BOOK_API_KEY = "my_bookshelf_book_api_v1";
@@ -1347,6 +1348,8 @@
     let books = loadBooks();
     let currentStream = null;
     let scanTimer = null;
+    let zxingScanControls = null;
+    let scanHandlingResult = false;
 
     const $ = id => document.getElementById(id);
 
@@ -2516,15 +2519,73 @@
         "Kein Treffer in den verbundenen externen Buchdatenbanken.";
     }
 
-    async function startScan(){
-      stopScan();
-      if(!navigator.mediaDevices?.getUserMedia){
-        $("scanStatus").textContent = "Kamera wird in diesem Browser nicht unterstützt. Bitte ISBN manuell eingeben.";
+    function zxingResultText(result){
+      if(!result) return "";
+      try{
+        if(typeof result.getText === "function") return result.getText() || "";
+      }catch{}
+      return result.text || result.rawValue || String(result || "");
+    }
+
+    async function startZxingSingleScan(){
+      if(!window.ZXingBrowser?.BrowserMultiFormatReader){
+        $("scanStatus").textContent =
+          "Safari unterstützt den nativen Scanner nicht und der Fallback konnte nicht geladen werden. Prüfe deine Internetverbindung.";
         return;
       }
 
+      try{
+        scanHandlingResult = false;
+        const reader = new ZXingBrowser.BrowserMultiFormatReader(undefined,{
+          delayBetweenScanAttempts:350,
+          delayBetweenScanSuccess:1000
+        });
+
+        $("video").style.display = "block";
+        $("scanStatus").textContent = "Kamera wird gestartet …";
+
+        zxingScanControls = await reader.decodeFromVideoDevice(
+          undefined,
+          $("video"),
+          async (result)=>{
+            if(!result || scanHandlingResult) return;
+
+            const raw = zxingResultText(result);
+            const value = raw.replace(/\D/g,"");
+
+            if(!/^\d{10,13}$/.test(value)) return;
+
+            scanHandlingResult = true;
+            $("isbn").value = value;
+            $("scanStatus").textContent = `ISBN ${value} erkannt ✓`;
+
+            stopScan();
+            await lookupISBN();
+            scanHandlingResult = false;
+          }
+        );
+
+        $("scanStatus").textContent = "Kamera aktiv. Halte den ISBN-Barcode ruhig ins Bild …";
+      }catch(err){
+        $("scanStatus").textContent =
+          "Kamerazugriff nicht möglich. Erlaube den Kamerazugriff für diese Website und versuche es erneut.";
+      }
+    }
+
+    async function startScan(){
+      stopScan();
+
+      if(!navigator.mediaDevices?.getUserMedia){
+        $("scanStatus").textContent =
+          "Kamera wird in diesem Browser nicht unterstützt. Bitte ISBN manuell eingeben.";
+        return;
+      }
+
+      // Safari/iOS does not expose BarcodeDetector reliably.
+      // Use it when available; otherwise fall back to ZXing.
       if(!("BarcodeDetector" in window)){
-        $("scanStatus").textContent = "Der automatische Barcode-Scanner wird auf diesem Browser nicht unterstützt. Bitte ISBN manuell eingeben.";
+        $("scanStatus").textContent = "Safari erkannt – starte kompatiblen Scanner …";
+        await startZxingSingleScan();
         return;
       }
 
@@ -2534,7 +2595,8 @@
         const preferred = ["ean_13","ean_8","upc_a","upc_e"].filter(x=>formats.includes(x));
         detector = new BarcodeDetector({formats: preferred.length ? preferred : formats});
       }catch{
-        $("scanStatus").textContent = "Barcode-Erkennung konnte nicht gestartet werden.";
+        $("scanStatus").textContent = "Nativer Scanner nicht verfügbar – starte kompatiblen Scanner …";
+        await startZxingSingleScan();
         return;
       }
 
@@ -2562,19 +2624,34 @@
           }catch{}
         }, 500);
       }catch{
-        $("scanStatus").textContent = "Kamerazugriff nicht möglich. Erlaube den Kamerazugriff oder gib die ISBN manuell ein.";
+        // If native camera startup fails for detector reasons, try ZXing too.
+        $("scanStatus").textContent = "Nativer Scan fehlgeschlagen – versuche kompatiblen Scanner …";
+        await startZxingSingleScan();
       }
     }
 
     function stopScan(){
       if(scanTimer) clearInterval(scanTimer);
       scanTimer = null;
+
+      try{
+        if(zxingScanControls) zxingScanControls.stop();
+      }catch{}
+      zxingScanControls = null;
+
       if(currentStream){
         currentStream.getTracks().forEach(t=>t.stop());
         currentStream = null;
       }
-      $("video").style.display = "none";
-      $("video").srcObject = null;
+
+      if($("video")){
+        try{
+          const stream = $("video").srcObject;
+          if(stream?.getTracks) stream.getTracks().forEach(t=>t.stop());
+        }catch{}
+        $("video").style.display = "none";
+        $("video").srcObject = null;
+      }
     }
 
     $("bookForm").addEventListener("submit", e=>{
@@ -2976,6 +3053,8 @@
     let quickStream = null;
     let quickTimer = null;
     let quickDetector = null;
+    let quickZxingControls = null;
+    let quickZxingReader = null;
     let quickBusy = false;
     let quickLastIsbn = "";
     let quickLastAt = 0;
@@ -3212,16 +3291,56 @@
       }
     }
 
+    async function startZxingQuickScan(){
+      if(!window.ZXingBrowser?.BrowserMultiFormatReader){
+        $("quickScanStatus").textContent =
+          "Safari unterstützt den nativen Scanner nicht und der kompatible Scanner konnte nicht geladen werden. Prüfe deine Internetverbindung.";
+        return;
+      }
+
+      try{
+        quickZxingReader = new ZXingBrowser.BrowserMultiFormatReader(undefined,{
+          delayBetweenScanAttempts:350,
+          delayBetweenScanSuccess:1200
+        });
+
+        $("quickVideo").style.display = "block";
+        $("quickScanStatus").textContent = "Kamera wird gestartet …";
+
+        quickZxingControls = await quickZxingReader.decodeFromVideoDevice(
+          undefined,
+          $("quickVideo"),
+          (result)=>{
+            if(!result || quickBusy) return;
+            const raw = zxingResultText(result);
+            const isbn = raw.replace(/\D/g,"");
+            if(/^\d{10,13}$/.test(isbn)){
+              processQuickIsbn(isbn);
+            }
+          }
+        );
+
+        $("quickScanStatus").textContent =
+          "Kamera aktiv ✓ Halte einen ISBN-Barcode ins Bild. Nach dem Speichern direkt das nächste Buch scannen.";
+      }catch(err){
+        $("quickScanStatus").textContent =
+          "Kamerazugriff nicht möglich. Erlaube Safari den Kamerazugriff für diese Website.";
+      }
+    }
+
     async function startQuickScan(){
       stopQuickScan();
 
       if(!navigator.mediaDevices?.getUserMedia){
-        $("quickScanStatus").textContent="Kamera wird nicht unterstützt. Nutze die manuelle ISBN-Eingabe.";
+        $("quickScanStatus").textContent =
+          "Kamera wird nicht unterstützt. Nutze die manuelle ISBN-Eingabe.";
         return;
       }
 
+      // iPhone/Safari: use ZXing because BarcodeDetector is not normally available.
       if(!("BarcodeDetector" in window)){
-        $("quickScanStatus").textContent="Automatischer Barcode-Scan wird in diesem Browser nicht unterstützt. Nutze die manuelle ISBN-Eingabe.";
+        $("quickScanStatus").textContent = "Safari erkannt – starte kompatiblen Schnellscanner …";
+        await startZxingQuickScan();
         return;
       }
 
@@ -3249,7 +3368,9 @@
           }catch{}
         },650);
       }catch{
-        $("quickScanStatus").textContent="Kamerazugriff nicht möglich. Prüfe die Browser-Berechtigung.";
+        $("quickScanStatus").textContent =
+          "Nativer Scanner nicht verfügbar – starte kompatiblen Schnellscanner …";
+        await startZxingQuickScan();
       }
     }
 
@@ -3258,12 +3379,22 @@
       quickTimer=null;
       quickDetector=null;
 
+      try{
+        if(quickZxingControls) quickZxingControls.stop();
+      }catch{}
+      quickZxingControls=null;
+      quickZxingReader=null;
+
       if(quickStream){
         quickStream.getTracks().forEach(t=>t.stop());
         quickStream=null;
       }
 
       if($("quickVideo")){
+        try{
+          const stream=$("quickVideo").srcObject;
+          if(stream?.getTracks) stream.getTracks().forEach(t=>t.stop());
+        }catch{}
         $("quickVideo").srcObject=null;
         $("quickVideo").style.display="none";
       }

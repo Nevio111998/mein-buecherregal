@@ -803,6 +803,124 @@
       line-height:1.4;
     }
 
+
+    /* ---------- Version 10 ---------- */
+    .quick-log{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      margin-top:14px;
+      max-height:300px;
+      overflow:auto;
+    }
+    .quick-log-item{
+      display:grid;
+      grid-template-columns:42px 1fr auto;
+      gap:10px;
+      align-items:center;
+      background:#171310;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:12px;
+      padding:8px;
+    }
+    .quick-log-item img{
+      width:42px;height:58px;object-fit:cover;border-radius:4px;
+    }
+    .quick-log-cover{
+      width:42px;height:58px;border-radius:4px;
+      background:#342319;
+      display:flex;align-items:center;justify-content:center;
+      font-size:9px;text-align:center;color:var(--muted);
+    }
+    .quick-log-title{font-size:12px;font-weight:800}
+    .quick-log-meta{font-size:10px;color:var(--muted);margin-top:3px}
+    .quick-log-state{font-size:10px;font-weight:800;white-space:nowrap}
+    .quick-log-state.ok{color:#9fd58e}
+    .quick-log-state.duplicate{color:#e4c26d}
+    .quick-log-state.error{color:#e6a18f}
+
+    .random-pick{
+      display:grid;
+      grid-template-columns:150px 1fr;
+      gap:20px;
+      align-items:start;
+    }
+    .random-pick img{
+      width:100%;
+      border-radius:8px;
+      box-shadow:0 14px 28px rgba(0,0,0,.35);
+    }
+    .random-pick h3{
+      margin:0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:28px;
+      line-height:1.05;
+    }
+    .random-empty{
+      padding:28px;
+      border:1px dashed rgba(255,255,255,.1);
+      border-radius:14px;
+      text-align:center;color:var(--muted);
+    }
+
+    .wishlist-list{
+      display:flex;flex-direction:column;gap:10px;
+    }
+    .wishlist-item{
+      display:grid;
+      grid-template-columns:56px 1fr auto;
+      gap:12px;
+      align-items:center;
+      background:#171310;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:13px;
+      padding:9px;
+    }
+    .wishlist-item img{
+      width:56px;height:78px;object-fit:cover;border-radius:5px;
+    }
+    .wishlist-cover{
+      width:56px;height:78px;border-radius:5px;background:#342319;
+      display:flex;align-items:center;justify-content:center;
+      font-size:10px;color:var(--muted);text-align:center;
+    }
+    .wishlist-title{font-weight:850;font-size:13px}
+    .wishlist-meta{font-size:10px;color:var(--muted);margin-top:4px}
+    .priority{
+      display:inline-block;
+      margin-top:6px;
+      padding:4px 7px;
+      border-radius:999px;
+      font-size:9px;
+      font-weight:900;
+      background:#302720;
+    }
+    .priority.high{color:#efad95}
+    .priority.medium{color:#e5c670}
+    .priority.low{color:#a8c7a0}
+
+    .export-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:10px;
+    }
+
+    .cover-photo-preview{
+      margin-top:8px;
+      width:90px;
+      aspect-ratio:2/3;
+      object-fit:cover;
+      border-radius:6px;
+      box-shadow:0 8px 18px rgba(0,0,0,.25);
+    }
+
+    @media(max-width:700px){
+      .random-pick{grid-template-columns:100px 1fr}
+      .export-grid{grid-template-columns:1fr}
+      .wishlist-item{grid-template-columns:48px 1fr}
+      .wishlist-item > :last-child{grid-column:2}
+    }
+
     @media(max-width:700px){
       .shelf{padding:18px 12px 36px}
       .books.bookshelf-mode{
@@ -896,12 +1014,14 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V9.2</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V10</span></h1>
         <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
       </div>
       <div class="actions">
-        <button class="btn secondary" id="importBtn">Import</button>
-        <button class="btn secondary" id="exportBtn">Backup</button>
+        <button class="btn secondary" id="quickScanBtn">📚 Schnellscan</button>
+        <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
+        <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
+        <button class="btn secondary" id="moreExportBtn">Export</button>
         <button class="btn secondary" id="sourceBtn">⚙ Datenquelle</button>
         <button class="btn primary" id="addBtn">＋ Buch hinzufügen</button>
       </div>
@@ -944,7 +1064,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Buchdaten und Cover kommen weiterhin aus externen Katalogen. Reihenaufteilung, Gesamtzahl und Vollständigkeit verwaltest nur du. Ungelesene Bücher zählen selbstverständlich als im Regal vorhanden.
+      Version 10: Schnellscan, Zufallsbuch, Wunschliste, Cover-Foto und Export. Buchdaten und Cover kommen weiterhin aus externen Katalogen; deine Sammlung bleibt lokal auf deinem Gerät.
     </div>
   </div>
 
@@ -1037,8 +1157,13 @@
             </select>
           </div>
           <div class="field full">
-            <label>Cover-URL</label>
+            <label>Cover</label>
             <input id="cover" placeholder="Wird bei ISBN-Suche automatisch gefüllt">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+              <button type="button" class="btn secondary" id="coverPhotoBtn">📸 Cover fotografieren / hochladen</button>
+              <button type="button" class="btn secondary" id="removeCoverBtn">Cover entfernen</button>
+            </div>
+            <div class="scan-status" id="coverPhotoStatus"></div>
           </div>
           <div class="field">
             <label>Favorit</label>
@@ -1046,6 +1171,23 @@
               <option value="false">Nein</option>
               <option value="true">★ Favorit</option>
             </select>
+          </div>
+          <div class="field">
+            <label>Kaufpriorität</label>
+            <select id="purchasePriority">
+              <option value="">Keine</option>
+              <option value="high">Hoch</option>
+              <option value="medium">Mittel</option>
+              <option value="low">Niedrig</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Wunschpreis</label>
+            <input id="targetPrice" inputmode="decimal" placeholder="z. B. 15.90">
+          </div>
+          <div class="field">
+            <label>Händler / Fundort</label>
+            <input id="retailer" placeholder="z. B. Ex Libris">
           </div>
           <div class="field full">
             <label>Notizen</label>
@@ -1061,6 +1203,97 @@
     </div>
   </dialog>
 
+
+
+  <dialog id="quickScanDialog">
+    <div class="modal-head">
+      <h2>📚 Schnellscan</h2>
+      <button class="icon-btn" data-close="quickScanDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);margin-top:0;line-height:1.5">
+        Kamera offen lassen und Bücher nacheinander scannen. Gefundene Bücher werden direkt gespeichert.
+        Bereits vorhandene Bücher werden nicht doppelt angelegt.
+      </p>
+
+      <div class="scanbox">
+        <video id="quickVideo" playsinline muted style="display:none"></video>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn primary" id="startQuickScanBtn">📷 Kamera starten</button>
+          <button class="btn secondary" id="stopQuickScanBtn">Kamera stoppen</button>
+        </div>
+
+        <div class="grid" style="margin-top:12px">
+          <div class="field">
+            <label>Standard-Status</label>
+            <select id="quickStatus">
+              <option value="unread">Ungelesen</option>
+              <option value="read">Gelesen</option>
+              <option value="wishlist">Wunschliste</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Standard-Standort</label>
+            <input id="quickLocation" placeholder="z. B. Wohnzimmer">
+          </div>
+          <div class="field full">
+            <label>ISBN manuell</label>
+            <div style="display:flex;gap:8px">
+              <input id="quickIsbn" inputmode="numeric" placeholder="ISBN eingeben">
+              <button class="btn secondary" id="quickAddIsbnBtn" type="button">Hinzufügen</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="scan-status" id="quickScanStatus">Bereit.</div>
+      </div>
+
+      <div id="quickScanLog" class="quick-log"></div>
+    </div>
+  </dialog>
+
+  <dialog id="randomDialog">
+    <div class="modal-head">
+      <h2>🎲 Was lese ich als Nächstes?</h2>
+      <button class="icon-btn" data-close="randomDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="randomBookBody"></div>
+      <div class="modal-actions">
+        <button class="btn secondary" id="rerollBtn">🎲 Neu würfeln</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="wishlistDialog">
+    <div class="modal-head">
+      <h2>🛒 Wunschliste</h2>
+      <button class="icon-btn" data-close="wishlistDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="wishlistBody"></div>
+    </div>
+  </dialog>
+
+  <dialog id="exportDialog">
+    <div class="modal-head">
+      <h2>Export</h2>
+      <button class="icon-btn" data-close="exportDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);margin-top:0">
+        JSON ist dein vollständiges Backup. CSV eignet sich für Excel. Die Druckansicht erstellt eine saubere Bibliotheksliste.
+      </p>
+      <div class="export-grid">
+        <button class="btn primary" id="exportJsonBtn">💾 JSON Backup</button>
+        <button class="btn secondary" id="exportCsvBtn">📊 CSV / Excel</button>
+        <button class="btn secondary" id="printLibraryBtn">🖨 Bibliothek drucken</button>
+      </div>
+      <div style="margin-top:16px">
+        <button class="btn secondary" id="importJsonBtn">Import aus JSON</button>
+      </div>
+    </div>
+  </dialog>
 
   <dialog id="sourceDialog">
     <div class="modal-head">
@@ -1104,6 +1337,7 @@
   </dialog>
 
   <input type="file" id="importFile" accept="application/json" hidden />
+  <input type="file" id="coverPhotoFile" accept="image/*" capture="environment" hidden />
 
   <script>
     const STORAGE_KEY = "my_bookshelf_v1";
@@ -1932,6 +2166,10 @@
       $("rereads").value = "0";
       $("location").value = "";
       $("tags").value = "";
+      $("purchasePriority").value = "";
+      $("targetPrice").value = "";
+      $("retailer").value = "";
+      $("coverPhotoStatus").textContent = "";
       $("duplicateWarning").classList.remove("show");
       $("scanStatus").textContent = "Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.";
       $("editDialog").showModal();
@@ -2358,6 +2596,9 @@
         rereads: Number($("rereads").value || 0) || 0,
         location: $("location").value.trim(),
         tags: cleanTags($("tags").value),
+        purchasePriority: $("purchasePriority").value,
+        targetPrice: $("targetPrice").value.trim(),
+        retailer: $("retailer").value.trim(),
         cover: $("cover").value.trim(),
         notes: $("notes").value.trim(),
         updatedAt: new Date().toISOString()
@@ -2727,6 +2968,448 @@
     }
 
 
+
+    /* =====================================================
+       VERSION 10 - COMFORT FEATURES
+       ===================================================== */
+
+    let quickStream = null;
+    let quickTimer = null;
+    let quickDetector = null;
+    let quickBusy = false;
+    let quickLastIsbn = "";
+    let quickLastAt = 0;
+
+    function downloadBlob(content,type,filename){
+      const blob = content instanceof Blob ? content : new Blob([content],{type});
+      const a=document.createElement("a");
+      a.href=URL.createObjectURL(blob);
+      a.download=filename;
+      a.click();
+      setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+    }
+
+    function exportJsonBackup(){
+      downloadBlob(
+        JSON.stringify({
+          exportedAt:new Date().toISOString(),
+          app:"Mein Bücherregal",
+          version:"10",
+          books,
+          seriesMeta:loadJsonStorage(SERIES_META_KEY,{})
+        },null,2),
+        "application/json",
+        `mein-buecherregal-backup-${new Date().toISOString().slice(0,10)}.json`
+      );
+    }
+
+    function csvCell(v){
+      const s=Array.isArray(v) ? v.join(", ") : String(v ?? "");
+      return `"${s.replace(/"/g,'""')}"`;
+    }
+
+    function exportCsv(){
+      const headers=[
+        "Titel","Autor","Reihe","Band","Status","Bewertung","ISBN","Genre",
+        "Erscheinungsjahr","Seiten","Aktuelle Seite","Re-Reads","Standort",
+        "Tags","Favorit","Kaufpriorität","Wunschpreis","Händler"
+      ];
+
+      const rows=sortBooksSmart(books).map(b=>[
+        b.title,b.author,b.series,b.volume,statusLabel(b.status),b.rating||"",
+        b.isbn,b.genre,b.publishedYear,b.pages,b.currentPage,b.rereads||0,
+        b.location,b.tags||[],b.favorite?"Ja":"Nein",b.purchasePriority||"",
+        b.targetPrice||"",b.retailer||""
+      ]);
+
+      const csv="\ufeff"+[headers,...rows].map(r=>r.map(csvCell).join(";")).join("\r\n");
+      downloadBlob(csv,"text/csv;charset=utf-8",`mein-buecherregal-${new Date().toISOString().slice(0,10)}.csv`);
+    }
+
+    function printLibrary(){
+      const rows=sortBooksSmart(books).filter(b=>b.status!=="wishlist");
+      const w=window.open("","_blank");
+      if(!w){
+        alert("Der Browser hat das Druckfenster blockiert.");
+        return;
+      }
+
+      const grouped={};
+      rows.forEach(b=>{
+        const key=b.series||"Ohne Reihe";
+        (grouped[key] ||= []).push(b);
+      });
+
+      const body=Object.entries(grouped).map(([series,arr])=>`
+        <section>
+          <h2>${esc(series)}</h2>
+          <table>
+            <thead><tr><th>Band</th><th>Titel</th><th>Autor</th><th>Status</th><th>Bewertung</th><th>Standort</th></tr></thead>
+            <tbody>
+              ${arr.map(b=>`
+                <tr>
+                  <td>${esc(b.volume||"")}</td>
+                  <td>${esc(b.title||"")}</td>
+                  <td>${esc(b.author||"")}</td>
+                  <td>${esc(statusLabel(b.status))}</td>
+                  <td>${b.rating ? "★".repeat(Number(b.rating)) : ""}</td>
+                  <td>${esc(b.location||"")}</td>
+                </tr>`).join("")}
+            </tbody>
+          </table>
+        </section>`).join("");
+
+      w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Mein Bücherregal</title>
+        <style>
+          body{font-family:Arial,sans-serif;color:#111;margin:28px}
+          h1{font-size:28px}h2{font-size:18px;margin-top:28px;border-bottom:1px solid #aaa;padding-bottom:5px}
+          .meta{color:#555;margin-bottom:20px}
+          table{width:100%;border-collapse:collapse;font-size:11px}
+          th,td{border-bottom:1px solid #ddd;padding:6px;text-align:left}
+          th{background:#f4f4f4}
+          @media print{body{margin:10mm}section{break-inside:avoid}}
+        </style></head><body>
+        <h1>Mein Bücherregal</h1>
+        <div class="meta">${rows.length} Bücher · erstellt am ${new Date().toLocaleDateString("de-CH")}</div>
+        ${body}
+        <script>window.onload=()=>window.print();<\/script>
+        </body></html>`);
+      w.document.close();
+    }
+
+    async function compressCoverImage(file){
+      return new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onerror=reject;
+        reader.onload=()=>{
+          const img=new Image();
+          img.onerror=reject;
+          img.onload=()=>{
+            const maxW=700,maxH=1050;
+            const scale=Math.min(1,maxW/img.width,maxH/img.height);
+            const w=Math.max(1,Math.round(img.width*scale));
+            const h=Math.max(1,Math.round(img.height*scale));
+            const canvas=document.createElement("canvas");
+            canvas.width=w;canvas.height=h;
+            const ctx=canvas.getContext("2d");
+            ctx.drawImage(img,0,0,w,h);
+
+            let quality=.82;
+            let data=canvas.toDataURL("image/jpeg",quality);
+
+            // Keep localStorage usage under control for occasional manual covers.
+            while(data.length>300000 && quality>.48){
+              quality-=.08;
+              data=canvas.toDataURL("image/jpeg",quality);
+            }
+            resolve(data);
+          };
+          img.src=reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function findDuplicateByIsbn(isbn){
+      const clean=String(isbn||"").replace(/[^0-9Xx]/g,"");
+      if(!clean) return null;
+      return books.find(b=>String(b.isbn||"").replace(/[^0-9Xx]/g,"")===clean) || null;
+    }
+
+    async function lookupBookForQuickScan(isbn){
+      let result=null;
+
+      const external=await lookupViaBookApi({isbn});
+      if(external?.book) return {book:external.book,source:external.source||"externer Katalog"};
+
+      const ol=await lookupOpenLibraryByISBN(isbn);
+      if(ol) return {book:ol,source:"Open Library"};
+
+      const gb=await lookupGoogleBooks(`isbn:${isbn}`);
+      if(gb) return {book:gb,source:"Google Books"};
+
+      return null;
+    }
+
+    function addQuickLog(book,state,message){
+      const box=$("quickScanLog");
+      const cover=book?.cover
+        ? `<img src="${esc(book.cover)}" alt="">`
+        : `<div class="quick-log-cover">kein Cover</div>`;
+
+      box.insertAdjacentHTML("afterbegin",`
+        <div class="quick-log-item">
+          ${cover}
+          <div>
+            <div class="quick-log-title">${esc(book?.title||"Unbekanntes Buch")}</div>
+            <div class="quick-log-meta">${esc(book?.author||"")}${book?.isbn ? ` · ${esc(book.isbn)}` : ""}</div>
+          </div>
+          <div class="quick-log-state ${state}">${esc(message)}</div>
+        </div>`);
+    }
+
+    async function processQuickIsbn(rawIsbn){
+      const isbn=String(rawIsbn||"").replace(/[^0-9Xx]/g,"");
+      if(!isbn || isbn.length<10 || quickBusy) return;
+
+      const now=Date.now();
+      if(isbn===quickLastIsbn && now-quickLastAt<4000) return;
+      quickLastIsbn=isbn;quickLastAt=now;
+      quickBusy=true;
+      $("quickScanStatus").textContent=`Suche ISBN ${isbn} …`;
+
+      try{
+        const duplicate=findDuplicateByIsbn(isbn);
+        if(duplicate){
+          addQuickLog(duplicate,"duplicate","Schon vorhanden");
+          $("quickScanStatus").textContent="Bereit für das nächste Buch.";
+          return;
+        }
+
+        const result=await lookupBookForQuickScan(isbn);
+        if(!result?.book){
+          addQuickLog({title:`ISBN ${isbn}`,isbn},"error","Nicht gefunden");
+          $("quickScanStatus").textContent="Nicht gefunden. Nächstes Buch scannen oder später manuell anlegen.";
+          return;
+        }
+
+        const b=result.book;
+        const obj={
+          id:uid(),
+          isbn:isbn,
+          title:b.title||`ISBN ${isbn}`,
+          author:b.author||"",
+          series:b.series||"",
+          volume:b.volume||"",
+          genre:b.genre||"",
+          status:$("quickStatus").value,
+          rating:0,
+          favorite:false,
+          publishedYear:b.publishedYear||"",
+          pages:b.pages||"",
+          currentPage:"",
+          rereads:0,
+          location:$("quickLocation").value.trim(),
+          tags:[],
+          purchasePriority:"",
+          targetPrice:"",
+          retailer:"",
+          cover:b.cover||"",
+          notes:"",
+          updatedAt:new Date().toISOString()
+        };
+
+        books.unshift(obj);
+        saveBooks();
+        addQuickLog(obj,"ok",`Gespeichert · ${result.source}`);
+        $("quickScanStatus").textContent="Gespeichert ✓ Bereit für das nächste Buch.";
+      }catch(err){
+        addQuickLog({title:`ISBN ${isbn}`,isbn},"error","Fehler");
+        $("quickScanStatus").textContent="Fehler bei der Suche. Du kannst weiterscannen.";
+      }finally{
+        quickBusy=false;
+        $("quickIsbn").value="";
+      }
+    }
+
+    async function startQuickScan(){
+      stopQuickScan();
+
+      if(!navigator.mediaDevices?.getUserMedia){
+        $("quickScanStatus").textContent="Kamera wird nicht unterstützt. Nutze die manuelle ISBN-Eingabe.";
+        return;
+      }
+
+      if(!("BarcodeDetector" in window)){
+        $("quickScanStatus").textContent="Automatischer Barcode-Scan wird in diesem Browser nicht unterstützt. Nutze die manuelle ISBN-Eingabe.";
+        return;
+      }
+
+      try{
+        const formats=await BarcodeDetector.getSupportedFormats();
+        const preferred=["ean_13","ean_8","upc_a","upc_e"].filter(x=>formats.includes(x));
+        quickDetector=new BarcodeDetector({formats:preferred.length?preferred:formats});
+
+        quickStream=await navigator.mediaDevices.getUserMedia({
+          video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},
+          audio:false
+        });
+
+        $("quickVideo").srcObject=quickStream;
+        $("quickVideo").style.display="block";
+        await $("quickVideo").play();
+        $("quickScanStatus").textContent="Kamera aktiv. Barcode ins Bild halten.";
+
+        quickTimer=setInterval(async()=>{
+          if(quickBusy) return;
+          try{
+            const codes=await quickDetector.detect($("quickVideo"));
+            const hit=codes.find(c=>/^\d{10,13}$/.test((c.rawValue||"").replace(/\D/g,"")));
+            if(hit) processQuickIsbn(hit.rawValue);
+          }catch{}
+        },650);
+      }catch{
+        $("quickScanStatus").textContent="Kamerazugriff nicht möglich. Prüfe die Browser-Berechtigung.";
+      }
+    }
+
+    function stopQuickScan(){
+      if(quickTimer) clearInterval(quickTimer);
+      quickTimer=null;
+      quickDetector=null;
+
+      if(quickStream){
+        quickStream.getTracks().forEach(t=>t.stop());
+        quickStream=null;
+      }
+
+      if($("quickVideo")){
+        $("quickVideo").srcObject=null;
+        $("quickVideo").style.display="none";
+      }
+    }
+
+    function randomUnreadBook(){
+      const candidates=books.filter(b=>b.status==="unread");
+      const body=$("randomBookBody");
+
+      if(!candidates.length){
+        body.innerHTML=`<div class="random-empty">Du hast aktuell kein ungelesenes Buch im Regal. Luxusproblem. 😄</div>`;
+        return;
+      }
+
+      const b=candidates[Math.floor(Math.random()*candidates.length)];
+      body.innerHTML=`
+        <div class="random-pick">
+          <div>
+            ${b.cover
+              ? `<img src="${esc(b.cover)}" alt="">`
+              : `<div class="cover"><div class="fallback">${esc(b.title)}</div></div>`}
+          </div>
+          <div>
+            <div style="color:var(--gold);font-size:11px;font-weight:900;margin-bottom:8px">DEIN NÄCHSTES BUCH</div>
+            <h3>${esc(b.title)}</h3>
+            <div style="color:var(--muted);margin-top:7px">${esc(b.author||"")}</div>
+            ${b.series ? `<div class="pillrow"><span class="pill">${esc(b.series)}${b.volume ? ` · Band ${esc(b.volume)}` : ""}</span></div>` : ""}
+            ${b.genre ? `<div class="tag-list"><span class="tag-chip">${esc(b.genre)}</span></div>` : ""}
+            <div class="modal-actions" style="justify-content:flex-start">
+              <button class="btn primary" onclick="$('randomDialog').close();openDetails('${b.id}')">Buch öffnen</button>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function priorityOrder(v){
+      return ({high:0,medium:1,low:2,"":3})[v] ?? 3;
+    }
+
+    function priorityLabel(v){
+      return ({high:"Hohe Priorität",medium:"Mittlere Priorität",low:"Niedrige Priorität"})[v] || "Keine Priorität";
+    }
+
+    function renderWishlist(){
+      const items=books.filter(b=>b.status==="wishlist").sort((a,b)=>{
+        const pc=priorityOrder(a.purchasePriority)-priorityOrder(b.purchasePriority);
+        if(pc!==0) return pc;
+        return normalizeForSort(a.title).localeCompare(normalizeForSort(b.title),"de");
+      });
+
+      if(!items.length){
+        $("wishlistBody").innerHTML=`<div class="random-empty">Deine Wunschliste ist leer.</div>`;
+        return;
+      }
+
+      $("wishlistBody").innerHTML=`
+        <div class="wishlist-list">
+          ${items.map(b=>`
+            <div class="wishlist-item">
+              ${b.cover
+                ? `<img src="${esc(b.cover)}" alt="">`
+                : `<div class="wishlist-cover">kein Cover</div>`}
+              <div>
+                <div class="wishlist-title">${esc(b.title)}</div>
+                <div class="wishlist-meta">${esc(b.author||"")}${b.series ? ` · ${esc(b.series)}${b.volume ? ` Band ${esc(b.volume)}` : ""}` : ""}</div>
+                <span class="priority ${esc(b.purchasePriority||"")}">${esc(priorityLabel(b.purchasePriority||""))}</span>
+                ${b.targetPrice ? `<div class="wishlist-meta">Wunschpreis: ${esc(b.targetPrice)}</div>` : ""}
+                ${b.retailer ? `<div class="wishlist-meta">Händler: ${esc(b.retailer)}</div>` : ""}
+              </div>
+              <div>
+                <button class="mini-btn" onclick="$('wishlistDialog').close();openEdit('${b.id}')">Bearbeiten</button>
+              </div>
+            </div>`).join("")}
+        </div>`;
+    }
+
+    // More robust save: local cover photos can make localStorage larger.
+    function saveBooks(){
+      try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(books));
+      }catch(err){
+        alert("Der lokale Speicher ist voll. Exportiere zuerst ein Backup oder entferne einige lokal fotografierte Cover.");
+        throw err;
+      }
+      applyViewToggleUi();
+      render();
+    }
+
+
+    $("quickScanBtn").addEventListener("click",()=>{
+      $("quickScanLog").innerHTML="";
+      $("quickScanStatus").textContent="Bereit.";
+      $("quickScanDialog").showModal();
+    });
+
+    $("randomBtn").addEventListener("click",()=>{
+      randomUnreadBook();
+      $("randomDialog").showModal();
+    });
+
+    $("wishlistBtn").addEventListener("click",()=>{
+      renderWishlist();
+      $("wishlistDialog").showModal();
+    });
+
+    $("moreExportBtn").addEventListener("click",()=>$("exportDialog").showModal());
+
+    $("startQuickScanBtn").addEventListener("click",startQuickScan);
+    $("stopQuickScanBtn").addEventListener("click",stopQuickScan);
+    $("quickAddIsbnBtn").addEventListener("click",()=>processQuickIsbn($("quickIsbn").value));
+    $("quickIsbn").addEventListener("keydown",e=>{
+      if(e.key==="Enter"){
+        e.preventDefault();
+        processQuickIsbn($("quickIsbn").value);
+      }
+    });
+
+    $("rerollBtn").addEventListener("click",randomUnreadBook);
+
+    $("exportJsonBtn").addEventListener("click",exportJsonBackup);
+    $("exportCsvBtn").addEventListener("click",exportCsv);
+    $("printLibraryBtn").addEventListener("click",printLibrary);
+    $("importJsonBtn").addEventListener("click",()=>$("importFile").click());
+
+    $("coverPhotoBtn").addEventListener("click",()=>$("coverPhotoFile").click());
+    $("removeCoverBtn").addEventListener("click",()=>{
+      $("cover").value="";
+      $("coverPhotoStatus").textContent="Cover entfernt.";
+    });
+
+    $("coverPhotoFile").addEventListener("change",async e=>{
+      const file=e.target.files?.[0];
+      if(!file) return;
+
+      $("coverPhotoStatus").textContent="Bild wird komprimiert …";
+      try{
+        const data=await compressCoverImage(file);
+        $("cover").value=data;
+        $("coverPhotoStatus").innerHTML=`Eigenes Cover gespeichert ✓<br><img class="cover-photo-preview" src="${data}" alt="">`;
+      }catch{
+        $("coverPhotoStatus").textContent="Bild konnte nicht verarbeitet werden.";
+      }finally{
+        e.target.value="";
+      }
+    });
+
     $("addBtn").addEventListener("click", openNew);
     $("lookupBtn").addEventListener("click", lookupISBN);
     $("titleLookupBtn").addEventListener("click", lookupByTitle);
@@ -2752,6 +3435,7 @@
     document.querySelectorAll("[data-close]").forEach(btn=>{
       btn.addEventListener("click", ()=>{
         stopScan();
+        if(btn.dataset.close==="quickScanDialog") stopQuickScan();
         $(btn.dataset.close).close();
       });
     });
@@ -2794,20 +3478,6 @@
       }
     });
 
-    $("exportBtn").addEventListener("click", ()=>{
-      const blob = new Blob([JSON.stringify({
-        exportedAt:new Date().toISOString(),
-        app:"Mein Bücherregal",
-        books
-      }, null, 2)], {type:"application/json"});
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = `mein-buecherregal-backup-${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
-
-    $("importBtn").addEventListener("click", ()=>$("importFile").click());
     $("importFile").addEventListener("change", async e=>{
       const file = e.target.files?.[0];
       if(!file) return;
@@ -2826,7 +3496,10 @@
       }
     });
 
-    window.addEventListener("beforeunload", stopScan);
+    window.addEventListener("beforeunload", ()=>{
+      stopScan();
+      stopQuickScan();
+    });
 
     if("serviceWorker" in navigator){
       window.addEventListener("load", ()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));

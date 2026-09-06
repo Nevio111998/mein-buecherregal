@@ -1,29 +1,40 @@
-# Mein Bücherregal – Version 9.2
+# Mein Bücherregal – Version 10
 
-## Reihenlogik komplett manuell
+## Neu
 
-Externe Buchdatenbanken werden weiterhin für:
-- Titel
-- Autor
-- Cover
-- Metadaten
+### 📚 Schnellscan
+- Kamera offen lassen
+- mehrere Bücher direkt nacheinander scannen
+- gefundene Bücher werden automatisch gespeichert
+- Duplikate werden erkannt und übersprungen
+- Standard-Status und Standort einstellbar
+- manuelle ISBN-Eingabe als Fallback
 
-verwendet.
+### 🎲 Was lese ich als Nächstes?
+- zufällige Auswahl aus deinen ungelesenen Büchern
+- neu würfeln
+- direkt zur Buchdetailansicht
 
-Sie haben aber **keinen Einfluss mehr auf Reihen-Vollständigkeit oder Reihenlänge**.
+### 📸 Eigenes Cover
+- Cover fotografieren oder Bild hochladen
+- wird automatisch verkleinert und komprimiert
+- sinnvoll, wenn keine externe Datenbank ein Cover findet
 
-## Neue Logik
-- Gesamtzahl einer Reihe legst ausschließlich du fest.
-- Vollständigkeit zählt physische Bücher im Regal, nicht gelesene Bücher.
-- Ungelesene Bücher zählen als vorhanden.
-- Lesefortschritt wird separat angezeigt.
-- Das Feld `Band` dient nur für Reihenfolge und Beschriftung.
-- Deutsche Aufteilungen / Teilbände lösen keine falschen Warnungen mehr aus.
-- Keine externe Bandprüfung.
-- Keine automatisch erkannten fehlenden Bandnummern.
-- Kategorien mit weniger als 2 physischen Büchern verschwinden aus der Reihenübersicht,
-  sofern du keine manuelle Gesamtzahl setzt.
+### 🛒 Wunschliste
+- Kaufpriorität hoch / mittel / niedrig
+- Wunschpreis
+- Händler / Fundort
+- eigene Wunschlisten-Ansicht nach Priorität
 
-Beispiel:
-Red Rising: 8 / 8 im Regal = vollständig.
-Davon 4 / 8 gelesen = 50 % gelesen.
+### Export
+- vollständiges JSON-Backup
+- CSV für Excel
+- saubere Druckansicht der Bibliothek
+- JSON-Import bleibt erhalten
+
+## Update
+
+Nur die Dateien dieses Pakets auf GitHub Pages ersetzen.
+Cloudflare muss für Version 10 nicht geändert werden.
+
+Die vorhandene Sammlung bleibt kompatibel.

@@ -1,21 +1,59 @@
-# Mein Bücherregal – Version 10.1
+# Mein Bücherregal – Version 10.3
 
-## iPhone / Safari Scanner Fix
+V10.3 basiert auf der stabilen V10.1. Die experimentelle 0.5x-Kameraauswahl aus V10.2 ist nicht enthalten.
 
-Safari auf iOS stellt `BarcodeDetector` normalerweise nicht zur Verfügung.
-V10 hat deshalb den Scan abgebrochen, bevor Safari überhaupt nach
-Kamerazugriff fragen konnte.
+## Neu: Datensicherheit
 
-V10.1:
-- nutzt weiterhin den nativen BarcodeDetector, wenn vorhanden
-- verwendet auf iPhone/Safari automatisch ZXing als Fallback
-- funktioniert sowohl für:
-  - normalen „ISBN scannen“-Button
-  - Schnellscan
-- Schnellscan bleibt nach einem Buch offen und ist direkt für das nächste bereit
-- Duplikaterkennung bleibt aktiv
+### Feste Standard-Datenquelle
+Die App kennt automatisch:
+https://mein-buecherregal-api.neviodipalma.workers.dev
 
-Beim ersten Start des Scanners sollte Safari nun tatsächlich nach der
-Kameraberechtigung fragen.
+Auf einem neuen Gerät musst du die URL normalerweise nicht erneut eintragen.
 
-Für das Update nur GitHub Pages aktualisieren. Cloudflare bleibt unverändert.
+### Vollständiges JSON-Backup
+Das Backup enthält:
+- alle Bücher
+- Reihen-Einstellungen / manuelle Gesamtzahlen
+- Datenquelle
+- Ansichtsmodus
+- Backup-Version
+- Exportdatum
+
+### Backup-Erinnerung
+Ein neues Backup wird empfohlen:
+- wenn noch nie eines erstellt wurde
+- nach 30 Tagen
+- oder nach 20 Änderungen seit dem letzten Backup
+
+Nach einem JSON-Export wird der Änderungszähler zurückgesetzt.
+
+### Datensicherheitsbereich
+Unter „Sicherheit & Export“ siehst du:
+- Anzahl Bücher
+- letztes Backup
+- Änderungen seit Backup
+- Status des Browserspeichers
+
+„Speicher schützen“ fragt den Browser nach persistentem Speicher, sofern unterstützt.
+
+### Sicherer Import
+Vor dem Import zeigt die App:
+- Datum des Backups
+- Backup-Version
+- Bücher im Backup
+- aktuelle Bücher auf dem Gerät
+- wie viele Bücher beim Zusammenführen neu wären
+- Datenquelle im Backup
+
+Danach:
+- **Ersetzen**: stellt das Backup vollständig wieder her
+- **Zusammenführen**: behält aktuelle Bücher und fügt nur neue hinzu
+
+Duplikate werden bevorzugt über ISBN erkannt; ohne ISBN über Titel + Autor.
+
+## Empfehlung
+JSON-Backups in iCloud Drive speichern, z. B. in:
+iCloud Drive → Bücherregal Backups
+
+## Update
+Nur GitHub Pages aktualisieren. Cloudflare bleibt unverändert.

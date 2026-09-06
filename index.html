@@ -914,6 +914,109 @@
       box-shadow:0 8px 18px rgba(0,0,0,.25);
     }
 
+
+    /* ---------- V10.3 Datensicherheit ---------- */
+    .backup-reminder{
+      margin:14px 0 18px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      padding:12px 14px;
+      border:1px solid rgba(216,169,91,.22);
+      background:rgba(216,169,91,.07);
+      border-radius:14px;
+      color:#ddc797;
+      font-size:11px;
+      line-height:1.4;
+    }
+    .backup-reminder strong{color:#f0d9a2}
+    .security-card{
+      border:1px solid rgba(255,255,255,.07);
+      background:#171310;
+      border-radius:14px;
+      padding:14px;
+    }
+    .security-title{
+      font-weight:900;
+      font-size:13px;
+      margin-bottom:10px;
+    }
+    .security-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:8px;
+    }
+    .security-grid > div{
+      padding:10px;
+      border-radius:10px;
+      background:rgba(255,255,255,.025);
+    }
+    .security-grid span{
+      display:block;
+      color:var(--muted);
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.05em;
+      margin-bottom:4px;
+    }
+    .security-grid strong{font-size:12px}
+    .security-message{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.45;
+    }
+    .security-section{
+      margin-top:18px;
+      padding-top:16px;
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+    .security-section h3{
+      font-family:Georgia,serif;
+      margin:0 0 6px;
+      font-size:17px;
+    }
+    .security-section p{
+      margin:0 0 12px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.5;
+    }
+    .import-summary{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:9px;
+    }
+    .import-summary > div{
+      border-radius:11px;
+      background:#171310;
+      border:1px solid rgba(255,255,255,.06);
+      padding:11px;
+    }
+    .import-summary span{
+      display:block;
+      color:var(--muted);
+      font-size:9px;
+      margin-bottom:5px;
+      text-transform:uppercase;
+    }
+    .import-summary strong{font-size:13px}
+    .import-warning{
+      margin-top:14px;
+      padding:11px;
+      border-radius:11px;
+      background:rgba(216,169,91,.06);
+      border:1px solid rgba(216,169,91,.16);
+      color:#c9bda9;
+      font-size:10px;
+      line-height:1.45;
+    }
+    @media(max-width:700px){
+      .security-grid,.import-summary{grid-template-columns:1fr}
+      .backup-reminder{align-items:flex-start;flex-direction:column}
+    }
+
     @media(max-width:700px){
       .random-pick{grid-template-columns:100px 1fr}
       .export-grid{grid-template-columns:1fr}
@@ -1014,14 +1117,14 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V10.1</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V10.3</span></h1>
         <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
       </div>
       <div class="actions">
         <button class="btn secondary" id="quickScanBtn">📚 Schnellscan</button>
         <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
-        <button class="btn secondary" id="moreExportBtn">Export</button>
+        <button class="btn secondary" id="moreExportBtn">🔒 Sicherheit & Export</button>
         <button class="btn secondary" id="sourceBtn">⚙ Datenquelle</button>
         <button class="btn primary" id="addBtn">＋ Buch hinzufügen</button>
       </div>
@@ -1051,6 +1154,7 @@
     </div>
 
     <div id="dashboard" class="dashboard"></div>
+    <div id="backupReminder"></div>
     <div class="intelligence-head">
       <div>
         <h2>Reihen-Übersicht</h2>
@@ -1064,7 +1168,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 10.1: Schnellscan jetzt auch kompatibel mit iPhone/Safari. Buchdaten und Cover kommen weiterhin aus externen Katalogen; deine Sammlung bleibt lokal auf deinem Gerät.
+      Version 10.3: Datensicherheit, vollständige Backups und sicherer Import. Kamera basiert wieder auf der stabilen V10.1.
     </div>
   </div>
 
@@ -1277,20 +1381,63 @@
 
   <dialog id="exportDialog">
     <div class="modal-head">
-      <h2>Export</h2>
+      <h2>🔒 Datensicherheit & Export</h2>
       <button class="icon-btn" data-close="exportDialog">×</button>
     </div>
     <div class="modal-body">
-      <p style="color:var(--muted);margin-top:0">
-        JSON ist dein vollständiges Backup. CSV eignet sich für Excel. Die Druckansicht erstellt eine saubere Bibliotheksliste.
-      </p>
-      <div class="export-grid">
-        <button class="btn primary" id="exportJsonBtn">💾 JSON Backup</button>
-        <button class="btn secondary" id="exportCsvBtn">📊 CSV / Excel</button>
-        <button class="btn secondary" id="printLibraryBtn">🖨 Bibliothek drucken</button>
+      <div class="security-card">
+        <div class="security-title">Speicherstatus</div>
+        <div class="security-grid">
+          <div><span>Lokale Sammlung</span><strong id="securityBookCount">–</strong></div>
+          <div><span>Letztes Backup</span><strong id="securityLastBackup">–</strong></div>
+          <div><span>Änderungen seit Backup</span><strong id="securityChanges">–</strong></div>
+          <div><span>Browserspeicher</span><strong id="securityPersistence">–</strong></div>
+        </div>
+        <div class="security-message" id="securityMessage"></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
+          <button class="btn secondary" id="persistStorageBtn" type="button">🛡 Speicher schützen</button>
+        </div>
       </div>
-      <div style="margin-top:16px">
-        <button class="btn secondary" id="importJsonBtn">Import aus JSON</button>
+
+      <div class="security-section">
+        <h3>Backup</h3>
+        <p>
+          Das JSON-Backup enthält deine Bücher, Reihen-Einstellungen, Datenquelle und wichtige App-Einstellungen.
+        </p>
+        <div class="export-grid">
+          <button class="btn primary" id="exportJsonBtn">💾 Vollständiges JSON Backup</button>
+          <button class="btn secondary" id="exportCsvBtn">📊 CSV / Excel</button>
+          <button class="btn secondary" id="printLibraryBtn">🖨 Bibliothek drucken</button>
+        </div>
+      </div>
+
+      <div class="security-section">
+        <h3>Wiederherstellen</h3>
+        <p>
+          Vor dem Import siehst du genau, wie viele Bücher im Backup enthalten sind. Du entscheidest danach zwischen Ersetzen und Zusammenführen.
+        </p>
+        <button class="btn secondary" id="importJsonBtn">📥 JSON Backup importieren</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="importPreviewDialog">
+    <div class="modal-head">
+      <h2>Backup prüfen</h2>
+      <button class="icon-btn" data-close="importPreviewDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="importPreviewBody"></div>
+
+      <div class="import-warning">
+        <strong>Ersetzen</strong> löscht die aktuelle Sammlung auf diesem Gerät und stellt das Backup wieder her.
+        <br><br>
+        <strong>Zusammenführen</strong> behält deine aktuelle Sammlung und fügt nur Bücher hinzu, die noch nicht vorhanden sind.
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn secondary" id="mergeImportBtn" type="button">Zusammenführen</button>
+        <button class="btn primary" id="replaceImportBtn" type="button">Aktuelle Sammlung ersetzen</button>
       </div>
     </div>
   </dialog>
@@ -1302,12 +1449,12 @@
     </div>
     <div class="modal-body">
       <p style="color:var(--muted);line-height:1.5;margin-top:0">
-        Für die zuverlässigere Suche nach deutschen Ausgaben nutzt die App einen kleinen
-        kostenlosen API-Vermittler. Füge hier einmal die URL deines Cloudflare Workers ein.
+        Deine Cloudflare-Datenquelle ist bereits als Standard eingebaut.
+        Du musst hier normalerweise nichts eintragen. Nur wenn du später eine andere Worker-URL verwenden willst, kannst du sie überschreiben.
       </p>
       <div class="field">
         <label>Book-API URL</label>
-        <input id="bookApiUrl" placeholder="https://mein-buecherregal-api.DEINNAME.workers.dev">
+        <input id="bookApiUrl" placeholder="Standard ist bereits eingebaut">
       </div>
       <div class="scan-status" id="sourceStatus" style="margin-top:12px">
         Noch keine externe K10plus-Verbindung gespeichert.
@@ -1345,6 +1492,12 @@
     const BOOK_API_KEY = "my_bookshelf_book_api_v1";
     const VIEW_MODE_KEY = "my_bookshelf_view_mode_v1";
     const SERIES_META_KEY = "my_bookshelf_series_meta_v1";
+
+    const DEFAULT_BOOK_API_URL = "https://mein-buecherregal-api.neviodipalma.workers.dev";
+    const LAST_BACKUP_KEY = "my_bookshelf_last_backup_v1";
+    const CHANGES_SINCE_BACKUP_KEY = "my_bookshelf_changes_since_backup_v1";
+    const BACKUP_REMINDER_DAYS = 30;
+    const BACKUP_REMINDER_CHANGES = 20;
     let books = loadBooks();
     let currentStream = null;
     let scanTimer = null;
@@ -2303,7 +2456,9 @@
     }
 
     function getBookApiUrl(){
-      return (localStorage.getItem(BOOK_API_KEY) || "").trim().replace(/\/+$/,"");
+      return (localStorage.getItem(BOOK_API_KEY) || DEFAULT_BOOK_API_URL)
+        .trim()
+        .replace(/\/+$/,"");
     }
 
     async function lookupViaBookApi(params){
@@ -3046,6 +3201,316 @@
 
 
 
+
+    /* =====================================================
+       VERSION 10.3 - DATA SAFETY
+       ===================================================== */
+
+    let pendingImportBackup = null;
+
+    function readIntStorage(key, fallback=0){
+      const n=Number(localStorage.getItem(key));
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function markLibraryChanged(){
+      const current=readIntStorage(CHANGES_SINCE_BACKUP_KEY,0);
+      localStorage.setItem(CHANGES_SINCE_BACKUP_KEY,String(current+1));
+      renderBackupReminder();
+    }
+
+    function setBackupState(dateIso=new Date().toISOString()){
+      localStorage.setItem(LAST_BACKUP_KEY,dateIso);
+      localStorage.setItem(CHANGES_SINCE_BACKUP_KEY,"0");
+      renderBackupReminder();
+      renderSecurityStatus();
+    }
+
+    function backupAgeDays(){
+      const raw=localStorage.getItem(LAST_BACKUP_KEY);
+      if(!raw) return null;
+      const t=new Date(raw).getTime();
+      if(!Number.isFinite(t)) return null;
+      return Math.floor((Date.now()-t)/86400000);
+    }
+
+    function backupNeeded(){
+      const age=backupAgeDays();
+      const changes=readIntStorage(CHANGES_SINCE_BACKUP_KEY,0);
+      return age===null || age>=BACKUP_REMINDER_DAYS || changes>=BACKUP_REMINDER_CHANGES;
+    }
+
+    function formatBackupDate(value){
+      if(!value) return "Noch nie";
+      const d=new Date(value);
+      if(Number.isNaN(d.getTime())) return "Unbekannt";
+      return d.toLocaleString("de-CH",{
+        day:"2-digit",month:"2-digit",year:"numeric",
+        hour:"2-digit",minute:"2-digit"
+      });
+    }
+
+    function renderBackupReminder(){
+      const box=$("backupReminder");
+      if(!box) return;
+
+      const last=localStorage.getItem(LAST_BACKUP_KEY);
+      const age=backupAgeDays();
+      const changes=readIntStorage(CHANGES_SINCE_BACKUP_KEY,0);
+
+      if(!backupNeeded()){
+        box.innerHTML="";
+        return;
+      }
+
+      let reason="";
+      if(!last) reason="Du hast auf diesem Gerät noch kein vollständiges JSON-Backup erstellt.";
+      else if(changes>=BACKUP_REMINDER_CHANGES) reason=`Seit dem letzten Backup gab es ${changes} Änderungen.`;
+      else if(age!==null && age>=BACKUP_REMINDER_DAYS) reason=`Dein letztes Backup ist ${age} Tage alt.`;
+      else reason="Ein neues Backup ist empfehlenswert.";
+
+      box.innerHTML=`
+        <div class="backup-reminder">
+          <div>
+            <strong>🔒 Backup empfohlen</strong><br>
+            ${esc(reason)}
+          </div>
+          <button class="btn secondary" type="button" onclick="$('exportDialog').showModal();renderSecurityStatus()">
+            Backup öffnen
+          </button>
+        </div>`;
+    }
+
+    async function renderSecurityStatus(){
+      if(!$("securityBookCount")) return;
+
+      const last=localStorage.getItem(LAST_BACKUP_KEY);
+      const changes=readIntStorage(CHANGES_SINCE_BACKUP_KEY,0);
+
+      $("securityBookCount").textContent=`${books.length} Bücher`;
+      $("securityLastBackup").textContent=formatBackupDate(last);
+      $("securityChanges").textContent=String(changes);
+
+      let persistenceText="Browserabhängig";
+      try{
+        if(navigator.storage?.persisted){
+          const persisted=await navigator.storage.persisted();
+          persistenceText=persisted ? "✓ geschützt" : "Best Effort";
+        }
+      }catch{}
+      $("securityPersistence").textContent=persistenceText;
+
+      $("securityMessage").textContent=backupNeeded()
+        ? "Ein neues JSON-Backup ist empfehlenswert. Am sichersten speicherst du die Datei in iCloud Drive."
+        : "Deine lokale Sammlung ist gespeichert und dein Backup-Stand ist aktuell.";
+    }
+
+    async function requestPersistentStorage(){
+      const out=$("securityMessage");
+
+      if(!navigator.storage?.persist){
+        out.textContent=
+          "Dieser Browser bietet keine direkte Anforderung für geschützten Webspeicher. Dein JSON-Backup bleibt deshalb besonders wichtig.";
+        return;
+      }
+
+      try{
+        const already=navigator.storage.persisted
+          ? await navigator.storage.persisted()
+          : false;
+
+        if(already){
+          out.textContent="Der Browser behandelt die Daten dieser App bereits als persistent ✓";
+          renderSecurityStatus();
+          return;
+        }
+
+        const granted=await navigator.storage.persist();
+        out.textContent=granted
+          ? "Persistenter Speicher wurde aktiviert ✓"
+          : "Der Browser hat persistenten Speicher nicht zugesagt. Die App funktioniert trotzdem; behalte regelmäßige JSON-Backups.";
+        renderSecurityStatus();
+      }catch{
+        out.textContent=
+          "Persistenter Speicher konnte nicht angefordert werden. Die App funktioniert trotzdem; dein JSON-Backup ist die sichere Rückfallebene.";
+      }
+    }
+
+    function currentBackupObject(){
+      return {
+        exportedAt:new Date().toISOString(),
+        app:"Mein Bücherregal",
+        version:"10.3",
+        schemaVersion:2,
+        books,
+        seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
+        settings:{
+          bookApiUrl:getBookApiUrl(),
+          viewMode:localStorage.getItem(VIEW_MODE_KEY) || "covers"
+        }
+      };
+    }
+
+    function normalizeBackupObject(data){
+      if(Array.isArray(data)){
+        return {
+          exportedAt:null,
+          app:"Mein Bücherregal",
+          version:"älteres Backup",
+          schemaVersion:1,
+          books:data,
+          seriesMeta:{},
+          settings:{}
+        };
+      }
+
+      if(!data || !Array.isArray(data.books)) throw new Error("invalid-backup");
+
+      return {
+        exportedAt:data.exportedAt || null,
+        app:data.app || "Mein Bücherregal",
+        version:data.version || "älteres Backup",
+        schemaVersion:data.schemaVersion || 1,
+        books:data.books,
+        seriesMeta:data.seriesMeta && typeof data.seriesMeta==="object" ? data.seriesMeta : {},
+        settings:data.settings && typeof data.settings==="object" ? data.settings : {}
+      };
+    }
+
+    function backupBookKey(b){
+      const isbn=String(b?.isbn||"").replace(/[^0-9Xx]/g,"").toLowerCase();
+      if(isbn) return `isbn:${isbn}`;
+
+      const title=normalizeForSort(b?.title||"");
+      const author=normalizeForSort(b?.author||"");
+      if(title || author) return `text:${title}|${author}`;
+
+      return `id:${b?.id||""}`;
+    }
+
+    function countMergeNewBooks(incoming){
+      const keys=new Set(books.map(backupBookKey));
+      let count=0;
+      for(const b of incoming){
+        const key=backupBookKey(b);
+        if(!keys.has(key)){
+          keys.add(key);
+          count++;
+        }
+      }
+      return count;
+    }
+
+    function renderImportPreview(){
+      const data=pendingImportBackup;
+      if(!data) return;
+
+      const newCount=countMergeNewBooks(data.books);
+      const source=data.settings?.bookApiUrl || "nicht im Backup enthalten";
+
+      $("importPreviewBody").innerHTML=`
+        <div class="import-summary">
+          <div><span>Backup vom</span><strong>${esc(formatBackupDate(data.exportedAt))}</strong></div>
+          <div><span>Backup-Version</span><strong>${esc(data.version)}</strong></div>
+          <div><span>Bücher im Backup</span><strong>${data.books.length}</strong></div>
+          <div><span>Aktuell auf Gerät</span><strong>${books.length}</strong></div>
+          <div><span>Beim Zusammenführen neu</span><strong>${newCount}</strong></div>
+          <div><span>Datenquelle</span><strong>${esc(source===DEFAULT_BOOK_API_URL ? "Standard-Datenquelle" : source)}</strong></div>
+        </div>`;
+    }
+
+    function applyImportedSettings(settings={}, replace=false){
+      const source=String(settings.bookApiUrl||"").trim().replace(/\/+$/,"");
+
+      if(replace){
+        if(source && source!==DEFAULT_BOOK_API_URL) localStorage.setItem(BOOK_API_KEY,source);
+        else localStorage.removeItem(BOOK_API_KEY);
+
+        if(settings.viewMode){
+          localStorage.setItem(VIEW_MODE_KEY,settings.viewMode);
+        }
+      }else{
+        if(!localStorage.getItem(BOOK_API_KEY) && source && source!==DEFAULT_BOOK_API_URL){
+          localStorage.setItem(BOOK_API_KEY,source);
+        }
+      }
+    }
+
+    function restoreBackupReplace(){
+      if(!pendingImportBackup) return;
+
+      const data=pendingImportBackup;
+      books=data.books.map(b=>({...b}));
+
+      saveJsonStorage(SERIES_META_KEY,data.seriesMeta||{});
+      applyImportedSettings(data.settings||{},true);
+
+      try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(books));
+      }catch{
+        alert("Der lokale Speicher reicht für dieses Backup nicht aus.");
+        return;
+      }
+
+      localStorage.setItem(LAST_BACKUP_KEY,data.exportedAt || new Date().toISOString());
+      localStorage.setItem(CHANGES_SINCE_BACKUP_KEY,"0");
+
+      pendingImportBackup=null;
+      $("importPreviewDialog").close();
+      $("exportDialog").close();
+
+      applyViewToggleUi();
+      render();
+      renderBackupReminder();
+
+      alert(`${books.length} Bücher wurden aus dem Backup wiederhergestellt.`);
+    }
+
+    function restoreBackupMerge(){
+      if(!pendingImportBackup) return;
+
+      const data=pendingImportBackup;
+      const existing=new Set(books.map(backupBookKey));
+      let added=0;
+
+      for(const incoming of data.books){
+        const key=backupBookKey(incoming);
+        if(existing.has(key)) continue;
+
+        const copy={...incoming};
+        if(!copy.id || books.some(b=>b.id===copy.id)) copy.id=uid();
+
+        books.push(copy);
+        existing.add(key);
+        added++;
+      }
+
+      const currentMeta=loadJsonStorage(SERIES_META_KEY,{});
+      saveJsonStorage(SERIES_META_KEY,{...(data.seriesMeta||{}),...currentMeta});
+      applyImportedSettings(data.settings||{},false);
+
+      try{
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(books));
+      }catch{
+        alert("Der lokale Speicher reicht für die zusammengeführte Sammlung nicht aus.");
+        return;
+      }
+
+      const changes=readIntStorage(CHANGES_SINCE_BACKUP_KEY,0);
+      localStorage.setItem(CHANGES_SINCE_BACKUP_KEY,String(changes+Math.max(1,added)));
+
+      pendingImportBackup=null;
+      $("importPreviewDialog").close();
+      $("exportDialog").close();
+
+      applyViewToggleUi();
+      render();
+      renderBackupReminder();
+
+      alert(`${added} neue Bücher wurden hinzugefügt. Vorhandene Bücher wurden nicht überschrieben.`);
+    }
+
+
     /* =====================================================
        VERSION 10 - COMFORT FEATURES
        ===================================================== */
@@ -3069,17 +3534,13 @@
     }
 
     function exportJsonBackup(){
+      const backup=currentBackupObject();
       downloadBlob(
-        JSON.stringify({
-          exportedAt:new Date().toISOString(),
-          app:"Mein Bücherregal",
-          version:"10",
-          books,
-          seriesMeta:loadJsonStorage(SERIES_META_KEY,{})
-        },null,2),
+        JSON.stringify(backup,null,2),
         "application/json",
         `mein-buecherregal-backup-${new Date().toISOString().slice(0,10)}.json`
       );
+      setBackupState(backup.exportedAt);
     }
 
     function csvCell(v){
@@ -3479,6 +3940,7 @@
         alert("Der lokale Speicher ist voll. Exportiere zuerst ein Backup oder entferne einige lokal fotografierte Cover.");
         throw err;
       }
+      markLibraryChanged();
       applyViewToggleUi();
       render();
     }
@@ -3500,7 +3962,10 @@
       $("wishlistDialog").showModal();
     });
 
-    $("moreExportBtn").addEventListener("click",()=>$("exportDialog").showModal());
+    $("moreExportBtn").addEventListener("click",()=>{
+      $("exportDialog").showModal();
+      renderSecurityStatus();
+    });
 
     $("startQuickScanBtn").addEventListener("click",startQuickScan);
     $("stopQuickScanBtn").addEventListener("click",stopQuickScan);
@@ -3518,6 +3983,9 @@
     $("exportCsvBtn").addEventListener("click",exportCsv);
     $("printLibraryBtn").addEventListener("click",printLibrary);
     $("importJsonBtn").addEventListener("click",()=>$("importFile").click());
+    $("persistStorageBtn").addEventListener("click",requestPersistentStorage);
+    $("replaceImportBtn").addEventListener("click",restoreBackupReplace);
+    $("mergeImportBtn").addEventListener("click",restoreBackupMerge);
 
     $("coverPhotoBtn").addEventListener("click",()=>$("coverPhotoFile").click());
     $("removeCoverBtn").addEventListener("click",()=>{
@@ -3572,20 +4040,25 @@
     });
 
     $("sourceBtn").addEventListener("click", ()=>{
-      $("bookApiUrl").value = getBookApiUrl();
-      $("sourceStatus").textContent = getBookApiUrl()
-        ? "Externe Buchdatenbank ist konfiguriert."
-        : "Noch keine externe K10plus-Verbindung gespeichert.";
+      const custom=(localStorage.getItem(BOOK_API_KEY)||"").trim();
+      $("bookApiUrl").value = custom || DEFAULT_BOOK_API_URL;
+      $("sourceStatus").textContent = custom
+        ? "Eigene Datenquelle ist gespeichert."
+        : "Standard-Datenquelle ist aktiv ✓ Du musst hier normalerweise nichts ändern.";
       $("sourceDialog").showModal();
     });
 
     $("saveSourceBtn").addEventListener("click", ()=>{
       const value = $("bookApiUrl").value.trim().replace(/\/+$/,"");
-      if(value) localStorage.setItem(BOOK_API_KEY, value);
-      else localStorage.removeItem(BOOK_API_KEY);
-      $("sourceStatus").textContent = value
-        ? "Gespeichert ✓"
-        : "Verbindung entfernt.";
+
+      if(!value || value===DEFAULT_BOOK_API_URL){
+        localStorage.removeItem(BOOK_API_KEY);
+        $("bookApiUrl").value=DEFAULT_BOOK_API_URL;
+        $("sourceStatus").textContent="Standard-Datenquelle ist aktiv ✓";
+      }else{
+        localStorage.setItem(BOOK_API_KEY,value);
+        $("sourceStatus").textContent="Eigene Datenquelle gespeichert ✓";
+      }
     });
 
     $("testSourceBtn").addEventListener("click", async ()=>{
@@ -3599,8 +4072,11 @@
         const res = await fetch(`${value}/health`, {headers:{"Accept":"application/json"}});
         const data = await res.json();
         if(res.ok && data?.ok){
-          localStorage.setItem(BOOK_API_KEY, value);
-          $("sourceStatus").textContent = "Verbindung funktioniert ✓ K10plus-Suche ist aktiv.";
+          if(value===DEFAULT_BOOK_API_URL) localStorage.removeItem(BOOK_API_KEY);
+          else localStorage.setItem(BOOK_API_KEY,value);
+          $("sourceStatus").textContent = value===DEFAULT_BOOK_API_URL
+            ? "Standard-Datenquelle funktioniert ✓"
+            : "Verbindung funktioniert ✓";
         }else{
           $("sourceStatus").textContent = "Worker antwortet, aber nicht wie erwartet.";
         }
@@ -3610,20 +4086,19 @@
     });
 
     $("importFile").addEventListener("change", async e=>{
-      const file = e.target.files?.[0];
+      const file=e.target.files?.[0];
       if(!file) return;
+
       try{
-        const data = JSON.parse(await file.text());
-        const incoming = Array.isArray(data) ? data : data.books;
-        if(!Array.isArray(incoming)) throw new Error();
-        if(confirm(`${incoming.length} Bücher importieren und aktuelle Sammlung ersetzen?`)){
-          books = incoming;
-          saveBooks();
-        }
+        const raw=JSON.parse(await file.text());
+        pendingImportBackup=normalizeBackupObject(raw);
+        renderImportPreview();
+        $("importPreviewDialog").showModal();
       }catch{
+        pendingImportBackup=null;
         alert("Diese Datei ist kein gültiges Bücherregal-Backup.");
       }finally{
-        e.target.value = "";
+        e.target.value="";
       }
     });
 
@@ -3638,6 +4113,7 @@
 
     applyViewToggleUi();
     render();
+    renderBackupReminder();
   </script>
 </body>
 </html>

@@ -254,7 +254,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Buchdaten & Cover werden über mehrere Suchwege in Open Library und Google Books geladen. Deine Sammlung bleibt lokal auf deinem Gerät.
+      Buchdaten & Cover werden über mehrere Suchwege geladen; problematische Ausgaben können über verifizierte lokale Fallbacks ergänzt werden. Deine Sammlung bleibt lokal auf deinem Gerät.
     </div>
   </div>
 
@@ -532,9 +532,40 @@
         series: "Red Rising",
         volume: "2",
         genre: "Science-Fiction & Fantasy",
-        cover: "https://books.google.com/books/content?id=TNtGCgAAQBAJ&printsec=frontcover&img=1&zoom=2&source=gbs_api"
+        cover: "https://books.google.com/books/content?vid=ISBN9783453534421&printsec=frontcover&img=1&zoom=2&source=gbs_api"
+      },
+      "9783453534438": {
+        isbn: "9783453534438",
+        title: "Red Rising - Tag der Entscheidung",
+        author: "Pierce Brown",
+        series: "Red Rising",
+        volume: "3",
+        genre: "Science-Fiction & Fantasy",
+        // Google Books indexes the German eBook more reliably than this paperback edition.
+        cover: "https://books.google.com/books/content?vid=ISBN9783641147433&printsec=frontcover&img=1&zoom=2&source=gbs_api"
       }
     };
+
+    function findKnownEdition(isbn="", title="", author=""){
+      const cleanIsbn = String(isbn).replace(/[^0-9Xx]/g,"");
+      if(cleanIsbn && knownEditionFallbacks[cleanIsbn]){
+        return knownEditionFallbacks[cleanIsbn];
+      }
+
+      const nt = normText(title);
+      const na = normText(author);
+      if(!nt) return null;
+
+      return Object.values(knownEditionFallbacks).find(b => {
+        const titleMatch =
+          normText(b.title) === nt ||
+          normText(b.title).includes(nt) ||
+          nt.includes(normText(b.title)) ||
+          tokenScore(title, b.title) >= 0.60;
+        const authorMatch = !na || tokenScore(author, b.author) >= 0.60;
+        return titleMatch && authorMatch;
+      }) || null;
+    }
 
     async function lookupOpenLibraryByISBN(isbn){
       try{
@@ -645,8 +676,9 @@
       }
 
       // Known problematic editions: use verified local fallback immediately.
-      if(knownEditionFallbacks[isbn]){
-        fillBookData(knownEditionFallbacks[isbn], "verifiziertem Editions-Fallback");
+      const known = findKnownEdition(isbn, $("title").value.trim(), $("author").value.trim());
+      if(known){
+        fillBookData(known, "verifiziertem Editions-Fallback");
         return;
       }
 
@@ -689,6 +721,12 @@
       const title = $("title").value.trim();
       const author = $("author").value.trim();
 
+      const known = findKnownEdition($("isbn").value, title, author);
+      if(known){
+        fillBookData(known, "verifiziertem Editions-Fallback");
+        return;
+      }
+
       if(!title){
         $("scanStatus").textContent = "Bitte zuerst den Buchtitel eingeben.";
         $("title").focus();
@@ -719,7 +757,7 @@
       }
 
       $("scanStatus").textContent =
-        "Kein sicherer automatischer Treffer. Titel und Autor kannst du trotzdem manuell speichern.";
+        "Diese Ausgabe ist in den freien Buchdatenbanken nicht sauber hinterlegt. Du kannst sie trotzdem manuell speichern.";
     }
 
     async function startScan(){

@@ -1,13 +1,11 @@
-# Mein Bücherregal – Version 3
+# Mein Bücherregal – Version 4
 
-Verbesserungen:
-- robustere Google-Books-Titelsuche mit mehreren Suchvarianten
-- Treffer werden anhand von Titel und Autor bewertet
-- zusätzliche Open-Library-Titelsuche
-- breitere ISBN-Fallback-Suche
-- verifizierter Fallback für problematische Editionen wie
-  `978-3-453-53442-1` (Red Rising – Im Haus der Feinde)
-- vorhandene lokale Sammlung bleibt kompatibel
+Neu:
+- verifizierte Editions-Fallbacks funktionieren jetzt über ISBN UND Titel + Autor
+- Red Rising – Tag der Entscheidung (978-3-453-53443-8) ist hinterlegt
+- Red Rising – Im Haus der Feinde (978-3-453-53442-1) bleibt hinterlegt
+- bestehende Open-Library- und Google-Books-Suche bleibt erhalten
+- bestehende lokale Sammlung bleibt kompatibel
 
-GitHub Pages:
-Alle Dateien dieser Version in das bestehende Repository hochladen und ersetzen.
+Update auf GitHub Pages:
+Alle Dateien in das bestehende Repository hochladen und ersetzen, danach Commit.

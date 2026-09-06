@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#171310",
   "theme_color": "#1f1a17",
-  "description": "Private digitale Bibliothek mit ISBN-Scan.",
+  "description": "Private digitale Bibliothek mit ISBN- und Titelsuche.",
   "icons": [
     {
       "src": "icon.svg",

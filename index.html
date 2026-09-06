@@ -254,7 +254,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Buchdaten & Cover werden – wenn verfügbar – über Open Library geladen. Deine Sammlung bleibt lokal auf deinem Gerät.
+      Buchdaten & Cover werden – wenn verfügbar – über Open Library und Google Books geladen. Deine Sammlung bleibt lokal auf deinem Gerät.
     </div>
   </div>
 
@@ -268,6 +268,7 @@
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button class="btn primary" id="scanBtn">📷 ISBN scannen</button>
           <button class="btn secondary" id="lookupBtn">ISBN suchen</button>
+          <button class="btn secondary" id="titleLookupBtn">🔎 Titel suchen</button>
         </div>
         <video id="video" playsinline muted></video>
         <div class="scan-status" id="scanStatus">Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.</div>
@@ -491,31 +492,123 @@
       $("detailsDialog").showModal();
     }
 
+    function fillBookData(data, sourceLabel){
+      if(!data) return false;
+      $("title").value = data.title || $("title").value;
+      $("author").value = data.author || $("author").value;
+      $("cover").value = data.cover || $("cover").value;
+      if(data.genre && !$("genre").value) $("genre").value = data.genre;
+      if(data.isbn && !$("isbn").value) $("isbn").value = data.isbn;
+      $("scanStatus").textContent = `Buch gefunden über ${sourceLabel} ✓`;
+      return true;
+    }
+
+    async function lookupOpenLibraryByISBN(isbn){
+      try{
+        const res = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${encodeURIComponent(isbn)}&format=json&jscmd=data`);
+        if(!res.ok) return null;
+        const data = await res.json();
+        const b = data[`ISBN:${isbn}`];
+        if(!b) return null;
+        return {
+          isbn,
+          title: b.title || "",
+          author: (b.authors || []).map(a=>a.name).join(", "),
+          cover: (b.cover && (b.cover.large || b.cover.medium || b.cover.small)) || `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`,
+          genre: (b.subjects || [])[0]?.name || ""
+        };
+      }catch{
+        return null;
+      }
+    }
+
+    async function lookupGoogleBooks(query){
+      try{
+        const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}&maxResults=10`);
+        if(!res.ok) return null;
+        const data = await res.json();
+        const items = data.items || [];
+        if(!items.length) return null;
+
+        const item = items.find(x => x.volumeInfo?.imageLinks && x.volumeInfo?.authors?.length) || items[0];
+        const v = item.volumeInfo || {};
+        const ids = v.industryIdentifiers || [];
+        const isbn13 = ids.find(x=>x.type==="ISBN_13")?.identifier;
+        const isbn10 = ids.find(x=>x.type==="ISBN_10")?.identifier;
+
+        let cover = v.imageLinks?.extraLarge || v.imageLinks?.large || v.imageLinks?.medium ||
+                    v.imageLinks?.thumbnail || v.imageLinks?.smallThumbnail || "";
+        cover = cover.replace(/^http:/, "https:").replace(/zoom=\d+/, "zoom=2");
+
+        return {
+          isbn: isbn13 || isbn10 || "",
+          title: v.title || "",
+          author: (v.authors || []).join(", "),
+          cover,
+          genre: (v.categories || [])[0] || ""
+        };
+      }catch{
+        return null;
+      }
+    }
+
     async function lookupISBN(){
       const isbn = $("isbn").value.replace(/[^0-9Xx]/g,"");
       if(!isbn){
         $("scanStatus").textContent = "Bitte zuerst eine ISBN eingeben oder scannen.";
         return;
       }
-      $("scanStatus").textContent = "Suche Buchdaten …";
-      try{
-        const res = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${encodeURIComponent(isbn)}&format=json&jscmd=data`);
-        if(!res.ok) throw new Error("Netzwerkfehler");
-        const data = await res.json();
-        const b = data[`ISBN:${isbn}`];
-        if(!b){
-          $("scanStatus").textContent = "Kein Treffer gefunden. Du kannst das Buch manuell eintragen.";
+
+      $("scanStatus").textContent = "Suche bei Open Library …";
+      const ol = await lookupOpenLibraryByISBN(isbn);
+      if(ol){
+        fillBookData(ol, "Open Library");
+        return;
+      }
+
+      $("scanStatus").textContent = "Kein Treffer bei Open Library. Suche bei Google Books …";
+      const gb = await lookupGoogleBooks(`isbn:${isbn}`);
+      if(gb){
+        if(!gb.isbn) gb.isbn = isbn;
+        fillBookData(gb, "Google Books");
+        return;
+      }
+
+      const title = $("title").value.trim();
+      const author = $("author").value.trim();
+      if(title){
+        $("scanStatus").textContent = "ISBN nicht gefunden. Suche nach Titel und Autor …";
+        const q = author ? `intitle:${title} inauthor:${author}` : `intitle:${title}`;
+        const byTitle = await lookupGoogleBooks(q);
+        if(byTitle){
+          fillBookData(byTitle, "Google Books (Titel-Suche)");
           return;
         }
-        $("title").value = b.title || $("title").value;
-        $("author").value = (b.authors || []).map(a=>a.name).join(", ") || $("author").value;
-        $("cover").value = (b.cover && (b.cover.large || b.cover.medium || b.cover.small)) || `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
-        if((b.subjects||[]).length && !$("genre").value){
-          $("genre").value = b.subjects[0].name || "";
-        }
-        $("scanStatus").textContent = "Buch gefunden ✓";
-      }catch(err){
-        $("scanStatus").textContent = "Buchdaten konnten nicht geladen werden. Prüfe die Internetverbindung oder trage es manuell ein.";
+      }
+
+      $("scanStatus").textContent =
+        "Leider kein automatischer Treffer. Gib Titel und optional Autor ein und nutze „Titel suchen“.";
+    }
+
+    async function lookupByTitle(){
+      const title = $("title").value.trim();
+      const author = $("author").value.trim();
+
+      if(!title){
+        $("scanStatus").textContent = "Bitte zuerst den Buchtitel eingeben.";
+        $("title").focus();
+        return;
+      }
+
+      $("scanStatus").textContent = "Suche nach Titel" + (author ? " und Autor" : "") + " …";
+      const q = author ? `intitle:${title} inauthor:${author}` : `intitle:${title}`;
+      const result = await lookupGoogleBooks(q);
+
+      if(result){
+        fillBookData(result, "Google Books");
+      }else{
+        $("scanStatus").textContent =
+          "Auch über den Titel wurde kein Treffer gefunden. Trage das Buch bitte manuell ein.";
       }
     }
 
@@ -615,6 +708,7 @@
 
     $("addBtn").addEventListener("click", openNew);
     $("lookupBtn").addEventListener("click", lookupISBN);
+    $("titleLookupBtn").addEventListener("click", lookupByTitle);
     $("scanBtn").addEventListener("click", startScan);
     $("search").addEventListener("input", render);
     $("filter").addEventListener("change", render);

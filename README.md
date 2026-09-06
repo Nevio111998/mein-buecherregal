@@ -1,40 +1,36 @@
-# Mein Bücherregal – Version 11.2
+# Mein Bücherregal – Version 11.3
 
-V11.2 baut direkt auf V11.1 auf und geht stärker in Richtung cineastisches Bibliotheksgefühl.
+V11.3 ist ein visueller Feinschliff auf Basis von V11.2.
 
-## Neu in V11.2
+## Neu
 
-### 1) Buchrücken-Regal verbessert
-- nicht mehr dieser fast einheitlich braune Look
-- wieder deutlich mehr Farbvariation
-- bessere Materialwirkung
-- edlere Label-Optik
-- insgesamt lebendiger
+### Reihen-Plaketten
+Jedes Regal bekommt oben mittig ein edles Schild.
 
-### 2) Dekorative Regalstützen
-Jedes Regal hat jetzt sichtbare Stützen und mehr architektonische Tiefe.
+Bei Gruppierung nach Reihe:
+- Titel = exakt dein eigener Reihenname
+- darunter Autor · Genre
 
-### 3) Cineastische Ambient-Deko
-- warme Lampen links und rechts
-- kleine dekorative Stapel
-- dezente Zierformen im Hintergrund
-- insgesamt atmosphärischer
+Beispiel:
+ASKIR
+Richard Schwartz · Fantasy
 
-### 4) Leichter Parallax-Effekt
-Beim Scrollen bewegen sich Ambient-Elemente und Regaltexturen subtil mit.
-Der Effekt bleibt bewusst leicht.
+Die Reihenlogik wird nicht verändert.
 
-### 5) Noch stärkere Regaloptik
-- bessere Brettwirkung
-- mehr Tiefe
-- stärkere Regalfront
-- schönerer Bühnen-Look
+### Buchrücken wieder natürlicher
+Der Buchrücken-Cover-Look wurde wieder auf den ursprünglicheren Stil aus V10/V11 zurückgesetzt:
+- weniger künstliche Einfärbung
+- Coverfarben wirken wieder natürlicher
+- alte Schatten-/Materialwirkung ist zurück
 
-## Bleibt erhalten
+### Bleibt erhalten
+- dekorative Regalstützen
+- cineastisches Ambiente
+- leichter Parallax-Effekt
 - einklappbarer Überblick
 - Themen
 - Sicherheit / Backup / Import
-- stabile Kamera-Grundlage
+- stabile Kamera
 
 ## Update
 Nur GitHub Pages aktualisieren.

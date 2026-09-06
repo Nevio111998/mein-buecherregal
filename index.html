@@ -914,6 +914,34 @@
       box-shadow:0 8px 18px rgba(0,0,0,.25);
     }
 
+
+    /* ---------- Version 10.2: Camera selector ---------- */
+    .camera-picker{
+      display:flex;
+      gap:8px;
+      align-items:end;
+      flex-wrap:wrap;
+      margin-top:12px;
+      padding:10px;
+      border-radius:12px;
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(255,255,255,.055);
+    }
+    .camera-picker select{
+      width:100%;
+      background:#120f0d;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.09);
+      border-radius:10px;
+      padding:10px 11px;
+    }
+    .camera-hint{
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.35;
+      margin-top:6px;
+    }
+
     @media(max-width:700px){
       .random-pick{grid-template-columns:100px 1fr}
       .export-grid{grid-template-columns:1fr}
@@ -1014,7 +1042,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V10.1</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V10.2</span></h1>
         <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
       </div>
       <div class="actions">
@@ -1064,7 +1092,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 10.1: Schnellscan jetzt auch kompatibel mit iPhone/Safari. Buchdaten und Cover kommen weiterhin aus externen Katalogen; deine Sammlung bleibt lokal auf deinem Gerät.
+      Version 10.2: iPhone-Kamera auswählbar; 0.5x/Ultraweitwinkel wird genutzt, wenn Safari die Linse separat freigibt. Buchdaten und Cover kommen weiterhin aus externen Katalogen; deine Sammlung bleibt lokal auf deinem Gerät.
     </div>
   </div>
 
@@ -1080,6 +1108,18 @@
           <button class="btn secondary" id="lookupBtn">ISBN suchen</button>
           <button class="btn secondary" id="titleLookupBtn">🔎 Titel suchen</button>
         </div>
+
+        <div class="camera-picker">
+          <div class="field" style="flex:1;min-width:220px">
+            <label>Kamera</label>
+            <select id="cameraSelect">
+              <option value="">Automatisch – Rückkamera</option>
+            </select>
+          </div>
+          <button class="btn secondary" type="button" id="loadCamerasBtn">Kameras laden</button>
+          <button class="btn secondary" type="button" id="preferUltraWideBtn">0.5x suchen</button>
+        </div>
+
         <video id="video" playsinline muted></video>
         <div class="scan-status" id="scanStatus">Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.</div>
       </div>
@@ -1221,6 +1261,17 @@
         <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
           <button class="btn primary" id="startQuickScanBtn">📷 Kamera starten</button>
           <button class="btn secondary" id="stopQuickScanBtn">Kamera stoppen</button>
+        </div>
+
+        <div class="camera-picker">
+          <div class="field" style="flex:1;min-width:220px">
+            <label>Kamera</label>
+            <select id="quickCameraSelect">
+              <option value="">Automatisch – Rückkamera</option>
+            </select>
+          </div>
+          <button class="btn secondary" type="button" id="quickLoadCamerasBtn">Kameras laden</button>
+          <button class="btn secondary" type="button" id="quickPreferUltraWideBtn">0.5x suchen</button>
         </div>
 
         <div class="grid" style="margin-top:12px">
@@ -2176,6 +2227,7 @@
       $("duplicateWarning").classList.remove("show");
       $("scanStatus").textContent = "Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.";
       $("editDialog").showModal();
+      populateCameraSelects({requestPermission:false});
     }
 
     function toggleFavorite(id){
@@ -2210,6 +2262,7 @@
       $("deleteBtn").style.display = "inline-block";
       $("detailsDialog").close();
       $("editDialog").showModal();
+      populateCameraSelects({requestPermission:false});
     }
 
     function openDetails(id){
@@ -2519,6 +2572,149 @@
         "Kein Treffer in den verbundenen externen Buchdatenbanken.";
     }
 
+
+    function getPreferredCameraId(){
+      return localStorage.getItem(CAMERA_DEVICE_KEY) || "";
+    }
+
+    function savePreferredCameraId(deviceId){
+      if(deviceId) localStorage.setItem(CAMERA_DEVICE_KEY,deviceId);
+      else localStorage.removeItem(CAMERA_DEVICE_KEY);
+
+      if($("cameraSelect")) $("cameraSelect").value=deviceId || "";
+      if($("quickCameraSelect")) $("quickCameraSelect").value=deviceId || "";
+    }
+
+    function cameraLooksRear(label=""){
+      return /(back|rear|environment|rück|ruck)/i.test(label);
+    }
+
+    function cameraLooksUltraWide(label=""){
+      return /(ultra[\s-]?wide|ultrawide|0[.,.]5|0\.5x|wide angle|ultraweit|weitwinkel)/i.test(label);
+    }
+
+    function cameraLabel(device,index){
+      const raw=(device.label||"").trim();
+      if(raw) return raw;
+      return `Kamera ${index+1}`;
+    }
+
+    async function requestCameraPermissionForLabels(){
+      if(!navigator.mediaDevices?.getUserMedia) return false;
+
+      let tmp=null;
+      try{
+        tmp=await navigator.mediaDevices.getUserMedia({
+          video:{facingMode:{ideal:"environment"}},
+          audio:false
+        });
+        return true;
+      }catch{
+        return false;
+      }finally{
+        if(tmp) tmp.getTracks().forEach(t=>t.stop());
+      }
+    }
+
+    async function populateCameraSelects({requestPermission=true}={}){
+      if(!navigator.mediaDevices?.enumerateDevices){
+        return {devices:[],ultra:null};
+      }
+
+      if(requestPermission){
+        await requestCameraPermissionForLabels();
+      }
+
+      let devices=[];
+      try{
+        devices=(await navigator.mediaDevices.enumerateDevices())
+          .filter(d=>d.kind==="videoinput");
+      }catch{
+        devices=[];
+      }
+
+      const previous=getPreferredCameraId();
+      const selects=[$("cameraSelect"),$("quickCameraSelect")].filter(Boolean);
+
+      for(const select of selects){
+        const current=select.value || previous;
+        select.innerHTML='<option value="">Automatisch – Rückkamera</option>';
+
+        devices.forEach((d,i)=>{
+          const opt=document.createElement("option");
+          opt.value=d.deviceId;
+
+          const label=cameraLabel(d,i);
+          const ultra=cameraLooksUltraWide(label);
+          const rear=cameraLooksRear(label);
+
+          opt.textContent=
+            ultra ? `★ ${label} – wahrscheinlich 0.5x` :
+            rear ? `${label} – Rückkamera` :
+            label;
+
+          select.appendChild(opt);
+        });
+
+        if(current && [...select.options].some(o=>o.value===current)){
+          select.value=current;
+        }
+      }
+
+      const ultra=
+        devices.find(d=>cameraLooksUltraWide(d.label||"")) ||
+        null;
+
+      return {devices,ultra};
+    }
+
+    async function chooseUltraWideCamera(statusElementId){
+      const status=$(statusElementId);
+      if(status) status.textContent="Suche verfügbare Kameras …";
+
+      const {devices,ultra}=await populateCameraSelects({requestPermission:true});
+
+      if(!devices.length){
+        if(status) status.textContent="Safari hat keine auswählbaren Kameras gemeldet.";
+        return;
+      }
+
+      if(ultra){
+        savePreferredCameraId(ultra.deviceId);
+        if(status){
+          status.textContent=
+            `0.5x/Ultraweitwinkel wahrscheinlich gefunden: ${ultra.label || "Kamera"}. Jetzt Scanner starten.`;
+        }
+        return;
+      }
+
+      if(status){
+        status.textContent=
+          "Safari meldet keine Kamera eindeutig als 0.5x. Öffne die Kamera-Liste und teste die verfügbaren Rückkameras einzeln.";
+      }
+    }
+
+    function selectedCameraId(selectId){
+      const select=$(selectId);
+      return (select?.value || getPreferredCameraId() || "").trim();
+    }
+
+    function selectedVideoConstraints(selectId){
+      const id=selectedCameraId(selectId);
+      if(id){
+        return {
+          deviceId:{exact:id},
+          width:{ideal:1920},
+          height:{ideal:1080}
+        };
+      }
+      return {
+        facingMode:{ideal:"environment"},
+        width:{ideal:1920},
+        height:{ideal:1080}
+      };
+    }
+
     function zxingResultText(result){
       if(!result) return "";
       try{
@@ -2544,8 +2740,9 @@
         $("video").style.display = "block";
         $("scanStatus").textContent = "Kamera wird gestartet …";
 
+        const selectedId=selectedCameraId("cameraSelect");
         zxingScanControls = await reader.decodeFromVideoDevice(
-          undefined,
+          selectedId || undefined,
           $("video"),
           async (result)=>{
             if(!result || scanHandlingResult) return;
@@ -2602,7 +2799,7 @@
 
       try{
         currentStream = await navigator.mediaDevices.getUserMedia({
-          video:{facingMode:{ideal:"environment"}, width:{ideal:1920}, height:{ideal:1080}},
+          video:selectedVideoConstraints("cameraSelect"),
           audio:false
         });
         $("video").srcObject = currentStream;
@@ -3307,8 +3504,9 @@
         $("quickVideo").style.display = "block";
         $("quickScanStatus").textContent = "Kamera wird gestartet …";
 
+        const selectedId=selectedCameraId("quickCameraSelect");
         quickZxingControls = await quickZxingReader.decodeFromVideoDevice(
-          undefined,
+          selectedId || undefined,
           $("quickVideo"),
           (result)=>{
             if(!result || quickBusy) return;
@@ -3350,7 +3548,7 @@
         quickDetector=new BarcodeDetector({formats:preferred.length?preferred:formats});
 
         quickStream=await navigator.mediaDevices.getUserMedia({
-          video:{facingMode:{ideal:"environment"},width:{ideal:1920},height:{ideal:1080}},
+          video:selectedVideoConstraints("quickCameraSelect"),
           audio:false
         });
 
@@ -3488,6 +3686,7 @@
       $("quickScanLog").innerHTML="";
       $("quickScanStatus").textContent="Bereit.";
       $("quickScanDialog").showModal();
+      populateCameraSelects({requestPermission:false});
     });
 
     $("randomBtn").addEventListener("click",()=>{
@@ -3539,6 +3738,44 @@
       }finally{
         e.target.value="";
       }
+    });
+
+    $("loadCamerasBtn").addEventListener("click",async()=>{
+      $("scanStatus").textContent="Lade Kameras …";
+      const {devices}=await populateCameraSelects({requestPermission:true});
+      $("scanStatus").textContent=devices.length
+        ? `${devices.length} Kamera(s) gefunden. Wähle eine aus und starte den Scanner.`
+        : "Keine Kamera gefunden oder Zugriff verweigert.";
+    });
+
+    $("quickLoadCamerasBtn").addEventListener("click",async()=>{
+      $("quickScanStatus").textContent="Lade Kameras …";
+      const {devices}=await populateCameraSelects({requestPermission:true});
+      $("quickScanStatus").textContent=devices.length
+        ? `${devices.length} Kamera(s) gefunden. Wähle eine aus und starte den Scanner.`
+        : "Keine Kamera gefunden oder Zugriff verweigert.";
+    });
+
+    $("preferUltraWideBtn").addEventListener("click",()=>{
+      chooseUltraWideCamera("scanStatus");
+    });
+
+    $("quickPreferUltraWideBtn").addEventListener("click",()=>{
+      chooseUltraWideCamera("quickScanStatus");
+    });
+
+    $("cameraSelect").addEventListener("change",()=>{
+      savePreferredCameraId($("cameraSelect").value);
+      $("scanStatus").textContent=$("cameraSelect").value
+        ? "Kamera gespeichert. Starte jetzt den Scanner."
+        : "Automatische Rückkamera gewählt.";
+    });
+
+    $("quickCameraSelect").addEventListener("change",()=>{
+      savePreferredCameraId($("quickCameraSelect").value);
+      $("quickScanStatus").textContent=$("quickCameraSelect").value
+        ? "Kamera gespeichert. Starte jetzt den Schnellscanner."
+        : "Automatische Rückkamera gewählt.";
     });
 
     $("addBtn").addEventListener("click", openNew);

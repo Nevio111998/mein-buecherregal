@@ -711,6 +711,56 @@
       text-transform:uppercase;
     }
 
+
+    /* ---------- V9.1 Series Logic Fix ---------- */
+    .series-status{
+      margin-top:7px;
+      font-size:11px;
+      line-height:1.35;
+      font-weight:800;
+    }
+    .series-status.confirmed{color:#9ed68e}
+    .series-status.probable{color:#e3c36f}
+    .series-status.unknown{color:#bcae9f}
+    .series-status.warning{color:#e6a495}
+    .series-status.ignored{color:#8f8075}
+
+    .series-diagnostic{
+      margin-top:6px;
+      padding:7px 8px;
+      border-radius:9px;
+      background:rgba(255,255,255,.035);
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.35;
+    }
+    .series-diagnostic.warn{
+      color:#e7b29f;
+      border:1px solid rgba(231,178,159,.15);
+    }
+
+    .series-card.uncertain{
+      border-style:dashed;
+    }
+    .series-card.ignored-series{
+      opacity:.55;
+    }
+
+    .series-legend{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin:0 0 12px;
+      color:var(--muted);
+      font-size:10px;
+    }
+    .series-legend span{
+      padding:5px 8px;
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:999px;
+      background:rgba(255,255,255,.025);
+    }
+
     @media(max-width:700px){
       .shelf{padding:18px 12px 36px}
       .books.bookshelf-mode{
@@ -804,7 +854,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V9</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V9.1</span></h1>
         <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
       </div>
       <div class="actions">
@@ -842,6 +892,12 @@
     <div class="intelligence-head">
       <h2>Reihen-Intelligenz</h2>
       <button class="btn secondary" id="refreshSeriesBtn">↻ Reihen prüfen</button>
+    </div>
+    <div class="series-legend">
+      <span>✓ bestätigt</span>
+      <span>≈ vermutlich vollständig</span>
+      <span>? Gesamtzahl unbekannt</span>
+      <span>⚠ Konflikt / Lücke</span>
     </div>
     <div id="seriesInsights" class="series-insights"></div>
     <div class="stats" id="stats" style="display:none"></div>
@@ -1132,73 +1188,438 @@
       return groups;
     }
 
+    function positiveIntegerVolume(v){
+      const n = volumeNumber(v);
+      return Number.isFinite(n) && n >= 1 && n <= 99 && Number.isInteger(n) ? n : null;
+    }
+
     function getSeriesInfo(g){
       const meta = loadJsonStorage(SERIES_META_KEY,{});
-      const m = meta[seriesKey(g.name)] || {};
-      const nums = [...new Set(g.books.map(b=>volumeNumber(b.volume)).filter(Number.isFinite))].sort((a,b)=>a-b);
-      let total = Number(m.totalVolumes||0);
-      if(!total && nums.length) total = Math.max(...nums);
-      const missing = [];
-      if(total){
-        for(let n=1;n<=total;n++) if(!nums.includes(n)) missing.push(n);
+      const key = seriesKey(g.name);
+      const m = meta[key] || {};
+
+      const volumeMap = {};
+      const invalidVolumeBooks = [];
+
+      for(const b of g.books){
+        const raw = String(b.volume ?? "").trim();
+        const n = positiveIntegerVolume(b.volume);
+
+        if(n !== null){
+          (volumeMap[n] ||= []).push(b);
+        }else if(raw){
+          invalidVolumeBooks.push(b);
+        }
       }
+
+      const nums = Object.keys(volumeMap).map(Number).sort((a,b)=>a-b);
+      const duplicates = Object.entries(volumeMap)
+        .filter(([,arr])=>arr.length>1)
+        .map(([n,arr])=>({volume:Number(n),books:arr}));
+
+      const highestOwned = nums.length ? Math.max(...nums) : 0;
+      const owned = nums.length;
+
+      // V9.1: ONLY a manual total is treated as a confirmed total.
+      // Old externally inferred totalVolumes are deliberately not trusted anymore.
+      const manualTotal = Number(m.manualTotal || 0);
+      const confirmedTotal =
+        manualTotal > 0 && manualTotal >= highestOwned
+          ? manualTotal
+          : 0;
+
+      const manualConflict =
+        manualTotal > 0 && highestOwned > 0 && manualTotal < highestOwned;
+
+      const remoteVolumes = [...new Set(
+        (m.remoteVolumes || Object.keys(m.remoteTitles || {}).map(Number))
+          .map(Number)
+          .filter(n=>Number.isInteger(n) && n>=1 && n<=99)
+      )].sort((a,b)=>a-b);
+
+      const externalMax = remoteVolumes.length ? Math.max(...remoteVolumes) : 0;
+
+      const missingTo = (limit)=>{
+        const out=[];
+        for(let n=1;n<=limit;n++) if(!nums.includes(n)) out.push(n);
+        return out;
+      };
+
+      const missingConfirmed = confirmedTotal ? missingTo(confirmedTotal) : [];
+      const localGaps = highestOwned ? missingTo(highestOwned) : [];
+      const observedLimit = Math.max(highestOwned, externalMax);
+      const observedGaps = observedLimit ? missingTo(observedLimit) : [];
+
+      const contiguousFromOne =
+        nums.length >= 2 &&
+        nums[0] === 1 &&
+        localGaps.length === 0;
+
+      const ignored = !!m.ignored;
+
+      let status = "unknown";
+      let statusText = "Gesamtzahl unbekannt";
+      let statusClass = "unknown";
+      let complete = false;
+
+      if(ignored){
+        status = "ignored";
+        statusText = "Nicht als Buchreihe gewertet";
+        statusClass = "ignored";
+      }else if(manualConflict){
+        status = "conflict";
+        statusText = `Konflikt: Gesamtzahl ${manualTotal}, aber eigener Band ${highestOwned} vorhanden`;
+        statusClass = "warning";
+      }else if(confirmedTotal){
+        if(missingConfirmed.length === 0){
+          status = "confirmed-complete";
+          statusText = "✓ Vollständig bestätigt";
+          statusClass = "confirmed";
+          complete = true;
+        }else{
+          status = "confirmed-incomplete";
+          statusText = `⚠ Bestätigt unvollständig · fehlt Band ${missingConfirmed.join(", ")}`;
+          statusClass = "warning";
+        }
+      }else if(localGaps.length){
+        status = "gaps";
+        statusText = `⚠ Lücke im Bestand: Band ${localGaps.join(", ")}`;
+        statusClass = "warning";
+      }else if(contiguousFromOne && (!externalMax || externalMax <= highestOwned)){
+        status = "probable-complete";
+        statusText = "≈ Vermutlich vollständig · Gesamtzahl nicht bestätigt";
+        statusClass = "probable";
+      }else if(externalMax > highestOwned){
+        const missingObserved = observedGaps.filter(n=>n<=externalMax);
+        status = "external-more";
+        statusText = missingObserved.length
+          ? `⚠ Extern gesehen bis Band ${externalMax} · fehlt ${missingObserved.join(", ")}`
+          : `? Extern gesehen bis Band ${externalMax}`;
+        statusClass = missingObserved.length ? "warning" : "unknown";
+      }
+
+      const qualified =
+        !ignored && (
+          nums.length >= 2 ||
+          manualTotal > 0 ||
+          remoteVolumes.length >= 2 ||
+          !!m.confirmSeries
+        );
+
+      const denominator =
+        confirmedTotal ||
+        Math.max(highestOwned, externalMax, owned, 1);
+
       return {
-        total,
-        owned:nums.length,
+        key,
+        owned,
+        bookCount:g.books.length,
         nums,
-        missing,
-        complete:!!total && missing.length===0 && nums.length>=total,
-        source:m.source||"lokal",
+        volumeMap,
+        duplicates,
+        invalidVolumeBooks,
+        highestOwned,
+        manualTotal,
+        confirmedTotal,
+        manualConflict,
+        remoteVolumes,
+        externalMax,
         remoteTitles:m.remoteTitles||{},
-        checkedAt:m.checkedAt||""
+        externalConfidence:m.externalConfidence||m.confidence||"",
+        source:m.source||"",
+        checkedAt:m.checkedAt||"",
+        ignored,
+        qualified,
+        complete,
+        status,
+        statusText,
+        statusClass,
+        localGaps,
+        missingConfirmed,
+        observedGaps,
+        denominator,
+        pct:Math.min(100,Math.round((owned/denominator)*100))
       };
     }
 
+    function qualifiedSeriesGroups(){
+      return Object.values(getSeriesGroups())
+        .filter(g=>getSeriesInfo(g).qualified)
+        .sort((a,b)=>a.name.localeCompare(b.name,"de"));
+    }
+
     function renderDashboard(){
-      const owned = books.filter(b=>b.status!=="wishlist");
-      const read = owned.filter(b=>b.status==="read").length;
-      const reading = owned.filter(b=>b.status==="reading").length;
-      const unread = owned.filter(b=>b.status==="unread").length;
+      const ownedBooksList = books.filter(b=>b.status!=="wishlist");
+      const read = ownedBooksList.filter(b=>b.status==="read").length;
+      const reading = ownedBooksList.filter(b=>b.status==="reading").length;
+      const unread = ownedBooksList.filter(b=>b.status==="unread").length;
       const wish = books.filter(b=>b.status==="wishlist").length;
       const fav = books.filter(b=>!!b.favorite).length;
-      const rereads = owned.reduce((s,b)=>s+Number(b.rereads||0),0);
-      const groups = Object.values(getSeriesGroups());
-      const complete = groups.filter(g=>getSeriesInfo(g).complete).length;
-      const pct = owned.length ? Math.round(read/owned.length*100) : 0;
+      const rereads = ownedBooksList.reduce((s,b)=>s+Number(b.rereads||0),0);
+
+      const groups = qualifiedSeriesGroups();
+      const confirmed = groups.filter(g=>getSeriesInfo(g).status==="confirmed-complete").length;
+      const probable = groups.filter(g=>getSeriesInfo(g).status==="probable-complete").length;
+      const warnings = groups.filter(g=>["conflict","gaps","confirmed-incomplete","external-more"].includes(getSeriesInfo(g).status)).length;
+
+      const pct = ownedBooksList.length ? Math.round(read/ownedBooksList.length*100) : 0;
+
       $("dashboard").innerHTML = `
-        <div class="dash-card"><div class="k">Bibliothek</div><div class="v">${books.length}</div><div class="s">${owned.length} im Besitz · ${wish} Wunschliste</div></div>
+        <div class="dash-card"><div class="k">Bibliothek</div><div class="v">${books.length}</div><div class="s">${ownedBooksList.length} im Besitz · ${wish} Wunschliste</div></div>
         <div class="dash-card"><div class="k">Gelesen</div><div class="v">${pct}%</div><div class="s">${read} gelesen · ${reading} aktuell · ${unread} offen</div></div>
-        <div class="dash-card"><div class="k">Reihen</div><div class="v">${groups.length}</div><div class="s">${complete} vollständig</div></div>
+        <div class="dash-card"><div class="k">Reihen</div><div class="v">${groups.length}</div><div class="s">${confirmed} bestätigt · ${probable} vermutlich · ${warnings} prüfen</div></div>
         <div class="dash-card"><div class="k">Favoriten</div><div class="v">${fav}</div><div class="s">deine Highlights</div></div>
         <div class="dash-card"><div class="k">Re-Reads</div><div class="v">${rereads}</div><div class="s">zusätzliche Lesedurchgänge</div></div>
-        <div class="dash-card"><div class="k">Offen</div><div class="v">${Math.max(0,owned.length-read)}</div><div class="s">noch nicht abgeschlossen</div></div>
+        <div class="dash-card"><div class="k">Offen</div><div class="v">${Math.max(0,ownedBooksList.length-read)}</div><div class="s">noch nicht abgeschlossen</div></div>
       `;
     }
 
+    function seriesDiagnostics(info){
+      const lines=[];
+
+      if(info.duplicates.length){
+        lines.push(`Doppelte Bandnummer: ${info.duplicates.map(d=>`Band ${d.volume} (${d.books.length}×)`).join(", ")}`);
+      }
+
+      if(info.invalidVolumeBooks.length){
+        lines.push(`${info.invalidVolumeBooks.length} Buch/Bücher mit nicht eindeutiger Bandnummer`);
+      }
+
+      if(info.externalMax){
+        lines.push(`Extern erkannte Bandnummern: ${info.remoteVolumes.join(", ")}`);
+      }
+
+      if(info.checkedAt){
+        lines.push(`Extern geprüft · ${info.source || "externe Quellen"}`);
+      }
+
+      return lines;
+    }
+
     function renderSeriesInsights(){
-      const groups = Object.values(getSeriesGroups())
-        .filter(g=>g.books.length>=2 || loadJsonStorage(SERIES_META_KEY,{})[seriesKey(g.name)]?.totalVolumes)
-        .sort((a,b)=>a.name.localeCompare(b.name,"de"));
+      const groups = qualifiedSeriesGroups();
+
       if(!groups.length){
-        $("seriesInsights").innerHTML = `<div class="empty">Sobald du mindestens zwei Bände derselben Reihe hast, erscheint hier die Reihen-Vollständigkeit.</div>`;
+        $("seriesInsights").innerHTML =
+          `<div class="empty">Keine eindeutig nummerierte Buchreihe erkannt. Kategorien oder einzelne Bücher werden nicht mehr automatisch als Reihe gewertet.</div>`;
         return;
       }
+
       $("seriesInsights").innerHTML = groups.map(g=>{
         const info = getSeriesInfo(g);
-        const pct = info.total ? Math.min(100,Math.round(info.owned/info.total*100)) : 0;
         const encoded = encodeURIComponent(g.name);
+        const diagnostics = seriesDiagnostics(info);
+
+        const countText = info.confirmedTotal
+          ? `${info.owned} / ${info.confirmedTotal} Bände im Regal`
+          : `${info.owned} Bände im Regal`;
+
         return `
-          <div class="series-card" onclick="openSeriesDetails(decodeURIComponent('${encoded}'))">
+          <div class="series-card ${["unknown","probable-complete"].includes(info.status) ? "uncertain" : ""}"
+               onclick="openSeriesDetails(decodeURIComponent('${encoded}'))">
             <h3>${esc(g.name)}</h3>
-            <div class="meta">${info.owned}${info.total ? ` / ${info.total}` : ""} Bände im Regal</div>
-            <div class="series-progress"><span style="width:${pct}%"></span></div>
-            ${info.complete
-              ? `<div class="series-ok">✓ Reihe vollständig</div>`
-              : info.total
-                ? `<div class="series-missing">Fehlt: ${info.missing.length ? "Band "+info.missing.join(", ") : "–"}</div>`
-                : `<div class="series-missing">Gesamtzahl unbekannt · „Reihen prüfen“ nutzen</div>`}
+            <div class="meta">${countText}</div>
+            <div class="series-progress"><span style="width:${info.pct}%"></span></div>
+            <div class="series-status ${info.statusClass}">${esc(info.statusText)}</div>
+            ${diagnostics.length
+              ? `<div class="series-diagnostic ${info.duplicates.length || info.invalidVolumeBooks.length ? "warn" : ""}">
+                  ${diagnostics.map(esc).join("<br>")}
+                </div>`
+              : ""}
           </div>`;
       }).join("");
+    }
+
+    async function fetchSeriesRemote(seriesName,author=""){
+      const base = getBookApiUrl();
+      if(!base) return null;
+      try{
+        const qs = new URLSearchParams({series:seriesName});
+        if(author) qs.set("author",author);
+        const res = await fetch(`${base}/series?${qs.toString()}`,{headers:{"Accept":"application/json"}});
+        if(!res.ok) return null;
+        const data = await res.json();
+        return data?.ok ? data : null;
+      }catch{
+        return null;
+      }
+    }
+
+    async function refreshSeriesIntelligence(oneSeries=""){
+      const groups = Object.values(getSeriesGroups())
+        .filter(g=>!oneSeries || seriesKey(g.name)===seriesKey(oneSeries));
+
+      if(!groups.length) return;
+
+      const meta = loadJsonStorage(SERIES_META_KEY,{});
+      $("refreshSeriesBtn").textContent = "Prüfe …";
+
+      for(const g of groups){
+        const author = g.books.find(b=>b.author)?.author || "";
+        const remote = await fetchSeriesRemote(g.name,author);
+        if(!remote) continue;
+
+        const key = seriesKey(g.name);
+        const existing = meta[key] || {};
+
+        // V9.1: NEVER convert the highest externally observed band
+        // into a claimed total number of books.
+        meta[key] = {
+          ...existing,
+          totalVolumes:Number(existing.manualTotal||0) || 0,
+          remoteVolumes:(remote.volumes||[]).map(Number).filter(Number.isFinite),
+          remoteTitles:remote.titles||{},
+          externalConfidence:remote.confidence||"discovery",
+          source:remote.source||"extern",
+          checkedAt:new Date().toISOString()
+        };
+      }
+
+      saveJsonStorage(SERIES_META_KEY,meta);
+      $("refreshSeriesBtn").textContent = "↻ Reihen prüfen";
+      renderDashboard();
+      renderSeriesInsights();
+
+      if(oneSeries && $("seriesDialog").open){
+        openSeriesDetails(oneSeries,true);
+      }
+    }
+
+    function setSeriesTotal(seriesName,total){
+      const meta = loadJsonStorage(SERIES_META_KEY,{});
+      const key = seriesKey(seriesName);
+      const n = Number(total||0);
+
+      if(n > 0){
+        meta[key] = {
+          ...(meta[key]||{}),
+          manualTotal:n,
+          totalVolumes:n,
+          source:"manuell"
+        };
+      }else{
+        meta[key] = {
+          ...(meta[key]||{}),
+          manualTotal:0,
+          totalVolumes:0
+        };
+      }
+
+      saveJsonStorage(SERIES_META_KEY,meta);
+      renderDashboard();
+      renderSeriesInsights();
+      openSeriesDetails(seriesName,true);
+    }
+
+    function setSeriesIgnored(seriesName,ignored){
+      const meta = loadJsonStorage(SERIES_META_KEY,{});
+      const key = seriesKey(seriesName);
+      meta[key] = {
+        ...(meta[key]||{}),
+        ignored:!!ignored
+      };
+      saveJsonStorage(SERIES_META_KEY,meta);
+
+      renderDashboard();
+      renderSeriesInsights();
+
+      if($("seriesDialog").open) $("seriesDialog").close();
+    }
+
+    function openSeriesDetails(seriesName,refreshOnly=false){
+      const g = getSeriesGroups()[seriesKey(seriesName)];
+      if(!g) return;
+
+      const info = getSeriesInfo(g);
+      const byVol = {};
+      g.books.forEach(b=>{
+        const v=positiveIntegerVolume(b.volume);
+        if(v !== null) (byVol[v] ||= []).push(b);
+      });
+
+      const max =
+        info.confirmedTotal ||
+        Math.max(info.highestOwned,info.externalMax,0);
+
+      const cards=[];
+
+      if(max){
+        for(let i=1;i<=max;i++){
+          const arr=byVol[i]||[];
+
+          if(arr.length){
+            const b=arr[0];
+            cards.push(`
+              <div class="series-volume">
+                <div class="num">Band ${i} · im Regal${arr.length>1 ? ` · ${arr.length}×` : ""}</div>
+                <div class="ttl">${esc(b.title)}</div>
+                <div class="sub">${esc(statusLabel(b.status))}${arr.length>1 ? " · doppelte Bandnummer prüfen" : ""}</div>
+              </div>`);
+          }else{
+            const externallySeen = info.remoteVolumes.includes(i);
+            cards.push(`
+              <div class="series-volume missing">
+                <div class="num">Band ${i} · fehlt</div>
+                <div class="ttl">${esc(info.remoteTitles[i]||"Noch nicht im Regal")}</div>
+                <div class="sub">${externallySeen ? "extern erkannt" : "Lücke in deiner Nummerierung"}</div>
+              </div>`);
+          }
+        }
+      }
+
+      const encoded=encodeURIComponent(seriesName);
+      const diagnostics=seriesDiagnostics(info);
+
+      $("seriesDetailsBody").innerHTML = `
+        <h3 style="font-family:Georgia,serif;font-size:26px;margin:0">${esc(seriesName)}</h3>
+        <p style="color:var(--muted);margin:6px 0 0">
+          ${info.owned} nummerierte Bände im Regal
+          ${info.confirmedTotal ? ` · bestätigte Gesamtzahl ${info.confirmedTotal}` : ""}
+        </p>
+
+        <div class="series-status ${info.statusClass}" style="font-size:13px;margin-top:10px">
+          ${esc(info.statusText)}
+        </div>
+
+        ${diagnostics.length
+          ? `<div class="series-diagnostic ${info.duplicates.length || info.invalidVolumeBooks.length ? "warn" : ""}">
+              ${diagnostics.map(esc).join("<br>")}
+            </div>`
+          : ""}
+
+        <div class="series-config">
+          <div class="field">
+            <label>Bestätigte Gesamtzahl Bände</label>
+            <input id="seriesTotalOverride" type="number" min="0"
+                   value="${info.manualTotal||""}"
+                   placeholder="nur eintragen, wenn sicher">
+          </div>
+          <div class="field">
+            <label>Extern prüfen</label>
+            <button class="btn secondary" type="button"
+                    onclick="refreshSeriesIntelligence(decodeURIComponent('${encoded}'))">
+              ↻ Reihe prüfen
+            </button>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="justify-content:flex-start">
+          <button class="btn secondary" type="button"
+                  onclick="setSeriesTotal(decodeURIComponent('${encoded}'),$('seriesTotalOverride').value)">
+            Gesamtzahl speichern
+          </button>
+          <button class="btn secondary" type="button"
+                  onclick="setSeriesIgnored(decodeURIComponent('${encoded}'),true)">
+            Nicht als Reihe behandeln
+          </button>
+        </div>
+
+        ${cards.length ? `<div class="series-detail-grid">${cards.join("")}</div>` : ""}
+      `;
+
+      if(!refreshOnly && !$("seriesDialog").open){
+        $("seriesDialog").showModal();
+      }
     }
 
     function checkDuplicate(){

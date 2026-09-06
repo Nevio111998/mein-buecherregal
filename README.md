@@ -1,28 +1,27 @@
-# Mein Bücherregal – Version 9 FIXED
+# Mein Bücherregal – Version 9.1
 
-Diese Version enthält die tatsächlichen Version-9-Funktionen.
+Logik-Fix für Reihen-Intelligenz.
 
-Sofort sichtbar:
-- V9-Badge neben "Mein Bücherregal"
-- neues Dashboard
-- "Reihen-Intelligenz"
-- Button "Reihen prüfen"
+## Behoben
+- kein unmögliches `8 / 5 Bände` mehr
+- externe Suche darf die höchste gefundene Bandnummer nicht mehr als Gesamtzahl ausgeben
+- "vollständig bestätigt" nur noch bei einer von dir bestätigten Gesamtzahl
+- neue Stufe "vermutlich vollständig"
+- Gesamtzahl unbekannt bleibt ehrlich unbekannt
+- Lücken in der lokalen Bandnummerierung werden erkannt
+- doppelte Bandnummern werden markiert
+- ungültige / komische Bandnummern werden markiert
+- Kategorien wie "Trading" oder "Mindset" werden nicht mehr automatisch als echte Reihe angezeigt,
+  solange keine sinnvolle Bandnummerierung / externe Evidenz existiert
+- Reihe kann man manuell als "nicht als Reihe behandeln" markieren
 
-Neue Buchfelder:
-- Erscheinungsjahr
-- Seiten
-- aktuelle Seite
-- Re-Reads
-- Standort
-- Tags
+## Status
+- ✓ Vollständig bestätigt
+- ≈ Vermutlich vollständig
+- ? Gesamtzahl unbekannt
+- ⚠ Konflikt / Lücke
 
-Weitere Funktionen:
-- Duplikat-Warnung
-- Reihen-Vollständigkeit
-- fehlende Bände
-- Reihen-Detailansicht
-- manuelle Gesamtzahl einer Reihe
-- erweiterte Detailansicht
-
-Der Service Worker wurde auf Network-First umgestellt, damit alte index.html-Versionen
-nicht mehr hartnäckig im Cache hängen bleiben.
+## Wichtig
+Eine externe Datenbank kann zuverlässig einzelne Bände entdecken, aber nicht immer sagen,
+wie viele Bände eine Reihe endgültig hat. Deshalb trennt V9.1 jetzt:
+"extern beobachtete Bandnummern" von einer wirklich bestätigten Gesamtzahl.

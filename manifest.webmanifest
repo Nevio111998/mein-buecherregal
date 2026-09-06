@@ -1,0 +1,17 @@
+{
+  "name": "Mein Bücherregal",
+  "short_name": "Bücherregal",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#171310",
+  "theme_color": "#1f1a17",
+  "description": "Private digitale Bibliothek mit ISBN-Scan.",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#1f1a17" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Mein Bücherregal" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon.svg" type="image/svg+xml" />
+  <title>Mein Bücherregal</title>
+  <style>
+    :root{
+      --bg:#171310;
+      --panel:#211b17;
+      --panel2:#2b231e;
+      --text:#f4eee8;
+      --muted:#bfae9f;
+      --wood:#6b4429;
+      --wood2:#3f2718;
+      --gold:#d8b36b;
+      --shadow:rgba(0,0,0,.35);
+      --danger:#c85b5b;
+      --ok:#6da56d;
+      --blue:#6f93b8;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 50% -20%, #3a2b22 0%, transparent 45%),
+        linear-gradient(#171310,#120f0d 75%);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      min-height:100vh;
+    }
+    button,input,select,textarea{font:inherit}
+    button{cursor:pointer}
+    .app{
+      width:min(1200px,100%);
+      margin:0 auto;
+      padding:24px 16px 80px;
+    }
+    .hero{
+      display:flex;
+      gap:18px;
+      justify-content:space-between;
+      align-items:flex-end;
+      margin-bottom:20px;
+      flex-wrap:wrap;
+    }
+    .brand h1{margin:0;font-size:clamp(30px,6vw,54px);letter-spacing:-.03em}
+    .brand p{margin:8px 0 0;color:var(--muted)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{
+      border:none;border-radius:14px;padding:12px 16px;
+      background:var(--panel2);color:var(--text);
+      box-shadow:0 8px 20px var(--shadow);
+    }
+    .btn.primary{background:linear-gradient(180deg,#8a5a34,#684126)}
+    .btn.secondary{background:#342a24}
+    .btn.danger{background:#542929}
+    .toolbar{
+      background:rgba(34,28,24,.8);
+      border:1px solid rgba(255,255,255,.07);
+      backdrop-filter: blur(10px);
+      border-radius:18px;
+      padding:12px;
+      display:grid;
+      grid-template-columns: 1fr auto auto;
+      gap:10px;
+      margin-bottom:20px;
+      position:sticky;
+      top:8px;
+      z-index:20;
+    }
+    .toolbar input,.toolbar select{
+      width:100%;
+      background:#171310;
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:12px;
+      padding:11px 12px;
+      outline:none;
+    }
+    .stats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+    .stat{
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.06);
+      padding:10px 13px;border-radius:12px;color:var(--muted)
+    }
+    .stat strong{color:var(--text)}
+    .shelf-wrap{margin-top:8px}
+    .shelf{
+      position:relative;
+      padding:18px 18px 28px;
+      margin:0 0 30px;
+      background:
+        linear-gradient(90deg,rgba(255,255,255,.02),transparent 12%,rgba(0,0,0,.08) 50%,transparent 88%),
+        linear-gradient(#2d1d13,#25170f);
+      border-radius:12px 12px 3px 3px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 16px 26px rgba(0,0,0,.24);
+    }
+    .shelf:after{
+      content:"";
+      position:absolute;left:-8px;right:-8px;bottom:-12px;height:18px;
+      background:linear-gradient(#7a4d2d,#4f311e);
+      border-radius:4px;
+      box-shadow:0 8px 14px rgba(0,0,0,.35), inset 0 2px 0 rgba(255,255,255,.1);
+    }
+    .shelf-title{font-weight:700;color:#dbc2ad;margin-bottom:14px}
+    .books{
+      display:grid;
+      grid-template-columns: repeat(auto-fill,minmax(115px,1fr));
+      gap:20px 14px;
+      align-items:end;
+      min-height:180px;
+    }
+    .book{
+      border:0;background:none;color:inherit;padding:0;text-align:left;
+      transition:transform .16s ease;
+      min-width:0;
+    }
+    .book:hover{transform:translateY(-4px)}
+    .cover{
+      aspect-ratio:2/3;
+      width:100%;
+      border-radius:4px 7px 7px 4px;
+      overflow:hidden;
+      background:linear-gradient(135deg,#57351e,#2a1b13);
+      box-shadow:
+        8px 10px 18px rgba(0,0,0,.35),
+        inset 3px 0 0 rgba(255,255,255,.08);
+      position:relative;
+      display:flex;align-items:center;justify-content:center;
+    }
+    .cover img{width:100%;height:100%;object-fit:cover;display:block}
+    .cover .fallback{
+      padding:12px;text-align:center;font-weight:800;font-size:13px;line-height:1.25;
+      color:#f6eadf;
+    }
+    .badge{
+      position:absolute;top:7px;right:7px;
+      font-size:10px;font-weight:800;
+      padding:5px 7px;border-radius:999px;
+      background:rgba(20,17,15,.85);color:#fff
+    }
+    .book-title{
+      font-weight:750;font-size:13px;line-height:1.25;margin-top:9px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+    }
+    .book-author{
+      color:var(--muted);font-size:11px;margin-top:3px;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+    }
+    .empty{
+      border:1px dashed rgba(255,255,255,.12);
+      border-radius:16px;padding:32px;text-align:center;color:var(--muted)
+    }
+    dialog{
+      width:min(680px,calc(100% - 24px));
+      max-height:90vh;overflow:auto;
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:20px;
+      padding:0;
+      background:#1d1815;color:var(--text);
+      box-shadow:0 30px 70px rgba(0,0,0,.55);
+    }
+    dialog::backdrop{background:rgba(0,0,0,.66);backdrop-filter:blur(5px)}
+    .modal-head{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:18px 18px 12px;position:sticky;top:0;background:#1d1815;z-index:2
+    }
+    .modal-head h2{margin:0;font-size:22px}
+    .icon-btn{
+      border:0;background:#302720;color:var(--text);border-radius:50%;
+      width:38px;height:38px;font-size:18px
+    }
+    .modal-body{padding:4px 18px 20px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field.full{grid-column:1/-1}
+    .field label{font-size:12px;color:var(--muted);font-weight:700}
+    .field input,.field select,.field textarea{
+      border:1px solid rgba(255,255,255,.09);
+      background:#120f0d;color:var(--text);
+      border-radius:12px;padding:11px 12px;outline:none;width:100%
+    }
+    textarea{min-height:90px;resize:vertical}
+    .modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+    .scanbox{
+      border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:14px;
+      background:#171310;
+    }
+    video{
+      width:100%;border-radius:12px;background:#000;max-height:360px;object-fit:cover;display:none
+    }
+    .scan-status{font-size:13px;color:var(--muted);margin-top:8px}
+    .details{
+      display:grid;grid-template-columns:150px 1fr;gap:18px
+    }
+    .details img{
+      width:100%;border-radius:8px;box-shadow:0 12px 24px rgba(0,0,0,.35)
+    }
+    .details h3{font-size:28px;margin:0 0 6px}
+    .details .meta{color:var(--muted);margin-bottom:16px}
+    .rating{letter-spacing:3px;color:var(--gold);font-size:20px}
+    .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+    .pill{background:#302720;padding:7px 10px;border-radius:999px;color:#decfc4;font-size:12px}
+    .footer-note{margin-top:34px;color:#8f8075;font-size:12px;text-align:center}
+    @media(max-width:700px){
+      .toolbar{grid-template-columns:1fr 1fr}
+      .toolbar .search{grid-column:1/-1}
+      .grid{grid-template-columns:1fr}
+      .field.full{grid-column:1}
+      .details{grid-template-columns:100px 1fr}
+      .books{grid-template-columns: repeat(auto-fill,minmax(92px,1fr));gap:16px 10px}
+      .shelf{padding:14px 12px 24px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="hero">
+      <div class="brand">
+        <h1>Mein Bücherregal</h1>
+        <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" id="importBtn">Import</button>
+        <button class="btn secondary" id="exportBtn">Backup</button>
+        <button class="btn primary" id="addBtn">＋ Buch hinzufügen</button>
+      </div>
+    </div>
+
+    <div class="toolbar">
+      <input class="search" id="search" placeholder="Titel, Autor oder Reihe suchen …" />
+      <select id="filter">
+        <option value="all">Alle Status</option>
+        <option value="unread">Ungelesen</option>
+        <option value="reading">Lese ich</option>
+        <option value="read">Gelesen</option>
+      </select>
+      <select id="groupBy">
+        <option value="none">Ein Regal</option>
+        <option value="series">Nach Reihe</option>
+        <option value="genre">Nach Genre</option>
+        <option value="author">Nach Autor</option>
+      </select>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div id="library" class="shelf-wrap"></div>
+
+    <div class="footer-note">
+      Buchdaten & Cover werden – wenn verfügbar – über Open Library geladen. Deine Sammlung bleibt lokal auf deinem Gerät.
+    </div>
+  </div>
+
+  <dialog id="editDialog">
+    <div class="modal-head">
+      <h2 id="editTitle">Buch hinzufügen</h2>
+      <button class="icon-btn" data-close="editDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="scanbox">
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn primary" id="scanBtn">📷 ISBN scannen</button>
+          <button class="btn secondary" id="lookupBtn">ISBN suchen</button>
+        </div>
+        <video id="video" playsinline muted></video>
+        <div class="scan-status" id="scanStatus">Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.</div>
+      </div>
+
+      <form id="bookForm">
+        <input type="hidden" id="bookId">
+        <div class="grid">
+          <div class="field">
+            <label>ISBN</label>
+            <input id="isbn" inputmode="numeric" placeholder="z. B. 9783453318844">
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <select id="status">
+              <option value="unread">Ungelesen</option>
+              <option value="reading">Lese ich gerade</option>
+              <option value="read">Gelesen</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>Titel *</label>
+            <input id="title" required placeholder="Buchtitel">
+          </div>
+          <div class="field">
+            <label>Autor</label>
+            <input id="author" placeholder="Autor">
+          </div>
+          <div class="field">
+            <label>Reihe</label>
+            <input id="series" placeholder="z. B. Red Rising">
+          </div>
+          <div class="field">
+            <label>Band</label>
+            <input id="volume" placeholder="z. B. 1">
+          </div>
+          <div class="field">
+            <label>Genre</label>
+            <input id="genre" placeholder="z. B. Fantasy">
+          </div>
+          <div class="field">
+            <label>Bewertung</label>
+            <select id="rating">
+              <option value="0">Keine</option>
+              <option value="1">1 ★</option>
+              <option value="2">2 ★</option>
+              <option value="3">3 ★</option>
+              <option value="4">4 ★</option>
+              <option value="5">5 ★</option>
+            </select>
+          </div>
+          <div class="field full">
+            <label>Cover-URL</label>
+            <input id="cover" placeholder="Wird bei ISBN-Suche automatisch gefüllt">
+          </div>
+          <div class="field full">
+            <label>Notizen</label>
+            <textarea id="notes" placeholder="Eigene Notizen …"></textarea>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn danger" id="deleteBtn" style="margin-right:auto;display:none">Löschen</button>
+          <button type="button" class="btn secondary" data-close="editDialog">Abbrechen</button>
+          <button type="submit" class="btn primary">Speichern</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <dialog id="detailsDialog">
+    <div class="modal-head">
+      <h2>Buch</h2>
+      <button class="icon-btn" data-close="detailsDialog">×</button>
+    </div>
+    <div class="modal-body" id="detailsBody"></div>
+  </dialog>
+
+  <input type="file" id="importFile" accept="application/json" hidden />
+
+  <script>
+    const STORAGE_KEY = "my_bookshelf_v1";
+    let books = loadBooks();
+    let currentStream = null;
+    let scanTimer = null;
+
+    const $ = id => document.getElementById(id);
+
+    function loadBooks(){
+      try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]"); }
+      catch { return []; }
+    }
+
+    function saveBooks(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(books));
+      render();
+    }
+
+    function uid(){
+      return crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2);
+    }
+
+    function esc(s=""){
+      return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function statusLabel(s){
+      return ({unread:"Ungelesen",reading:"Lese ich",read:"Gelesen"})[s] || s;
+    }
+
+    function render(){
+      const q = $("search").value.trim().toLowerCase();
+      const f = $("filter").value;
+      const groupBy = $("groupBy").value;
+
+      const filtered = books.filter(b => {
+        const hay = [b.title,b.author,b.series,b.genre,b.isbn].join(" ").toLowerCase();
+        return (!q || hay.includes(q)) && (f==="all" || b.status===f);
+      });
+
+      const total = books.length;
+      const read = books.filter(b=>b.status==="read").length;
+      const reading = books.filter(b=>b.status==="reading").length;
+      $("stats").innerHTML = `
+        <div class="stat"><strong>${total}</strong> Bücher</div>
+        <div class="stat"><strong>${read}</strong> gelesen</div>
+        <div class="stat"><strong>${reading}</strong> aktuell</div>
+      `;
+
+      if(!filtered.length){
+        $("library").innerHTML = `<div class="empty">Noch keine passenden Bücher im Regal.<br><br><button class="btn primary" onclick="openNew()">＋ Erstes Buch hinzufügen</button></div>`;
+        return;
+      }
+
+      const groups = {};
+      filtered.forEach(b => {
+        let key = "Meine Bücher";
+        if(groupBy==="series") key = b.series || "Ohne Reihe";
+        if(groupBy==="genre") key = b.genre || "Ohne Genre";
+        if(groupBy==="author") key = b.author || "Ohne Autor";
+        (groups[key] ||= []).push(b);
+      });
+
+      $("library").innerHTML = Object.entries(groups).map(([name, arr]) => `
+        <section class="shelf">
+          <div class="shelf-title">${esc(name)}</div>
+          <div class="books">
+            ${arr.map(bookCard).join("")}
+          </div>
+        </section>
+      `).join("");
+    }
+
+    function bookCard(b){
+      const img = b.cover
+        ? `<img src="${esc(b.cover)}" alt="" onerror="this.parentElement.innerHTML='<div class=&quot;fallback&quot;>${esc((b.title||"Buch").slice(0,50))}</div><span class=&quot;badge&quot;>${esc(statusLabel(b.status))}</span>'">`
+        : `<div class="fallback">${esc((b.title||"Buch").slice(0,50))}</div>`;
+      return `
+        <button class="book" onclick="openDetails('${b.id}')">
+          <div class="cover">
+            ${img}
+            <span class="badge">${esc(statusLabel(b.status))}</span>
+          </div>
+          <div class="book-title">${esc(b.title)}</div>
+          <div class="book-author">${esc(b.author || "Unbekannt")}</div>
+        </button>
+      `;
+    }
+
+    function openNew(){
+      stopScan();
+      $("editTitle").textContent = "Buch hinzufügen";
+      $("bookForm").reset();
+      $("bookId").value = "";
+      $("deleteBtn").style.display = "none";
+      $("status").value = "unread";
+      $("rating").value = "0";
+      $("scanStatus").textContent = "Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.";
+      $("editDialog").showModal();
+    }
+
+    function openEdit(id){
+      stopScan();
+      const b = books.find(x=>x.id===id);
+      if(!b) return;
+      $("editTitle").textContent = "Buch bearbeiten";
+      ["bookId","isbn","title","author","series","volume","genre","status","rating","cover","notes"].forEach(k=>{
+        const src = k==="bookId" ? b.id : (b[k] ?? "");
+        $(k).value = src;
+      });
+      $("deleteBtn").style.display = "inline-block";
+      $("detailsDialog").close();
+      $("editDialog").showModal();
+    }
+
+    function openDetails(id){
+      const b = books.find(x=>x.id===id);
+      if(!b) return;
+      const stars = b.rating ? "★".repeat(Number(b.rating)) + "☆".repeat(5-Number(b.rating)) : "Noch nicht bewertet";
+      $("detailsBody").innerHTML = `
+        <div class="details">
+          <div>
+            ${b.cover ? `<img src="${esc(b.cover)}" alt="">` : `<div class="cover"><div class="fallback">${esc(b.title)}</div></div>`}
+          </div>
+          <div>
+            <h3>${esc(b.title)}</h3>
+            <div class="meta">${esc(b.author || "Autor unbekannt")}</div>
+            <div class="rating">${esc(stars)}</div>
+            <div class="pillrow">
+              <span class="pill">${esc(statusLabel(b.status))}</span>
+              ${b.series ? `<span class="pill">${esc(b.series)}${b.volume ? " · Band "+esc(b.volume) : ""}</span>` : ""}
+              ${b.genre ? `<span class="pill">${esc(b.genre)}</span>` : ""}
+            </div>
+            ${b.isbn ? `<p><strong>ISBN:</strong> ${esc(b.isbn)}</p>` : ""}
+            ${b.notes ? `<p style="white-space:pre-wrap">${esc(b.notes)}</p>` : ""}
+            <div class="modal-actions" style="justify-content:flex-start">
+              <button class="btn primary" onclick="openEdit('${b.id}')">Bearbeiten</button>
+            </div>
+          </div>
+        </div>
+      `;
+      $("detailsDialog").showModal();
+    }
+
+    async function lookupISBN(){
+      const isbn = $("isbn").value.replace(/[^0-9Xx]/g,"");
+      if(!isbn){
+        $("scanStatus").textContent = "Bitte zuerst eine ISBN eingeben oder scannen.";
+        return;
+      }
+      $("scanStatus").textContent = "Suche Buchdaten …";
+      try{
+        const res = await fetch(`https://openlibrary.org/api/books?bibkeys=ISBN:${encodeURIComponent(isbn)}&format=json&jscmd=data`);
+        if(!res.ok) throw new Error("Netzwerkfehler");
+        const data = await res.json();
+        const b = data[`ISBN:${isbn}`];
+        if(!b){
+          $("scanStatus").textContent = "Kein Treffer gefunden. Du kannst das Buch manuell eintragen.";
+          return;
+        }
+        $("title").value = b.title || $("title").value;
+        $("author").value = (b.authors || []).map(a=>a.name).join(", ") || $("author").value;
+        $("cover").value = (b.cover && (b.cover.large || b.cover.medium || b.cover.small)) || `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`;
+        if((b.subjects||[]).length && !$("genre").value){
+          $("genre").value = b.subjects[0].name || "";
+        }
+        $("scanStatus").textContent = "Buch gefunden ✓";
+      }catch(err){
+        $("scanStatus").textContent = "Buchdaten konnten nicht geladen werden. Prüfe die Internetverbindung oder trage es manuell ein.";
+      }
+    }
+
+    async function startScan(){
+      stopScan();
+      if(!navigator.mediaDevices?.getUserMedia){
+        $("scanStatus").textContent = "Kamera wird in diesem Browser nicht unterstützt. Bitte ISBN manuell eingeben.";
+        return;
+      }
+
+      if(!("BarcodeDetector" in window)){
+        $("scanStatus").textContent = "Der automatische Barcode-Scanner wird auf diesem Browser nicht unterstützt. Bitte ISBN manuell eingeben.";
+        return;
+      }
+
+      let detector;
+      try{
+        const formats = await BarcodeDetector.getSupportedFormats();
+        const preferred = ["ean_13","ean_8","upc_a","upc_e"].filter(x=>formats.includes(x));
+        detector = new BarcodeDetector({formats: preferred.length ? preferred : formats});
+      }catch{
+        $("scanStatus").textContent = "Barcode-Erkennung konnte nicht gestartet werden.";
+        return;
+      }
+
+      try{
+        currentStream = await navigator.mediaDevices.getUserMedia({
+          video:{facingMode:{ideal:"environment"}, width:{ideal:1920}, height:{ideal:1080}},
+          audio:false
+        });
+        $("video").srcObject = currentStream;
+        $("video").style.display = "block";
+        await $("video").play();
+        $("scanStatus").textContent = "Halte den ISBN-Barcode ruhig ins Bild …";
+
+        scanTimer = setInterval(async ()=>{
+          try{
+            const codes = await detector.detect($("video"));
+            const hit = codes.find(c => /^\d{10,13}$/.test((c.rawValue||"").replace(/\D/g,"")));
+            if(hit){
+              const value = hit.rawValue.replace(/\D/g,"");
+              $("isbn").value = value;
+              $("scanStatus").textContent = `ISBN ${value} erkannt ✓`;
+              stopScan();
+              await lookupISBN();
+            }
+          }catch{}
+        }, 500);
+      }catch{
+        $("scanStatus").textContent = "Kamerazugriff nicht möglich. Erlaube den Kamerazugriff oder gib die ISBN manuell ein.";
+      }
+    }
+
+    function stopScan(){
+      if(scanTimer) clearInterval(scanTimer);
+      scanTimer = null;
+      if(currentStream){
+        currentStream.getTracks().forEach(t=>t.stop());
+        currentStream = null;
+      }
+      $("video").style.display = "none";
+      $("video").srcObject = null;
+    }
+
+    $("bookForm").addEventListener("submit", e=>{
+      e.preventDefault();
+      const obj = {
+        id: $("bookId").value || uid(),
+        isbn: $("isbn").value.trim(),
+        title: $("title").value.trim(),
+        author: $("author").value.trim(),
+        series: $("series").value.trim(),
+        volume: $("volume").value.trim(),
+        genre: $("genre").value.trim(),
+        status: $("status").value,
+        rating: Number($("rating").value || 0),
+        cover: $("cover").value.trim(),
+        notes: $("notes").value.trim(),
+        updatedAt: new Date().toISOString()
+      };
+      const ix = books.findIndex(b=>b.id===obj.id);
+      if(ix>=0) books[ix]=obj; else books.unshift(obj);
+      saveBooks();
+      stopScan();
+      $("editDialog").close();
+    });
+
+    $("deleteBtn").addEventListener("click", ()=>{
+      const id = $("bookId").value;
+      if(id && confirm("Dieses Buch wirklich löschen?")){
+        books = books.filter(b=>b.id!==id);
+        saveBooks();
+        stopScan();
+        $("editDialog").close();
+      }
+    });
+
+    $("addBtn").addEventListener("click", openNew);
+    $("lookupBtn").addEventListener("click", lookupISBN);
+    $("scanBtn").addEventListener("click", startScan);
+    $("search").addEventListener("input", render);
+    $("filter").addEventListener("change", render);
+    $("groupBy").addEventListener("change", render);
+
+    document.querySelectorAll("[data-close]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        stopScan();
+        $(btn.dataset.close).close();
+      });
+    });
+
+    $("exportBtn").addEventListener("click", ()=>{
+      const blob = new Blob([JSON.stringify({
+        exportedAt:new Date().toISOString(),
+        app:"Mein Bücherregal",
+        books
+      }, null, 2)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `mein-buecherregal-backup-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    $("importBtn").addEventListener("click", ()=>$("importFile").click());
+    $("importFile").addEventListener("change", async e=>{
+      const file = e.target.files?.[0];
+      if(!file) return;
+      try{
+        const data = JSON.parse(await file.text());
+        const incoming = Array.isArray(data) ? data : data.books;
+        if(!Array.isArray(incoming)) throw new Error();
+        if(confirm(`${incoming.length} Bücher importieren und aktuelle Sammlung ersetzen?`)){
+          books = incoming;
+          saveBooks();
+        }
+      }catch{
+        alert("Diese Datei ist kein gültiges Bücherregal-Backup.");
+      }finally{
+        e.target.value = "";
+      }
+    });
+
+    window.addEventListener("beforeunload", stopScan);
+
+    if("serviceWorker" in navigator){
+      window.addEventListener("load", ()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+    }
+
+    render();
+  </script>
+</body>
+</html>

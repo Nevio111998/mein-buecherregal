@@ -255,7 +255,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Buchdaten werden aus externen Katalogen geladen (K10plus, Google Books, Open Library). Es gibt keine fest im Code hinterlegten Bücher. Deine Sammlung bleibt lokal auf deinem Gerät.
+      Buchdaten werden aus externen Katalogen geladen. Bei der Titelsuche wird deine ISBN als Editions-Hinweis verwendet, damit Cover und Ausgabe zusammenpassen. Deine Sammlung bleibt lokal auf deinem Gerät.
     </div>
   </div>
 
@@ -736,7 +736,7 @@
       const apiUrl = getBookApiUrl();
       if(apiUrl){
         $("scanStatus").textContent = "Suche Titel und Autor in externen Bibliothekskatalogen …";
-        const external = await lookupViaBookApi({title, author});
+        const external = await lookupViaBookApi({isbn: $("isbn").value, title, author});
         if(external && tokenScore(title, external.book.title || "") >= 0.30){
           fillBookData(external.book, external.source || "externer Buchdatenbank");
           return;

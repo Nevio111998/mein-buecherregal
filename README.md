@@ -1,11 +1,14 @@
-# Mein Bücherregal – Version 6
+# Mein Bücherregal – Version 7
 
-Fixes:
-- Titelsuche sendet eine vorhandene ISBN als Editions-Hinweis an den Worker.
-- Dadurch werden bei Titel-Treffern nicht mehr versehentlich Cover einer anderen Ausgabe verwendet.
-- Worker v4 sucht Cover über:
-  1. Google Books (exakte ISBN)
-  2. Google Books (Titel + Autor)
-  3. Google Play Books
-  4. Open Library (nur exakte ISBN und nur wenn das Bild wirklich existiert)
-- Lange K10plus-Katalogtitel werden für die Cover-Suche auf den Haupttitel reduziert.
+Neu:
+- Bücher werden intelligent nach **Reihe → Band → Autor → Titel** sortiert
+- Umschalter zwischen
+  - **Cover-Ansicht**
+  - **Buchrücken-Regal**
+- deutlich schöneres Regalgefühl
+- Lesefortschritt in Prozent
+- dichtere Regaloptik
+
+Wichtig:
+Die vorhandene lokale Sammlung bleibt kompatibel.
+Für das Update auf GitHub einfach die App-Dateien ersetzen und committen.

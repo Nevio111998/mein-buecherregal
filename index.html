@@ -2304,381 +2304,255 @@
     body.immersive[data-library-light="moonlight"] .lamp::after{filter:hue-rotate(170deg) blur(6px);opacity:.5}
     body.immersive .book:focus-visible{outline:2px solid #e8c58b;outline-offset:5px}
 
-    /* =====================================================
-       V12.1 — Buch aus dem Regal ziehen + edle Detailansicht
-       ===================================================== */
-    .book-detail-opening{
-      pointer-events:none;
-      filter:brightness(.9);
-    }
-    .book-flight-clone{
-      position:fixed!important;
-      margin:0!important;
-      z-index:220!important;
-      pointer-events:none!important;
-      transform-origin:center center!important;
-      will-change:transform,opacity,filter!important;
-      border:0!important;
-      background:transparent!important;
-      box-shadow:none!important;
-    }
-    .book-flight-clone .book-title,
-    .book-flight-clone .book-author{
-      display:none!important;
-    }
-    .book-flight-clone .cover,
-    .book-flight-clone .spine{
-      width:100%!important;
-      height:100%!important;
-    }
-    .details-luxury-dialog{
-      width:min(1040px,calc(100% - 24px));
-      border-radius:28px;
-      border:1px solid rgba(232,193,128,.18);
-      background:
-        radial-gradient(circle at 18% 10%,rgba(216,179,107,.13),transparent 34%),
-        radial-gradient(circle at 82% 8%,rgba(255,255,255,.05),transparent 28%),
-        linear-gradient(145deg,rgba(38,28,23,.98),rgba(17,14,13,.99) 64%,rgba(31,22,18,.98));
-      box-shadow:
-        0 42px 90px rgba(0,0,0,.68),
-        inset 0 1px 0 rgba(255,255,255,.07);
-      overflow:hidden;
-    }
-    .details-luxury-dialog::backdrop{
-      background:
-        radial-gradient(circle at 50% 30%,rgba(216,179,107,.11),transparent 34%),
-        rgba(0,0,0,.76);
-      backdrop-filter:blur(10px);
-    }
-    .details-luxury-dialog[open]{
-      animation:detailDialogIn .24s ease both;
-    }
-    .details-luxury-dialog.closing{
-      animation:detailDialogOut .20s ease both;
-    }
-    .details-luxury-topbar{
-      background:
-        linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),
-        rgba(20,16,14,.84);
-      border-bottom:1px solid rgba(232,193,128,.12);
-      backdrop-filter:blur(14px);
-    }
-    .details-luxury-topbar h2{
-      font-family:Georgia,"Times New Roman",serif;
-      letter-spacing:.02em;
-      color:#f2ddbd;
-    }
-    .luxury-detail{
-      display:grid;
-      grid-template-columns:minmax(220px,310px) 1fr;
-      gap:28px;
-      padding:8px 4px 6px;
-    }
-    .luxury-cover-column{
-      position:relative;
-      min-width:0;
-    }
-    .luxury-cover-frame{
-      position:relative;
-      border-radius:16px;
-      padding:12px;
-      background:
-        linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.01)),
-        linear-gradient(180deg,rgba(111,70,41,.55),rgba(28,20,16,.86));
-      border:1px solid rgba(232,193,128,.13);
-      box-shadow:
-        0 24px 38px rgba(0,0,0,.34),
-        inset 0 1px 0 rgba(255,255,255,.08);
-    }
-    .luxury-cover-frame::before{
-      content:"";
-      position:absolute;
-      inset:7px;
-      border-radius:12px;
-      border:1px solid rgba(232,193,128,.10);
-      pointer-events:none;
-    }
-    .luxury-cover-img{
-      display:block;
-      width:100%;
-      aspect-ratio:2/3;
-      object-fit:cover;
-      border-radius:10px;
-      box-shadow:
-        0 22px 28px rgba(0,0,0,.44),
-        0 1px 0 rgba(255,255,255,.04);
-      background:#211813;
-    }
-    .luxury-cover-placeholder{
-      width:100%;
-      aspect-ratio:2/3;
-      border-radius:10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:18px;
-      color:#f2ddbd;
-      font-family:Georgia,"Times New Roman",serif;
-      line-height:1.16;
-      background:
-        linear-gradient(145deg,rgba(216,179,107,.16),transparent 35%),
-        linear-gradient(180deg,#6b4429,#28170e);
-      box-shadow:0 22px 28px rgba(0,0,0,.38);
-    }
-    .luxury-spine-preview{
-      position:absolute;
-      right:-12px;
-      top:26px;
-      bottom:26px;
-      width:24px;
-      border-radius:0 8px 8px 0;
-      background:linear-gradient(180deg,#7c5130,#3c2315);
-      box-shadow:6px 0 14px rgba(0,0,0,.30), inset -4px 0 8px rgba(0,0,0,.28);
-      opacity:.88;
-    }
-    .luxury-status-ribbon{
-      margin-top:14px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    .luxury-detail-main{
-      min-width:0;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .luxury-overline{
-      color:var(--gold);
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-    }
-    .luxury-title{
-      margin:0;
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:clamp(34px,4.8vw,60px);
-      line-height:.98;
-      letter-spacing:-.045em;
-      color:#f7ead8;
-      text-shadow:0 2px 4px rgba(0,0,0,.35);
-    }
-    .luxury-author{
-      color:var(--muted);
-      font-size:15px;
-      line-height:1.35;
-    }
-    .luxury-stars{
-      color:var(--gold);
-      letter-spacing:4px;
-      font-size:22px;
-      min-height:28px;
-    }
-    .luxury-pill-row{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .luxury-pill{
-      padding:8px 11px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.07);
-      color:#ead8c1;
-      font-size:12px;
-      line-height:1;
-    }
-    .luxury-grid{
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:9px;
-    }
-    .luxury-info{
-      padding:11px;
-      min-height:68px;
-      border-radius:14px;
-      background:
-        linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),
-        rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.06);
-    }
-    .luxury-info .k{
-      color:var(--muted);
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-weight:900;
-    }
-    .luxury-info .v{
-      margin-top:7px;
-      font-size:13px;
-      line-height:1.25;
-      color:#f3e5d4;
-      overflow-wrap:anywhere;
-    }
-    .luxury-progress{
-      padding:14px;
-      border-radius:16px;
-      background:
-        radial-gradient(circle at 0 0,rgba(216,179,107,.10),transparent 36%),
-        rgba(0,0,0,.18);
-      border:1px solid rgba(232,193,128,.11);
-    }
-    .luxury-progress-top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      font-size:13px;
-      margin-bottom:8px;
-    }
-    .luxury-progress-bar{
-      height:10px;
-      border-radius:999px;
-      overflow:hidden;
-      background:rgba(255,255,255,.08);
-      box-shadow:inset 0 1px 2px rgba(0,0,0,.35);
-    }
-    .luxury-progress-bar span{
-      display:block;
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,#8a5a34,#d8b36b);
-    }
-    .luxury-progress-small{
-      color:var(--muted);
-      font-size:10px;
-      margin-top:7px;
-    }
-    .luxury-notes{
-      padding:15px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.06);
-      background:rgba(255,255,255,.025);
-      color:#e9dac8;
-      line-height:1.55;
-      white-space:pre-wrap;
-      max-height:220px;
-      overflow:auto;
-    }
-    .luxury-notes h4{
-      margin:0 0 8px;
-      color:#f1ddbd;
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:18px;
-    }
-    .luxury-detail-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-      margin-top:2px;
-    }
-    .luxury-detail-actions .btn{
-      min-width:126px;
-    }
-    .details-luxury-dialog .modal-body{
-      padding:18px 22px 24px;
-    }
-    @keyframes detailDialogIn{
-      from{opacity:0;transform:translateY(12px) scale(.985)}
-      to{opacity:1;transform:translateY(0) scale(1)}
-    }
-    @keyframes detailDialogOut{
-      from{opacity:1;transform:translateY(0) scale(1)}
-      to{opacity:0;transform:translateY(12px) scale(.985)}
-    }
-    @media(max-width:850px){
-      .luxury-detail{
-        grid-template-columns:1fr;
-        gap:18px;
-      }
-      .luxury-cover-column{
-        width:min(280px,70%);
-        margin:0 auto;
-      }
-      .luxury-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
-      }
-      .luxury-title{
-        font-size:clamp(30px,9vw,44px);
-      }
-    }
-    @media(max-width:520px){
-      .details-luxury-dialog{
-        width:calc(100% - 14px);
-        border-radius:22px;
-      }
-      .details-luxury-dialog .modal-body{
-        padding:14px 14px 18px;
-      }
-      .luxury-cover-column{
-        width:min(230px,76%);
-      }
-      .luxury-grid{
-        grid-template-columns:1fr;
-      }
-      .luxury-detail-actions .btn{
-        width:100%;
-      }
-    }
+/* V12.3 — a real, persistent two-page book. All rules are scoped. */
+#detailsDialog.folio-dialog{
+  position:fixed;inset:0;margin:0;padding:clamp(8px,1.6vw,20px);
+  width:100%;height:100%;max-width:none;max-height:none;
+  border:0;border-radius:0;background:transparent;box-shadow:none;
+  color:#36291e;overflow:hidden;isolation:isolate;
+  align-items:center;justify-content:center;
+  --paper:#f2e6d1;--paper-ink:#35291e;--paper-muted:#7a634c;
+  --foil:#bb8d52;--leather:#38251b;
+}
+#detailsDialog.folio-dialog[open]{display:flex;animation:none;transform:none}
+#detailsDialog.folio-dialog::backdrop{
+  background:radial-gradient(ellipse at 50% 35%,rgba(96,61,34,.18),transparent 55%),rgba(5,5,7,.84);
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+}
+.folio-window[hidden],.folio-flight-layer[hidden]{display:none!important}
+.folio-window{
+  position:relative;display:flex;flex-direction:column;min-width:0;
+  width:min(1190px,100%);max-height:100%;overflow:hidden;
+  border:1px solid rgba(213,170,108,.3);border-radius:20px;
+  background:linear-gradient(145deg,#39271d,#171310 70%);
+  box-shadow:0 36px 90px rgba(0,0,0,.56),inset 0 1px rgba(255,255,255,.06);
+}
+.folio-window[aria-hidden="true"]{visibility:hidden;pointer-events:none}
+.folio-topbar{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:11px clamp(14px,2vw,24px);flex-shrink:0;
+  border-bottom:1px solid rgba(219,178,117,.16);
+  background:linear-gradient(180deg,#35271f,#241a15);color:#f3e2c8;
+}
+.folio-topbar-title{display:flex;flex-direction:column;gap:3px;min-width:0}
+.folio-topbar-title span{font-size:9px;letter-spacing:.17em;font-weight:800;color:#bd985f}
+.folio-topbar h2{margin:0;font:600 20px Georgia,"Times New Roman",serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.folio-close{
+  flex:0 0 auto;border:1px solid rgba(230,194,138,.28);border-radius:999px;
+  background:rgba(255,255,255,.04);color:#f4e3cb;padding:10px 15px;
+  cursor:pointer;font:600 12px system-ui,sans-serif;
+}
+.folio-close:hover{background:rgba(230,194,138,.12)}
+.folio-dialog button:focus-visible{outline:2px solid #b88b52;outline-offset:3px}
+.folio-dialog button:disabled{opacity:.45;cursor:wait}
+.folio-body{min-height:0;overflow:auto;overscroll-behavior:contain;padding:clamp(10px,1.5vw,20px)}
+.folio-book{
+  position:relative;isolation:isolate;margin:0 auto;width:100%;min-width:0;
+  height:min(650px,calc(100dvh - 132px));min-height:0;
+  border:10px solid var(--leather);border-radius:12px 16px 16px 12px;
+  background:#b5a189;
+  box-shadow:0 25px 42px rgba(0,0,0,.36),inset 0 0 0 1px rgba(226,185,112,.42);
+  perspective:2200px;transform-style:preserve-3d;
+  transition:transform 750ms cubic-bezier(.2,.7,.2,1),box-shadow 750ms;
+}
+.folio-book::before,.folio-book::after{
+  content:"";position:absolute;pointer-events:none;z-index:12;
+  width:22px;height:22px;border:1px solid rgba(219,173,93,.55);
+}
+.folio-book::before{left:-5px;top:-5px;border-right:0;border-bottom:0;border-radius:7px 0 0 0}
+.folio-book::after{right:-5px;bottom:-5px;border-left:0;border-top:0;border-radius:0 0 7px 0}
+.folio-page{
+  position:absolute;top:0;bottom:0;width:50%;min-width:0;
+  background:var(--paper);color:var(--paper-ink);overflow:hidden;
+}
+.folio-page-left{left:0;border-radius:3px 0 0 3px;background:linear-gradient(90deg,#eadac1,#f5ead7 10%,#f5ead8 82%,#d2bda0)}
+.folio-page-right{right:0;border-radius:0 5px 5px 0;background:linear-gradient(90deg,#c9b297,#f1e4cf 7%,#f7eddb 35%,#eee0ca)}
+.folio-page::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(105,77,49,.012) 3px 4px);
+}
+.folio-page-left::after,.folio-page-right::after{
+  content:"";position:absolute;top:0;bottom:0;pointer-events:none;z-index:1;width:34px;
+}
+.folio-page-left::after{right:0;background:linear-gradient(90deg,transparent,rgba(65,42,25,.16))}
+.folio-page-right::after{left:0;background:linear-gradient(90deg,rgba(65,42,25,.2),transparent)}
+.folio-gutter{
+  position:absolute;top:0;bottom:0;left:calc(50% - 5px);width:10px;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,rgba(59,37,24,.24),rgba(255,255,255,.16) 48%,rgba(70,46,29,.19));
+  box-shadow:0 0 14px rgba(65,42,25,.13);
+}
+.folio-page-scroll{
+  position:relative;z-index:2;height:100%;min-height:0;overflow-y:auto;overscroll-behavior:contain;
+  padding:clamp(18px,3vw,36px);scrollbar-color:#bba487 transparent;scrollbar-width:thin;
+}
+.folio-page-left .folio-page-scroll{padding-right:clamp(23px,3.5vw,42px)}
+.folio-page-right .folio-page-scroll{padding-left:clamp(23px,3.5vw,42px)}
+.folio-left-content,.folio-right-content{min-width:0}
+.folio-left-content{display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;opacity:1;transition:opacity 280ms ease}
+.folio-right-content{opacity:1;transition:opacity 300ms ease}
+.folio-book[data-phase="closed"] .folio-left-content,.folio-book[data-phase="closed"] .folio-right-content{opacity:0}
+.folio-book[data-phase="opening"] .folio-left-content,.folio-book[data-phase="opening"] .folio-right-content{opacity:0}
+.folio-book[data-phase="closing"] .folio-left-content,.folio-book[data-phase="closing"] .folio-right-content{opacity:0}
+.folio-book[data-phase="open"] .folio-left-content,.folio-book[data-phase="open"] .folio-right-content{opacity:1}
+.folio-book[data-phase="closed"]{transform:translateX(-25%) scale(.76);box-shadow:0 26px 60px rgba(0,0,0,.42)}
+.folio-book[data-phase="opening"],.folio-book[data-phase="closing"]{transform:none}
+.folio-book[data-phase="open"]{transform:none}
+.folio-page-kicker{font:800 10px system-ui,sans-serif;letter-spacing:.18em;color:#957046;text-transform:uppercase}
+.folio-left-title{font:600 clamp(23px,2.8vw,35px)/1.08 Georgia,"Times New Roman",serif;letter-spacing:-.025em;text-wrap:balance;margin:0}
+.folio-left-author{font-size:12px;color:#775f48;line-height:1.5}
+.folio-bookplate{
+  position:relative;width:min(210px,72%);aspect-ratio:2/3;flex-shrink:0;
+  padding:5px;border:1px solid rgba(128,92,50,.35);background:#e2cfb0;
+  box-shadow:0 10px 21px rgba(65,43,27,.23),inset 0 0 0 2px rgba(240,219,184,.5);
+}
+.folio-bookplate img,.folio-cover-front img,.folio-flight-front img{display:block;width:100%;height:100%;object-fit:cover}
+.folio-bookplate .folio-cover-fallback,.folio-cover-front .folio-cover-fallback,.folio-flight-front .folio-cover-fallback{width:100%;height:100%}
+.folio-cover-fallback{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  padding:14px;color:#f6e5cb;font:600 clamp(15px,2vw,25px)/1.13 Georgia,serif;
+  background:linear-gradient(145deg,#715037,#39251b 65%,#251913);
+  overflow-wrap:anywhere;
+}
+.folio-left-rule{width:86px;height:1px;background:linear-gradient(90deg,transparent,#b28b5b,transparent);margin:2px 0}
+.folio-left-meta{font-size:11px;line-height:1.5;color:#775f48}
+.folio-left-excerpt{font:italic 13px/1.6 Georgia,serif;color:#66513c;max-width:340px;margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+.folio-left-excerpt.is-empty{font-style:normal;font-size:11px;color:#8b7660}
+.folio-page-number{margin-top:auto;padding-top:16px;color:#a58a6a;font:11px Georgia,serif}
+.folio-right-kicker{font:800 10px system-ui,sans-serif;letter-spacing:.17em;color:#9a7347;text-transform:uppercase;margin-bottom:10px}
+.folio-right-title{font:600 clamp(29px,3.4vw,44px)/1.05 Georgia,"Times New Roman",serif;letter-spacing:-.035em;margin:0 0 8px;text-wrap:balance;color:#34271d}
+.folio-right-author{font-size:14px;color:#745b45;margin-bottom:12px}
+.folio-stars{color:#a87937;font-size:19px;letter-spacing:3px;margin-bottom:14px;line-height:1.4}
+.folio-rating-caption{font-size:11px;letter-spacing:0;color:#826b53}
+.folio-tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 15px}
+.folio-tag{padding:6px 9px;border-radius:999px;background:rgba(119,86,52,.09);border:1px solid rgba(119,86,52,.12);color:#6e543c;font-size:10px;line-height:1.1}
+.folio-meta-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:rgba(130,98,64,.2);border:1px solid rgba(130,98,64,.17);border-radius:10px;overflow:hidden;margin:0 0 15px}
+.folio-meta-item{padding:11px 12px;background:#f2e6d2;min-width:0}
+.folio-meta-item .k{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:#90745a;font-weight:800}
+.folio-meta-item .v{font-size:12px;color:#483628;margin-top:5px;line-height:1.4;overflow-wrap:anywhere}
+.folio-progress{padding:12px;border:1px solid rgba(130,98,64,.18);border-radius:11px;background:rgba(255,255,255,.2);margin-bottom:15px}
+.folio-progress-head{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#59442f;margin-bottom:9px}
+.folio-progress-track{height:7px;border-radius:99px;background:rgba(93,67,44,.13);overflow:hidden}
+.folio-progress-track span{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,#936330,#c69a5b)}
+.folio-progress-small{font-size:10px;color:#826b54;margin-top:7px}
+.folio-notes{margin:0 0 15px;padding:12px 14px;border-left:2px solid #bd9861;background:rgba(255,255,255,.22);color:#604a37;font-size:12px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.folio-notes strong{display:block;font:600 15px Georgia,serif;margin-bottom:7px;color:#483423}
+.folio-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.folio-actions button{
+  appearance:none;border:1px solid rgba(105,75,47,.2);border-radius:9px;padding:10px 13px;
+  background:rgba(113,80,48,.07);color:#4c3826;cursor:pointer;font:600 11px system-ui,sans-serif;
+}
+.folio-actions button:first-child{background:linear-gradient(180deg,#795332,#573821);color:#fff0d9;border-color:#765435}
+.folio-actions button:hover{filter:brightness(1.09)}
+.folio-actions button:focus-visible{outline:2px solid #9b6c35;outline-offset:3px}
+/* A double-sided hard cover, hinged on the spine. Its reverse is real parchment. */
+.folio-hinged-cover{
+  position:absolute;top:0;bottom:0;left:50%;width:50%;z-index:10;
+  transform-origin:left center;transform:rotateY(0deg);transform-style:preserve-3d;
+  will-change:transform;pointer-events:none;
+}
+.folio-cover-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
+.folio-cover-front{
+  padding:13px;border-radius:0 7px 7px 0;
+  background:linear-gradient(90deg,#362217,#63432c 3%,#2b1b13 6%,#2b1b13 95%,#5a3b27);
+  box-shadow:9px 10px 23px rgba(0,0,0,.32),inset 0 0 0 1px rgba(220,179,109,.35);
+}
+.folio-cover-front::before{content:"";position:absolute;inset:6px;border:1px solid rgba(211,167,94,.48);border-radius:0 4px 4px 0;pointer-events:none;z-index:2}
+.folio-cover-front::after{content:"";position:absolute;left:2px;top:0;bottom:0;width:9px;background:linear-gradient(90deg,rgba(0,0,0,.45),rgba(255,255,255,.1),transparent);pointer-events:none}
+.folio-cover-front img{border-radius:0 3px 3px 0;box-shadow:inset 0 0 15px rgba(0,0,0,.2)}
+.folio-cover-inside{
+  transform:rotateY(180deg);border-radius:6px 0 0 6px;
+  padding:clamp(16px,2.5vw,30px);background:linear-gradient(90deg,#eadac0,#f1e3ce 75%,#c8b194);
+  box-shadow:inset 0 0 0 7px #40291b,inset 0 0 0 8px rgba(207,163,94,.6),-8px 12px 24px rgba(0,0,0,.2);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:13px;
+}
+.folio-inside-seal{width:52px;height:52px;display:grid;place-items:center;border:1px solid #ae8a59;border-radius:50%;color:#9c7543;font:28px Georgia,serif}
+.folio-inside-title{font:600 clamp(22px,3vw,34px)/1.08 Georgia,serif;color:#4e3825;text-wrap:balance}
+.folio-inside-author{font-size:12px;color:#8b6e4c;line-height:1.5}
+.folio-inside-rule{width:110px;height:1px;background:linear-gradient(90deg,transparent,#b48d5a,transparent)}
+/* The page leaf is temporary. The two underlying pages never disappear. */
+.folio-turn-leaf{
+  position:absolute;top:7px;bottom:7px;left:50%;width:calc(50% - 5px);
+  z-index:9;transform-origin:left center;transform-style:preserve-3d;
+  pointer-events:none;visibility:hidden;
+}
+.folio-turn-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:0 5px 5px 0;background:linear-gradient(90deg,#d3bfa3,#f3e7d3 12%,#f7eddb 85%,#e1ceb3);box-shadow:2px 4px 13px rgba(69,45,29,.15)}
+.folio-turn-face::after{content:"";position:absolute;inset:24px;background:repeating-linear-gradient(180deg,transparent 0 21px,rgba(92,67,44,.09) 21px 22px);opacity:.65}
+.folio-turn-face.back{transform:rotateY(180deg);border-radius:5px 0 0 5px;background:linear-gradient(90deg,#e9d9c1,#f7edda 85%,#cbb596)}
+.folio-book[data-phase="open"] .folio-hinged-cover{transform:rotateY(-180deg);z-index:1;will-change:auto}
+.folio-book[data-phase="open"] .folio-page-left{z-index:2}
+.folio-book[data-phase="open"] .folio-page-right{z-index:2}
+.folio-book[data-phase="closed"] .folio-hinged-cover{transform:rotateY(0deg);z-index:10}
+.folio-book[data-phase="closing"] .folio-hinged-cover{z-index:10}
+.folio-book[data-phase="opening"] .folio-hinged-cover{z-index:10}
+.folio-book[data-phase="open"] .folio-gutter{z-index:4}
+/* The flight layer belongs to the top-layer dialog, not the page beneath it. */
+.folio-flight-layer{position:fixed;inset:0;z-index:30;pointer-events:none;overflow:visible;perspective:1400px}
+.folio-flight-book{position:fixed;transform-origin:center center;transform-style:preserve-3d;will-change:transform,opacity,filter;pointer-events:none}
+.folio-flight-front{position:absolute;inset:0;overflow:hidden;border-radius:3px 7px 7px 3px;border:4px solid #38251b;background:#39271d;box-shadow:0 22px 32px rgba(0,0,0,.4),inset 0 0 0 1px rgba(227,180,103,.4);backface-visibility:hidden}
+.folio-flight-front img{border-radius:1px 4px 4px 1px}
+.folio-flight-front::after{content:"";position:absolute;top:0;bottom:0;left:0;width:7px;background:linear-gradient(90deg,rgba(0,0,0,.42),rgba(255,255,255,.12),transparent);pointer-events:none}
+.folio-flight-snapshot{position:fixed;pointer-events:none;will-change:transform,opacity;transform-origin:center center}
+.folio-flight-snapshot,.folio-flight-snapshot *{animation:none!important;transition:none!important}
+.folio-flight-snapshot > .cover,.folio-flight-snapshot > .spine{width:100%!important;height:100%!important;max-width:none!important;transform:none!important;margin:0!important}
+.folio-flight-snapshot .book-title,.folio-flight-snapshot .book-author{display:none!important}
+.book-detail-opening{visibility:hidden!important}
+.folio-dialog .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:700px){
+  #detailsDialog.folio-dialog{padding:8px;padding-top:max(8px,env(safe-area-inset-top));padding-bottom:max(8px,env(safe-area-inset-bottom))}
+  .folio-window{border-radius:16px}
+  .folio-topbar{padding:10px 14px}
+  .folio-topbar h2{font-size:17px}
+  .folio-close{padding:9px 12px}
+  .folio-body{padding:10px;overflow-y:auto;overflow-x:hidden}
+  .folio-book{height:auto;min-height:0;display:flex;flex-direction:column;transform:none!important;border-width:7px;perspective:1600px}
+  .folio-page{position:relative;left:auto;right:auto;top:auto;bottom:auto;width:100%;height:auto;overflow:visible}
+  .folio-page-left{min-height:370px;border-radius:3px 3px 0 0}
+  .folio-page-right{border-radius:0 0 5px 5px 0;min-height:0}
+  .folio-page-scroll{height:auto;overflow:visible;padding:22px 20px}
+  .folio-page-left .folio-page-scroll,.folio-page-right .folio-page-scroll{padding:22px 20px}
+  .folio-left-content{gap:10px}
+  .folio-bookplate{width:min(190px,68%)}
+  .folio-left-title{font-size:26px}
+  .folio-right-title{font-size:32px}
+  .folio-gutter{left:0;right:0;top:370px;bottom:auto;width:100%;height:9px;background:linear-gradient(180deg,rgba(64,42,25,.2),rgba(255,255,255,.12),rgba(64,42,25,.15))}
+  .folio-hinged-cover{top:0;left:0;right:0;bottom:auto;width:100%;height:370px}
+  .folio-turn-leaf{top:7px;left:0;width:100%;height:356px;bottom:auto}
+  .folio-book[data-phase="open"] .folio-hinged-cover{transform:rotateY(-145deg);visibility:hidden}
+  .folio-book[data-phase="closed"] .folio-hinged-cover{transform:rotateY(0deg);visibility:visible}
+  .folio-book[data-phase="opening"],.folio-book[data-phase="closing"]{overflow:hidden}
+  .folio-cover-front{padding:9px}
+  .folio-inside-title{font-size:28px}
+  .folio-left-excerpt{font-size:12px}
+  .folio-meta-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:370px){.folio-page-scroll,.folio-page-left .folio-page-scroll,.folio-page-right .folio-page-scroll{padding:18px 15px}.folio-right-title{font-size:28px}.folio-actions button{flex:1 1 auto}}
+@media(prefers-reduced-motion:reduce){
+  .folio-book,.folio-left-content,.folio-right-content{transition:none!important}
+  .folio-hinged-cover,.folio-turn-leaf,.folio-flight-book,.folio-flight-snapshot{animation:none!important;transition:none!important}
+}
 
-    /* =====================================================
-       V12.2 — aufgeklapptes Buch / Umblätter-Feeling
-       ===================================================== */
-    .details-luxury-dialog.book-opening .luxury-book-front-cover{
-      animation:detailBookOpen 920ms cubic-bezier(.18,.82,.22,1) both;
-      transform-origin:left center;
-      backface-visibility:hidden;
-    }
-    .details-luxury-dialog.book-opening .luxury-book-turn-page{
-      animation:detailPageTurn 860ms cubic-bezier(.23,.8,.24,1) 140ms both;
-    }
-    .details-luxury-dialog.book-opening .luxury-book-back-page{
-      animation:detailInnerPageReveal 420ms ease 120ms both;
-    }
-    .details-luxury-dialog.book-opening .luxury-detail-main{
-      animation:detailMainReveal 420ms ease 220ms both;
-    }
-    .luxury-book-showcase{position:relative;perspective:1900px;margin-top:2px}
-    .luxury-book-scene{position:relative;aspect-ratio:1.48/1;transform-style:preserve-3d}
-    .luxury-book-shadow{position:absolute;left:6%;right:6%;bottom:2%;height:13%;border-radius:50%;background:radial-gradient(ellipse, rgba(0,0,0,.38), transparent 70%);filter:blur(10px);opacity:.9;pointer-events:none}
-    .luxury-book-object{position:absolute;inset:0;transform-style:preserve-3d}
-    .luxury-book-back-page{position:absolute;top:6%;left:44%;width:50%;height:88%;padding:18px 16px 16px;border-radius:6px 14px 14px 6px;color:#4a3628;background:linear-gradient(90deg, rgba(188,166,138,.38), rgba(247,240,228,.96) 8%, rgba(250,244,235,.98) 55%, rgba(234,223,205,.96) 100%);box-shadow:inset 18px 0 24px rgba(126,102,80,.13),inset -1px 0 0 rgba(120,92,68,.10),12px 16px 24px rgba(0,0,0,.18);border:1px solid rgba(124,101,78,.10);overflow:hidden;opacity:0;transform:translateX(12px) scale(.985)}
-    .luxury-book-back-page::before{content:"";position:absolute;left:18px;right:16px;top:18px;bottom:18px;background:repeating-linear-gradient(180deg, transparent 0 24px, rgba(93,71,53,.11) 24px 25px);opacity:.35;pointer-events:none}
-    .luxury-book-page-kicker{position:relative;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#87684f;font-weight:800;margin-bottom:12px}
-    .luxury-book-page-title{position:relative;font-family:Georgia,"Times New Roman",serif;font-size:20px;line-height:1.04;color:#35251a;margin-bottom:8px;text-wrap:balance}
-    .luxury-book-page-meta,.luxury-book-page-excerpt,.luxury-book-page-footer{position:relative;z-index:1}
-    .luxury-book-page-meta{font-size:11px;color:#6d5642;line-height:1.45;margin-bottom:14px}
-    .luxury-book-page-excerpt{font-size:12px;line-height:1.58;color:#4f3d2d;max-height:120px;overflow:hidden}
-    .luxury-book-page-footer{position:absolute;left:18px;right:16px;bottom:16px;display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#7b634d;letter-spacing:.04em}
-    .luxury-book-front-cover{position:absolute;top:3%;left:6%;width:52%;height:92%;transform-style:preserve-3d;z-index:2}
-    .luxury-book-turn-page{position:absolute;top:7%;left:45.5%;width:46%;height:86%;border-radius:6px 14px 14px 6px;background:linear-gradient(90deg, rgba(234,226,214,.98), rgba(248,243,236,.96) 18%, rgba(238,228,213,.94) 100%);box-shadow:inset 1px 0 0 rgba(255,255,255,.8),inset -12px 0 20px rgba(130,104,79,.12),8px 10px 18px rgba(0,0,0,.12);transform-origin:left center;transform:rotateY(0deg);opacity:0;z-index:3;pointer-events:none}
-    .luxury-book-turn-page::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg, rgba(174,149,123,.22), rgba(255,255,255,.72) 18%, rgba(195,173,148,.14) 62%, rgba(104,83,64,.10))}
-    .luxury-book-turn-page::after{content:"";position:absolute;left:12px;right:14px;top:14px;bottom:14px;background:repeating-linear-gradient(180deg, transparent 0 23px, rgba(98,75,56,.08) 23px 24px);opacity:.42}
-    .luxury-cover-frame{height:100%;padding:10px;border-radius:12px 12px 12px 6px;box-shadow:0 26px 34px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden}
-    .luxury-cover-frame::after{content:"";position:absolute;top:0;right:-3px;bottom:0;width:18px;border-radius:0 12px 12px 0;background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(0,0,0,.26));opacity:.88;pointer-events:none}
-    .luxury-cover-img,.luxury-cover-placeholder{height:100%;aspect-ratio:auto;min-height:100%}
-    .luxury-spine-preview{right:-11px;top:18px;bottom:18px;width:22px}
-    .luxury-book-scene.compact-open-book{aspect-ratio:1.02/1.18}
-    @keyframes detailBookOpen{0%{transform:rotateY(0deg) translateZ(0);filter:brightness(1)}34%{transform:rotateY(-56deg) translateX(2px) translateZ(26px);filter:brightness(1.06)}62%{transform:rotateY(-118deg) translateX(3px) translateZ(8px)}100%{transform:rotateY(-148deg) translateX(0) translateZ(0);filter:brightness(1)}}
-    @keyframes detailPageTurn{0%{opacity:0;transform:rotateY(0deg) translateX(0)}8%{opacity:1}52%{opacity:1;transform:rotateY(-92deg) translateX(-1px)}100%{opacity:0;transform:rotateY(-168deg) translateX(-5px)}}
-    @keyframes detailInnerPageReveal{0%{opacity:0;transform:translateX(12px) scale(.985)}100%{opacity:1;transform:translateX(0) scale(1)}}
-    @keyframes detailMainReveal{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
-    @media(max-width:850px){.luxury-book-scene{aspect-ratio:1.18/1}.luxury-book-back-page{left:40%;width:56%;padding:16px 14px 14px}.luxury-book-front-cover{left:3%;width:56%}.luxury-book-turn-page{left:42%;width:52%}.luxury-book-page-title{font-size:18px}.luxury-book-page-excerpt{font-size:11px;max-height:98px}}
-    @media(max-width:520px){.luxury-book-scene,.luxury-book-scene.compact-open-book{aspect-ratio:1/1.24}.luxury-book-back-page{top:5%;left:37%;width:58%}.luxury-book-front-cover{top:4%;left:2%;width:58%}.luxury-book-turn-page{top:6%;left:39%;width:53%}.luxury-book-page-title{font-size:16px}.luxury-book-page-meta{font-size:10px}.luxury-book-page-excerpt{font-size:10px;line-height:1.5}.luxury-book-page-footer{font-size:9px}}
-    @media(prefers-reduced-motion:reduce){.details-luxury-dialog.book-opening .luxury-book-front-cover,.details-luxury-dialog.book-opening .luxury-book-turn-page,.details-luxury-dialog.book-opening .luxury-book-back-page,.details-luxury-dialog.book-opening .luxury-detail-main{animation:none!important}.luxury-book-back-page{opacity:1;transform:none}.luxury-book-turn-page{display:none}.luxury-book-front-cover{transform:rotateY(-148deg)}}
+/* The final page turn is a separate, non-interactive transition state. */
+.folio-book[data-phase="turning"] .folio-left-content,.folio-book[data-phase="turning"] .folio-right-content{opacity:1}
+.folio-book[data-phase="turning"] .folio-hinged-cover{transform:rotateY(-180deg);z-index:1}
+.folio-book[data-phase="turning"] .folio-page-left,.folio-book[data-phase="turning"] .folio-page-right{z-index:2}
+.folio-book[data-phase="turning"] .folio-gutter{z-index:4}
+@media(max-width:700px){.folio-book[data-phase="turning"] .folio-hinged-cover{transform:rotateY(-145deg);visibility:hidden}}
 
-    @media(prefers-reduced-motion:reduce){
-      .book-flight-clone,
-      .details-luxury-dialog[open],
-      .details-luxury-dialog.closing{
-        animation:none!important;
-        transition:none!important;
-      }
-    }
+.folio-left-title,.folio-right-title,.folio-inside-title{overflow-wrap:anywhere}
+.folio-meta-item:last-child:nth-child(odd){grid-column:1/-1}
+
+/* State cleanup and image safety. */
+.folio-cover-fallback[hidden]{display:none!important}
+.folio-cover-front img,.folio-flight-front img,.folio-bookplate img{object-fit:contain;background:#211813}
+.folio-book[data-phase="closing"] .folio-hinged-cover{transform:rotateY(-180deg);visibility:visible}
+.folio-book[data-phase="returning"]{transform:translateX(-25%) scale(.76)}
+.folio-book[data-phase="returning"] .folio-hinged-cover{transform:rotateY(0deg);z-index:10}
+.folio-book[data-phase="returning"] .folio-left-content,.folio-book[data-phase="returning"] .folio-right-content{opacity:0}
+@media(max-width:700px){
+ .folio-book[data-phase="closing"] .folio-hinged-cover{transform:rotateY(-145deg);visibility:visible}
+ .folio-book[data-phase="returning"] .folio-hinged-cover{transform:rotateY(0deg);visibility:visible}
+}
+
 
     @media(max-width:700px){
       .library-mode-bar{padding-top:calc(8px + env(safe-area-inset-top))}
@@ -2904,7 +2778,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V12.2</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V12.3</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3013,7 +2887,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 12.2: Die Detailansicht öffnet sich jetzt noch stärker wie ein echtes Buch – mit Aufklapp- und Umblätter-Animation.
+      Version 12.3: echte Doppelseiten, langsameres Herausziehen und sanftes Zurücklegen – deine Bibliothek bleibt erhalten.
     </div>
   </div>
 
@@ -3320,12 +3194,19 @@
     <div class="modal-body" id="seriesDetailsBody"></div>
   </dialog>
 
-  <dialog id="detailsDialog" class="details-luxury-dialog">
-    <div class="modal-head details-luxury-topbar">
-      <h2>Buchdetails</h2>
-      <button class="icon-btn" id="detailsCloseBtn" type="button" aria-label="Buchdetails schliessen">×</button>
+  <dialog id="detailsDialog" class="folio-dialog" aria-labelledby="folioHeading" tabindex="-1">
+    <div class="folio-flight-layer" id="folioFlightLayer" aria-hidden="true"></div>
+    <div class="folio-window" id="folioWindow" hidden>
+      <div class="folio-topbar">
+        <div class="folio-topbar-title">
+          <span>✦ DEINE PRIVATE BIBLIOTHEK</span>
+          <h2 id="folioHeading">Buchdetails</h2>
+        </div>
+        <button class="folio-close" id="detailsCloseBtn" type="button" aria-label="Buchdetails schliessen">✕ &nbsp; Schliessen</button>
+      </div>
+      <div class="folio-body" id="detailsBody"></div>
     </div>
-    <div class="modal-body" id="detailsBody"></div>
+    <span class="sr-only" id="folioStatus" role="status" aria-live="polite"></span>
   </dialog>
 
   <input type="file" id="importFile" accept="application/json" hidden />
@@ -4217,15 +4098,13 @@
     }
 
     function toggleFavorite(id){
-      const b = books.find(x=>x.id===id);
+      const b = books.find(x=>String(x.id)===String(id));
       if(!b) return;
+      const showing=$("detailsDialog").open && String(currentDetailBookId)===String(id);
       b.favorite = !b.favorite;
       b.updatedAt = new Date().toISOString();
       saveBooks();
-      if($("detailsDialog").open){
-        $("detailsDialog").close();
-        openDetails(id);
-      }
+      if(showing) folioRefreshDetails(b);
     }
 
     function openEdit(id){
@@ -4246,287 +4125,466 @@
       $("tags").value = cleanTags(b.tags || []).join(", ");
       checkDuplicate();
       $("deleteBtn").style.display = "inline-block";
-      $("detailsDialog").close();
+      if($("detailsDialog").open) folioCloseNow(false);
       $("editDialog").showModal();
     }
 
+    /* =====================================================
+       V12.3 — cinematic book motion and persistent spread
+       Presentation only. No changes to the book/storage schema.
+       ===================================================== */
     let currentDetailBookId = null;
     let detailAnimationRunning = false;
+    const folioMotion = {
+      phase:"idle", token:0, animations:new Set(), origin:null,
+      focus:null, returning:false
+    };
+    const FOLIO_TIMING = Object.freeze({
+      pull:340, extract:1120, unfold:1060, page:690,
+      fold:850, return:1320
+    });
 
     function prefersReducedMotion(){
       return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     }
-
+    function folioMotionEnabled(){
+      return !prefersReducedMotion() && !!Element.prototype.animate;
+    }
+    function folioCurrent(token){
+      return token===folioMotion.token && $("detailsDialog").open;
+    }
+    function folioSetPhase(phase){
+      folioMotion.phase=phase;
+      detailAnimationRunning=phase!=="idle" && phase!=="open";
+      const book=$("folioBook");
+      if(book){
+        book.dataset.phase=phase;
+        book.querySelectorAll(".folio-page-scroll").forEach(el=>el.inert=phase!=="open");
+      }
+      $("detailsDialog").dataset.phase=phase;
+    }
+    function folioAnnounce(message){
+      $("folioStatus").textContent=message;
+    }
+    function folioCancelAnimations(){
+      for(const animation of [...folioMotion.animations]){
+        try{animation.cancel()}catch{}
+      }
+      folioMotion.animations.clear();
+    }
+    async function folioAnimate(element,frames,options,token){
+      if(!folioMotionEnabled() || !element || !folioCurrent(token)) return false;
+      let animation;
+      try{
+        animation=element.animate(frames,options);
+        folioMotion.animations.add(animation);
+        await animation.finished;
+      }catch{return false}
+      finally{
+        if(animation) folioMotion.animations.delete(animation);
+      }
+      return folioCurrent(token);
+    }
+    function folioWait(ms){return new Promise(resolve=>setTimeout(resolve,ms))}
+    function folioRect(element){
+      if(!element || !element.isConnected) return null;
+      const r=element.getBoundingClientRect();
+      if(!r.width || !r.height) return null;
+      return {left:r.left,top:r.top,width:r.width,height:r.height,
+        cx:r.left+r.width/2,cy:r.top+r.height/2};
+    }
+    function folioVisible(rect){
+      return !!rect && rect.right!==0 && rect.left<innerWidth &&
+        rect.top<innerHeight && rect.top+rect.height>0 && rect.left+rect.width>0;
+    }
     function findBookElement(id){
-      const candidates = [...document.querySelectorAll(`[data-book-id="${CSS.escape(String(id))}"]`)];
+      const candidates=[...document.querySelectorAll("#library [data-book-id]")]
+        .filter(el=>el.dataset.bookId===String(id));
       return candidates.find(el=>{
-        const r = el.getBoundingClientRect();
-        return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
+        const r=folioRect(el);
+        return r && r.top<innerHeight && r.top+r.height>0 && r.left<innerWidth && r.left+r.width>0;
       }) || candidates[0] || null;
     }
-
-    function cloneBookForFlight(source){
-      const clone = source.cloneNode(true);
-      clone.classList.add("book-flight-clone");
-      clone.removeAttribute("onclick");
-      clone.removeAttribute("title");
-      clone.setAttribute("aria-hidden","true");
-
-      const r = source.getBoundingClientRect();
-      clone.style.left = `${r.left}px`;
-      clone.style.top = `${r.top}px`;
-      clone.style.width = `${r.width}px`;
-      clone.style.height = `${r.height}px`;
-      clone.style.transform = "translate3d(0,0,0) scale(1)";
-      clone.style.opacity = "1";
-
-      document.body.appendChild(clone);
-      return {clone, rect:r};
+    function folioVisual(button){
+      return button?.querySelector(".spine,.cover") || button || null;
     }
-
-    function destinationForFlight(rect){
-      const w = Math.min(rect.width * 1.55, window.innerWidth * 0.34, 260);
-      const h = Math.min(rect.height * 1.55, window.innerHeight * 0.52, 390);
-      const left = Math.max(16, (window.innerWidth - w) / 2);
-      const top = Math.max(84, Math.min(window.innerHeight * 0.18, (window.innerHeight - h) / 2));
-      return {left, top, width:w, height:h};
+    function folioCaptureOrigin(id,event){
+      const candidate=event?.currentTarget;
+      const button=candidate instanceof Element && candidate.matches("[data-book-id]")
+        ? candidate : findBookElement(id);
+      const visual=folioVisual(button);
+      const rect=folioRect(visual);
+      if(!button || !rect || !folioVisible(rect)) return null;
+      return {id:String(id),button,visual,rect,isSpine:!!visual.classList.contains("spine")};
     }
-
-    async function animateBookOut(id, event){
-      if(prefersReducedMotion()) return;
-
-      const source = event?.currentTarget || findBookElement(id);
-      if(!source) return;
-
-      source.classList.add("book-detail-opening");
-
-      const {clone, rect} = cloneBookForFlight(source);
-      const dest = destinationForFlight(rect);
-      const dx = dest.left - rect.left;
-      const dy = dest.top - rect.top;
-      const sx = dest.width / Math.max(1, rect.width);
-      const sy = dest.height / Math.max(1, rect.height);
-
-      try{
-        await clone.animate([
-          {transform:"translate3d(0,0,0) scale(1) rotateX(0deg)", opacity:1, filter:"brightness(1) saturate(1)"},
-          {transform:`translate3d(${dx * .52}px,${dy * .38}px,0) scale(${Math.min(sx,sy) * 1.08}) rotateX(2deg)`, opacity:1, filter:"brightness(1.10) saturate(1.06)"},
-          {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy}) rotateX(0deg)`, opacity:.98, filter:"brightness(1.12) saturate(1.06)"}
-        ],{
-          duration:430,
-          easing:"cubic-bezier(.18,.82,.22,1)"
-        }).finished;
-      }catch{}
-      finally{
-        clone.remove();
-        source.classList.remove("book-detail-opening");
+    function folioHideOrigin(origin){
+      if(origin?.button?.isConnected) origin.button.classList.add("book-detail-opening");
+    }
+    function folioRestoreOrigin(){
+      const origin=folioMotion.origin;
+      if(origin?.button) origin.button.classList.remove("book-detail-opening");
+      if(origin){
+        document.querySelectorAll("#library [data-book-id]").forEach(el=>{
+          if(el.dataset.bookId===origin.id) el.classList.remove("book-detail-opening");
+        });
+      }
+      folioMotion.origin=null;
+    }
+    function folioCleanFlight(){
+      $("folioFlightLayer").replaceChildren();
+    }
+    function folioCoverMedia(b,extraClass=""){
+      const title=esc(b.title||"Buch");
+      if(b.cover){
+        return `<img class="${extraClass}" src="${esc(b.cover)}" alt="" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><div class="folio-cover-fallback" hidden>${title}</div>`;
+      }
+      return `<div class="folio-cover-fallback">${title}</div>`;
+    }
+    function folioSnapshot(visual,rect){
+      if(!visual || !rect) return null;
+      const wrap=document.createElement("div");
+      wrap.className="folio-flight-snapshot";
+      Object.assign(wrap.style,{
+        left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`
+      });
+      const clone=visual.cloneNode(true);
+      clone.querySelectorAll("[id],[onclick]").forEach(el=>{
+        el.removeAttribute("id");el.removeAttribute("onclick");
+      });
+      clone.removeAttribute("id");clone.removeAttribute("onclick");
+      clone.removeAttribute("data-book-id");
+      clone.classList.remove("book-detail-opening","reveal-in");
+      clone.style.animation="none";
+      clone.style.transform="none";
+      wrap.appendChild(clone);
+      $("folioFlightLayer").appendChild(wrap);
+      return wrap;
+    }
+    function folioFlightBook(b,rect){
+      const el=document.createElement("div");
+      el.className="folio-flight-book";
+      Object.assign(el.style,{
+        left:`${rect.left}px`,top:`${rect.top}px`,width:`${rect.width}px`,height:`${rect.height}px`
+      });
+      el.innerHTML=`<div class="folio-flight-front">${folioCoverMedia(b)}</div>`;
+      $("folioFlightLayer").appendChild(el);
+      return el;
+    }
+    function folioFlightTransform(from,to,spine){
+      const scale=from.height/to.height;
+      const ratio=Math.min(1,Math.max(.08,from.width/(to.width*scale)));
+      const angle=spine ? Math.acos(ratio)*180/Math.PI : 0;
+      return {
+        dx:from.cx-to.cx,dy:from.cy-to.cy,scale,
+        angle:Math.min(82,angle)
+      };
+    }
+    function folioTransform(dx,dy,scale,angle=0,tilt=0){
+      return `translate3d(${dx}px,${dy}px,0) scale(${scale}) rotateY(${angle}deg) rotateZ(${tilt}deg)`;
+    }
+    function folioClosedTransform(){
+      return matchMedia("(max-width:700px)").matches ? "none" : "translateX(-25%) scale(.76)";
+    }
+    function folioBookCoverRect(){
+      return folioRect(document.querySelector("#folioBook .folio-cover-front"));
+    }
+    function folioSetWindowVisible(visible){
+      const windowEl=$("folioWindow");
+      windowEl.hidden=false;
+      windowEl.style.visibility=visible?"visible":"hidden";
+      windowEl.inert=!visible;
+      if(visible) windowEl.removeAttribute("aria-hidden");
+      else windowEl.setAttribute("aria-hidden","true");
+    }
+    function folioCloseNow(restoreFocus=true){
+      folioMotion.token++;
+      folioCancelAnimations();
+      folioCleanFlight();
+      folioRestoreOrigin();
+      const dialog=$("detailsDialog");
+      if(dialog.open) dialog.close();
+      $("folioWindow").hidden=true;
+      $("folioWindow").style.visibility="";
+      $("folioWindow").removeAttribute("aria-hidden");
+      $("folioWindow").inert=false;
+      $("detailsBody").replaceChildren();
+      currentDetailBookId=null;
+      folioSetPhase("idle");
+      const focus=folioMotion.focus;
+      folioMotion.focus=null;
+      if(restoreFocus){
+        const target=focus?.isConnected ? focus : $("libraryModeBtn");
+        if(target?.isConnected && !target.closest("[hidden]")){
+          try{target.focus({preventScroll:true})}catch{}
+        }
       }
     }
-
-    async function animateBookBack(id){
-      if(prefersReducedMotion()) return false;
-
-      const source = findBookElement(id);
-      const cover = document.querySelector("#detailsBody .luxury-cover-frame");
-      const dialog = $("detailsDialog");
-      if(!source || !cover || !dialog.open) return false;
-
-      const from = cover.getBoundingClientRect();
-      const to = source.getBoundingClientRect();
-      if(!from.width || !from.height || !to.width || !to.height) return false;
-
-      const mini = cover.cloneNode(true);
-      mini.classList.add("book-flight-clone");
-      mini.style.left = `${from.left}px`;
-      mini.style.top = `${from.top}px`;
-      mini.style.width = `${from.width}px`;
-      mini.style.height = `${from.height}px`;
-      mini.style.transform = "translate3d(0,0,0) scale(1)";
-      mini.style.opacity = "1";
-      document.body.appendChild(mini);
-
-      // Now the real dialog can disappear while the cloned cover flies home.
-      dialog.close();
-      dialog.classList.remove("closing");
-
-      const dx = to.left - from.left;
-      const dy = to.top - from.top;
-      const sx = to.width / Math.max(1, from.width);
-      const sy = to.height / Math.max(1, from.height);
-
-      try{
-        await mini.animate([
-          {transform:"translate3d(0,0,0) scale(1)", opacity:1, filter:"brightness(1.05)"},
-          {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy})`, opacity:.72, filter:"brightness(.95)"}
-        ],{
-          duration:320,
-          easing:"cubic-bezier(.2,.7,.24,1)"
-        }).finished;
-      }catch{}
-      finally{
-        mini.remove();
-      }
-
-      return true;
+    function folioInfo(label,value){
+      if(value===undefined || value===null || value==="") return "";
+      return `<div class="folio-meta-item"><div class="k">${esc(label)}</div><div class="v">${esc(value)}</div></div>`;
     }
-
-    function luxuryInfo(label,value){
-      if(value === undefined || value === null || value === "") return "";
-      return `<div class="luxury-info"><div class="k">${esc(label)}</div><div class="v">${esc(value)}</div></div>`;
-    }
-
     function renderLuxuryDetails(b){
-      const stars = b.rating
-        ? "★".repeat(Number(b.rating)) + "☆".repeat(5-Number(b.rating))
-        : "Noch nicht bewertet";
-      const progress = readingPercent(b);
-      const tags = cleanTags(b.tags || []);
-      const seriesEncoded = b.series ? encodeURIComponent(b.series) : "";
-      const cover = b.cover
-        ? `<img class="luxury-cover-img" src="${esc(b.cover)}" alt="" onerror="this.outerHTML='<div class=&quot;luxury-cover-placeholder&quot;>${esc((b.title||"Buch").slice(0,80))}</div>'">`
-        : `<div class="luxury-cover-placeholder">${esc(b.title || "Buch")}</div>`;
-
-      const infoCards = [
-        luxuryInfo("Status",statusLabel(b.status || "unread")),
-        luxuryInfo("Reihe",b.series ? `${b.series}${b.volume ? " · Band " + b.volume : ""}` : ""),
-        luxuryInfo("Genre",b.genre || ""),
-        luxuryInfo("Standort",b.location || ""),
-        luxuryInfo("Jahr",b.publishedYear || ""),
-        luxuryInfo("Seiten",b.pages || ""),
-        luxuryInfo("Re-Reads",b.rereads || ""),
-        luxuryInfo("ISBN",b.isbn || "")
+      const title=esc(b.title||"Ohne Titel");
+      const author=esc(b.author||"Autor unbekannt");
+      const tags=cleanTags(b.tags||[]);
+      const progress=readingPercent(b);
+      const rating=Math.max(0,Math.min(5,Math.round(Number(b.rating)||0)));
+      const stars=rating ? "★".repeat(rating)+"☆".repeat(5-rating) : "";
+      const excerpt=String(b.description||"").trim();
+      const info=[
+        folioInfo("Lesestatus",statusLabel(b.status||"unread")),
+        folioInfo("Reihe",b.series ? `${b.series}${b.volume ? " · Band "+b.volume : ""}` : ""),
+        folioInfo("Genre",b.genre||""),folioInfo("Standort",b.location||""),
+        folioInfo("Erscheinungsjahr",b.publishedYear||""),folioInfo("Seiten",b.pages||""),
+        folioInfo("Re-Reads",b.rereads||""),folioInfo("ISBN",b.isbn||"")
       ].filter(Boolean).join("");
-
-      const excerptRaw = (b.notes || b.description || "").trim();
-      const excerpt = excerptRaw
-        ? (excerptRaw.length > 220 ? excerptRaw.slice(0,220).trim() + " …" : excerptRaw)
-        : "Ein weiteres Kapitel deiner privaten Bibliothek. Öffne, entdecke und entscheide, welches Abenteuer als Nächstes ruft.";
-      const pageFooterLeft = b.volume ? `Band ${b.volume}` : (b.genre || "Bibliothek");
-      const pageFooterRight = b.pages ? `${b.pages} Seiten` : (b.publishedYear || "Edition");
-      const compactBookClass = (b.notes && b.notes.length > 180) ? "compact-open-book" : "";
-
       return `
-        <div class="luxury-detail">
-          <div class="luxury-cover-column">
-            <div class="luxury-book-showcase">
-              <div class="luxury-book-scene ${compactBookClass}">
-                <div class="luxury-book-shadow" aria-hidden="true"></div>
-                <div class="luxury-book-object">
-                  <div class="luxury-book-back-page">
-                    <div class="luxury-book-page-kicker">Bibliotheks-Edition</div>
-                    <div class="luxury-book-page-title">${esc(b.title || "Ohne Titel")}</div>
-                    <div class="luxury-book-page-meta">${esc(b.author || "Autor unbekannt")}${b.series ? ` · ${esc(b.series)}` : ""}${b.genre ? ` · ${esc(b.genre)}` : ""}</div>
-                    <div class="luxury-book-page-excerpt">${esc(excerpt)}</div>
-                    <div class="luxury-book-page-footer"><span>${esc(pageFooterLeft)}</span><span>${esc(pageFooterRight)}</span></div>
-                  </div>
-                  <div class="luxury-book-turn-page" aria-hidden="true"></div>
-                  <div class="luxury-book-front-cover">
-                    <div class="luxury-cover-frame">
-                      ${cover}
-                      <span class="luxury-spine-preview" aria-hidden="true"></span>
-                    </div>
-                  </div>
-                </div>
+        <div class="folio-book" id="folioBook" data-phase="closed">
+          <div class="folio-page folio-page-left">
+            <div class="folio-page-scroll"><div class="folio-left-content">
+              <div class="folio-page-kicker">✦ &nbsp; Aus deiner Bibliothek &nbsp; ✦</div>
+              <div class="folio-bookplate">${folioCoverMedia(b)}</div>
+              <h3 class="folio-left-title">${title}</h3>
+              <div class="folio-left-author">${author}</div>
+              <div class="folio-left-rule"></div>
+              <div class="folio-left-meta">${b.series ? esc(b.series) : "Deine Sammlung"}${b.volume ? ` · Band ${esc(b.volume)}` : ""}${b.genre ? ` · ${esc(b.genre)}` : ""}</div>
+              ${excerpt ? `<p class="folio-left-excerpt">${esc(excerpt)}</p>` : `<p class="folio-left-excerpt is-empty">Ein Buch aus deiner persönlichen Sammlung.</p>`}
+              <div class="folio-page-number">I</div>
+            </div></div>
+          </div>
+          <div class="folio-page folio-page-right">
+            <div class="folio-page-scroll"><div class="folio-right-content">
+              <div class="folio-right-kicker">✦ &nbsp; Buchdetails</div>
+              <h3 class="folio-right-title">${title}</h3>
+              <div class="folio-right-author">${author}</div>
+              <div class="folio-stars">${stars || `<span class="folio-rating-caption">Noch nicht bewertet</span>`}</div>
+              <div class="folio-tags">
+                ${b.volume ? `<span class="folio-tag">Band ${esc(b.volume)}</span>` : ""}
+                ${b.genre ? `<span class="folio-tag">${esc(b.genre)}</span>` : ""}
+                ${b.favorite ? `<span class="folio-tag">★ Favorit</span>` : ""}
+                ${tags.map(t=>`<span class="folio-tag">${esc(t)}</span>`).join("")}
               </div>
-            </div>
-
-            <div class="luxury-status-ribbon">
-              <span class="luxury-pill">${esc(statusLabel(b.status || "unread"))}</span>
-              ${b.favorite ? `<span class="luxury-pill">★ Favorit</span>` : ""}
+              ${info ? `<div class="folio-meta-grid">${info}</div>` : ""}
+              ${(b.pages||b.currentPage) ? `<div class="folio-progress">
+                <div class="folio-progress-head"><strong>Lesefortschritt</strong><span>${progress}%</span></div>
+                <div class="folio-progress-track"><span style="width:${progress}%"></span></div>
+                <div class="folio-progress-small">${esc(b.currentPage||0)}${b.pages ? ` / ${esc(b.pages)} Seiten` : " Seiten"}</div>
+              </div>` : ""}
+              ${b.notes ? `<div class="folio-notes"><strong>Deine Notizen</strong>${esc(b.notes)}</div>` : ""}
+              <div class="folio-actions">
+                <button type="button" data-folio-action="edit">✎ &nbsp; Bearbeiten</button>
+                <button type="button" data-folio-action="favorite">${b.favorite ? "★ Favorit" : "☆ Als Favorit"}</button>
+                ${b.series ? `<button type="button" data-folio-action="series">Reihe öffnen</button>` : ""}
+              </div>
+              <div class="folio-page-number">II</div>
+            </div></div>
+          </div>
+          <div class="folio-gutter" aria-hidden="true"></div>
+          <div class="folio-hinged-cover" aria-hidden="true">
+            <div class="folio-cover-face folio-cover-front">${folioCoverMedia(b)}</div>
+            <div class="folio-cover-face folio-cover-inside">
+              <div class="folio-inside-seal">✦</div>
+              <div class="folio-page-kicker">Bibliotheks-Edition</div>
+              <div class="folio-inside-rule"></div>
+              <div class="folio-inside-title">${title}</div>
+              <div class="folio-inside-author">${author}</div>
+              <div class="folio-inside-rule"></div>
             </div>
           </div>
-
-          <div class="luxury-detail-main">
-            <div>
-              <div class="luxury-overline">${esc(b.series || b.genre || "Buch aus deiner Bibliothek")}</div>
-              <h3 class="luxury-title">${esc(b.title || "Ohne Titel")}</h3>
-              <div class="luxury-author">${esc(b.author || "Autor unbekannt")}</div>
-            </div>
-
-            <div class="luxury-stars">${esc(stars)}</div>
-
-            <div class="luxury-pill-row">
-              ${b.volume ? `<span class="luxury-pill">Band ${esc(b.volume)}</span>` : ""}
-              ${b.genre ? `<span class="luxury-pill">${esc(b.genre)}</span>` : ""}
-              ${tags.map(t=>`<span class="luxury-pill">${esc(t)}</span>`).join("")}
-            </div>
-
-            ${infoCards ? `<div class="luxury-grid">${infoCards}</div>` : ""}
-
-            ${(b.pages || b.currentPage) ? `
-              <div class="luxury-progress">
-                <div class="luxury-progress-top">
-                  <strong>Lesefortschritt</strong>
-                  <span>${progress}%</span>
-                </div>
-                <div class="luxury-progress-bar"><span style="width:${progress}%"></span></div>
-                <div class="luxury-progress-small">
-                  ${b.currentPage || 0}${b.pages ? ` / ${b.pages} Seiten` : " Seiten"}
-                </div>
-              </div>` : ""}
-
-            ${b.notes ? `<div class="luxury-notes"><h4>Notizen</h4>${esc(b.notes)}</div>` : ""}
-
-            <div class="luxury-detail-actions">
-              <button class="btn primary" onclick="openEdit('${b.id}')">Bearbeiten</button>
-              <button class="btn secondary fav-btn ${b.favorite ? "active" : ""}" onclick="toggleFavorite('${b.id}')">
-                ${b.favorite ? "★ Favorit" : "☆ Als Favorit"}
-              </button>
-              ${b.series ? `<button class="btn secondary" onclick="openSeriesDetails(decodeURIComponent('${seriesEncoded}'))">Reihe öffnen</button>` : ""}
-            </div>
+          <div class="folio-turn-leaf" aria-hidden="true">
+            <div class="folio-turn-face"></div><div class="folio-turn-face back"></div>
           </div>
         </div>`;
     }
-
-    function playDetailsBookAnimation(){
-      const dialog = $("detailsDialog");
-      dialog.classList.remove("book-opening");
-      if(prefersReducedMotion()) return;
-      requestAnimationFrame(()=>{
-        requestAnimationFrame(()=> dialog.classList.add("book-opening"));
-      });
+    async function folioExtract(b,origin,token){
+      if(!origin || !folioMotionEnabled()) return;
+      const to=folioBookCoverRect();
+      if(!to) return;
+      const from=origin.rect;
+      const layer=$("folioFlightLayer");
+      folioCleanFlight();
+      folioHideOrigin(origin);
+      const snapshot=folioSnapshot(origin.visual,from);
+      const flight=folioFlightBook(b,to);
+      const t=folioFlightTransform(from,to,origin.isSpine);
+      const start=folioTransform(t.dx,t.dy,t.scale,t.angle);
+      flight.style.transform=start;
+      flight.style.opacity="0";
+      const pull=snapshot ? folioAnimate(snapshot,[
+        {transform:"translate3d(0,0,0) scale(1)",opacity:1,filter:"brightness(1)"},
+        {transform:"translate3d(0,-9px,0) scale(1.055) rotateZ(-1deg)",opacity:1,filter:"brightness(1.1)"},
+        {transform:"translate3d(-16px,-15px,0) scale(1.08) rotateZ(-2deg)",opacity:0,filter:"brightness(1.12)"}
+      ],{duration:FOLIO_TIMING.pull+390,easing:"cubic-bezier(.22,.75,.26,1)",fill:"forwards"},token) : Promise.resolve(true);
+      const cover=folioAnimate(flight,[
+        {transform:start,opacity:0,filter:"brightness(.83)",offset:0},
+        {transform:folioTransform(t.dx*.90,t.dy*.91,t.scale*1.04,t.angle*.92,-2),opacity:1,filter:"brightness(1.05)",offset:.18},
+        {transform:folioTransform(t.dx*.42,t.dy*.45,t.scale+(1-t.scale)*.58,t.angle*.35,-1.5),opacity:1,filter:"brightness(1.08)",offset:.55},
+        {transform:folioTransform(0,0,1,0),opacity:1,filter:"brightness(1)",offset:1}
+      ],{duration:FOLIO_TIMING.extract,delay:200,easing:"cubic-bezier(.22,.68,.18,1)",fill:"forwards"},token);
+      await Promise.all([pull,cover]);
+      if(!folioCurrent(token)) return;
+      folioCleanFlight();
     }
-
-    async function openDetails(id,event=null){
-      if(detailAnimationRunning) return;
-      const b = books.find(x=>x.id===id);
-      if(!b) return;
-
-      detailAnimationRunning = true;
-      currentDetailBookId = id;
-
-      try{
-        if($("detailsDialog").open) $("detailsDialog").close();
-        await animateBookOut(id,event);
-        $("detailsBody").innerHTML = renderLuxuryDetails(b);
-        $("detailsDialog").showModal();
-        playDetailsBookAnimation();
-      }finally{
-        detailAnimationRunning = false;
+    async function folioTurnPage(token){
+      if(!folioCurrent(token) || !folioMotionEnabled()) return;
+      const leaf=$("folioBook").querySelector(".folio-turn-leaf");
+      leaf.style.visibility="visible";
+      const frames=[
+        {transform:"rotateY(0deg) translateZ(0)",opacity:0,offset:0},
+        {transform:"rotateY(-8deg) translateZ(0)",opacity:1,offset:.12},
+        {transform:"rotateY(-88deg) translateZ(18px) rotateZ(-1deg)",opacity:1,offset:.55},
+        {transform:"rotateY(-178deg) translateZ(1px)",opacity:1,offset:.94},
+        {transform:"rotateY(-180deg)",opacity:0,offset:1}
+      ];
+      await folioAnimate(leaf,frames,{duration:FOLIO_TIMING.page,easing:"cubic-bezier(.2,.7,.26,1)",fill:"forwards"},token);
+      leaf.style.visibility="hidden";
+      if(folioCurrent(token)) folioAnnounce("Das Buch ist aufgeschlagen.");
+    }
+    async function folioOpenBook(token){
+      if(!folioCurrent(token)) return;
+      const book=$("folioBook"),cover=book.querySelector(".folio-hinged-cover");
+      const mobile=matchMedia("(max-width:700px)").matches;
+      if(!folioMotionEnabled()){
+        folioSetPhase("open");
+        return;
+      }
+      const closed=folioClosedTransform();
+      folioSetPhase("opening");
+      const unfold=folioAnimate(book,[
+        {transform:closed},{transform:"none"}
+      ],{duration:FOLIO_TIMING.unfold*.78,easing:"cubic-bezier(.2,.72,.18,1)",fill:"forwards"},token);
+      const hinge=folioAnimate(cover,[
+        {transform:"rotateY(0deg)",offset:0},
+        {transform:"rotateY(-34deg) translateZ(8px)",offset:.25},
+        {transform:"rotateY(-103deg) translateZ(17px)",offset:.65},
+        {transform:`rotateY(${mobile?-145:-180}deg)`,offset:1}
+      ],{duration:FOLIO_TIMING.unfold,easing:"cubic-bezier(.27,.72,.2,1)",fill:"forwards"},token);
+      await Promise.all([unfold,hinge]);
+      if(!folioCurrent(token)) return;
+      folioSetPhase("turning");
+      await folioTurnPage(token);
+      if(folioCurrent(token)) folioSetPhase("open");
+    }
+    async function folioCloseBook(token){
+      if(!folioCurrent(token)) return;
+      const book=$("folioBook"),cover=book.querySelector(".folio-hinged-cover");
+      if(!folioMotionEnabled()){
+        folioSetPhase("closed");return;
+      }
+      const mobile=matchMedia("(max-width:700px)").matches;
+      folioSetPhase("closing");
+      // Both pages remain mounted. The hard cover closes over them.
+      const hinge=folioAnimate(cover,[
+        {transform:`rotateY(${mobile?-145:-180}deg)`,offset:0},
+        {transform:"rotateY(-100deg) translateZ(14px)",offset:.35},
+        {transform:"rotateY(-28deg) translateZ(5px)",offset:.76},
+        {transform:"rotateY(0deg)",offset:1}
+      ],{duration:FOLIO_TIMING.fold,easing:"cubic-bezier(.42,.05,.3,1)",fill:"forwards"},token);
+      const fold=folioAnimate(book,[
+        {transform:"none"},{transform:folioClosedTransform()}
+      ],{duration:FOLIO_TIMING.fold,easing:"cubic-bezier(.42,.05,.3,1)",fill:"forwards"},token);
+      await Promise.all([hinge,fold]);
+      if(folioCurrent(token)) folioSetPhase("closed");
+    }
+    async function folioReturn(b,token){
+      if(!folioCurrent(token)) return;
+      const original=folioMotion.origin;
+      const button=findBookElement(b.id);
+      const visual=folioVisual(button);
+      const to=folioRect(visual);
+      const from=folioBookCoverRect();
+      if(!original || !to || !from || !folioVisible(to) || !folioMotionEnabled()) return;
+      folioCleanFlight();
+      folioHideOrigin({button});
+      const flight=folioFlightBook(b,from);
+      const snapshot=folioSnapshot(visual,to);
+      const t=folioFlightTransform(to,from,!!visual.classList.contains("spine"));
+      const end=folioTransform(t.dx,t.dy,t.scale,t.angle);
+      const travel=folioAnimate(flight,[
+        {transform:folioTransform(0,0,1,0),opacity:1,offset:0},
+        {transform:folioTransform(t.dx*.43,t.dy*.45,1+(t.scale-1)*.48,t.angle*.3,1.5),opacity:1,offset:.45},
+        {transform:folioTransform(t.dx*.84,t.dy*.88,t.scale*1.05,t.angle*.86,1),opacity:1,offset:.82},
+        {transform:end,opacity:0,offset:1}
+      ],{duration:FOLIO_TIMING.return,easing:"cubic-bezier(.42,.05,.3,1)",fill:"forwards"},token);
+      const settle=snapshot ? folioAnimate(snapshot,[
+        {transform:"translate3d(-13px,-12px,0) scale(1.08) rotateZ(-1deg)",opacity:0,offset:0},
+        {transform:"translate3d(-9px,-8px,0) scale(1.045) rotateZ(-.5deg)",opacity:0,offset:.66},
+        {transform:"translate3d(0,0,0) scale(1)",opacity:1,offset:1}
+      ],{duration:FOLIO_TIMING.return,easing:"cubic-bezier(.42,.05,.3,1)",fill:"forwards"},token) : Promise.resolve(true);
+      await Promise.all([travel,settle]);
+      if(folioCurrent(token)) folioCleanFlight();
+    }
+    function folioRefreshDetails(b){
+      if(!$('detailsDialog').open || currentDetailBookId!==b.id) return;
+      const oldScroll=$("folioBook")?.querySelector(".folio-page-right .folio-page-scroll")?.scrollTop||0;
+      $("detailsBody").innerHTML=renderLuxuryDetails(b);
+      folioSetPhase("open");
+      const right=$("folioBook").querySelector(".folio-page-right .folio-page-scroll");
+      if(right) right.scrollTop=oldScroll;
+      const fresh=findBookElement(b.id);
+      if(fresh){
+        if(folioMotion.origin) folioMotion.origin.button=fresh;
+        folioHideOrigin({button:fresh});
       }
     }
-
-    async function closeDetailsAnimated(){
-      const dialog = $("detailsDialog");
-      if(!dialog.open || detailAnimationRunning) return;
-
-      detailAnimationRunning = true;
-      const id = currentDetailBookId;
-
+    async function openDetails(id,event=null){
+      const b=books.find(x=>String(x.id)===String(id));
+      if(!b) return;
+      const dialog=$("detailsDialog");
+      if(dialog.open){
+        if(currentDetailBookId===b.id && folioMotion.phase==="open") return;
+        folioCloseNow(false);
+      }
+      const token=++folioMotion.token;
+      folioMotion.focus=document.activeElement;
+      folioMotion.origin=folioCaptureOrigin(b.id,event);
+      currentDetailBookId=b.id;
+      folioSetPhase("extracting");
+      $("detailsBody").innerHTML=renderLuxuryDetails(b);
+      $("folioBook").dataset.phase="closed";
+      $("folioHeading").textContent=b.title||"Buchdetails";
+      folioSetWindowVisible(false);
+      if(!dialog.open) dialog.showModal();
+      dialog.focus({preventScroll:true});
+      folioAnnounce("Das Buch wird aus dem Regal gezogen.");
       try{
-        dialog.classList.add("closing");
-        await new Promise(resolve=>setTimeout(resolve,prefersReducedMotion()?0:140));
-
-        const returned = id ? await animateBookBack(id) : false;
-        if(!returned && dialog.open){
-          dialog.close();
-          dialog.classList.remove("closing");
-          dialog.classList.remove("book-opening");
-        }
-      }finally{
-        dialog.classList.remove("book-opening");
-        detailAnimationRunning = false;
-        currentDetailBookId = null;
+        await folioExtract(b,folioMotion.origin,token);
+        if(!folioCurrent(token)) return;
+        folioSetWindowVisible(true);
+        folioSetPhase("opening");
+        await folioOpenBook(token);
+        if(!folioCurrent(token)) return;
+        folioSetPhase("open");
+        $("detailsCloseBtn").focus({preventScroll:true});
+      }catch(err){
+        if(!folioCurrent(token)) return;
+        folioCleanFlight();
+        folioSetWindowVisible(true);
+        folioSetPhase("open");
+        $("detailsCloseBtn").focus({preventScroll:true});
+        console.warn("Buchanimation übersprungen:",err);
+      }
+    }
+    async function closeDetailsAnimated(){
+      const dialog=$("detailsDialog");
+      if(!dialog.open) return;
+      if(folioMotion.phase!=="open"){
+        folioCloseNow();return;
+      }
+      const token=++folioMotion.token;
+      const b=books.find(x=>x.id===currentDetailBookId);
+      folioSetPhase("closing");
+      folioAnnounce("Das Buch wird geschlossen und zurückgelegt.");
+      try{
+        await folioCloseBook(token);
+        if(!folioCurrent(token)) return;
+        folioSetPhase("returning");
+        folioSetWindowVisible(false);
+        if(b) await folioReturn(b,token);
+        if(folioCurrent(token)) folioCloseNow();
+      }catch(err){
+        if(folioCurrent(token)) folioCloseNow();
+        console.warn("Rückanimation übersprungen:",err);
       }
     }
 
@@ -6628,10 +6686,26 @@
       }
     });
 
-    $("detailsCloseBtn").addEventListener("click", closeDetailsAnimated);
-    $("detailsDialog").addEventListener("cancel", e=>{
+    $("detailsCloseBtn").addEventListener("click",closeDetailsAnimated);
+    $("detailsDialog").addEventListener("cancel",e=>{
       e.preventDefault();
       closeDetailsAnimated();
+    });
+    $("detailsDialog").addEventListener("close",()=>{
+      if(folioMotion.phase!=="idle") folioCloseNow(false);
+    });
+    $("detailsBody").addEventListener("click",e=>{
+      const button=e.target.closest("[data-folio-action]");
+      if(!button || folioMotion.phase!=="open") return;
+      const b=books.find(x=>x.id===currentDetailBookId);
+      if(!b) return;
+      switch(button.dataset.folioAction){
+        case "edit": openEdit(b.id); break;
+        case "favorite": toggleFavorite(b.id); break;
+        case "series":
+          if(b.series){folioCloseNow(false);openSeriesDetails(b.series)}
+          break;
+      }
     });
 
     $("addBtn").addEventListener("click", openNew);

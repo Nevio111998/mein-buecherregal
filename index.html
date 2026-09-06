@@ -761,6 +761,48 @@
       background:rgba(255,255,255,.025);
     }
 
+
+    /* ---------- V9.2: manual series logic ---------- */
+    .series-read-row{
+      margin-top:9px;
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,.055);
+    }
+    .series-read-text{
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      color:var(--muted);
+      font-size:10px;
+      margin-bottom:5px;
+    }
+    .series-read-bar{
+      height:5px;
+      overflow:hidden;
+      border-radius:999px;
+      background:rgba(255,255,255,.07);
+    }
+    .series-read-bar span{
+      display:block;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#667e70,#9fc58d);
+    }
+    .series-owned-complete{color:#9dd48d}
+    .series-owned-incomplete{color:#e3b26e}
+    .series-owned-warning{color:#e7a18e}
+    .series-owned-unknown{color:#b8aa9e}
+
+    .manual-series-note{
+      margin-top:10px;
+      padding:9px 10px;
+      border-radius:10px;
+      background:rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.4;
+    }
+
     @media(max-width:700px){
       .shelf{padding:18px 12px 36px}
       .books.bookshelf-mode{
@@ -854,7 +896,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V9.1</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V9.2</span></h1>
         <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
       </div>
       <div class="actions">
@@ -890,21 +932,19 @@
 
     <div id="dashboard" class="dashboard"></div>
     <div class="intelligence-head">
-      <h2>Reihen-Intelligenz</h2>
-      <button class="btn secondary" id="refreshSeriesBtn">↻ Reihen prüfen</button>
-    </div>
-    <div class="series-legend">
-      <span>✓ bestätigt</span>
-      <span>≈ vermutlich vollständig</span>
-      <span>? Gesamtzahl unbekannt</span>
-      <span>⚠ Konflikt / Lücke</span>
+      <div>
+        <h2>Reihen-Übersicht</h2>
+        <div style="color:var(--muted);font-size:11px;margin-top:4px">
+          Reihenaufteilung und Gesamtzahl bestimmst du selbst. Ungelesene Bücher zählen trotzdem als im Regal vorhanden.
+        </div>
+      </div>
     </div>
     <div id="seriesInsights" class="series-insights"></div>
     <div class="stats" id="stats" style="display:none"></div>
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Deine private Bibliothek: externe Buchdaten, Sortierung nach Band, Cover- und realistische Buchrückenansicht. Deine Sammlung bleibt lokal auf deinem Gerät.
+      Buchdaten und Cover kommen weiterhin aus externen Katalogen. Reihenaufteilung, Gesamtzahl und Vollständigkeit verwaltest nur du. Ungelesene Bücher zählen selbstverständlich als im Regal vorhanden.
     </div>
   </div>
 
@@ -2343,6 +2383,350 @@
       }
     });
 
+
+    /* =====================================================
+       V9.2 FINAL SERIES LOGIC
+       - no external series checking
+       - possession and reading status are separate
+       - Band is only used for ordering/display
+       ===================================================== */
+
+    function volumeSortTuple(v){
+      const s = String(v ?? "").trim().toLowerCase();
+      if(!s) return [Number.POSITIVE_INFINITY];
+
+      const nums = [...s.matchAll(/\d+(?:[.,]\d+)?/g)]
+        .map(m=>Number(m[0].replace(",",".")))
+        .filter(Number.isFinite);
+
+      if(!nums.length) return [Number.POSITIVE_INFINITY];
+
+      // "5 Teil 2" -> [5,2], "5.2" -> [5.2]
+      return nums;
+    }
+
+    function compareVolumeLabels(a,b){
+      const A = volumeSortTuple(a);
+      const B = volumeSortTuple(b);
+      const len = Math.max(A.length,B.length);
+      for(let i=0;i<len;i++){
+        const av = A[i] ?? 0;
+        const bv = B[i] ?? 0;
+        if(av !== bv) return av-bv;
+      }
+      return String(a||"").localeCompare(String(b||""),"de",{numeric:true,sensitivity:"base"});
+    }
+
+    function sortBooksSmart(arr){
+      return [...arr].sort((a,b)=>{
+        const sa=normalizeForSort(a.series||"");
+        const sb=normalizeForSort(b.series||"");
+        if(!!sa !== !!sb) return sa ? -1 : 1;
+        if(sa !== sb) return sa.localeCompare(sb,"de");
+
+        const vc = compareVolumeLabels(a.volume,b.volume);
+        if(vc !== 0) return vc;
+
+        const aa=normalizeForSort(a.author||"");
+        const ab=normalizeForSort(b.author||"");
+        if(aa !== ab) return aa.localeCompare(ab,"de");
+
+        return normalizeForSort(a.title||"").localeCompare(
+          normalizeForSort(b.title||""),"de"
+        );
+      });
+    }
+
+    function getSeriesGroups(){
+      const groups={};
+
+      // Wishlist books are not physically in the shelf and therefore
+      // do not count toward series completeness.
+      books.filter(b=>b.series && b.status!=="wishlist").forEach(b=>{
+        const key=seriesKey(b.series);
+        if(!groups[key]) groups[key]={name:b.series,books:[]};
+        groups[key].books.push(b);
+      });
+
+      Object.values(groups).forEach(g=>g.books=sortBooksSmart(g.books));
+      return groups;
+    }
+
+    function manualSeriesTotal(seriesName){
+      const meta=loadJsonStorage(SERIES_META_KEY,{});
+      const m=meta[seriesKey(seriesName)]||{};
+
+      // Prefer new manualTotal. Preserve old manually stored V9 values.
+      const direct=Number(m.manualTotal||0);
+      if(direct>0) return direct;
+
+      if(m.source==="manuell"){
+        const legacy=Number(m.totalVolumes||0);
+        if(legacy>0) return legacy;
+      }
+
+      return 0;
+    }
+
+    function isSeriesIgnored(seriesName){
+      const meta=loadJsonStorage(SERIES_META_KEY,{});
+      return !!meta[seriesKey(seriesName)]?.ignored;
+    }
+
+    function getManualSeriesInfo(g){
+      const ownedBooks=g.books.filter(b=>b.status!=="wishlist");
+      const owned=ownedBooks.length;
+      const total=manualSeriesTotal(g.name);
+
+      const read=ownedBooks.filter(b=>b.status==="read").length;
+      const reading=ownedBooks.filter(b=>b.status==="reading").length;
+      const unread=ownedBooks.filter(b=>b.status==="unread").length;
+
+      let state="unknown";
+      let stateClass="series-owned-unknown";
+      let stateText="Gesamtzahl noch nicht festgelegt";
+      let missing=0;
+
+      if(total>0){
+        if(owned===total){
+          state="complete";
+          stateClass="series-owned-complete";
+          stateText="✓ Vollständig im Regal";
+        }else if(owned<total){
+          missing=total-owned;
+          state="incomplete";
+          stateClass="series-owned-incomplete";
+          stateText=`Noch ${missing} ${missing===1 ? "Buch" : "Bücher"} fehlen im Regal`;
+        }else{
+          state="over";
+          stateClass="series-owned-warning";
+          stateText=`${owned} Bücher im Regal, aber Gesamtzahl ist ${total} – Gesamtzahl prüfen`;
+        }
+      }
+
+      const shelfPct=total>0 ? Math.min(100,Math.round(owned/total*100)) : 100;
+      const readPct=owned>0 ? Math.round(read/owned*100) : 0;
+
+      return {
+        ownedBooks,owned,total,read,reading,unread,
+        missing,state,stateClass,stateText,shelfPct,readPct
+      };
+    }
+
+    function qualifiedSeriesGroups(){
+      return Object.values(getSeriesGroups())
+        .filter(g=>{
+          if(isSeriesIgnored(g.name)) return false;
+          const total=manualSeriesTotal(g.name);
+
+          // A real row needs at least 2 physical books, or a manually
+          // configured total. This removes "Trading"/"Mindset"-style
+          // accidental categories with no meaningful shelf collection.
+          return g.books.length>=2 || total>0;
+        })
+        .sort((a,b)=>a.name.localeCompare(b.name,"de"));
+    }
+
+    function renderDashboard(){
+      const ownedBooksList=books.filter(b=>b.status!=="wishlist");
+      const read=ownedBooksList.filter(b=>b.status==="read").length;
+      const reading=ownedBooksList.filter(b=>b.status==="reading").length;
+      const unread=ownedBooksList.filter(b=>b.status==="unread").length;
+      const wish=books.filter(b=>b.status==="wishlist").length;
+      const fav=books.filter(b=>!!b.favorite).length;
+      const rereads=ownedBooksList.reduce((s,b)=>s+Number(b.rereads||0),0);
+
+      const groups=qualifiedSeriesGroups();
+      const complete=groups.filter(g=>getManualSeriesInfo(g).state==="complete").length;
+      const incomplete=groups.filter(g=>getManualSeriesInfo(g).state==="incomplete").length;
+      const unknown=groups.filter(g=>getManualSeriesInfo(g).state==="unknown").length;
+      const check=groups.filter(g=>getManualSeriesInfo(g).state==="over").length;
+
+      const pct=ownedBooksList.length
+        ? Math.round(read/ownedBooksList.length*100)
+        : 0;
+
+      $("dashboard").innerHTML=`
+        <div class="dash-card"><div class="k">Bibliothek</div><div class="v">${books.length}</div><div class="s">${ownedBooksList.length} im Besitz · ${wish} Wunschliste</div></div>
+        <div class="dash-card"><div class="k">Gelesen</div><div class="v">${pct}%</div><div class="s">${read} gelesen · ${reading} aktuell · ${unread} ungelesen</div></div>
+        <div class="dash-card"><div class="k">Reihen</div><div class="v">${groups.length}</div><div class="s">${complete} vollständig · ${incomplete} unvollständig · ${unknown} ohne Gesamtzahl${check ? ` · ${check} prüfen` : ""}</div></div>
+        <div class="dash-card"><div class="k">Favoriten</div><div class="v">${fav}</div><div class="s">deine Highlights</div></div>
+        <div class="dash-card"><div class="k">Re-Reads</div><div class="v">${rereads}</div><div class="s">zusätzliche Lesedurchgänge</div></div>
+        <div class="dash-card"><div class="k">Offen</div><div class="v">${Math.max(0,ownedBooksList.length-read)}</div><div class="s">ungelesen oder aktuell</div></div>
+      `;
+    }
+
+    function renderSeriesInsights(){
+      const groups=qualifiedSeriesGroups();
+
+      if(!groups.length){
+        $("seriesInsights").innerHTML=
+          `<div class="empty">Noch keine manuell verwaltbare Buchreihe vorhanden.</div>`;
+        return;
+      }
+
+      $("seriesInsights").innerHTML=groups.map(g=>{
+        const info=getManualSeriesInfo(g);
+        const encoded=encodeURIComponent(g.name);
+
+        const countText=info.total
+          ? `${info.owned} / ${info.total} Bücher im Regal`
+          : `${info.owned} Bücher im Regal`;
+
+        const readParts=[`${info.read} / ${info.owned} gelesen`];
+        if(info.reading) readParts.push(`${info.reading} aktuell`);
+        if(info.unread) readParts.push(`${info.unread} ungelesen`);
+
+        return `
+          <div class="series-card"
+               onclick="openSeriesDetails(decodeURIComponent('${encoded}'))">
+            <h3>${esc(g.name)}</h3>
+            <div class="meta">${countText}</div>
+
+            <div class="series-progress">
+              <span style="width:${info.shelfPct}%"></span>
+            </div>
+
+            <div class="${info.stateClass}" style="font-size:11px;font-weight:800;margin-top:6px">
+              ${esc(info.stateText)}
+            </div>
+
+            <div class="series-read-row">
+              <div class="series-read-text">
+                <span>${esc(readParts.join(" · "))}</span>
+                <span>${info.readPct}%</span>
+              </div>
+              <div class="series-read-bar">
+                <span style="width:${info.readPct}%"></span>
+              </div>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    function setSeriesTotal(seriesName,total){
+      const meta=loadJsonStorage(SERIES_META_KEY,{});
+      const key=seriesKey(seriesName);
+      const n=Math.max(0,Number(total||0));
+
+      meta[key]={
+        ...(meta[key]||{}),
+        manualTotal:n,
+        totalVolumes:n,
+        source:"manuell"
+      };
+
+      // Old external series information is deliberately ignored/cleared.
+      delete meta[key].remoteVolumes;
+      delete meta[key].remoteTitles;
+      delete meta[key].externalConfidence;
+      delete meta[key].checkedAt;
+
+      saveJsonStorage(SERIES_META_KEY,meta);
+      renderDashboard();
+      renderSeriesInsights();
+      openSeriesDetails(seriesName,true);
+    }
+
+    function setSeriesIgnored(seriesName,ignored){
+      const meta=loadJsonStorage(SERIES_META_KEY,{});
+      const key=seriesKey(seriesName);
+      meta[key]={...(meta[key]||{}),ignored:!!ignored};
+      saveJsonStorage(SERIES_META_KEY,meta);
+
+      renderDashboard();
+      renderSeriesInsights();
+
+      if($("seriesDialog").open) $("seriesDialog").close();
+    }
+
+    function openSeriesDetails(seriesName,refreshOnly=false){
+      const g=getSeriesGroups()[seriesKey(seriesName)];
+      if(!g) return;
+
+      const info=getManualSeriesInfo(g);
+      const encoded=encodeURIComponent(seriesName);
+
+      const bookCards=info.ownedBooks.map((b,index)=>{
+        const progress=readingPercent(b);
+        const band=String(b.volume||"").trim();
+
+        return `
+          <div class="series-volume">
+            <div class="num">
+              ${band ? `Band ${esc(band)}` : `Buch ${index+1}`}
+              · ${esc(statusLabel(b.status))}
+            </div>
+            <div class="ttl">${esc(b.title)}</div>
+            <div class="sub">
+              ${b.status==="read"
+                ? "✓ gelesen"
+                : b.status==="reading"
+                  ? `Lese ich gerade${progress ? ` · ${progress}%` : ""}`
+                  : "noch ungelesen"}
+            </div>
+          </div>`;
+      }).join("");
+
+      const missingText=info.total && info.owned<info.total
+        ? `<div class="manual-series-note">
+             Dir fehlen noch <strong>${info.total-info.owned}</strong>
+             ${info.total-info.owned===1 ? "Buch" : "Bücher"} dieser von dir definierten Reihe.
+             Welche Bände das sind, bestimmst du selbst über das Feld „Band“ bei den Büchern.
+           </div>`
+        : "";
+
+      $("seriesDetailsBody").innerHTML=`
+        <h3 style="font-family:Georgia,serif;font-size:26px;margin:0">${esc(seriesName)}</h3>
+
+        <p style="color:var(--muted);margin:6px 0 0">
+          ${info.owned} Bücher im Regal · ${info.read} gelesen ·
+          ${info.reading} aktuell · ${info.unread} ungelesen
+        </p>
+
+        <div class="${info.stateClass}" style="font-size:13px;font-weight:900;margin-top:10px">
+          ${esc(info.stateText)}
+        </div>
+
+        <div class="series-config">
+          <div class="field">
+            <label>Wie viele Bücher/Bände gehören für dich insgesamt zu dieser Reihe?</label>
+            <input id="seriesTotalOverride"
+                   type="number"
+                   min="0"
+                   value="${info.total||""}"
+                   placeholder="z. B. 8">
+          </div>
+          <div class="field">
+            <label>Hinweis</label>
+            <div style="padding-top:9px;color:var(--muted);font-size:11px;line-height:1.4">
+              Diese Zahl wird nur von dir festgelegt. Externe Datenbanken verändern sie nicht.
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions" style="justify-content:flex-start">
+          <button class="btn secondary" type="button"
+                  onclick="setSeriesTotal(decodeURIComponent('${encoded}'),$('seriesTotalOverride').value)">
+            Gesamtzahl speichern
+          </button>
+          <button class="btn secondary" type="button"
+                  onclick="setSeriesIgnored(decodeURIComponent('${encoded}'),true)">
+            Nicht als Reihe behandeln
+          </button>
+        </div>
+
+        ${missingText}
+
+        <div class="series-detail-grid">${bookCards}</div>
+      `;
+
+      if(!refreshOnly && !$("seriesDialog").open){
+        $("seriesDialog").showModal();
+      }
+    }
+
+
     $("addBtn").addEventListener("click", openNew);
     $("lookupBtn").addEventListener("click", lookupISBN);
     $("titleLookupBtn").addEventListener("click", lookupByTitle);
@@ -2360,7 +2744,6 @@
       $(id).addEventListener("change",checkDuplicate);
     });
 
-    $("refreshSeriesBtn").addEventListener("click",()=>refreshSeriesIntelligence());
 
     $("search").addEventListener("input", render);
     $("filter").addEventListener("change", render);

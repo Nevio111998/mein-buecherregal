@@ -1,42 +1,29 @@
-# Mein Bücherregal – Version 12.1
+# Mein Bücherregal – Version 12.2
 
-Version 12.1 baut auf Version 12 auf.
+Version 12.2 baut direkt auf Version 12.1 auf.
 
-## Neu: Buch aus dem Regal ziehen
+## Neu: aufgeklapptes Buch in der Detailansicht
 
-Beim Öffnen der Buchdetails wird das ausgewählte Buch aus seiner aktuellen
-Position im Regal nach vorne animiert. Danach öffnet sich eine edle,
-grossformatige Detailansicht.
+Beim Öffnen der Buchdetails fährt das Buch weiterhin aus dem Regal nach vorne.
+Danach wirkt die Detailansicht jetzt noch stärker wie ein echtes aufgeschlagenes
+Buch:
 
-## Neue Detailansicht
+- die Front klappt wie ein Buchcover auf
+- eine zusätzliche Umblätter-Animation erzeugt mehr Buchgefühl
+- die linke Seite wirkt wie ein offenes Buch mit Cover und Innenseite
+- die edle Detailansicht rechts bleibt erhalten
 
-Die Detailansicht wurde optisch komplett aufgewertet:
+## Bleibt erhalten
 
-- grosses Cover mit Buchrücken-Andeutung
-- Titel und Autor im Luxury-Library-Stil
-- Reihe / Band / Genre / Standort / ISBN / Jahr / Seiten
-- Bewertung
-- Lesefortschritt
-- Tags
-- Notizen
-- Bearbeiten
-- Favorit setzen
-- Reihe öffnen
-
-Beim Schliessen fährt das Buch, wenn möglich, wieder zurück an seinen Platz.
-
-## Wichtig
-
-Nicht verändert wurden:
-
+- Bibliotheksmodus
+- Buch-Zurückflug beim Schliessen
 - lokale Speicherung
 - JSON-Backup / Import / Zusammenführen
 - manuelle Reihenlogik
-- Bibliotheksmodus
 - Kamera / Schnellscan
 - Cloudflare-Datenquelle
 
-Bei aktivierter Bewegungsreduzierung wird die Animation übersprungen.
+Bei aktivierter Bewegungsreduzierung werden die Animationen deaktiviert.
 
 ## Update
 

@@ -1,5 +1,5 @@
-const CACHE = "bookshelf-v12-1";
-const STATIC = ["./index.html", "./manifest.webmanifest", "./icon.svg"];
+const CACHE = "bookshelf-v12.2";
+const STATIC = ["./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(STATIC)));

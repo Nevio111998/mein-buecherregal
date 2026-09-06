@@ -2303,6 +2303,336 @@
     body.immersive[data-library-light="off"] .lamp::after{opacity:0}
     body.immersive[data-library-light="moonlight"] .lamp::after{filter:hue-rotate(170deg) blur(6px);opacity:.5}
     body.immersive .book:focus-visible{outline:2px solid #e8c58b;outline-offset:5px}
+
+    /* =====================================================
+       V12.1 — Buch aus dem Regal ziehen + edle Detailansicht
+       ===================================================== */
+    .book-detail-opening{
+      pointer-events:none;
+      filter:brightness(.9);
+    }
+    .book-flight-clone{
+      position:fixed!important;
+      margin:0!important;
+      z-index:220!important;
+      pointer-events:none!important;
+      transform-origin:center center!important;
+      will-change:transform,opacity,filter!important;
+      border:0!important;
+      background:transparent!important;
+      box-shadow:none!important;
+    }
+    .book-flight-clone .book-title,
+    .book-flight-clone .book-author{
+      display:none!important;
+    }
+    .book-flight-clone .cover,
+    .book-flight-clone .spine{
+      width:100%!important;
+      height:100%!important;
+    }
+    .details-luxury-dialog{
+      width:min(1040px,calc(100% - 24px));
+      border-radius:28px;
+      border:1px solid rgba(232,193,128,.18);
+      background:
+        radial-gradient(circle at 18% 10%,rgba(216,179,107,.13),transparent 34%),
+        radial-gradient(circle at 82% 8%,rgba(255,255,255,.05),transparent 28%),
+        linear-gradient(145deg,rgba(38,28,23,.98),rgba(17,14,13,.99) 64%,rgba(31,22,18,.98));
+      box-shadow:
+        0 42px 90px rgba(0,0,0,.68),
+        inset 0 1px 0 rgba(255,255,255,.07);
+      overflow:hidden;
+    }
+    .details-luxury-dialog::backdrop{
+      background:
+        radial-gradient(circle at 50% 30%,rgba(216,179,107,.11),transparent 34%),
+        rgba(0,0,0,.76);
+      backdrop-filter:blur(10px);
+    }
+    .details-luxury-dialog[open]{
+      animation:detailDialogIn .24s ease both;
+    }
+    .details-luxury-dialog.closing{
+      animation:detailDialogOut .20s ease both;
+    }
+    .details-luxury-topbar{
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),
+        rgba(20,16,14,.84);
+      border-bottom:1px solid rgba(232,193,128,.12);
+      backdrop-filter:blur(14px);
+    }
+    .details-luxury-topbar h2{
+      font-family:Georgia,"Times New Roman",serif;
+      letter-spacing:.02em;
+      color:#f2ddbd;
+    }
+    .luxury-detail{
+      display:grid;
+      grid-template-columns:minmax(220px,310px) 1fr;
+      gap:28px;
+      padding:8px 4px 6px;
+    }
+    .luxury-cover-column{
+      position:relative;
+      min-width:0;
+    }
+    .luxury-cover-frame{
+      position:relative;
+      border-radius:16px;
+      padding:12px;
+      background:
+        linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.01)),
+        linear-gradient(180deg,rgba(111,70,41,.55),rgba(28,20,16,.86));
+      border:1px solid rgba(232,193,128,.13);
+      box-shadow:
+        0 24px 38px rgba(0,0,0,.34),
+        inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .luxury-cover-frame::before{
+      content:"";
+      position:absolute;
+      inset:7px;
+      border-radius:12px;
+      border:1px solid rgba(232,193,128,.10);
+      pointer-events:none;
+    }
+    .luxury-cover-img{
+      display:block;
+      width:100%;
+      aspect-ratio:2/3;
+      object-fit:cover;
+      border-radius:10px;
+      box-shadow:
+        0 22px 28px rgba(0,0,0,.44),
+        0 1px 0 rgba(255,255,255,.04);
+      background:#211813;
+    }
+    .luxury-cover-placeholder{
+      width:100%;
+      aspect-ratio:2/3;
+      border-radius:10px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      padding:18px;
+      color:#f2ddbd;
+      font-family:Georgia,"Times New Roman",serif;
+      line-height:1.16;
+      background:
+        linear-gradient(145deg,rgba(216,179,107,.16),transparent 35%),
+        linear-gradient(180deg,#6b4429,#28170e);
+      box-shadow:0 22px 28px rgba(0,0,0,.38);
+    }
+    .luxury-spine-preview{
+      position:absolute;
+      right:-12px;
+      top:26px;
+      bottom:26px;
+      width:24px;
+      border-radius:0 8px 8px 0;
+      background:linear-gradient(180deg,#7c5130,#3c2315);
+      box-shadow:6px 0 14px rgba(0,0,0,.30), inset -4px 0 8px rgba(0,0,0,.28);
+      opacity:.88;
+    }
+    .luxury-status-ribbon{
+      margin-top:14px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:center;
+    }
+    .luxury-detail-main{
+      min-width:0;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+    }
+    .luxury-overline{
+      color:var(--gold);
+      font-size:10px;
+      font-weight:900;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    .luxury-title{
+      margin:0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:clamp(34px,4.8vw,60px);
+      line-height:.98;
+      letter-spacing:-.045em;
+      color:#f7ead8;
+      text-shadow:0 2px 4px rgba(0,0,0,.35);
+    }
+    .luxury-author{
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.35;
+    }
+    .luxury-stars{
+      color:var(--gold);
+      letter-spacing:4px;
+      font-size:22px;
+      min-height:28px;
+    }
+    .luxury-pill-row{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .luxury-pill{
+      padding:8px 11px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.07);
+      color:#ead8c1;
+      font-size:12px;
+      line-height:1;
+    }
+    .luxury-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:9px;
+    }
+    .luxury-info{
+      padding:11px;
+      min-height:68px;
+      border-radius:14px;
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),
+        rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    .luxury-info .k{
+      color:var(--muted);
+      font-size:9px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:900;
+    }
+    .luxury-info .v{
+      margin-top:7px;
+      font-size:13px;
+      line-height:1.25;
+      color:#f3e5d4;
+      overflow-wrap:anywhere;
+    }
+    .luxury-progress{
+      padding:14px;
+      border-radius:16px;
+      background:
+        radial-gradient(circle at 0 0,rgba(216,179,107,.10),transparent 36%),
+        rgba(0,0,0,.18);
+      border:1px solid rgba(232,193,128,.11);
+    }
+    .luxury-progress-top{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-size:13px;
+      margin-bottom:8px;
+    }
+    .luxury-progress-bar{
+      height:10px;
+      border-radius:999px;
+      overflow:hidden;
+      background:rgba(255,255,255,.08);
+      box-shadow:inset 0 1px 2px rgba(0,0,0,.35);
+    }
+    .luxury-progress-bar span{
+      display:block;
+      height:100%;
+      border-radius:999px;
+      background:linear-gradient(90deg,#8a5a34,#d8b36b);
+    }
+    .luxury-progress-small{
+      color:var(--muted);
+      font-size:10px;
+      margin-top:7px;
+    }
+    .luxury-notes{
+      padding:15px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(255,255,255,.025);
+      color:#e9dac8;
+      line-height:1.55;
+      white-space:pre-wrap;
+      max-height:220px;
+      overflow:auto;
+    }
+    .luxury-notes h4{
+      margin:0 0 8px;
+      color:#f1ddbd;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:18px;
+    }
+    .luxury-detail-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+      margin-top:2px;
+    }
+    .luxury-detail-actions .btn{
+      min-width:126px;
+    }
+    .details-luxury-dialog .modal-body{
+      padding:18px 22px 24px;
+    }
+    @keyframes detailDialogIn{
+      from{opacity:0;transform:translateY(12px) scale(.985)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+    @keyframes detailDialogOut{
+      from{opacity:1;transform:translateY(0) scale(1)}
+      to{opacity:0;transform:translateY(12px) scale(.985)}
+    }
+    @media(max-width:850px){
+      .luxury-detail{
+        grid-template-columns:1fr;
+        gap:18px;
+      }
+      .luxury-cover-column{
+        width:min(280px,70%);
+        margin:0 auto;
+      }
+      .luxury-grid{
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+      .luxury-title{
+        font-size:clamp(30px,9vw,44px);
+      }
+    }
+    @media(max-width:520px){
+      .details-luxury-dialog{
+        width:calc(100% - 14px);
+        border-radius:22px;
+      }
+      .details-luxury-dialog .modal-body{
+        padding:14px 14px 18px;
+      }
+      .luxury-cover-column{
+        width:min(230px,76%);
+      }
+      .luxury-grid{
+        grid-template-columns:1fr;
+      }
+      .luxury-detail-actions .btn{
+        width:100%;
+      }
+    }
+    @media(prefers-reduced-motion:reduce){
+      .book-flight-clone,
+      .details-luxury-dialog[open],
+      .details-luxury-dialog.closing{
+        animation:none!important;
+        transition:none!important;
+      }
+    }
+
     @media(max-width:700px){
       .library-mode-bar{padding-top:calc(8px + env(safe-area-inset-top))}
       .library-mode-top{gap:9px;margin-bottom:8px}
@@ -2527,7 +2857,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V12</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V12.1</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -2636,7 +2966,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 12: immersiver Bibliotheksmodus mit Regal-Navigation, Lichtstimmungen und optionalem Vollbild. Deine Sammlung bleibt unverändert.
+      Version 12.1: Bücher fahren animiert aus dem Regal und öffnen sich als edle Detailansicht. Bibliotheksmodus und Daten bleiben unverändert.
     </div>
   </div>
 
@@ -2943,10 +3273,10 @@
     <div class="modal-body" id="seriesDetailsBody"></div>
   </dialog>
 
-  <dialog id="detailsDialog">
-    <div class="modal-head">
-      <h2>Buch</h2>
-      <button class="icon-btn" data-close="detailsDialog">×</button>
+  <dialog id="detailsDialog" class="details-luxury-dialog">
+    <div class="modal-head details-luxury-topbar">
+      <h2>Buchdetails</h2>
+      <button class="icon-btn" id="detailsCloseBtn" type="button" aria-label="Buchdetails schliessen">×</button>
     </div>
     <div class="modal-body" id="detailsBody"></div>
   </dialog>
@@ -3780,7 +4110,7 @@
         : esc(b.series || b.author || "");
 
       return `
-        <button class="book" onclick="openDetails('${b.id}')" title="${esc(b.title)}">
+        <button class="book" data-book-id="${esc(b.id)}" onclick="openDetails('${b.id}', event)" title="${esc(b.title)}">
           <div class="spine"
                style="--spine-h:${d.height}px;--spine-w:${d.width}px;--title-size:${d.titleSize}px;--fallback-bg:${bg}">
             ${b.cover
@@ -3803,7 +4133,7 @@
         ? `<img src="${esc(b.cover)}" alt="" onerror="this.parentElement.innerHTML='<div class=&quot;fallback&quot;>${esc((b.title||"Buch").slice(0,50))}</div><span class=&quot;badge&quot;>${esc(statusLabel(b.status))}</span>'">`
         : `<div class="fallback">${esc((b.title||"Buch").slice(0,50))}</div>`;
       return `
-        <button class="book cover-mode" onclick="openDetails('${b.id}')">
+        <button class="book cover-mode" data-book-id="${esc(b.id)}" onclick="openDetails('${b.id}', event)">
           <div class="cover">
             ${img}
             ${b.favorite ? `<span class="favorite-star">★</span>` : ``}
@@ -3873,49 +4203,198 @@
       $("editDialog").showModal();
     }
 
-    function openDetails(id){
-      const b = books.find(x=>x.id===id);
-      if(!b) return;
-      const stars = b.rating ? "★".repeat(Number(b.rating)) + "☆".repeat(5-Number(b.rating)) : "Noch nicht bewertet";
+    let currentDetailBookId = null;
+    let detailAnimationRunning = false;
+
+    function prefersReducedMotion(){
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function findBookElement(id){
+      const candidates = [...document.querySelectorAll(`[data-book-id="${CSS.escape(String(id))}"]`)];
+      return candidates.find(el=>{
+        const r = el.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
+      }) || candidates[0] || null;
+    }
+
+    function cloneBookForFlight(source){
+      const clone = source.cloneNode(true);
+      clone.classList.add("book-flight-clone");
+      clone.removeAttribute("onclick");
+      clone.removeAttribute("title");
+      clone.setAttribute("aria-hidden","true");
+
+      const r = source.getBoundingClientRect();
+      clone.style.left = `${r.left}px`;
+      clone.style.top = `${r.top}px`;
+      clone.style.width = `${r.width}px`;
+      clone.style.height = `${r.height}px`;
+      clone.style.transform = "translate3d(0,0,0) scale(1)";
+      clone.style.opacity = "1";
+
+      document.body.appendChild(clone);
+      return {clone, rect:r};
+    }
+
+    function destinationForFlight(rect){
+      const w = Math.min(rect.width * 1.55, window.innerWidth * 0.34, 260);
+      const h = Math.min(rect.height * 1.55, window.innerHeight * 0.52, 390);
+      const left = Math.max(16, (window.innerWidth - w) / 2);
+      const top = Math.max(84, Math.min(window.innerHeight * 0.18, (window.innerHeight - h) / 2));
+      return {left, top, width:w, height:h};
+    }
+
+    async function animateBookOut(id, event){
+      if(prefersReducedMotion()) return;
+
+      const source = event?.currentTarget || findBookElement(id);
+      if(!source) return;
+
+      source.classList.add("book-detail-opening");
+
+      const {clone, rect} = cloneBookForFlight(source);
+      const dest = destinationForFlight(rect);
+      const dx = dest.left - rect.left;
+      const dy = dest.top - rect.top;
+      const sx = dest.width / Math.max(1, rect.width);
+      const sy = dest.height / Math.max(1, rect.height);
+
+      try{
+        await clone.animate([
+          {transform:"translate3d(0,0,0) scale(1) rotateX(0deg)", opacity:1, filter:"brightness(1) saturate(1)"},
+          {transform:`translate3d(${dx * .52}px,${dy * .38}px,0) scale(${Math.min(sx,sy) * 1.08}) rotateX(2deg)`, opacity:1, filter:"brightness(1.10) saturate(1.06)"},
+          {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy}) rotateX(0deg)`, opacity:.98, filter:"brightness(1.12) saturate(1.06)"}
+        ],{
+          duration:430,
+          easing:"cubic-bezier(.18,.82,.22,1)"
+        }).finished;
+      }catch{}
+      finally{
+        clone.remove();
+        source.classList.remove("book-detail-opening");
+      }
+    }
+
+    async function animateBookBack(id){
+      if(prefersReducedMotion()) return false;
+
+      const source = findBookElement(id);
+      const cover = document.querySelector("#detailsBody .luxury-cover-frame");
+      const dialog = $("detailsDialog");
+      if(!source || !cover || !dialog.open) return false;
+
+      const from = cover.getBoundingClientRect();
+      const to = source.getBoundingClientRect();
+      if(!from.width || !from.height || !to.width || !to.height) return false;
+
+      const mini = cover.cloneNode(true);
+      mini.classList.add("book-flight-clone");
+      mini.style.left = `${from.left}px`;
+      mini.style.top = `${from.top}px`;
+      mini.style.width = `${from.width}px`;
+      mini.style.height = `${from.height}px`;
+      mini.style.transform = "translate3d(0,0,0) scale(1)";
+      mini.style.opacity = "1";
+      document.body.appendChild(mini);
+
+      // Now the real dialog can disappear while the cloned cover flies home.
+      dialog.close();
+      dialog.classList.remove("closing");
+
+      const dx = to.left - from.left;
+      const dy = to.top - from.top;
+      const sx = to.width / Math.max(1, from.width);
+      const sy = to.height / Math.max(1, from.height);
+
+      try{
+        await mini.animate([
+          {transform:"translate3d(0,0,0) scale(1)", opacity:1, filter:"brightness(1.05)"},
+          {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy})`, opacity:.72, filter:"brightness(.95)"}
+        ],{
+          duration:320,
+          easing:"cubic-bezier(.2,.7,.24,1)"
+        }).finished;
+      }catch{}
+      finally{
+        mini.remove();
+      }
+
+      return true;
+    }
+
+    function luxuryInfo(label,value){
+      if(value === undefined || value === null || value === "") return "";
+      return `<div class="luxury-info"><div class="k">${esc(label)}</div><div class="v">${esc(value)}</div></div>`;
+    }
+
+    function renderLuxuryDetails(b){
+      const stars = b.rating
+        ? "★".repeat(Number(b.rating)) + "☆".repeat(5-Number(b.rating))
+        : "Noch nicht bewertet";
       const progress = readingPercent(b);
       const tags = cleanTags(b.tags || []);
       const seriesEncoded = b.series ? encodeURIComponent(b.series) : "";
-      $("detailsBody").innerHTML = `
-        <div class="details">
-          <div>
-            ${b.cover ? `<img src="${esc(b.cover)}" alt="">` : `<div class="cover"><div class="fallback">${esc(b.title)}</div></div>`}
+      const cover = b.cover
+        ? `<img class="luxury-cover-img" src="${esc(b.cover)}" alt="" onerror="this.outerHTML='<div class=&quot;luxury-cover-placeholder&quot;>${esc((b.title||"Buch").slice(0,80))}</div>'">`
+        : `<div class="luxury-cover-placeholder">${esc(b.title || "Buch")}</div>`;
+
+      const infoCards = [
+        luxuryInfo("Status",statusLabel(b.status || "unread")),
+        luxuryInfo("Reihe",b.series ? `${b.series}${b.volume ? " · Band " + b.volume : ""}` : ""),
+        luxuryInfo("Genre",b.genre || ""),
+        luxuryInfo("Standort",b.location || ""),
+        luxuryInfo("Jahr",b.publishedYear || ""),
+        luxuryInfo("Seiten",b.pages || ""),
+        luxuryInfo("Re-Reads",b.rereads || ""),
+        luxuryInfo("ISBN",b.isbn || "")
+      ].filter(Boolean).join("");
+
+      return `
+        <div class="luxury-detail">
+          <div class="luxury-cover-column">
+            <div class="luxury-cover-frame">
+              ${cover}
+              <span class="luxury-spine-preview" aria-hidden="true"></span>
+            </div>
+            <div class="luxury-status-ribbon">
+              <span class="luxury-pill">${esc(statusLabel(b.status || "unread"))}</span>
+              ${b.favorite ? `<span class="luxury-pill">★ Favorit</span>` : ""}
+            </div>
           </div>
-          <div>
-            <h3>${esc(b.title)}</h3>
-            <div class="meta">${esc(b.author || "Autor unbekannt")}</div>
-            <div class="rating">${esc(stars)}</div>
-            <div class="pillrow">
-              <span class="pill">${esc(statusLabel(b.status))}</span>
-              ${b.series ? `<span class="pill">${esc(b.series)}${b.volume ? " · Band "+esc(b.volume) : ""}</span>` : ""}
-              ${b.genre ? `<span class="pill">${esc(b.genre)}</span>` : ""}
-              ${b.favorite ? `<span class="pill">★ Favorit</span>` : ""}
+
+          <div class="luxury-detail-main">
+            <div>
+              <div class="luxury-overline">${esc(b.series || b.genre || "Buch aus deiner Bibliothek")}</div>
+              <h3 class="luxury-title">${esc(b.title || "Ohne Titel")}</h3>
+              <div class="luxury-author">${esc(b.author || "Autor unbekannt")}</div>
             </div>
 
-            <div class="details-info-grid">
-              ${b.publishedYear ? `<div class="details-info"><div class="k">Erscheinungsjahr</div><div class="v">${esc(b.publishedYear)}</div></div>` : ""}
-              ${b.location ? `<div class="details-info"><div class="k">Standort</div><div class="v">${esc(b.location)}</div></div>` : ""}
-              ${b.rereads ? `<div class="details-info"><div class="k">Re-Reads</div><div class="v">${esc(b.rereads)}</div></div>` : ""}
-              ${b.isbn ? `<div class="details-info"><div class="k">ISBN</div><div class="v">${esc(b.isbn)}</div></div>` : ""}
+            <div class="luxury-stars">${esc(stars)}</div>
+
+            <div class="luxury-pill-row">
+              ${b.volume ? `<span class="luxury-pill">Band ${esc(b.volume)}</span>` : ""}
+              ${b.genre ? `<span class="luxury-pill">${esc(b.genre)}</span>` : ""}
+              ${tags.map(t=>`<span class="luxury-pill">${esc(t)}</span>`).join("")}
             </div>
+
+            ${infoCards ? `<div class="luxury-grid">${infoCards}</div>` : ""}
 
             ${(b.pages || b.currentPage) ? `
-              <div style="background:#171310;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:11px;margin:10px 0">
-                <div style="display:flex;justify-content:space-between;gap:8px;font-size:12px">
-                  <strong>Lesefortschritt</strong><span>${progress}%</span>
+              <div class="luxury-progress">
+                <div class="luxury-progress-top">
+                  <strong>Lesefortschritt</strong>
+                  <span>${progress}%</span>
                 </div>
-                <div class="series-progress"><span style="width:${progress}%"></span></div>
-                <div style="font-size:10px;color:var(--muted)">${b.currentPage || 0}${b.pages ? ` / ${b.pages} Seiten` : " Seiten"}</div>
+                <div class="luxury-progress-bar"><span style="width:${progress}%"></span></div>
+                <div class="luxury-progress-small">
+                  ${b.currentPage || 0}${b.pages ? ` / ${b.pages} Seiten` : " Seiten"}
+                </div>
               </div>` : ""}
 
-            ${tags.length ? `<div class="tag-list">${tags.map(t=>`<span class="tag-chip">${esc(t)}</span>`).join("")}</div>` : ""}
-            ${b.notes ? `<p style="white-space:pre-wrap">${esc(b.notes)}</p>` : ""}
+            ${b.notes ? `<div class="luxury-notes"><h4>Notizen</h4>${esc(b.notes)}</div>` : ""}
 
-            <div class="detail-actions">
+            <div class="luxury-detail-actions">
               <button class="btn primary" onclick="openEdit('${b.id}')">Bearbeiten</button>
               <button class="btn secondary fav-btn ${b.favorite ? "active" : ""}" onclick="toggleFavorite('${b.id}')">
                 ${b.favorite ? "★ Favorit" : "☆ Als Favorit"}
@@ -3923,9 +4402,47 @@
               ${b.series ? `<button class="btn secondary" onclick="openSeriesDetails(decodeURIComponent('${seriesEncoded}'))">Reihe öffnen</button>` : ""}
             </div>
           </div>
-        </div>
-      `;
-      $("detailsDialog").showModal();
+        </div>`;
+    }
+
+    async function openDetails(id,event=null){
+      if(detailAnimationRunning) return;
+      const b = books.find(x=>x.id===id);
+      if(!b) return;
+
+      detailAnimationRunning = true;
+      currentDetailBookId = id;
+
+      try{
+        if($("detailsDialog").open) $("detailsDialog").close();
+        await animateBookOut(id,event);
+        $("detailsBody").innerHTML = renderLuxuryDetails(b);
+        $("detailsDialog").showModal();
+      }finally{
+        detailAnimationRunning = false;
+      }
+    }
+
+    async function closeDetailsAnimated(){
+      const dialog = $("detailsDialog");
+      if(!dialog.open || detailAnimationRunning) return;
+
+      detailAnimationRunning = true;
+      const id = currentDetailBookId;
+
+      try{
+        dialog.classList.add("closing");
+        await new Promise(resolve=>setTimeout(resolve,prefersReducedMotion()?0:140));
+
+        const returned = id ? await animateBookBack(id) : false;
+        if(!returned && dialog.open){
+          dialog.close();
+          dialog.classList.remove("closing");
+        }
+      }finally{
+        detailAnimationRunning = false;
+        currentDetailBookId = null;
+      }
     }
 
     function fillBookData(data, sourceLabel){
@@ -6024,6 +6541,12 @@
       }finally{
         e.target.value="";
       }
+    });
+
+    $("detailsCloseBtn").addEventListener("click", closeDetailsAnimated);
+    $("detailsDialog").addEventListener("cancel", e=>{
+      e.preventDefault();
+      closeDetailsAnimated();
     });
 
     $("addBtn").addEventListener("click", openNew);

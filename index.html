@@ -2303,383 +2303,6 @@
     body.immersive[data-library-light="off"] .lamp::after{opacity:0}
     body.immersive[data-library-light="moonlight"] .lamp::after{filter:hue-rotate(170deg) blur(6px);opacity:.5}
     body.immersive .book:focus-visible{outline:2px solid #e8c58b;outline-offset:5px}
-
-    /* =====================================================
-       V12.1 — Buch aus dem Regal ziehen + edle Detailansicht
-       ===================================================== */
-    .book-detail-opening{
-      pointer-events:none;
-      filter:brightness(.9);
-    }
-    .book-flight-clone{
-      position:fixed!important;
-      margin:0!important;
-      z-index:220!important;
-      pointer-events:none!important;
-      transform-origin:center center!important;
-      will-change:transform,opacity,filter!important;
-      border:0!important;
-      background:transparent!important;
-      box-shadow:none!important;
-    }
-    .book-flight-clone .book-title,
-    .book-flight-clone .book-author{
-      display:none!important;
-    }
-    .book-flight-clone .cover,
-    .book-flight-clone .spine{
-      width:100%!important;
-      height:100%!important;
-    }
-    .details-luxury-dialog{
-      width:min(1040px,calc(100% - 24px));
-      border-radius:28px;
-      border:1px solid rgba(232,193,128,.18);
-      background:
-        radial-gradient(circle at 18% 10%,rgba(216,179,107,.13),transparent 34%),
-        radial-gradient(circle at 82% 8%,rgba(255,255,255,.05),transparent 28%),
-        linear-gradient(145deg,rgba(38,28,23,.98),rgba(17,14,13,.99) 64%,rgba(31,22,18,.98));
-      box-shadow:
-        0 42px 90px rgba(0,0,0,.68),
-        inset 0 1px 0 rgba(255,255,255,.07);
-      overflow:hidden;
-    }
-    .details-luxury-dialog::backdrop{
-      background:
-        radial-gradient(circle at 50% 30%,rgba(216,179,107,.11),transparent 34%),
-        rgba(0,0,0,.76);
-      backdrop-filter:blur(10px);
-    }
-    .details-luxury-dialog[open]{
-      animation:detailDialogIn .24s ease both;
-    }
-    .details-luxury-dialog.closing{
-      animation:detailDialogOut .20s ease both;
-    }
-    .details-luxury-topbar{
-      background:
-        linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.012)),
-        rgba(20,16,14,.84);
-      border-bottom:1px solid rgba(232,193,128,.12);
-      backdrop-filter:blur(14px);
-    }
-    .details-luxury-topbar h2{
-      font-family:Georgia,"Times New Roman",serif;
-      letter-spacing:.02em;
-      color:#f2ddbd;
-    }
-    .luxury-detail{
-      display:grid;
-      grid-template-columns:minmax(220px,310px) 1fr;
-      gap:28px;
-      padding:8px 4px 6px;
-    }
-    .luxury-cover-column{
-      position:relative;
-      min-width:0;
-    }
-    .luxury-cover-frame{
-      position:relative;
-      border-radius:16px;
-      padding:12px;
-      background:
-        linear-gradient(145deg,rgba(255,255,255,.06),rgba(255,255,255,.01)),
-        linear-gradient(180deg,rgba(111,70,41,.55),rgba(28,20,16,.86));
-      border:1px solid rgba(232,193,128,.13);
-      box-shadow:
-        0 24px 38px rgba(0,0,0,.34),
-        inset 0 1px 0 rgba(255,255,255,.08);
-    }
-    .luxury-cover-frame::before{
-      content:"";
-      position:absolute;
-      inset:7px;
-      border-radius:12px;
-      border:1px solid rgba(232,193,128,.10);
-      pointer-events:none;
-    }
-    .luxury-cover-img{
-      display:block;
-      width:100%;
-      aspect-ratio:2/3;
-      object-fit:cover;
-      border-radius:10px;
-      box-shadow:
-        0 22px 28px rgba(0,0,0,.44),
-        0 1px 0 rgba(255,255,255,.04);
-      background:#211813;
-    }
-    .luxury-cover-placeholder{
-      width:100%;
-      aspect-ratio:2/3;
-      border-radius:10px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      text-align:center;
-      padding:18px;
-      color:#f2ddbd;
-      font-family:Georgia,"Times New Roman",serif;
-      line-height:1.16;
-      background:
-        linear-gradient(145deg,rgba(216,179,107,.16),transparent 35%),
-        linear-gradient(180deg,#6b4429,#28170e);
-      box-shadow:0 22px 28px rgba(0,0,0,.38);
-    }
-    .luxury-spine-preview{
-      position:absolute;
-      right:-12px;
-      top:26px;
-      bottom:26px;
-      width:24px;
-      border-radius:0 8px 8px 0;
-      background:linear-gradient(180deg,#7c5130,#3c2315);
-      box-shadow:6px 0 14px rgba(0,0,0,.30), inset -4px 0 8px rgba(0,0,0,.28);
-      opacity:.88;
-    }
-    .luxury-status-ribbon{
-      margin-top:14px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    .luxury-detail-main{
-      min-width:0;
-      display:flex;
-      flex-direction:column;
-      gap:14px;
-    }
-    .luxury-overline{
-      color:var(--gold);
-      font-size:10px;
-      font-weight:900;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-    }
-    .luxury-title{
-      margin:0;
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:clamp(34px,4.8vw,60px);
-      line-height:.98;
-      letter-spacing:-.045em;
-      color:#f7ead8;
-      text-shadow:0 2px 4px rgba(0,0,0,.35);
-    }
-    .luxury-author{
-      color:var(--muted);
-      font-size:15px;
-      line-height:1.35;
-    }
-    .luxury-stars{
-      color:var(--gold);
-      letter-spacing:4px;
-      font-size:22px;
-      min-height:28px;
-    }
-    .luxury-pill-row{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .luxury-pill{
-      padding:8px 11px;
-      border-radius:999px;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.07);
-      color:#ead8c1;
-      font-size:12px;
-      line-height:1;
-    }
-    .luxury-grid{
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:9px;
-    }
-    .luxury-info{
-      padding:11px;
-      min-height:68px;
-      border-radius:14px;
-      background:
-        linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012)),
-        rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.06);
-    }
-    .luxury-info .k{
-      color:var(--muted);
-      font-size:9px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-weight:900;
-    }
-    .luxury-info .v{
-      margin-top:7px;
-      font-size:13px;
-      line-height:1.25;
-      color:#f3e5d4;
-      overflow-wrap:anywhere;
-    }
-    .luxury-progress{
-      padding:14px;
-      border-radius:16px;
-      background:
-        radial-gradient(circle at 0 0,rgba(216,179,107,.10),transparent 36%),
-        rgba(0,0,0,.18);
-      border:1px solid rgba(232,193,128,.11);
-    }
-    .luxury-progress-top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      font-size:13px;
-      margin-bottom:8px;
-    }
-    .luxury-progress-bar{
-      height:10px;
-      border-radius:999px;
-      overflow:hidden;
-      background:rgba(255,255,255,.08);
-      box-shadow:inset 0 1px 2px rgba(0,0,0,.35);
-    }
-    .luxury-progress-bar span{
-      display:block;
-      height:100%;
-      border-radius:999px;
-      background:linear-gradient(90deg,#8a5a34,#d8b36b);
-    }
-    .luxury-progress-small{
-      color:var(--muted);
-      font-size:10px;
-      margin-top:7px;
-    }
-    .luxury-notes{
-      padding:15px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.06);
-      background:rgba(255,255,255,.025);
-      color:#e9dac8;
-      line-height:1.55;
-      white-space:pre-wrap;
-      max-height:220px;
-      overflow:auto;
-    }
-    .luxury-notes h4{
-      margin:0 0 8px;
-      color:#f1ddbd;
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:18px;
-    }
-    .luxury-detail-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-start;
-      margin-top:2px;
-    }
-    .luxury-detail-actions .btn{
-      min-width:126px;
-    }
-    .details-luxury-dialog .modal-body{
-      padding:18px 22px 24px;
-    }
-    @keyframes detailDialogIn{
-      from{opacity:0;transform:translateY(12px) scale(.985)}
-      to{opacity:1;transform:translateY(0) scale(1)}
-    }
-    @keyframes detailDialogOut{
-      from{opacity:1;transform:translateY(0) scale(1)}
-      to{opacity:0;transform:translateY(12px) scale(.985)}
-    }
-    @media(max-width:850px){
-      .luxury-detail{
-        grid-template-columns:1fr;
-        gap:18px;
-      }
-      .luxury-cover-column{
-        width:min(280px,70%);
-        margin:0 auto;
-      }
-      .luxury-grid{
-        grid-template-columns:repeat(2,minmax(0,1fr));
-      }
-      .luxury-title{
-        font-size:clamp(30px,9vw,44px);
-      }
-    }
-    @media(max-width:520px){
-      .details-luxury-dialog{
-        width:calc(100% - 14px);
-        border-radius:22px;
-      }
-      .details-luxury-dialog .modal-body{
-        padding:14px 14px 18px;
-      }
-      .luxury-cover-column{
-        width:min(230px,76%);
-      }
-      .luxury-grid{
-        grid-template-columns:1fr;
-      }
-      .luxury-detail-actions .btn{
-        width:100%;
-      }
-    }
-
-    /* =====================================================
-       V12.2 — aufgeklapptes Buch / Umblätter-Feeling
-       ===================================================== */
-    .details-luxury-dialog.book-opening .luxury-book-front-cover{
-      animation:detailBookOpen 920ms cubic-bezier(.18,.82,.22,1) both;
-      transform-origin:left center;
-      backface-visibility:hidden;
-    }
-    .details-luxury-dialog.book-opening .luxury-book-turn-page{
-      animation:detailPageTurn 860ms cubic-bezier(.23,.8,.24,1) 140ms both;
-    }
-    .details-luxury-dialog.book-opening .luxury-book-back-page{
-      animation:detailInnerPageReveal 420ms ease 120ms both;
-    }
-    .details-luxury-dialog.book-opening .luxury-detail-main{
-      animation:detailMainReveal 420ms ease 220ms both;
-    }
-    .luxury-book-showcase{position:relative;perspective:1900px;margin-top:2px}
-    .luxury-book-scene{position:relative;aspect-ratio:1.48/1;transform-style:preserve-3d}
-    .luxury-book-shadow{position:absolute;left:6%;right:6%;bottom:2%;height:13%;border-radius:50%;background:radial-gradient(ellipse, rgba(0,0,0,.38), transparent 70%);filter:blur(10px);opacity:.9;pointer-events:none}
-    .luxury-book-object{position:absolute;inset:0;transform-style:preserve-3d}
-    .luxury-book-back-page{position:absolute;top:6%;left:44%;width:50%;height:88%;padding:18px 16px 16px;border-radius:6px 14px 14px 6px;color:#4a3628;background:linear-gradient(90deg, rgba(188,166,138,.38), rgba(247,240,228,.96) 8%, rgba(250,244,235,.98) 55%, rgba(234,223,205,.96) 100%);box-shadow:inset 18px 0 24px rgba(126,102,80,.13),inset -1px 0 0 rgba(120,92,68,.10),12px 16px 24px rgba(0,0,0,.18);border:1px solid rgba(124,101,78,.10);overflow:hidden;opacity:0;transform:translateX(12px) scale(.985)}
-    .luxury-book-back-page::before{content:"";position:absolute;left:18px;right:16px;top:18px;bottom:18px;background:repeating-linear-gradient(180deg, transparent 0 24px, rgba(93,71,53,.11) 24px 25px);opacity:.35;pointer-events:none}
-    .luxury-book-page-kicker{position:relative;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#87684f;font-weight:800;margin-bottom:12px}
-    .luxury-book-page-title{position:relative;font-family:Georgia,"Times New Roman",serif;font-size:20px;line-height:1.04;color:#35251a;margin-bottom:8px;text-wrap:balance}
-    .luxury-book-page-meta,.luxury-book-page-excerpt,.luxury-book-page-footer{position:relative;z-index:1}
-    .luxury-book-page-meta{font-size:11px;color:#6d5642;line-height:1.45;margin-bottom:14px}
-    .luxury-book-page-excerpt{font-size:12px;line-height:1.58;color:#4f3d2d;max-height:120px;overflow:hidden}
-    .luxury-book-page-footer{position:absolute;left:18px;right:16px;bottom:16px;display:flex;justify-content:space-between;gap:10px;font-size:10px;color:#7b634d;letter-spacing:.04em}
-    .luxury-book-front-cover{position:absolute;top:3%;left:6%;width:52%;height:92%;transform-style:preserve-3d;z-index:2}
-    .luxury-book-turn-page{position:absolute;top:7%;left:45.5%;width:46%;height:86%;border-radius:6px 14px 14px 6px;background:linear-gradient(90deg, rgba(234,226,214,.98), rgba(248,243,236,.96) 18%, rgba(238,228,213,.94) 100%);box-shadow:inset 1px 0 0 rgba(255,255,255,.8),inset -12px 0 20px rgba(130,104,79,.12),8px 10px 18px rgba(0,0,0,.12);transform-origin:left center;transform:rotateY(0deg);opacity:0;z-index:3;pointer-events:none}
-    .luxury-book-turn-page::before{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(90deg, rgba(174,149,123,.22), rgba(255,255,255,.72) 18%, rgba(195,173,148,.14) 62%, rgba(104,83,64,.10))}
-    .luxury-book-turn-page::after{content:"";position:absolute;left:12px;right:14px;top:14px;bottom:14px;background:repeating-linear-gradient(180deg, transparent 0 23px, rgba(98,75,56,.08) 23px 24px);opacity:.42}
-    .luxury-cover-frame{height:100%;padding:10px;border-radius:12px 12px 12px 6px;box-shadow:0 26px 34px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.08);overflow:hidden}
-    .luxury-cover-frame::after{content:"";position:absolute;top:0;right:-3px;bottom:0;width:18px;border-radius:0 12px 12px 0;background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(0,0,0,.26));opacity:.88;pointer-events:none}
-    .luxury-cover-img,.luxury-cover-placeholder{height:100%;aspect-ratio:auto;min-height:100%}
-    .luxury-spine-preview{right:-11px;top:18px;bottom:18px;width:22px}
-    .luxury-book-scene.compact-open-book{aspect-ratio:1.02/1.18}
-    @keyframes detailBookOpen{0%{transform:rotateY(0deg) translateZ(0);filter:brightness(1)}34%{transform:rotateY(-56deg) translateX(2px) translateZ(26px);filter:brightness(1.06)}62%{transform:rotateY(-118deg) translateX(3px) translateZ(8px)}100%{transform:rotateY(-148deg) translateX(0) translateZ(0);filter:brightness(1)}}
-    @keyframes detailPageTurn{0%{opacity:0;transform:rotateY(0deg) translateX(0)}8%{opacity:1}52%{opacity:1;transform:rotateY(-92deg) translateX(-1px)}100%{opacity:0;transform:rotateY(-168deg) translateX(-5px)}}
-    @keyframes detailInnerPageReveal{0%{opacity:0;transform:translateX(12px) scale(.985)}100%{opacity:1;transform:translateX(0) scale(1)}}
-    @keyframes detailMainReveal{0%{opacity:0;transform:translateY(8px)}100%{opacity:1;transform:translateY(0)}}
-    @media(max-width:850px){.luxury-book-scene{aspect-ratio:1.18/1}.luxury-book-back-page{left:40%;width:56%;padding:16px 14px 14px}.luxury-book-front-cover{left:3%;width:56%}.luxury-book-turn-page{left:42%;width:52%}.luxury-book-page-title{font-size:18px}.luxury-book-page-excerpt{font-size:11px;max-height:98px}}
-    @media(max-width:520px){.luxury-book-scene,.luxury-book-scene.compact-open-book{aspect-ratio:1/1.24}.luxury-book-back-page{top:5%;left:37%;width:58%}.luxury-book-front-cover{top:4%;left:2%;width:58%}.luxury-book-turn-page{top:6%;left:39%;width:53%}.luxury-book-page-title{font-size:16px}.luxury-book-page-meta{font-size:10px}.luxury-book-page-excerpt{font-size:10px;line-height:1.5}.luxury-book-page-footer{font-size:9px}}
-    @media(prefers-reduced-motion:reduce){.details-luxury-dialog.book-opening .luxury-book-front-cover,.details-luxury-dialog.book-opening .luxury-book-turn-page,.details-luxury-dialog.book-opening .luxury-book-back-page,.details-luxury-dialog.book-opening .luxury-detail-main{animation:none!important}.luxury-book-back-page{opacity:1;transform:none}.luxury-book-turn-page{display:none}.luxury-book-front-cover{transform:rotateY(-148deg)}}
-
-    @media(prefers-reduced-motion:reduce){
-      .book-flight-clone,
-      .details-luxury-dialog[open],
-      .details-luxury-dialog.closing{
-        animation:none!important;
-        transition:none!important;
-      }
-    }
-
     @media(max-width:700px){
       .library-mode-bar{padding-top:calc(8px + env(safe-area-inset-top))}
       .library-mode-top{gap:9px;margin-bottom:8px}
@@ -2858,6 +2481,136 @@
     @media(max-width:1000px){.dashboard{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:700px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.series-config{grid-template-columns:1fr}}
 
+    /* V12.1 — A quiet, editorial book-detail presentation. */
+    #detailsDialog{
+      width:min(980px,calc(100% - 32px));max-width:980px;
+      max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);
+      overflow:auto;overscroll-behavior:contain;
+      border:1px solid rgba(216,179,107,.27);border-radius:6px;
+      background:#17120f;color:#f4eee8;
+      box-shadow:0 32px 100px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.025);
+    }
+    #detailsDialog::backdrop{background:rgba(7,5,4,.8);backdrop-filter:blur(7px)}
+    #detailsDialog .modal-head{
+      position:sticky;top:0;z-index:5;padding:14px 24px;
+      background:rgba(23,18,15,.97);border-bottom:1px solid rgba(216,179,107,.13);
+    }
+    #detailsDialog .detail-head-label{display:flex;align-items:center;gap:12px;font:12px Georgia,serif;letter-spacing:.14em;color:#c8ad7e;text-transform:uppercase}
+    #detailsDialog .detail-head-ornament{font-size:18px;color:#a98955}
+    #detailsDialog .icon-btn{background:transparent;border:1px solid rgba(216,179,107,.25);color:#ddc8a6;flex-shrink:0}
+    #detailsDialog .icon-btn:hover{background:#3a2b1e}
+    #detailsDialog .modal-body{padding:0}
+    #detailsDialog .details{display:grid;grid-template-columns:minmax(0,38%) minmax(0,62%);gap:0;align-items:stretch}
+    #detailsDialog .detail-art{
+      min-width:0;display:flex;flex-direction:column;justify-content:space-between;
+      padding:36px 24px 24px;
+      background:radial-gradient(ellipse at 50% 30%,rgba(145,103,52,.2),transparent 65%),linear-gradient(145deg,#31251c,#211913 55%,#1b1511);
+      border-right:1px solid rgba(216,179,107,.13);
+    }
+    #detailsDialog .detail-art-frame{text-align:center;min-width:0}
+    #detailsDialog .detail-art-kicker{font-size:9px;letter-spacing:.2em;color:#ad9067;margin-bottom:26px}
+    #detailsDialog .detail-cover{
+      width:min(100%,250px);aspect-ratio:2/3;margin:0 auto;position:relative;
+      overflow:hidden;display:flex;align-items:center;justify-content:center;
+      border-radius:3px 7px 7px 3px;background:#3e2b1d;
+      border:1px solid rgba(255,255,255,.1);
+      box-shadow:12px 20px 30px rgba(0,0,0,.42),inset 4px 0 5px rgba(0,0,0,.22);
+    }
+    #detailsDialog .detail-cover::after,.detail-flight-cover::after{
+      content:"";position:absolute;inset:0;pointer-events:none;
+      border-left:5px solid rgba(0,0,0,.15);
+      box-shadow:inset 2px 0 3px rgba(255,255,255,.12),inset -2px 0 3px rgba(0,0,0,.15);
+    }
+    #detailsDialog .detail-cover img,.detail-flight-cover img{width:100%;height:100%;object-fit:cover;display:block;border-radius:0;box-shadow:none}
+    #detailsDialog .detail-cover-fallback,.detail-flight-cover .detail-cover-fallback{
+      width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+      padding:18px;text-align:center;font:clamp(15px,2vw,23px)/1.2 Georgia,serif;
+      color:#f0dfc3;background:linear-gradient(135deg,#755033,#342217);
+      overflow-wrap:anywhere;
+    }
+    #detailsDialog .detail-cover-fallback[hidden],.detail-flight-cover .detail-cover-fallback[hidden]{display:none}
+    #detailsDialog .detail-art-caption{font:11px/1.6 Georgia,serif;color:#c4a77a;letter-spacing:.04em;margin-top:24px;overflow-wrap:anywhere}
+    #detailsDialog .detail-art-caption span{margin:0 5px;color:#7d674b}
+    #detailsDialog .detail-art-footer{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:40px;color:#806a4e;font-size:10px}
+    #detailsDialog .detail-art-footer span{font:italic 11px Georgia,serif;letter-spacing:0;color:#a08d73}
+    #detailsDialog .detail-content{min-width:0;padding:36px 38px 34px}
+    #detailsDialog .detail-eyebrow{display:flex;align-items:center;gap:12px;font-size:10px;font-weight:700;letter-spacing:.17em;color:#bf9e6b;text-transform:uppercase;margin-bottom:17px}
+    #detailsDialog .detail-eyebrow-line{height:1px;flex:1;min-width:10px;background:linear-gradient(90deg,rgba(216,179,107,.4),transparent)}
+    #detailsDialog .details h3{font:normal clamp(29px,3.5vw,43px)/1.12 Georgia,"Times New Roman",serif;letter-spacing:-.025em;margin:0 0 12px;overflow-wrap:anywhere;color:#f8f0e5}
+    #detailsDialog .detail-author{font:15px Georgia,serif;color:#aa9885;margin-bottom:25px}
+    #detailsDialog .detail-author strong{font-weight:normal;color:#dfc9aa}
+    #detailsDialog .detail-series{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 11px;padding:12px 14px;border-left:2px solid #967044;background:rgba(216,179,107,.045);font-size:12px;color:#d1b994;overflow-wrap:anywhere}
+    #detailsDialog .detail-series>span:first-child{font-size:9px;letter-spacing:.13em;color:#a28a6c}
+    #detailsDialog .detail-series strong{font-weight:600}
+    #detailsDialog .detail-volume{color:#9e8b74}
+    #detailsDialog .detail-rule{display:flex;align-items:center;gap:12px;margin:25px 0;color:#8f734c;font-size:12px}
+    #detailsDialog .detail-rule::before,#detailsDialog .detail-rule::after{content:"";height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(216,179,107,.26))}
+    #detailsDialog .detail-rule::after{transform:rotate(180deg)}
+    #detailsDialog .detail-summary-row{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;margin-bottom:17px}
+    #detailsDialog .detail-status{display:flex;align-items:center;gap:9px;font-size:12px;color:#ded0bd}
+    #detailsDialog .detail-status-dot{width:8px;height:8px;border-radius:50%;background:#798ca8;box-shadow:0 0 0 3px rgba(255,255,255,.025)}
+    #detailsDialog .detail-status-dot.read{background:#7dae72}
+    #detailsDialog .detail-status-dot.reading{background:#d5af61}
+    #detailsDialog .detail-status-dot.wishlist{background:#b9839e}
+    #detailsDialog .detail-rating{color:#d8b36b;font-size:15px;letter-spacing:2px}
+    #detailsDialog .details-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 20px}
+    #detailsDialog .details-info{min-width:0;padding:12px 13px;border-radius:3px;background:#211b16;border:1px solid rgba(216,179,107,.09)}
+    #detailsDialog .details-info .k{font-size:9px;letter-spacing:.11em;color:#9f8769}
+    #detailsDialog .details-info .v{font-size:12px;line-height:1.5;color:#e2d2be;overflow-wrap:anywhere;margin-top:6px}
+    #detailsDialog .detail-progress-panel{padding:15px 16px;margin:0 0 20px;background:rgba(216,179,107,.045);border:1px solid rgba(216,179,107,.12);border-radius:3px}
+    #detailsDialog .detail-progress-heading{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:10px;letter-spacing:.1em;color:#b9a284}
+    #detailsDialog .detail-progress-heading strong{font-size:13px;letter-spacing:0;color:#e5cb9f}
+    #detailsDialog .series-progress{height:5px;margin:12px 0 9px;background:#30271f}
+    #detailsDialog .detail-progress-caption{font-size:11px;color:#a99680}
+    #detailsDialog .tag-list{margin:0 0 20px}
+    #detailsDialog .tag-chip{background:rgba(216,179,107,.07);border-color:rgba(216,179,107,.15);color:#c8b395}
+    #detailsDialog .detail-reading-section{margin-top:25px}
+    #detailsDialog .detail-reading-section h4{font:normal 21px Georgia,serif;color:#e9d3ae;margin:0 0 12px}
+    #detailsDialog .detail-reading-section h4::after{content:"";display:block;width:35px;height:1px;margin-top:10px;background:#8d6c42}
+    #detailsDialog .detail-prose{font-size:13px;line-height:1.85;color:#cbbbaa;white-space:pre-wrap;overflow-wrap:anywhere}
+    #detailsDialog .detail-empty{font-style:italic;color:#8f8172}
+    #detailsDialog .detail-actions{border-top:1px solid rgba(216,179,107,.14);margin-top:30px;padding-top:23px;display:flex;gap:9px;flex-wrap:wrap}
+    #detailsDialog .detail-actions .btn{border-radius:4px;box-shadow:none;font-size:12px;padding:11px 15px;border:1px solid rgba(216,179,107,.15)}
+    #detailsDialog .detail-actions .btn.primary{background:linear-gradient(180deg,#826039,#62472b);border-color:#a17b49;color:#fff2dd}
+    #detailsDialog .detail-actions .btn.secondary{background:#272019;color:#d7c2a4}
+    #detailsDialog .detail-actions .fav-btn.active{color:#f4d485;background:#433620}
+    #detailsDialog.detail-entering .detail-stage,#detailsDialog.detail-closing .detail-stage{opacity:0;pointer-events:none}
+    #detailsDialog .detail-stage{opacity:1;transition:opacity .2s ease}
+    #detailsDialog.detail-entering .modal-head,#detailsDialog.detail-closing .modal-head{opacity:.75}
+    .detail-flight{position:fixed;inset:0;z-index:20;pointer-events:none;overflow:visible;perspective:1000px}
+    .detail-flight-origin,.detail-flight-cover{position:fixed;transform-origin:center center;will-change:transform,opacity;backface-visibility:hidden}
+    .detail-flight-origin{display:block;overflow:visible}
+    .detail-flight-origin>.spine,.detail-flight-origin>.cover{margin:0;max-width:none}
+    .detail-flight-origin>.cover{aspect-ratio:auto}
+    .detail-flight-origin>.spine{max-height:none}
+    .detail-flight-cover{margin:0!important;border-radius:3px 7px 7px 3px;background:#3e2b1d;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:12px 20px 30px rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.1)}
+    .detail-flight-cover img{width:100%;height:100%;object-fit:cover;display:block}
+    @media(max-width:700px){
+      #detailsDialog{width:calc(100% - 16px);max-height:calc(100vh - 16px);max-height:calc(100dvh - 16px);border-radius:5px}
+      #detailsDialog .modal-head{padding:12px 15px}
+      #detailsDialog .detail-head-label{font-size:10px;letter-spacing:.08em}
+      #detailsDialog .details{grid-template-columns:minmax(0,1fr)}
+      #detailsDialog .detail-art{padding:24px 20px 19px;border-right:0;border-bottom:1px solid rgba(216,179,107,.13)}
+      #detailsDialog .detail-art-kicker{margin-bottom:18px}
+      #detailsDialog .detail-cover{width:min(56%,210px)}
+      #detailsDialog .detail-art-caption{margin-top:15px}
+      #detailsDialog .detail-art-footer{display:none}
+      #detailsDialog .detail-content{padding:25px 22px 29px}
+      #detailsDialog .details h3{font-size:clamp(28px,8vw,38px)}
+      #detailsDialog .detail-author{margin-bottom:20px}
+      #detailsDialog .detail-rule{margin:20px 0}
+    }
+    @media(max-width:370px){
+      #detailsDialog .detail-content{padding:22px 16px 26px}
+      #detailsDialog .details-info{padding:10px 9px}
+      #detailsDialog .detail-actions .btn{flex:1 1 auto}
+      #detailsDialog .detail-head-label{gap:7px;font-size:9px}
+    }
+    @media(prefers-reduced-motion:reduce){
+      #detailsDialog .detail-stage{transition:none!important}
+      .detail-flight{display:none!important}
+    }
+
   </style>
 </head>
 <body>
@@ -2904,7 +2657,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V12.2</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V12.1</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3013,7 +2766,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 12.2: Die Detailansicht öffnet sich jetzt noch stärker wie ein echtes Buch – mit Aufklapp- und Umblätter-Animation.
+      Version 12.1: Bücher animiert öffnen, edle Detailansicht und optionales Beschreibungsfeld. Deine Sammlung bleibt erhalten.
     </div>
   </div>
 
@@ -3137,6 +2890,10 @@
           <div class="field">
             <label>Händler / Fundort</label>
             <input id="retailer" placeholder="z. B. Ex Libris">
+          </div>
+          <div class="field full">
+            <label for="description">Beschreibung</label>
+            <textarea id="description" placeholder="Worum geht es in diesem Buch?" rows="5"></textarea>
           </div>
           <div class="field full">
             <label>Notizen</label>
@@ -3320,10 +3077,10 @@
     <div class="modal-body" id="seriesDetailsBody"></div>
   </dialog>
 
-  <dialog id="detailsDialog" class="details-luxury-dialog">
-    <div class="modal-head details-luxury-topbar">
-      <h2>Buchdetails</h2>
-      <button class="icon-btn" id="detailsCloseBtn" type="button" aria-label="Buchdetails schliessen">×</button>
+  <dialog id="detailsDialog" aria-labelledby="detailsDialogTitle">
+    <div class="modal-head">
+      <div class="detail-head-label"><span class="detail-head-ornament">✦</span><span id="detailsDialogTitle">Aus dem Bücherregal</span></div>
+      <button class="icon-btn" type="button" data-close="detailsDialog" aria-label="Buch schliessen">×</button>
     </div>
     <div class="modal-body" id="detailsBody"></div>
   </dialog>
@@ -4157,7 +3914,7 @@
         : esc(b.series || b.author || "");
 
       return `
-        <button class="book" data-book-id="${esc(b.id)}" onclick="openDetails('${b.id}', event)" title="${esc(b.title)}">
+        <button class="book" data-book-id="${esc(b.id)}" onclick="openDetails(this.dataset.bookId,this)" title="${esc(b.title)}">
           <div class="spine"
                style="--spine-h:${d.height}px;--spine-w:${d.width}px;--title-size:${d.titleSize}px;--fallback-bg:${bg}">
             ${b.cover
@@ -4180,7 +3937,7 @@
         ? `<img src="${esc(b.cover)}" alt="" onerror="this.parentElement.innerHTML='<div class=&quot;fallback&quot;>${esc((b.title||"Buch").slice(0,50))}</div><span class=&quot;badge&quot;>${esc(statusLabel(b.status))}</span>'">`
         : `<div class="fallback">${esc((b.title||"Buch").slice(0,50))}</div>`;
       return `
-        <button class="book cover-mode" data-book-id="${esc(b.id)}" onclick="openDetails('${b.id}', event)">
+        <button class="book cover-mode" data-book-id="${esc(b.id)}" onclick="openDetails(this.dataset.bookId,this)">
           <div class="cover">
             ${img}
             ${b.favorite ? `<span class="favorite-star">★</span>` : ``}
@@ -4222,9 +3979,11 @@
       b.favorite = !b.favorite;
       b.updatedAt = new Date().toISOString();
       saveBooks();
-      if($("detailsDialog").open){
-        $("detailsDialog").close();
-        openDetails(id);
+      if($("detailsDialog").open && detailsMotion?.id===id){
+        detailRestoreSource(detailsMotion);
+        renderDetails(b);
+        detailsMotion.source=null;
+        detailsMotion.sourceRect=null;
       }
     }
 
@@ -4233,7 +3992,7 @@
       const b = books.find(x=>x.id===id);
       if(!b) return;
       $("editTitle").textContent = "Buch bearbeiten";
-      ["bookId","isbn","title","author","series","volume","genre","status","rating","cover","notes"].forEach(k=>{
+      ["bookId","isbn","title","author","series","volume","genre","status","rating","cover","notes","description"].forEach(k=>{
         const src = k==="bookId" ? b.id : (b[k] ?? "");
         $(k).value = src;
       });
@@ -4246,289 +4005,330 @@
       $("tags").value = cleanTags(b.tags || []).join(", ");
       checkDuplicate();
       $("deleteBtn").style.display = "inline-block";
-      $("detailsDialog").close();
+      closeDetails({animate:false,restoreFocus:false});
       $("editDialog").showModal();
     }
 
-    let currentDetailBookId = null;
-    let detailAnimationRunning = false;
+    /* =====================================================
+       V12.1 — One detail view, with a reversible shelf flight.
+       No library writes occur in the presentation lifecycle.
+       ===================================================== */
+    let detailsMotion=null;
+    let detailsMotionSerial=0;
+    const detailsReducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    function prefersReducedMotion(){
-      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function cleanBookDescription(value){
+      if(typeof value!=="string") return "";
+      // Catalogue descriptions may contain simple HTML. Store readable plain text.
+      const doc=new DOMParser().parseFromString(value,"text/html");
+      doc.querySelectorAll("script,style,iframe,object,embed").forEach(el=>el.remove());
+      doc.querySelectorAll("br").forEach(el=>el.replaceWith("\n"));
+      doc.querySelectorAll("p,div,li").forEach(el=>el.append("\n"));
+      return (doc.body.textContent||"").replace(/\u00a0/g," ").replace(/\n[ \t]*\n[ \t]*\n/g,"\n\n").trim();
     }
 
-    function findBookElement(id){
-      const candidates = [...document.querySelectorAll(`[data-book-id="${CSS.escape(String(id))}"]`)];
-      return candidates.find(el=>{
-        const r = el.getBoundingClientRect();
-        return r.width > 0 && r.height > 0 && r.bottom > 0 && r.top < window.innerHeight;
-      }) || candidates[0] || null;
+    function detailCoverMarkup(b){
+      return b.cover
+        ? `<img src="${esc(b.cover)}" alt="Cover von ${esc(b.title||"Buch")}" onerror="this.hidden=true;this.nextElementSibling.hidden=false"><div class="detail-cover-fallback" hidden>${esc(b.title||"Buch")}</div>`
+        : `<div class="detail-cover-fallback">${esc(b.title||"Buch")}</div>`;
     }
 
-    function cloneBookForFlight(source){
-      const clone = source.cloneNode(true);
-      clone.classList.add("book-flight-clone");
-      clone.removeAttribute("onclick");
-      clone.removeAttribute("title");
-      clone.setAttribute("aria-hidden","true");
-
-      const r = source.getBoundingClientRect();
-      clone.style.left = `${r.left}px`;
-      clone.style.top = `${r.top}px`;
-      clone.style.width = `${r.width}px`;
-      clone.style.height = `${r.height}px`;
-      clone.style.transform = "translate3d(0,0,0) scale(1)";
-      clone.style.opacity = "1";
-
-      document.body.appendChild(clone);
-      return {clone, rect:r};
+    function detailInfo(label,value){
+      return value!==undefined && value!==null && value!==""
+        ? `<div class="details-info"><div class="k">${esc(label)}</div><div class="v">${esc(value)}</div></div>` : "";
     }
 
-    function destinationForFlight(rect){
-      const w = Math.min(rect.width * 1.55, window.innerWidth * 0.34, 260);
-      const h = Math.min(rect.height * 1.55, window.innerHeight * 0.52, 390);
-      const left = Math.max(16, (window.innerWidth - w) / 2);
-      const top = Math.max(84, Math.min(window.innerHeight * 0.18, (window.innerHeight - h) / 2));
-      return {left, top, width:w, height:h};
-    }
-
-    async function animateBookOut(id, event){
-      if(prefersReducedMotion()) return;
-
-      const source = event?.currentTarget || findBookElement(id);
-      if(!source) return;
-
-      source.classList.add("book-detail-opening");
-
-      const {clone, rect} = cloneBookForFlight(source);
-      const dest = destinationForFlight(rect);
-      const dx = dest.left - rect.left;
-      const dy = dest.top - rect.top;
-      const sx = dest.width / Math.max(1, rect.width);
-      const sy = dest.height / Math.max(1, rect.height);
-
-      try{
-        await clone.animate([
-          {transform:"translate3d(0,0,0) scale(1) rotateX(0deg)", opacity:1, filter:"brightness(1) saturate(1)"},
-          {transform:`translate3d(${dx * .52}px,${dy * .38}px,0) scale(${Math.min(sx,sy) * 1.08}) rotateX(2deg)`, opacity:1, filter:"brightness(1.10) saturate(1.06)"},
-          {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy}) rotateX(0deg)`, opacity:.98, filter:"brightness(1.12) saturate(1.06)"}
-        ],{
-          duration:430,
-          easing:"cubic-bezier(.18,.82,.22,1)"
-        }).finished;
-      }catch{}
-      finally{
-        clone.remove();
-        source.classList.remove("book-detail-opening");
-      }
-    }
-
-    async function animateBookBack(id){
-      if(prefersReducedMotion()) return false;
-
-      const source = findBookElement(id);
-      const cover = document.querySelector("#detailsBody .luxury-cover-frame");
-      const dialog = $("detailsDialog");
-      if(!source || !cover || !dialog.open) return false;
-
-      const from = cover.getBoundingClientRect();
-      const to = source.getBoundingClientRect();
-      if(!from.width || !from.height || !to.width || !to.height) return false;
-
-      const mini = cover.cloneNode(true);
-      mini.classList.add("book-flight-clone");
-      mini.style.left = `${from.left}px`;
-      mini.style.top = `${from.top}px`;
-      mini.style.width = `${from.width}px`;
-      mini.style.height = `${from.height}px`;
-      mini.style.transform = "translate3d(0,0,0) scale(1)";
-      mini.style.opacity = "1";
-      document.body.appendChild(mini);
-
-      // Now the real dialog can disappear while the cloned cover flies home.
-      dialog.close();
-      dialog.classList.remove("closing");
-
-      const dx = to.left - from.left;
-      const dy = to.top - from.top;
-      const sx = to.width / Math.max(1, from.width);
-      const sy = to.height / Math.max(1, from.height);
-
-      try{
-        await mini.animate([
-          {transform:"translate3d(0,0,0) scale(1)", opacity:1, filter:"brightness(1.05)"},
-          {transform:`translate3d(${dx}px,${dy}px,0) scale(${sx},${sy})`, opacity:.72, filter:"brightness(.95)"}
-        ],{
-          duration:320,
-          easing:"cubic-bezier(.2,.7,.24,1)"
-        }).finished;
-      }catch{}
-      finally{
-        mini.remove();
-      }
-
-      return true;
-    }
-
-    function luxuryInfo(label,value){
-      if(value === undefined || value === null || value === "") return "";
-      return `<div class="luxury-info"><div class="k">${esc(label)}</div><div class="v">${esc(value)}</div></div>`;
-    }
-
-    function renderLuxuryDetails(b){
-      const stars = b.rating
-        ? "★".repeat(Number(b.rating)) + "☆".repeat(5-Number(b.rating))
-        : "Noch nicht bewertet";
-      const progress = readingPercent(b);
-      const tags = cleanTags(b.tags || []);
-      const seriesEncoded = b.series ? encodeURIComponent(b.series) : "";
-      const cover = b.cover
-        ? `<img class="luxury-cover-img" src="${esc(b.cover)}" alt="" onerror="this.outerHTML='<div class=&quot;luxury-cover-placeholder&quot;>${esc((b.title||"Buch").slice(0,80))}</div>'">`
-        : `<div class="luxury-cover-placeholder">${esc(b.title || "Buch")}</div>`;
-
-      const infoCards = [
-        luxuryInfo("Status",statusLabel(b.status || "unread")),
-        luxuryInfo("Reihe",b.series ? `${b.series}${b.volume ? " · Band " + b.volume : ""}` : ""),
-        luxuryInfo("Genre",b.genre || ""),
-        luxuryInfo("Standort",b.location || ""),
-        luxuryInfo("Jahr",b.publishedYear || ""),
-        luxuryInfo("Seiten",b.pages || ""),
-        luxuryInfo("Re-Reads",b.rereads || ""),
-        luxuryInfo("ISBN",b.isbn || "")
-      ].filter(Boolean).join("");
-
-      const excerptRaw = (b.notes || b.description || "").trim();
-      const excerpt = excerptRaw
-        ? (excerptRaw.length > 220 ? excerptRaw.slice(0,220).trim() + " …" : excerptRaw)
-        : "Ein weiteres Kapitel deiner privaten Bibliothek. Öffne, entdecke und entscheide, welches Abenteuer als Nächstes ruft.";
-      const pageFooterLeft = b.volume ? `Band ${b.volume}` : (b.genre || "Bibliothek");
-      const pageFooterRight = b.pages ? `${b.pages} Seiten` : (b.publishedYear || "Edition");
-      const compactBookClass = (b.notes && b.notes.length > 180) ? "compact-open-book" : "";
-
-      return `
-        <div class="luxury-detail">
-          <div class="luxury-cover-column">
-            <div class="luxury-book-showcase">
-              <div class="luxury-book-scene ${compactBookClass}">
-                <div class="luxury-book-shadow" aria-hidden="true"></div>
-                <div class="luxury-book-object">
-                  <div class="luxury-book-back-page">
-                    <div class="luxury-book-page-kicker">Bibliotheks-Edition</div>
-                    <div class="luxury-book-page-title">${esc(b.title || "Ohne Titel")}</div>
-                    <div class="luxury-book-page-meta">${esc(b.author || "Autor unbekannt")}${b.series ? ` · ${esc(b.series)}` : ""}${b.genre ? ` · ${esc(b.genre)}` : ""}</div>
-                    <div class="luxury-book-page-excerpt">${esc(excerpt)}</div>
-                    <div class="luxury-book-page-footer"><span>${esc(pageFooterLeft)}</span><span>${esc(pageFooterRight)}</span></div>
-                  </div>
-                  <div class="luxury-book-turn-page" aria-hidden="true"></div>
-                  <div class="luxury-book-front-cover">
-                    <div class="luxury-cover-frame">
-                      ${cover}
-                      <span class="luxury-spine-preview" aria-hidden="true"></span>
-                    </div>
-                  </div>
-                </div>
+    function renderDetails(b){
+      const rating=Math.max(0,Math.min(5,Number(b.rating)||0));
+      const stars=rating ? "★".repeat(rating)+"☆".repeat(5-rating) : "Noch nicht bewertet";
+      const progress=readingPercent(b);
+      const tags=cleanTags(b.tags||[]);
+      const description=String(b.description||"").trim();
+      $("detailsBody").innerHTML=`
+        <div class="detail-stage">
+          <div class="details">
+            <aside class="detail-art">
+              <div class="detail-art-frame">
+                <div class="detail-art-kicker">✦ &nbsp; AUS DEINER SAMMLUNG &nbsp; ✦</div>
+                <div class="detail-cover" id="detailHeroCover">${detailCoverMarkup(b)}</div>
+                <div class="detail-art-caption">${b.series ? esc(b.series) : "MEIN BÜCHERREGAL"}${b.volume ? ` <span>·</span> BAND ${esc(b.volume)}` : ""}</div>
               </div>
-            </div>
-
-            <div class="luxury-status-ribbon">
-              <span class="luxury-pill">${esc(statusLabel(b.status || "unread"))}</span>
-              ${b.favorite ? `<span class="luxury-pill">★ Favorit</span>` : ""}
-            </div>
-          </div>
-
-          <div class="luxury-detail-main">
-            <div>
-              <div class="luxury-overline">${esc(b.series || b.genre || "Buch aus deiner Bibliothek")}</div>
-              <h3 class="luxury-title">${esc(b.title || "Ohne Titel")}</h3>
-              <div class="luxury-author">${esc(b.author || "Autor unbekannt")}</div>
-            </div>
-
-            <div class="luxury-stars">${esc(stars)}</div>
-
-            <div class="luxury-pill-row">
-              ${b.volume ? `<span class="luxury-pill">Band ${esc(b.volume)}</span>` : ""}
-              ${b.genre ? `<span class="luxury-pill">${esc(b.genre)}</span>` : ""}
-              ${tags.map(t=>`<span class="luxury-pill">${esc(t)}</span>`).join("")}
-            </div>
-
-            ${infoCards ? `<div class="luxury-grid">${infoCards}</div>` : ""}
-
-            ${(b.pages || b.currentPage) ? `
-              <div class="luxury-progress">
-                <div class="luxury-progress-top">
-                  <strong>Lesefortschritt</strong>
-                  <span>${progress}%</span>
-                </div>
-                <div class="luxury-progress-bar"><span style="width:${progress}%"></span></div>
-                <div class="luxury-progress-small">
-                  ${b.currentPage || 0}${b.pages ? ` / ${b.pages} Seiten` : " Seiten"}
-                </div>
-              </div>` : ""}
-
-            ${b.notes ? `<div class="luxury-notes"><h4>Notizen</h4>${esc(b.notes)}</div>` : ""}
-
-            <div class="luxury-detail-actions">
-              <button class="btn primary" onclick="openEdit('${b.id}')">Bearbeiten</button>
-              <button class="btn secondary fav-btn ${b.favorite ? "active" : ""}" onclick="toggleFavorite('${b.id}')">
-                ${b.favorite ? "★ Favorit" : "☆ Als Favorit"}
-              </button>
-              ${b.series ? `<button class="btn secondary" onclick="openSeriesDetails(decodeURIComponent('${seriesEncoded}'))">Reihe öffnen</button>` : ""}
+              <div class="detail-art-footer">✦ <span>Eine Geschichte. Ein Platz in deiner Bibliothek.</span> ✦</div>
+            </aside>
+            <div class="detail-content">
+              <div class="detail-eyebrow">${b.genre ? esc(b.genre) : "DEINE BIBLIOTHEK"}<span class="detail-eyebrow-line"></span>${b.publishedYear ? esc(b.publishedYear) : "✦"}</div>
+              <h3>${esc(b.title)}</h3>
+              <div class="detail-author">von <strong>${esc(b.author||"Autor unbekannt")}</strong></div>
+              ${b.series ? `<div class="detail-series"><span>REIHE</span><strong>${esc(b.series)}</strong>${b.volume ? `<span class="detail-volume">Band ${esc(b.volume)}</span>` : ""}</div>` : ""}
+              <div class="detail-rule"><span>✦</span></div>
+              <div class="detail-summary-row">
+                <div class="detail-status"><span class="detail-status-dot ${esc(b.status||"unread")}"></span>${esc(statusLabel(b.status))}</div>
+                <div class="detail-rating" aria-label="Bewertung: ${rating ? rating+" von 5 Sternen" : "Keine"}">${esc(stars)}</div>
+              </div>
+              <div class="details-info-grid">
+                ${detailInfo("Genre",b.genre)}
+                ${detailInfo("Seiten",b.pages)}
+                ${detailInfo("Erscheinungsjahr",b.publishedYear)}
+                ${detailInfo("Standort",b.location)}
+                ${detailInfo("Re-Reads",b.rereads)}
+                ${detailInfo("ISBN",b.isbn)}
+              </div>
+              ${(b.pages||b.currentPage||b.status==="read") ? `<div class="detail-progress-panel"><div class="detail-progress-heading"><span>LESEFORTSCHRITT</span><strong>${progress}%</strong></div><div class="series-progress"><span style="width:${progress}%"></span></div><div class="detail-progress-caption">${esc(b.currentPage||0)}${b.pages ? ` von ${esc(b.pages)} Seiten` : " Seiten"}</div></div>` : ""}
+              ${tags.length ? `<div class="tag-list">${tags.map(t=>`<span class="tag-chip">${esc(t)}</span>`).join("")}</div>` : ""}
+              <section class="detail-reading-section"><h4>Die Geschichte</h4><div class="detail-prose">${description ? esc(description) : `<span class="detail-empty">Noch keine Beschreibung hinterlegt. Du kannst sie beim Bearbeiten ergänzen.</span>`}</div></section>
+              <section class="detail-reading-section"><h4>Meine Notizen</h4><div class="detail-prose">${b.notes ? esc(b.notes) : `<span class="detail-empty">Hier ist Platz für deine Gedanken zu diesem Buch.</span>`}</div></section>
+              <div class="detail-actions">
+                <button type="button" class="btn primary" data-detail-action="edit">✎ Bearbeiten</button>
+                <button type="button" class="btn secondary fav-btn ${b.favorite ? "active" : ""}" data-detail-action="favorite" aria-pressed="${!!b.favorite}">${b.favorite ? "★ Favorit" : "☆ Als Favorit"}</button>
+                ${b.series ? `<button type="button" class="btn secondary" data-detail-action="series">Reihe öffnen</button>` : ""}
+              </div>
             </div>
           </div>
         </div>`;
     }
 
-    function playDetailsBookAnimation(){
-      const dialog = $("detailsDialog");
-      dialog.classList.remove("book-opening");
-      if(prefersReducedMotion()) return;
-      requestAnimationFrame(()=>{
-        requestAnimationFrame(()=> dialog.classList.add("book-opening"));
-      });
+    function detailCanAnimate(){
+      return !detailsReducedMotion.matches && typeof Element.prototype.animate==="function";
     }
 
-    async function openDetails(id,event=null){
-      if(detailAnimationRunning) return;
-      const b = books.find(x=>x.id===id);
+    function detailSourceElement(button){
+      return button?.querySelector?.(".spine, .cover") || null;
+    }
+
+    function detailVisibleRect(rect){
+      return rect && rect.width>1 && rect.height>1 &&
+        rect.bottom>0 && rect.top<window.innerHeight && rect.right>0 && rect.left<window.innerWidth;
+    }
+
+    function detailFindSource(state){
+      if(!state) return null;
+      if(state.source?.isConnected && detailSourceElement(state.source)) return state.source;
+      return [...document.querySelectorAll("#library .book[data-book-id]")]
+        .find(el=>el.dataset.bookId===state.id) || null;
+    }
+
+    function detailHideSource(state,button){
+      if(!button) return;
+      if(state.hiddenSource && state.hiddenSource!==button) detailRestoreSource(state);
+      if(state.hiddenSource!==button){
+        state.hiddenSource=button;
+        state.sourceVisibility=button.style.visibility;
+      }
+      button.style.visibility="hidden";
+    }
+
+    function detailRestoreSource(state){
+      if(state?.hiddenSource){
+        state.hiddenSource.style.visibility=state.sourceVisibility||"";
+        state.hiddenSource=null;
+      }
+    }
+
+    function detailCancelFlight(state){
+      if(!state) return;
+      (state.animations||[]).forEach(a=>{try{a.cancel()}catch{}});
+      state.animations=[];
+      state.flight?.remove();
+      state.flight=null;
+    }
+
+    function detailFlight(state,fromRect,toRect,fromVisual,toVisual,opening){
+      const dialog=$("detailsDialog");
+      detailCancelFlight(state);
+      if(!detailVisibleRect(fromRect)||!detailVisibleRect(toRect)) return Promise.resolve();
+      const duration=opening?540:460;
+      const easing="cubic-bezier(.22,1,.36,1)";
+      const root=document.createElement("div");
+      root.className="detail-flight";
+      root.setAttribute("aria-hidden","true");
+      // The source face is an exact clone, retaining its real spine/cover proportions.
+      const origin=document.createElement("div");
+      origin.className="detail-flight-origin";
+      const clone=fromVisual.cloneNode(true);
+      clone.removeAttribute("id");
+      clone.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
+      clone.style.transition="none";
+      clone.style.animation="none";
+      clone.style.transform="none";
+      clone.style.width=fromRect.width+"px";
+      clone.style.height=fromRect.height+"px";
+      if(clone.classList.contains("spine")){
+        clone.style.setProperty("--spine-w",fromRect.width+"px");
+        clone.style.setProperty("--spine-h",fromRect.height+"px");
+      }
+      origin.append(clone);
+      root.append(origin);
+      const cover=document.createElement("div");
+      cover.className="detail-flight-cover detail-cover";
+      cover.innerHTML=detailCoverMarkup(books.find(b=>b.id===state.id)||{title:"Buch"});
+      root.append(cover);
+      dialog.append(root);
+      state.flight=root;
+      const sourceCenter={x:fromRect.left+fromRect.width/2,y:fromRect.top+fromRect.height/2};
+      const targetCenter={x:toRect.left+toRect.width/2,y:toRect.top+toRect.height/2};
+      const isFromSpine=fromVisual.classList.contains("spine");
+      const isToSpine=toVisual?.classList.contains("spine");
+      const originScale=Math.min(toRect.width/fromRect.width,toRect.height/fromRect.height);
+      const coverScale=Math.min(fromRect.width/toRect.width,fromRect.height/toRect.height);
+      const originMotion=[
+        {transform:"translate3d(0,0,0) scale(1) rotateY(0deg)",opacity:1},
+        {transform:`translate3d(${targetCenter.x-sourceCenter.x}px,${targetCenter.y-sourceCenter.y}px,0) scale(${originScale}) rotateY(${isFromSpine?"-7":"-3"}deg)`,opacity:0,offset:1}
+      ];
+      const coverMotion=opening ? [
+        {transform:`translate3d(${sourceCenter.x-targetCenter.x}px,${sourceCenter.y-targetCenter.y}px,0) scale(${coverScale}) rotateY(5deg)`,opacity:0,offset:0},
+        {opacity:0,offset:.28},
+        {transform:"translate3d(0,0,0) scale(1) rotateY(0deg)",opacity:1,offset:1}
+      ] : [
+        {transform:"translate3d(0,0,0) scale(1) rotateY(0deg)",opacity:1,offset:0},
+        {opacity:0,offset:.72},
+        {transform:`translate3d(${sourceCenter.x-targetCenter.x}px,${sourceCenter.y-targetCenter.y}px,0) scale(${coverScale}) rotateY(${isToSpine?"5":"3"}deg)`,opacity:0,offset:1}
+      ];
+      // On return, the first face is the cover and the second is the actual shelf book.
+      const first=opening?origin:cover;
+      const second=opening?cover:origin;
+      const firstRect=opening?fromRect:toRect;
+      const secondRect=opening?toRect:fromRect;
+      const position=(el,r)=>{el.style.left=r.left+"px";el.style.top=r.top+"px";el.style.width=r.width+"px";el.style.height=r.height+"px";};
+      position(first,firstRect);
+      position(second,secondRect);
+      if(!opening){
+        // The exact shelf face is the destination. Its geometry never stretches.
+        origin.replaceChildren(toVisual.cloneNode(true));
+        const returnClone=origin.firstElementChild;
+        returnClone.removeAttribute("id");
+        returnClone.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
+        returnClone.style.setProperty("--spine-w",toRect.width+"px");
+        returnClone.style.setProperty("--spine-h",toRect.height+"px");
+        returnClone.style.width=toRect.width+"px";
+        returnClone.style.height=toRect.height+"px";
+        returnClone.style.transform="none";
+        returnClone.style.transition="none";
+        position(origin,toRect);
+        position(cover,fromRect);
+      }
+      let motions;
+      if(opening){
+        motions=[origin.animate(originMotion,{duration,easing,fill:"both"}),cover.animate(coverMotion,{duration,easing,fill:"both"})];
+      }else{
+        const reverseScale=Math.min(fromRect.width/toRect.width,fromRect.height/toRect.height);
+        const dx=sourceCenter.x-targetCenter.x,dy=sourceCenter.y-targetCenter.y;
+        const coverOut=[
+          {transform:"translate3d(0,0,0) scale(1)",opacity:1,offset:0},
+          {opacity:0,offset:.72},
+          {transform:`translate3d(${dx}px,${dy}px,0) scale(${1/reverseScale})`,opacity:0,offset:1}
+        ];
+        // origin now sits at the destination and grows from the cover's centre.
+        const shelfIn=[
+          {transform:`translate3d(${-dx}px,${-dy}px,0) scale(${reverseScale}) rotateY(-5deg)`,opacity:0,offset:0},
+          {opacity:0,offset:.38},
+          {transform:"translate3d(0,0,0) scale(1) rotateY(0deg)",opacity:1,offset:1}
+        ];
+        motions=[cover.animate(coverOut,{duration,easing,fill:"both"}),origin.animate(shelfIn,{duration,easing,fill:"both"})];
+      }
+      state.animations=motions;
+      return Promise.all(motions.map(a=>a.finished.catch(()=>{})));
+    }
+
+    function detailFinish(state,restoreFocus=true){
+      if(!state) return;
+      detailCancelFlight(state);
+      detailRestoreSource(state);
+      const dialog=$("detailsDialog");
+      dialog.classList.remove("detail-entering","detail-closing");
+      if(dialog.open) dialog.close();
+      if(detailsMotion===state) detailsMotion=null;
+      if(restoreFocus && state.focus?.isConnected){
+        try{state.focus.focus({preventScroll:true})}catch{}
+      }
+    }
+
+    async function openDetails(id,opener=null){
+      const b=books.find(x=>x.id===id);
       if(!b) return;
-
-      detailAnimationRunning = true;
-      currentDetailBookId = id;
-
-      try{
-        if($("detailsDialog").open) $("detailsDialog").close();
-        await animateBookOut(id,event);
-        $("detailsBody").innerHTML = renderLuxuryDetails(b);
-        $("detailsDialog").showModal();
-        playDetailsBookAnimation();
-      }finally{
-        detailAnimationRunning = false;
+      const dialog=$("detailsDialog");
+      if(dialog.open){
+        // Only one book detail dialog may exist. Never stack duplicate modals.
+        if(detailsMotion?.id===id && detailsMotion.phase!=="closing") return;
+        closeDetails({animate:false,restoreFocus:false});
       }
+      const button=opener?.closest?.("#library .book[data-book-id]") || null;
+      const source=detailSourceElement(button);
+      const sourceRect=source?.getBoundingClientRect();
+      const state={id,source:button,sourceRect,sourceVisual:source,focus:opener||document.activeElement,hiddenSource:null,sourceVisibility:"",flight:null,animations:[],phase:"opening",serial:++detailsMotionSerial};
+      detailsMotion=state;
+      renderDetails(b);
+      dialog.classList.add("detail-entering");
+      dialog.classList.remove("detail-closing");
+      dialog.showModal();
+      dialog.scrollTop=0;
+      const target=$("detailHeroCover").getBoundingClientRect();
+      const motion=detailCanAnimate() && detailVisibleRect(sourceRect) && detailVisibleRect(target);
+      if(motion){
+        detailHideSource(state,button);
+        await detailFlight(state,sourceRect,target,source,null,true);
+      }
+      if(detailsMotion!==state || state.phase!=="opening" || !dialog.open) return;
+      detailCancelFlight(state);
+      dialog.classList.remove("detail-entering");
+      state.phase="open";
+      if(!motion) detailRestoreSource(state);
+      const closeButton=dialog.querySelector('[data-close="detailsDialog"]');
+      closeButton?.focus({preventScroll:true});
     }
 
-    async function closeDetailsAnimated(){
-      const dialog = $("detailsDialog");
-      if(!dialog.open || detailAnimationRunning) return;
-
-      detailAnimationRunning = true;
-      const id = currentDetailBookId;
-
-      try{
-        dialog.classList.add("closing");
-        await new Promise(resolve=>setTimeout(resolve,prefersReducedMotion()?0:140));
-
-        const returned = id ? await animateBookBack(id) : false;
-        if(!returned && dialog.open){
-          dialog.close();
-          dialog.classList.remove("closing");
-          dialog.classList.remove("book-opening");
-        }
-      }finally{
-        dialog.classList.remove("book-opening");
-        detailAnimationRunning = false;
-        currentDetailBookId = null;
+    async function closeDetails(options={}){
+      const dialog=$("detailsDialog");
+      const state=detailsMotion;
+      if(!dialog.open){
+        if(state) detailFinish(state,false);
+        return;
       }
+      if(!state){dialog.close();return;}
+      if(state.phase==="closing"){
+        if(options.animate===false) detailFinish(state,options.restoreFocus!==false);
+        return;
+      }
+      const animate=options.animate!==false && detailCanAnimate() && state.phase==="open";
+      state.phase="closing";
+      detailCancelFlight(state);
+      const sourceButton=detailFindSource(state);
+      const source=detailSourceElement(sourceButton);
+      const targetRect=source?.getBoundingClientRect();
+      const cover=$("detailHeroCover");
+      const coverRect=cover?.getBoundingClientRect();
+      const canReturn=animate && detailVisibleRect(targetRect) && detailVisibleRect(coverRect);
+      if(canReturn){
+        detailHideSource(state,sourceButton);
+        dialog.classList.add("detail-closing");
+        await detailFlight(state,coverRect,targetRect,cover,source,false);
+      }
+      if(detailsMotion!==state) return;
+      detailFinish(state,options.restoreFocus!==false);
     }
+
+    // Native Escape and programmatic closes share cleanup. The cancel event is
+    // intercepted before the browser removes the modal from the top layer.
+    $("detailsDialog").addEventListener("cancel",e=>{
+      e.preventDefault();
+      closeDetails();
+    });
+    $("detailsDialog").addEventListener("close",()=>{
+      if(!$("detailsDialog").open && detailsMotion) detailFinish(detailsMotion,false);
+    });
+    $("detailsBody").addEventListener("click",e=>{
+      const button=e.target.closest("[data-detail-action]");
+      if(!button || !detailsMotion || detailsMotion.phase!=="open") return;
+      const b=books.find(x=>x.id===detailsMotion.id);
+      if(!b) return;
+      const action=button.dataset.detailAction;
+      if(action==="edit") openEdit(b.id);
+      else if(action==="favorite") toggleFavorite(b.id);
+      else if(action==="series" && b.series){
+        closeDetails({animate:false,restoreFocus:false});
+        openSeriesDetails(b.series);
+      }
+    });
+
 
     function fillBookData(data, sourceLabel){
       if(!data) return false;
@@ -4540,6 +4340,7 @@
       if(data.volume && !$("volume").value) $("volume").value = data.volume;
       if(data.publishedYear && !$("publishedYear").value) $("publishedYear").value = data.publishedYear;
       if(data.pages && !$("pages").value) $("pages").value = data.pages;
+      if(data.description && !$("description").value) $("description").value = cleanBookDescription(data.description);
       if(data.isbn && !$("isbn").value) $("isbn").value = data.isbn;
       $("scanStatus").textContent = `Buch gefunden über ${sourceLabel} ✓`;
       checkDuplicate();
@@ -4604,7 +4405,8 @@
           title: b.title || "",
           author: (b.authors || []).map(a=>a.name).join(", "),
           cover: (b.cover && (b.cover.large || b.cover.medium || b.cover.small)) || `https://covers.openlibrary.org/b/isbn/${isbn}-L.jpg`,
-          genre: (b.subjects || [])[0]?.name || ""
+          genre: (b.subjects || [])[0]?.name || "",
+          description: b.excerpts?.[0]?.text || ""
         };
       }catch{
         return null;
@@ -4654,7 +4456,8 @@
           title: v.title || "",
           author: (v.authors || []).join(", "),
           cover,
-          genre: (v.categories || [])[0] || ""
+          genre: (v.categories || [])[0] || "",
+          description: v.description || ""
         };
       }catch{
         return null;
@@ -4686,7 +4489,8 @@
           title: d.title || "",
           author: (d.author_name || []).join(", "),
           cover: d.cover_i ? `https://covers.openlibrary.org/b/id/${d.cover_i}-L.jpg` : "",
-          genre: (d.subject || [])[0] || ""
+          genre: (d.subject || [])[0] || "",
+          description: ""
         };
       }catch{
         return null;
@@ -4943,6 +4747,7 @@
         retailer: $("retailer").value.trim(),
         cover: $("cover").value.trim(),
         notes: $("notes").value.trim(),
+        description: $("description").value.trim(),
         updatedAt: new Date().toISOString()
       };
       if(obj.pages && obj.currentPage >= obj.pages){
@@ -4950,7 +4755,7 @@
         obj.status = "read";
       }
       const ix = books.findIndex(b=>b.id===obj.id);
-      if(ix>=0) books[ix]=obj; else books.unshift(obj);
+      if(ix>=0) books[ix]={...books[ix],...obj}; else books.unshift(obj);
       saveBooks();
       stopScan();
       $("editDialog").close();
@@ -5450,7 +5255,7 @@
       return {
         exportedAt:new Date().toISOString(),
         app:"Mein Bücherregal",
-        version:"10.3",
+        version:"12.1",
         schemaVersion:2,
         books,
         seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
@@ -5846,6 +5651,7 @@
           retailer:"",
           cover:b.cover||"",
           notes:"",
+          description:b.description||"",
           updatedAt:new Date().toISOString()
         };
 
@@ -6628,12 +6434,6 @@
       }
     });
 
-    $("detailsCloseBtn").addEventListener("click", closeDetailsAnimated);
-    $("detailsDialog").addEventListener("cancel", e=>{
-      e.preventDefault();
-      closeDetailsAnimated();
-    });
-
     $("addBtn").addEventListener("click", openNew);
     $("lookupBtn").addEventListener("click", lookupISBN);
     $("titleLookupBtn").addEventListener("click", lookupByTitle);
@@ -6660,7 +6460,8 @@
       btn.addEventListener("click", ()=>{
         stopScan();
         if(btn.dataset.close==="quickScanDialog") stopQuickScan();
-        $(btn.dataset.close).close();
+        if(btn.dataset.close==="detailsDialog") closeDetails();
+        else $(btn.dataset.close).close();
       });
     });
 

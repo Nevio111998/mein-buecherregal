@@ -1,20 +1,25 @@
-# Mein Bücherregal – Version 8
+# Mein Bücherregal – Version 9
 
-## Neu
-- realistischere Holzregale mit Tiefe, Schatten und Holzmaserung
-- Buchrücken verwenden das vorhandene Cover als Artwork/Textur
-- unterschiedliche Buchhöhen und -breiten
-- saubere Abstände ohne Textüberlappungen
-- Hover-Effekt: Buch wird leicht aus dem Regal gezogen
-- Favoriten
-- Wunschliste als zusätzlicher Status
-- Filter für Favoriten und Wunschliste
-- Gruppierung nach Status
-- schönere Detailansicht
-- Reihenfolge bleibt: Reihe → Band → Autor → Titel
+## Library Intelligence
+- Serien-Vollständigkeit
+- fehlende Bände
+- externe Reihensuche über den Cloudflare Worker
+- manuelle Gesamtzahl als Override, falls externe Daten unsicher sind
+- Reihen-Detailansicht
+- Duplikat-Warnung
+- Lesefortschritt pro Buch
+- Re-Reads
+- Erscheinungsjahr
+- Seitenzahl
+- Tags
+- physischer Standort im echten Regal
+- erweitertes Dashboard
 
-## Hinweis
-Die externen Buchdatenbanken liefern normalerweise nur Frontcover und keine echten Spine-Fotos.
-Darum wird das Frontcover automatisch als stilisierte Buchrücken-Textur verwendet.
+## Update
+### GitHub Pages
+App-Dateien aus diesem Paket hochladen und bestehende Dateien ersetzen.
 
-Die vorhandene lokale Sammlung bleibt kompatibel.
+### Cloudflare
+`book-api-worker-v8.js` in den bestehenden Worker kopieren und deployen.
+
+Die bestehende lokale Sammlung bleibt kompatibel.

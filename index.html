@@ -3093,7 +3093,199 @@
     @media(max-width:1000px){.dashboard{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:700px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.series-config{grid-template-columns:1fr}}
 
-  </style>
+  
+    /* =====================================================
+       V15.1 — saubere individuelle Regal-Dekoration
+       ===================================================== */
+    .decor-dialog{
+      width:min(760px,calc(100% - 22px));
+      border-color:rgba(232,193,128,.18);
+      background:
+        radial-gradient(circle at 18% 0%,rgba(216,179,107,.12),transparent 34%),
+        linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99));
+    }
+    .decor-topbar{
+      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);
+      border-bottom:1px solid rgba(232,193,128,.12);
+    }
+    .decor-topbar h2{
+      font-family:Georgia,"Times New Roman",serif;
+      color:#f2ddbd;
+    }
+    .decor-hero{
+      padding:18px;
+      border-radius:18px;
+      border:1px solid rgba(232,193,128,.12);
+      background:
+        radial-gradient(circle at 82% 14%,rgba(216,179,107,.12),transparent 28%),
+        linear-gradient(145deg,rgba(255,255,255,.042),rgba(255,255,255,.015));
+      margin-bottom:14px;
+    }
+    .decor-kicker{
+      color:var(--gold);
+      font-size:10px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-weight:900;
+      margin-bottom:8px;
+    }
+    .decor-hero h3{
+      margin:0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:28px;
+      color:#f2ddbd;
+    }
+    .decor-hero p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.5;
+    }
+    .decor-form-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+    }
+    .decor-form-grid .full{grid-column:1/-1}
+    .decor-preview-wrap{
+      margin-top:14px;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.06);
+      background:rgba(0,0,0,.14);
+    }
+    .decor-preview-label{
+      color:var(--muted);
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .decor-preview{
+      min-height:108px;
+      position:relative;
+      border-radius:16px;
+      overflow:hidden;
+      background:
+        radial-gradient(circle at 20% 16%,rgba(255,255,255,.08),transparent 18%),
+        linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.10)),
+        linear-gradient(180deg,#5f3d27,#3f2718 48%,#8b6140 48.5%,#6a432c 58%,#24150e 100%);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 22px rgba(0,0,0,.18);
+    }
+    .decor-preview::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;bottom:28px;height:10px;
+      background:linear-gradient(180deg,#a87a54,#71462b);
+      box-shadow:0 8px 0 #412818;
+    }
+    .decor-form-actions{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .decor-form-actions > div{display:flex;gap:10px;flex-wrap:wrap}
+    .decor-status{margin-top:8px;color:var(--muted);font-size:11px}
+    .shelf-decor-layer{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:5;
+    }
+    .shelf-decor-item{
+      position:absolute;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:50px;
+      height:50px;
+      border-radius:16px;
+      pointer-events:auto;
+      cursor:pointer;
+      border:1px solid rgba(244,212,150,.20);
+      background:
+        linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),
+        rgba(42,28,19,.88);
+      color:#f6e4bf;
+      box-shadow:0 10px 18px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.09);
+      backdrop-filter:blur(2px);
+      transition:transform .22s ease, box-shadow .22s ease, filter .22s ease;
+    }
+    .shelf-decor-item:hover{
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:0 14px 20px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.12), 0 0 18px rgba(216,179,107,.16);
+      filter:saturate(1.06);
+    }
+    .shelf-decor-left{top:74px;left:18px}
+    .shelf-decor-center{top:88px;left:50%;transform:translateX(-50%)}
+    .shelf-decor-center:hover{transform:translateX(-50%) translateY(-2px) scale(1.03)}
+    .shelf-decor-right{top:74px;right:18px}
+    .shelf-decor-icon{
+      font-size:24px;
+      line-height:1;
+      filter:drop-shadow(0 1px 0 rgba(0,0,0,.25));
+    }
+    .shelf-decor-config,.collection-decor-btn{
+      border:none;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.03em;
+      color:#f3deba;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      cursor:pointer;
+      transition:background .2s ease, transform .2s ease, box-shadow .2s ease;
+      box-shadow:0 8px 14px rgba(0,0,0,.14);
+    }
+    .shelf-decor-config:hover,.collection-decor-btn:hover{
+      background:rgba(216,179,107,.15);
+      transform:translateY(-1px);
+      box-shadow:0 11px 16px rgba(0,0,0,.18);
+    }
+    .collection-shelf-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .decor-preview .decor-preview-item{
+      position:absolute;
+      top:28px;
+      z-index:2;
+    }
+    .decor-preview .decor-preview-item.left{left:28px}
+    .decor-preview .decor-preview-item.center{left:50%;transform:translateX(-50%)}
+    .decor-preview .decor-preview-item.right{right:28px}
+    .decor-preview .decor-preview-item span{
+      width:56px;height:56px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:18px;
+      background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)), rgba(42,28,19,.86);
+      border:1px solid rgba(244,212,150,.18);
+      box-shadow:0 10px 18px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.10);
+      font-size:28px;
+    }
+    @media(max-width:700px){
+      .decor-form-grid{grid-template-columns:1fr}
+      .decor-form-actions .btn{width:100%}
+      .decor-form-actions > div{width:100%}
+      .shelf-decor-item{width:42px;height:42px}
+      .shelf-decor-icon{font-size:20px}
+      .shelf-decor-left,.shelf-decor-right{top:78px}
+      .shelf-decor-center{top:94px}
+      .collection-shelf-actions{justify-content:flex-start}
+    }
+
+</style>
 </head>
 <body>
   <div class="cinema-layer" aria-hidden="true">
@@ -3140,7 +3332,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V14</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.1</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3149,6 +3341,7 @@
         <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
         <button class="btn secondary" id="collectionsBtn" type="button">✦ Sammlungen</button>
         <button class="btn secondary" id="journalBtn" type="button">📖 Lesejournal</button>
+        <button class="btn secondary" id="decorBtn" type="button">🕯️ Regal-Deko</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
         <button class="btn secondary" id="moreExportBtn">🔒 Sicherheit & Export</button>
         <button class="btn secondary" id="sourceBtn">⚙ Datenquelle</button>
@@ -3258,7 +3451,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 14: Lesejournal und Jahresrückblick. Sammlungen, Ausstellungsregale und Bibliotheksmodus bleiben erhalten.
+      Version 15.1: individuelle Regal-Dekorationen mit Pflanzen, Kerzen, Schwertern, Schilden, Helmen und mehr. V14-Daten bleiben erhalten.
     </div>
   </div>
 
@@ -3729,6 +3922,56 @@
   </dialog>
 
 
+
+  <dialog id="decorDialog" class="decor-dialog" aria-labelledby="decorHeading">
+    <div class="modal-head decor-topbar">
+      <h2 id="decorHeading">🕯️ Regal-Deko</h2>
+      <button class="icon-btn" id="decorClose" type="button" aria-label="Dekoration schliessen">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="decor-hero">
+        <div class="decor-kicker">INDIVIDUELLE REGAL-SZENE</div>
+        <h3>Dekoriere jedes Regal separat</h3>
+        <p>Wähle links, mittig und rechts kleine Deko-Objekte. Deine Bücher, Reihen, Sammlungen und Journaleinträge werden nicht verändert.</p>
+      </div>
+
+      <form id="decorForm" class="decor-form">
+        <div class="decor-form-grid">
+          <div class="field full">
+            <label for="decorTargetSelect">Regal auswählen</label>
+            <select id="decorTargetSelect"></select>
+          </div>
+          <div class="field">
+            <label for="decorLeft">Links</label>
+            <select id="decorLeft"></select>
+          </div>
+          <div class="field">
+            <label for="decorCenter">Mitte</label>
+            <select id="decorCenter"></select>
+          </div>
+          <div class="field">
+            <label for="decorRight">Rechts</label>
+            <select id="decorRight"></select>
+          </div>
+        </div>
+
+        <div class="decor-preview-wrap">
+          <div class="decor-preview-label">Vorschau</div>
+          <div class="decor-preview" id="decorPreview"></div>
+        </div>
+
+        <div class="decor-form-actions">
+          <button class="btn danger" id="decorClearBtn" type="button">Deko entfernen</button>
+          <div>
+            <button class="btn secondary" id="decorCancel" type="button">Abbrechen</button>
+            <button class="btn primary" type="submit">Deko speichern</button>
+          </div>
+        </div>
+        <div id="decorStatus" class="decor-status" role="status"></div>
+      </form>
+    </div>
+  </dialog>
+
   <input type="file" id="importFile" accept="application/json" hidden />
   <input type="file" id="coverPhotoFile" accept="image/*" capture="environment" hidden />
 
@@ -3749,8 +3992,10 @@
     const AMBIENT_KEY = "my_bookshelf_ambient_v1";
     const OVERVIEW_COLLAPSED_KEY = "my_bookshelf_overview_collapsed_v1";
     const READING_JOURNAL_KEY = "my_bookshelf_reading_journal_v1";
+    const SHELF_DECOR_KEY = "my_bookshelf_shelf_decor_v1";
     let books = loadBooks();
     let readingJournal = loadReadingJournalV14();
+    let shelfDecor = loadShelfDecorV151();
     let currentStream = null;
     let scanTimer = null;
     let zxingScanControls = null;
@@ -4489,6 +4734,7 @@
             <div class="shelf-support left" aria-hidden="true"></div>
             <div class="shelf-support right" aria-hidden="true"></div>
             <div class="shelf-top-trim" aria-hidden="true"></div>
+            ${renderShelfDecorV151(shelfTargetIdV151(groupBy,name))}
 
             <div class="shelf-plaque">
               <div class="plaque-ornament left">◆</div>
@@ -4500,7 +4746,7 @@
             </div>
 
             <div class="shelf-head">
-              <div></div>
+              <button class="shelf-decor-config" type="button" data-open-decor="${esc(shelfTargetIdV151(groupBy,name))}">🕯️ Deko</button>
               <div class="sort-note">Sortierung: Reihe → Band → Autor → Titel</div>
             </div>
 
@@ -6036,12 +6282,13 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"14",schemaVersion:4,
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.1",schemaVersion:5,
         books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
           theme:getTheme(),density:getDensity(),ambient:ambientEnabled(),
-          overviewCollapsed:overviewCollapsed(),libraryLight:localStorage.getItem(LIBRARY_LIGHT_KEY)||"warm"
+          overviewCollapsed:overviewCollapsed(),libraryLight:localStorage.getItem(LIBRARY_LIGHT_KEY)||"warm",
+          shelfDecor:shelfDecorSnapshotV151()
         }
       };
     }
@@ -6050,7 +6297,7 @@
       const legacy=Array.isArray(data);
       const obj=legacy?{books:data}:data;
       if(!obj||typeof obj!=="object"||!Array.isArray(obj.books)) throw new Error("Diese Datei enthält keine gültige Bücherliste.");
-      if(Number(obj.schemaVersion||1)>4) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
+      if(Number(obj.schemaVersion||1)>5) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
       if(obj.books.length>100000) throw new Error("Das Backup enthält zu viele Bücher.");
       const seenIds=new Set();
       const incoming=obj.books.map((b,i)=>{
@@ -7384,6 +7631,11 @@
       if(typeof settings.ambient==="boolean")localStorage.setItem(AMBIENT_KEY,settings.ambient?"1":"0");
       if(typeof settings.overviewCollapsed==="boolean")localStorage.setItem(OVERVIEW_COLLAPSED_KEY,settings.overviewCollapsed?"1":"0");
       set(LIBRARY_LIGHT_KEY,settings.libraryLight,["warm","moonlight","off"]);
+      if(Object.prototype.hasOwnProperty.call(settings,"shelfDecor")){
+        const normalized=normalizeShelfDecorV151(settings.shelfDecor);
+        localStorage.setItem(SHELF_DECOR_KEY,JSON.stringify(normalized));
+        shelfDecor=normalized;
+      }
     }
     function commitImportV13(data,mode,plan){
       const old=backupSnapshotV13();
@@ -7392,7 +7644,7 @@
       const changes=mode==="replace"?0:readIntStorage(CHANGES_SINCE_BACKUP_KEY,0)+Math.max(1,plan.added+plan.collectionAdded+plan.collectionUpdated);
       const previous={
         books:localStorage.getItem(STORAGE_KEY),collections:localStorage.getItem(COLLECTIONS_KEY),seriesMeta:localStorage.getItem(SERIES_META_KEY),
-        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),journal:localStorage.getItem(READING_JOURNAL_KEY),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
+        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),journal:localStorage.getItem(READING_JOURNAL_KEY),decor:localStorage.getItem(SHELF_DECOR_KEY),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
       };
       const restoreRaw=(key,value)=>{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)};
       try{
@@ -7409,13 +7661,13 @@
           [STORAGE_KEY,previous.books],[COLLECTIONS_KEY,previous.collections],[SERIES_META_KEY,previous.seriesMeta],
           [BOOK_API_KEY,previous.source],[VIEW_MODE_KEY,previous.view],[THEME_KEY,previous.theme],[DENSITY_KEY,previous.density],
           [AMBIENT_KEY,previous.ambient],[OVERVIEW_COLLAPSED_KEY,previous.overview],[LIBRARY_LIGHT_KEY,previous.light],
-          [READING_JOURNAL_KEY,previous.journal],[LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
+          [READING_JOURNAL_KEY,previous.journal],[SHELF_DECOR_KEY,previous.decor],[LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
         ]){try{restoreRaw(key,value)}catch(rollbackErr){console.error("Rollback fehlgeschlagen:",key,rollbackErr)}}
-        books=old.books;collections=old.collections;readingJournal=old.readingJournal||{};
+        books=old.books;collections=old.collections;readingJournal=old.readingJournal||{};shelfDecor=loadShelfDecorV151();
         alert("Der Import konnte nicht vollständig gespeichert werden. Die bisherigen Daten wurden nach Möglichkeit wiederhergestellt. Bitte lösche keine Website-Daten und behalte deine Backup-Datei.");
         return false;
       }
-      books=plan.books;collections=plan.collections;readingJournal=plannedJournal;
+      books=plan.books;collections=plan.collections;readingJournal=plannedJournal;shelfDecor=loadShelfDecorV151();
       activeCollectionId="all";
       localStorage.setItem(COLLECTIONS_CHOICE_KEY,"all");
       pendingImportBackup=null;
@@ -7616,10 +7868,12 @@
     function collectionShelf(c,arr,viewMode){
       const counts=collectionBooks(c).length;
       const missing=collectionMissing(c).length;
+      const accentLabel=c.style==="walnut"?"Dunkles Holz":c.style==="midnight"?"Midnight":c.style==="emerald"?"Emerald":"Messing";
       return `<section class="shelf collection-exhibit" data-collection-id="${esc(c.id)}" data-collection-style="${collectionStyle(c)}">
         <div class="shelf-support left" aria-hidden="true"></div><div class="shelf-support right" aria-hidden="true"></div><div class="shelf-top-trim" aria-hidden="true"></div>
-        <div class="shelf-plaque"><div class="plaque-ornament left">◆</div><div class="plaque-content"><div class="plaque-title">${esc(c.title)}</div><div class="plaque-sub">${esc(c.description||`${counts} Bücher · Persönliche Sammlung`)}</div></div><div class="plaque-ornament right">◆</div></div>
-        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(COLLECTION_STYLE_NAMES[collectionStyle(c)])}</div><div class="collection-shelf-controls"><span class="sort-note">Deine Reihenfolge</span>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
+        ${renderShelfDecorV151(collectionTargetIdV151(c.id))}
+        <div class="shelf-plaque"><div class="plaque-ornament left">◆</div><div class="plaque-content"><div class="plaque-title">${esc(c.title)}</div><div class="plaque-sub">${esc(c.description||`${counts} ${counts===1?"Buch":"Bücher"} · ${accentLabel}`)}</div></div><div class="plaque-ornament right">◆</div></div>
+        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(accentLabel)}</div><div class="collection-shelf-actions"><button class="collection-decor-btn" type="button" data-open-decor="${esc(collectionTargetIdV151(c.id))}">🕯️ Deko</button>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
         ${missing?`<div class="collection-missing-note">${missing} Buchverweise sind momentan nicht vorhanden. Du kannst sie im Editor entfernen oder über ein Backup wiederherstellen.</div>`:""}
         <div class="books ${viewMode==="spines"?"bookshelf-mode":""}">${arr.map(b=>viewMode==="spines"?spineCard(b):bookCard(b)).join("")||`<div class="collection-shelf-empty">${counts?"Keine Bücher entsprechen dem aktuellen Filter.":"Dieses Regal ist noch leer. Füge im Editor Bücher hinzu."}</div>`}</div>
       </section>`;
@@ -7839,6 +8093,241 @@
     $("addToCollectionSave").addEventListener("click",saveAddToCollection);
     $("addToCollectionNew").addEventListener("click",collectionNewFromBook);
     $("addToCollectionDialog").addEventListener("cancel",e=>{e.preventDefault();$("addToCollectionDialog").close()});
+
+
+
+    /* =====================================================
+       V15.1 — saubere individuelle Regal-Dekoration
+       ===================================================== */
+    const DECOR_OPTIONS_V151 = [
+      {id:"",label:"Keine Deko",icon:""},
+      {id:"plant",label:"Kleine Pflanze",icon:"🪴"},
+      {id:"candle",label:"Kerze",icon:"🕯️"},
+      {id:"sword",label:"Schwert",icon:"⚔️"},
+      {id:"shield",label:"Schild",icon:"🛡️"},
+      {id:"helmet",label:"Helm",icon:"🪖"},
+      {id:"vase",label:"Vase",icon:"🏺"},
+      {id:"hourglass",label:"Sanduhr",icon:"⏳"},
+      {id:"owl",label:"Eule",icon:"🦉"},
+      {id:"crystal",label:"Kristall",icon:"🔮"}
+    ];
+
+    function decorIdsV151(){
+      return new Set(DECOR_OPTIONS_V151.map(x=>x.id));
+    }
+
+    function normalizeShelfDecorV151(value){
+      const source = value && typeof value==="object" && !Array.isArray(value)
+        ? (value.targets && typeof value.targets==="object" && !Array.isArray(value.targets) ? value.targets : value)
+        : {};
+      const allowed=decorIdsV151();
+      const targets={};
+
+      Object.entries(source).forEach(([target,entry])=>{
+        if(!target || !entry || typeof entry!=="object" || Array.isArray(entry)) return;
+        const clean={
+          left:allowed.has(String(entry.left||"")) ? String(entry.left||"") : "",
+          center:allowed.has(String(entry.center||"")) ? String(entry.center||"") : "",
+          right:allowed.has(String(entry.right||"")) ? String(entry.right||"") : ""
+        };
+        if(clean.left || clean.center || clean.right) targets[String(target)]=clean;
+      });
+
+      return {targets};
+    }
+
+    function loadShelfDecorV151(){
+      try{
+        return normalizeShelfDecorV151(JSON.parse(localStorage.getItem(SHELF_DECOR_KEY)||"{}"));
+      }catch(err){
+        console.warn("Regal-Deko konnte nicht geladen werden.",err);
+        return {targets:{}};
+      }
+    }
+
+    function shelfDecorSnapshotV151(){
+      return JSON.parse(JSON.stringify(shelfDecor||{targets:{}}));
+    }
+
+    function saveShelfDecorV151(){
+      shelfDecor=normalizeShelfDecorV151(shelfDecor);
+      try{
+        localStorage.setItem(SHELF_DECOR_KEY,JSON.stringify(shelfDecor));
+      }catch(err){
+        alert("Die Regal-Deko konnte nicht gespeichert werden. Bitte erstelle ein Backup und prüfe den Speicher.");
+        throw err;
+      }
+      markLibraryChanged();
+      render();
+    }
+
+    function decorOptionByIdV151(id){
+      return DECOR_OPTIONS_V151.find(x=>x.id===id) || DECOR_OPTIONS_V151[0];
+    }
+
+    function decorItemOptionsHtmlV151(selected=""){
+      return DECOR_OPTIONS_V151.map(o=>`<option value="${esc(o.id)}" ${selected===o.id?"selected":""}>${esc(o.label)}</option>`).join("");
+    }
+
+    function shelfTargetIdV151(groupBy,name){
+      return `shelf:${groupBy}:${name}`;
+    }
+
+    function collectionTargetIdV151(id){
+      return `collection:${id}`;
+    }
+
+    function shelfTargetLabelV151(groupBy,name){
+      const labelMap={series:"Reihe",genre:"Genre",author:"Autor",status:"Status",none:"Regal"};
+      return `${labelMap[groupBy]||"Regal"} · ${name}`;
+    }
+
+    function decorTargetsV151(){
+      const groupBy=$("groupBy")?.value || "series";
+      if(groupBy==="collections"){
+        return collections.map(c=>({id:collectionTargetIdV151(c.id),label:`Ausstellung · ${c.title}`}));
+      }
+
+      const names=new Set();
+      books.forEach(b=>{
+        let key="Meine Bücher";
+        if(groupBy==="series") key=b.series||"Ohne Reihe";
+        if(groupBy==="genre") key=b.genre||"Ohne Genre";
+        if(groupBy==="author") key=b.author||"Ohne Autor";
+        if(groupBy==="status") key=statusLabel(b.status||"unread");
+        names.add(key);
+      });
+
+      return [...names]
+        .sort((a,b)=>normalizeForSort(a).localeCompare(normalizeForSort(b),"de"))
+        .map(name=>({id:shelfTargetIdV151(groupBy,name),label:shelfTargetLabelV151(groupBy,name)}));
+    }
+
+    function shelfDecorEntryV151(targetId){
+      const root=shelfDecor?.targets||{};
+      return root[targetId]
+        ? {left:root[targetId].left||"",center:root[targetId].center||"",right:root[targetId].right||""}
+        : {left:"",center:"",right:""};
+    }
+
+    function renderDecorPreviewV151(){
+      const slots=[
+        ["left",decorOptionByIdV151($("decorLeft").value)],
+        ["center",decorOptionByIdV151($("decorCenter").value)],
+        ["right",decorOptionByIdV151($("decorRight").value)]
+      ];
+      $("decorPreview").innerHTML=slots.map(([pos,item])=>
+        item.id ? `<div class="decor-preview-item ${pos}"><span title="${esc(item.label)}">${esc(item.icon)}</span></div>` : ""
+      ).join("");
+    }
+
+    function syncDecorFormV151(){
+      const entry=shelfDecorEntryV151($("decorTargetSelect").value);
+      $("decorLeft").innerHTML=decorItemOptionsHtmlV151(entry.left);
+      $("decorCenter").innerHTML=decorItemOptionsHtmlV151(entry.center);
+      $("decorRight").innerHTML=decorItemOptionsHtmlV151(entry.right);
+      $("decorStatus").textContent="";
+      renderDecorPreviewV151();
+    }
+
+    function renderDecorTargetsV151(preferred=""){
+      const targets=decorTargetsV151();
+      const select=$("decorTargetSelect");
+      select.replaceChildren(...targets.map(t=>new Option(t.label,t.id)));
+
+      if(!targets.length){
+        select.replaceChildren(new Option("Noch keine Regale vorhanden",""));
+        $("decorLeft").innerHTML=decorItemOptionsHtmlV151("");
+        $("decorCenter").innerHTML=decorItemOptionsHtmlV151("");
+        $("decorRight").innerHTML=decorItemOptionsHtmlV151("");
+        renderDecorPreviewV151();
+        return;
+      }
+
+      select.value=targets.some(t=>t.id===preferred) ? preferred : targets[0].id;
+      syncDecorFormV151();
+    }
+
+    function openDecorDialog(targetId=""){
+      if(immersiveActive) exitLibraryMode();
+      renderDecorTargetsV151(targetId);
+      $("decorDialog").showModal();
+      $("decorTargetSelect").focus({preventScroll:true});
+    }
+
+    function closeDecorDialog(){
+      if($("decorDialog").open) $("decorDialog").close();
+    }
+
+    function saveDecorSelectionV151(){
+      const target=$("decorTargetSelect").value;
+      if(!target){
+        $("decorStatus").textContent="Es ist noch kein Regal auswählbar.";
+        return;
+      }
+      const entry={
+        left:$("decorLeft").value,
+        center:$("decorCenter").value,
+        right:$("decorRight").value
+      };
+
+      shelfDecor=shelfDecor||{targets:{}};
+      shelfDecor.targets=shelfDecor.targets||{};
+      if(entry.left || entry.center || entry.right) shelfDecor.targets[target]=entry;
+      else delete shelfDecor.targets[target];
+
+      saveShelfDecorV151();
+      $("decorStatus").textContent="Dekoration gespeichert ✓";
+      if($("decorDialog").open) renderDecorTargetsV151(target);
+    }
+
+    function clearDecorSelectionV151(){
+      const target=$("decorTargetSelect").value;
+      if(!target) return;
+      shelfDecor=shelfDecor||{targets:{}};
+      delete (shelfDecor.targets||{})[target];
+      saveShelfDecorV151();
+      $("decorStatus").textContent="Dekoration entfernt.";
+      if($("decorDialog").open) renderDecorTargetsV151(target);
+    }
+
+    function renderShelfDecorV151(targetId){
+      const entry=shelfDecorEntryV151(targetId);
+      const slots=[
+        ["shelf-decor-left",entry.left],
+        ["shelf-decor-center",entry.center],
+        ["shelf-decor-right",entry.right]
+      ];
+      const items=slots.map(([cls,id])=>{
+        const item=decorOptionByIdV151(id);
+        return item.id
+          ? `<button class="shelf-decor-item ${cls}" type="button" data-open-decor="${esc(targetId)}" title="${esc(item.label)}"><span class="shelf-decor-icon">${esc(item.icon)}</span></button>`
+          : "";
+      }).join("");
+      return `<div class="shelf-decor-layer">${items}</div>`;
+    }
+
+    document.addEventListener("click",e=>{
+      const btn=e.target.closest("[data-open-decor]");
+      if(btn){
+        openDecorDialog(btn.dataset.openDecor);
+        return;
+      }
+    });
+
+    $("decorBtn").addEventListener("click",()=>openDecorDialog());
+    $("decorClose").addEventListener("click",closeDecorDialog);
+    $("decorCancel").addEventListener("click",closeDecorDialog);
+    $("decorDialog").addEventListener("cancel",e=>{e.preventDefault();closeDecorDialog()});
+    $("decorTargetSelect").addEventListener("change",syncDecorFormV151);
+    $("decorLeft").addEventListener("change",renderDecorPreviewV151);
+    $("decorCenter").addEventListener("change",renderDecorPreviewV151);
+    $("decorRight").addEventListener("change",renderDecorPreviewV151);
+    $("decorClearBtn").addEventListener("click",clearDecorSelectionV151);
+    $("decorForm").addEventListener("submit",e=>{
+      e.preventDefault();
+      saveDecorSelectionV151();
+    });
 
 
     /* =====================================================

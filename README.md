@@ -1,63 +1,57 @@
-# Mein Bücherregal – Version 14
+# Mein Bücherregal – Version 15.1
 
-Version 14 baut auf Version 13 auf.
+Version 15.1 baut sauber auf Version 14 auf.
 
-## Neu: Lesejournal
+## Wichtig
 
-Jedes Buch kann jetzt einen eigenen Journal-Eintrag bekommen:
+Diese Version ersetzt die fehlerhafte V15. Die Versionsnummer wurde absichtlich
+auf 15.1 gesetzt, damit alte Browser- oder Service-Worker-Caches nicht mit der
+kaputten Version kollidieren.
 
-- Gestartet am
-- Beendet am
-- Format: Papierbuch, E-Book, Hörbuch oder gemischt
-- Gefühl: episch, düster, emotional, clever, gemütlich oder zäh
-- kurze Rezension
-- Lieblingszitat
-- Lieblingsszene / stärkster Moment
-- private Journal-Notizen
+## Neu: individuelle Regal-Dekoration
 
-Du öffnest das Journal direkt in den Buchdetails über **📖 Journal**.
+Du kannst jetzt jedes Regal mit kleinen Deko-Elementen gestalten.
 
-Wenn du ein Abschlussdatum setzt, wird das Buch automatisch als gelesen markiert.
+Zur Auswahl stehen:
 
-## Neu: Jahresrückblick
+- kleine Pflanze
+- Kerze
+- Schwert
+- Schild
+- Helm
+- Vase
+- Sanduhr
+- Eule
+- Kristall
 
-Über **📖 Lesejournal** öffnest du die Jahresübersicht:
+Pro Regal gibt es drei Positionen:
 
-- gelesene Bücher pro Jahr
-- gelesene Seiten
-- einzigartige Autoren
-- durchschnittliche Bewertung
-- Top-Genre
-- gespeicherte Lieblingszitate
-- Monatsverteilung
-- Liste aller abgeschlossenen Bücher
-- Bücher, die als gelesen markiert sind, aber noch kein Abschlussdatum haben
+- links
+- mitte
+- rechts
 
-Gezählt werden Bücher mit einem gepflegten Abschlussdatum.
+Das funktioniert für normale Reihen-Regale und für Ausstellungsregale aus den
+Sammlungen.
+
+## Bedienung
+
+Öffne oben **🕯️ Regal-Deko** oder klicke direkt auf den Deko-Button an einem Regal.
 
 ## Backup
 
-Das JSON-Backup wurde auf Schema 4 erweitert und enthält jetzt zusätzlich:
-
-- alle Journal-Einträge
-- Abschlussdaten
-- Rezensionen
-- Zitate
-- private Journal-Notizen
-
-Ältere Backups aus V13 und früher bleiben importierbar. Wenn ein Backup kein Lesejournal enthält, bleiben vorhandene Journal-Daten erhalten.
+Das Backup nutzt Schema 5. Die Deko wird in den Einstellungen des JSON-Backups
+mitgespeichert und beim Import mit „Ersetzen“ wiederhergestellt.
 
 ## Bleibt erhalten
 
-- Sammlungen & Ausstellungsregale aus V13
+- Sammlungen & Ausstellungsregale
+- Lesejournal & Jahresrückblick
 - Bibliotheksmodus
-- Buchanimation / Folio-Detailansicht
+- Buchanimation / Detailansicht
 - manuelle Reihenlogik
 - lokale Speicherung
 - JSON Backup / Import / Zusammenführen
 - Kamera / Schnellscan
 - Cloudflare-Datenquelle
 
-## Update
-
-Nur GitHub Pages aktualisieren. Cloudflare bleibt unverändert.
+Cloudflare muss nicht geändert werden.

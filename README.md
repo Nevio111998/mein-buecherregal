@@ -1,59 +1,48 @@
-# Mein Bücherregal – Version 10.3
+# Mein Bücherregal – Version 11
 
-V10.3 basiert auf der stabilen V10.1. Die experimentelle 0.5x-Kameraauswahl aus V10.2 ist nicht enthalten.
+Version 11 ist ein Komfort- und Ansichtsupdate auf Basis von V10.3.
 
-## Neu: Datensicherheit
+## Neu
 
-### Feste Standard-Datenquelle
-Die App kennt automatisch:
-https://mein-buecherregal-api.neviodipalma.workers.dev
+### Regal-Themen
+- Klassisch
+- Midnight
+- Emerald
+- Crimson
 
-Auf einem neuen Gerät musst du die URL normalerweise nicht erneut eintragen.
+Die Auswahl wird lokal gespeichert.
 
-### Vollständiges JSON-Backup
-Das Backup enthält:
-- alle Bücher
-- Reihen-Einstellungen / manuelle Gesamtzahlen
-- Datenquelle
-- Ansichtsmodus
-- Backup-Version
-- Exportdatum
+### Dichte / Layout
+- Komfort
+- Kompakt
 
-### Backup-Erinnerung
-Ein neues Backup wird empfohlen:
-- wenn noch nie eines erstellt wurde
-- nach 30 Tagen
-- oder nach 20 Änderungen seit dem letzten Backup
+Damit kannst du selbst entscheiden, ob das Regal luftiger oder platzsparender dargestellt wird.
 
-Nach einem JSON-Export wird der Änderungszähler zurückgesetzt.
+### Atmosphäre
+- Licht- und Staub-Effekte
+- sanfte Bewegung
+- Hero-Glanz
+- dezente Reveal-Animationen
 
-### Datensicherheitsbereich
-Unter „Sicherheit & Export“ siehst du:
-- Anzahl Bücher
-- letztes Backup
-- Änderungen seit Backup
-- Status des Browserspeichers
+Die Atmosphäre kann ein- und ausgeschaltet werden.
 
-„Speicher schützen“ fragt den Browser nach persistentem Speicher, sofern unterstützt.
+### Spotlight-Bereich
+Oben gibt es jetzt drei kuratierte Karten:
+- aktuelles Buch
+- nächstes Abenteuer
+- Lieblingsstück
 
-### Sicherer Import
-Vor dem Import zeigt die App:
-- Datum des Backups
-- Backup-Version
-- Bücher im Backup
-- aktuelle Bücher auf dem Gerät
-- wie viele Bücher beim Zusammenführen neu wären
-- Datenquelle im Backup
+### Visueller Feinschliff
+- stärkeres Hero-Design
+- stimmungsvollere Panels
+- bessere Hover- und Lift-Effekte
+- schönere Regale
+- epischerer Gesamteindruck
 
-Danach:
-- **Ersetzen**: stellt das Backup vollständig wieder her
-- **Zusammenführen**: behält aktuelle Bücher und fügt nur neue hinzu
-
-Duplikate werden bevorzugt über ISBN erkannt; ohne ISBN über Titel + Autor.
-
-## Empfehlung
-JSON-Backups in iCloud Drive speichern, z. B. in:
-iCloud Drive → Bücherregal Backups
+## Wichtig
+Die stabile Kameralösung aus V10.1/V10.3 bleibt erhalten.
+Datensicherheit, Backups und Import-Logik aus V10.3 bleiben ebenfalls bestehen.
 
 ## Update
-Nur GitHub Pages aktualisieren. Cloudflare bleibt unverändert.
+Nur GitHub Pages aktualisieren.
+Cloudflare bleibt unverändert.

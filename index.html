@@ -1012,6 +1012,370 @@
       font-size:10px;
       line-height:1.45;
     }
+
+    /* ---------- Version 11: Komfort + Ansicht ---------- */
+    body{
+      overflow-x:hidden;
+      transition:background .45s ease,color .3s ease;
+    }
+    body::before,
+    body::after{
+      content:"";
+      position:fixed;
+      inset:-8%;
+      pointer-events:none;
+      z-index:0;
+      opacity:0;
+      transition:opacity .35s ease;
+    }
+    body.ambient-on::before{
+      opacity:.65;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(255,215,150,.12), transparent 24%),
+        radial-gradient(circle at 84% 10%, rgba(255,255,255,.06), transparent 18%),
+        radial-gradient(circle at 74% 78%, rgba(216,179,107,.12), transparent 20%);
+      animation:heroGlowShift 18s ease-in-out infinite alternate;
+    }
+    body.ambient-on::after{
+      opacity:.18;
+      background-image:
+        radial-gradient(circle, rgba(255,255,255,.85) 0 1px, transparent 1.2px),
+        radial-gradient(circle, rgba(216,179,107,.95) 0 1px, transparent 1.2px);
+      background-size:140px 140px, 190px 190px;
+      background-position:0 0, 70px 40px;
+      animation:dustFloat 30s linear infinite;
+    }
+    .app{
+      position:relative;
+      z-index:1;
+      width:min(1260px,100%);
+    }
+    .hero{
+      position:relative;
+      padding:22px 22px 18px;
+      border-radius:26px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.04), rgba(255,255,255,.01)),
+        linear-gradient(180deg, rgba(46,36,31,.92), rgba(28,23,20,.94));
+      overflow:hidden;
+      box-shadow:0 28px 40px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:-40% auto -40% -30%;
+      width:38%;
+      transform:skewX(-18deg);
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.14), transparent);
+      opacity:.45;
+      animation:heroSheen 9s ease-in-out infinite;
+      pointer-events:none;
+    }
+    .version-badge{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      vertical-align:middle;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(216,179,107,.14);
+      border:1px solid rgba(216,179,107,.22);
+      font-size:14px;
+      margin-left:10px;
+    }
+    .btn,
+    .dash-card,
+    .series-card,
+    .shelf,
+    .book,
+    .spine,
+    .wishlist-item{
+      transition:
+        transform .24s ease,
+        box-shadow .24s ease,
+        border-color .24s ease,
+        background .24s ease;
+    }
+    .btn:hover,
+    .dash-card:hover,
+    .series-card:hover{
+      transform:translateY(-2px);
+    }
+    .book:hover{transform:translateY(-5px)}
+    .shelf:hover{
+      transform:translateY(-2px);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.04), 0 20px 34px rgba(0,0,0,.28);
+    }
+    .toolbar{
+      box-shadow:0 18px 26px rgba(0,0,0,.22);
+    }
+    .scene-bar{
+      display:grid;
+      grid-template-columns:1.3fr 1fr .8fr;
+      gap:12px;
+      margin:0 0 20px;
+    }
+    .scene-card{
+      border-radius:18px;
+      padding:12px;
+      border:1px solid rgba(255,255,255,.07);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.012)),
+        rgba(28,23,20,.86);
+      box-shadow:0 12px 24px rgba(0,0,0,.16);
+    }
+    .scene-label{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--muted);
+      font-weight:900;
+      margin-bottom:8px;
+    }
+    .scene-sub{
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.35;
+      margin-top:4px;
+    }
+    .fx-card{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .switch{
+      position:relative;
+      display:inline-flex;
+      width:58px;
+      height:32px;
+      flex:0 0 auto;
+    }
+    .switch input{display:none}
+    .slider{
+      position:absolute;
+      inset:0;
+      border-radius:999px;
+      background:#3f332b;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:inset 0 3px 8px rgba(0,0,0,.22);
+      transition:all .25s ease;
+    }
+    .slider:before{
+      content:"";
+      position:absolute;
+      width:24px;height:24px;
+      left:4px;top:3px;
+      border-radius:50%;
+      background:linear-gradient(180deg,#f3e6d4,#ccb594);
+      box-shadow:0 3px 10px rgba(0,0,0,.26);
+      transition:transform .25s ease;
+    }
+    .switch input:checked + .slider{
+      background:linear-gradient(180deg,#896548,#5e412c);
+    }
+    .switch input:checked + .slider:before{
+      transform:translateX(25px);
+    }
+    .featured-strip{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+      margin:0 0 18px;
+    }
+    .spotlight-card{
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:92px 1fr;
+      gap:14px;
+      padding:14px;
+      min-height:144px;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.012)),
+        linear-gradient(135deg, rgba(40,31,26,.96), rgba(21,18,16,.96));
+      box-shadow:0 18px 28px rgba(0,0,0,.22);
+    }
+    .spotlight-card::after{
+      content:"";
+      position:absolute;
+      right:-32px; top:-32px;
+      width:110px; height:110px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(216,179,107,.18), transparent 70%);
+      pointer-events:none;
+    }
+    .spotlight-cover{
+      width:92px;
+      aspect-ratio:2/3;
+      border-radius:10px;
+      overflow:hidden;
+      background:#2d231e;
+      box-shadow:0 12px 24px rgba(0,0,0,.28);
+    }
+    .spotlight-cover img{
+      width:100%;height:100%;object-fit:cover;display:block;
+    }
+    .spotlight-fallback{
+      height:100%;
+      display:flex;align-items:center;justify-content:center;
+      text-align:center;
+      padding:10px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.3;
+      background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));
+    }
+    .spotlight-overline{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.09em;
+      color:var(--gold);
+      font-weight:900;
+      margin-bottom:6px;
+    }
+    .spotlight-title{
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:22px;
+      line-height:1.02;
+      margin:0;
+    }
+    .spotlight-meta{
+      color:var(--muted);
+      font-size:11px;
+      margin-top:8px;
+      line-height:1.45;
+    }
+    .spotlight-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .spotlight-mini{
+      border:none;
+      border-radius:999px;
+      padding:8px 12px;
+      color:var(--text);
+      background:rgba(255,255,255,.06);
+      box-shadow:0 6px 12px rgba(0,0,0,.14);
+    }
+    .spotlight-mini:hover{transform:translateY(-1px)}
+    .reveal-in{
+      animation:v11Rise .44s ease both;
+      animation-delay:calc(var(--i,0) * 25ms);
+    }
+    body.density-compact .books{
+      grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
+      gap:16px 11px;
+    }
+    body.density-compact .shelf{
+      padding:14px 14px 24px;
+      margin-bottom:24px;
+    }
+    body.density-compact .spotlight-card{
+      min-height:128px;
+      grid-template-columns:76px 1fr;
+      gap:12px;
+    }
+    body.density-compact .spotlight-cover{
+      width:76px;
+    }
+    body.theme-library{
+      --bg:#171310;
+      --panel:#211b17;
+      --panel2:#2b231e;
+      --text:#f4eee8;
+      --muted:#bfae9f;
+      --wood:#6b4429;
+      --wood2:#3f2718;
+      --gold:#d8b36b;
+      --danger:#c85b5b;
+      --ok:#6da56d;
+      --blue:#6f93b8;
+      background:
+        radial-gradient(circle at 50% -20%, #3a2b22 0%, transparent 45%),
+        linear-gradient(#171310,#120f0d 75%);
+    }
+    body.theme-midnight{
+      --bg:#0f121a;
+      --panel:#171c26;
+      --panel2:#1d2633;
+      --text:#edf3ff;
+      --muted:#a8b6cf;
+      --wood:#2d3a58;
+      --wood2:#1b2438;
+      --gold:#90b3ff;
+      --danger:#d37171;
+      --ok:#78b095;
+      --blue:#89a8ff;
+      background:
+        radial-gradient(circle at 50% -10%, #22355f 0%, transparent 36%),
+        linear-gradient(#0f121a,#090d14 75%);
+    }
+    body.theme-emerald{
+      --bg:#101713;
+      --panel:#18211b;
+      --panel2:#223027;
+      --text:#edf6ef;
+      --muted:#afc6b2;
+      --wood:#506741;
+      --wood2:#31402a;
+      --gold:#d9c38b;
+      --danger:#ca7166;
+      --ok:#8ac48a;
+      --blue:#7aa9b6;
+      background:
+        radial-gradient(circle at 45% -12%, #284534 0%, transparent 38%),
+        linear-gradient(#101713,#0b110d 78%);
+    }
+    body.theme-crimson{
+      --bg:#171011;
+      --panel:#241819;
+      --panel2:#331f21;
+      --text:#f8eceb;
+      --muted:#cdaead;
+      --wood:#73403a;
+      --wood2:#492220;
+      --gold:#e1a077;
+      --danger:#dc7a72;
+      --ok:#91b580;
+      --blue:#a88fbf;
+      background:
+        radial-gradient(circle at 52% -18%, #4c2127 0%, transparent 42%),
+        linear-gradient(#171011,#0f0b0c 78%);
+    }
+    @keyframes heroSheen{
+      0%,14%{transform:translateX(-120%) skewX(-18deg)}
+      38%,100%{transform:translateX(430%) skewX(-18deg)}
+    }
+    @keyframes heroGlowShift{
+      from{transform:translate3d(0,0,0) scale(1)}
+      to{transform:translate3d(2.5%,1.5%,0) scale(1.05)}
+    }
+    @keyframes dustFloat{
+      from{transform:translateY(0)}
+      to{transform:translateY(-120px)}
+    }
+    @keyframes v11Rise{
+      from{opacity:0;transform:translateY(10px) scale(.985)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+    @media(max-width:980px){
+      .scene-bar{grid-template-columns:1fr}
+      .featured-strip{grid-template-columns:1fr}
+    }
+    @media(max-width:700px){
+      .hero{padding:18px}
+      .featured-strip{gap:12px}
+      .spotlight-card{grid-template-columns:74px 1fr;gap:12px;padding:12px}
+      .spotlight-cover{width:74px}
+      .spotlight-title{font-size:18px}
+    }
+
     @media(max-width:700px){
       .security-grid,.import-summary{grid-template-columns:1fr}
       .backup-reminder{align-items:flex-start;flex-direction:column}
@@ -1117,8 +1481,8 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V10.3</span></h1>
-        <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
+        <h1>Mein Bücherregal <span class="version-badge">V11</span></h1>
+        <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
         <button class="btn secondary" id="quickScanBtn">📚 Schnellscan</button>
@@ -1153,6 +1517,39 @@
       </div>
     </div>
 
+    <div class="scene-bar">
+      <div class="scene-card">
+        <div class="scene-label">Thema</div>
+        <div class="toggle-group wide" id="themeToggle">
+          <button class="seg active" type="button" data-theme="library">Klassisch</button>
+          <button class="seg" type="button" data-theme="midnight">Midnight</button>
+          <button class="seg" type="button" data-theme="emerald">Emerald</button>
+          <button class="seg" type="button" data-theme="crimson">Crimson</button>
+        </div>
+      </div>
+
+      <div class="scene-card">
+        <div class="scene-label">Dichte</div>
+        <div class="toggle-group wide" id="densityToggle">
+          <button class="seg active" type="button" data-density="comfort">Komfort</button>
+          <button class="seg" type="button" data-density="compact">Kompakt</button>
+        </div>
+      </div>
+
+      <div class="scene-card fx-card">
+        <div>
+          <div class="scene-label">Atmosphäre</div>
+          <div class="scene-sub">Licht, Glanz und subtile Bewegung</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="ambientToggle" checked>
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div id="featuredStrip" class="featured-strip"></div>
+
     <div id="dashboard" class="dashboard"></div>
     <div id="backupReminder"></div>
     <div class="intelligence-head">
@@ -1168,7 +1565,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 10.3: Datensicherheit, vollständige Backups und sicherer Import. Kamera basiert wieder auf der stabilen V10.1.
+      Version 11: Komfort- und Ansichtsupdate mit Regal-Themen, Spotlight-Bereich, Animationen und einem deutlich stärkeren Bibliotheksgefühl.
     </div>
   </div>
 
@@ -1498,6 +1895,9 @@
     const CHANGES_SINCE_BACKUP_KEY = "my_bookshelf_changes_since_backup_v1";
     const BACKUP_REMINDER_DAYS = 30;
     const BACKUP_REMINDER_CHANGES = 20;
+    const THEME_KEY = "my_bookshelf_theme_v1";
+    const DENSITY_KEY = "my_bookshelf_density_v1";
+    const AMBIENT_KEY = "my_bookshelf_ambient_v1";
     let books = loadBooks();
     let currentStream = null;
     let scanTimer = null;
@@ -3946,6 +4346,178 @@
     }
 
 
+
+    /* =====================================================
+       VERSION 11 - COMFORT + EPIC VISUALS
+       ===================================================== */
+
+    function getTheme(){
+      return localStorage.getItem(THEME_KEY) || "library";
+    }
+
+    function getDensity(){
+      return localStorage.getItem(DENSITY_KEY) || "comfort";
+    }
+
+    function ambientEnabled(){
+      const raw = localStorage.getItem(AMBIENT_KEY);
+      return raw === null ? true : raw === "1";
+    }
+
+    function themeColorFor(theme){
+      return ({
+        library:"#1f1a17",
+        midnight:"#121827",
+        emerald:"#15211a",
+        crimson:"#231516"
+      })[theme] || "#1f1a17";
+    }
+
+    function applyThemeUi(){
+      const theme = getTheme();
+      const density = getDensity();
+      const ambient = ambientEnabled();
+
+      document.body.classList.remove("theme-library","theme-midnight","theme-emerald","theme-crimson");
+      document.body.classList.add(`theme-${theme}`);
+      document.body.classList.toggle("density-compact", density === "compact");
+      document.body.classList.toggle("density-comfort", density !== "compact");
+      document.body.classList.toggle("ambient-on", ambient);
+
+      document.querySelectorAll("#themeToggle [data-theme]").forEach(btn=>{
+        btn.classList.toggle("active", btn.dataset.theme === theme);
+      });
+      document.querySelectorAll("#densityToggle [data-density]").forEach(btn=>{
+        btn.classList.toggle("active", btn.dataset.density === density);
+      });
+
+      if($("ambientToggle")) $("ambientToggle").checked = ambient;
+
+      const themeMeta = document.querySelector('meta[name="theme-color"]');
+      if(themeMeta) themeMeta.setAttribute("content", themeColorFor(theme));
+    }
+
+    function spotlightCardHtml(kind, book, metaHtml="", actionHtml=""){
+      const cover = book?.cover
+        ? `<div class="spotlight-cover"><img src="${esc(book.cover)}" alt=""></div>`
+        : `<div class="spotlight-cover"><div class="spotlight-fallback">${esc(book?.title || "Noch nichts hier")}</div></div>`;
+
+      const title = book?.title || (kind === "reading" ? "Du liest gerade nichts" : kind === "next" ? "Kein ungelesenes Buch gefunden" : "Noch kein Lieblingsstück");
+      const author = book?.author ? `<div class="spotlight-meta">${esc(book.author)}</div>` : ``;
+
+      const overline = ({
+        reading:"Aktuelles Kapitel",
+        next:"Nächstes Abenteuer",
+        favorite:"Lieblingsstück"
+      })[kind] || "Spotlight";
+
+      return `
+        <div class="spotlight-card reveal-in">
+          ${cover}
+          <div>
+            <div class="spotlight-overline">${overline}</div>
+            <h3 class="spotlight-title">${esc(title)}</h3>
+            ${author}
+            ${metaHtml ? `<div class="spotlight-meta">${metaHtml}</div>` : ``}
+            ${actionHtml ? `<div class="spotlight-actions">${actionHtml}</div>` : ``}
+          </div>
+        </div>`;
+    }
+
+    function renderFeaturedStrip(){
+      const container = $("featuredStrip");
+      if(!container) return;
+
+      const reading = books.find(b=>b.status==="reading") || null;
+      const unread = sortBooksSmart(books.filter(b=>b.status==="unread"))[0] || null;
+      const favorite = books.find(b=>b.favorite) || sortBooksSmart(books.filter(b=>b.status==="read" && Number(b.rating||0)>=4))[0] || null;
+
+      const readingProgress = reading
+        ? (reading.pages && reading.currentPage
+            ? `${reading.currentPage} / ${reading.pages} Seiten · ${readingPercent(reading)}%`
+            : `Status: ${statusLabel(reading.status)}`)
+        : `Nutze „Buch hinzufügen“ oder ändere ein Buch auf „Lese ich gerade“.`;
+
+      const nextMeta = unread
+        ? `${unread.series ? `${esc(unread.series)}${unread.volume ? ` · Band ${esc(unread.volume)}` : ""} · ` : ""}${unread.genre ? `${esc(unread.genre)} · ` : ""}bereit zum Start`
+        : `Alle Bücher sind gelesen oder aktuell in Bearbeitung.`;
+
+      const favMeta = favorite
+        ? `${favorite.series ? `${esc(favorite.series)}${favorite.volume ? ` · Band ${esc(favorite.volume)}` : ""} · ` : ""}${favorite.rating ? "★".repeat(Number(favorite.rating)) : "ohne Bewertung"}`
+        : `Markiere Bücher als Favorit oder gib eine starke Bewertung ab.`;
+
+      container.innerHTML = [
+        spotlightCardHtml(
+          "reading",
+          reading,
+          readingProgress,
+          reading
+            ? `<button class="spotlight-mini" onclick="openDetails('${reading.id}')">Buch öffnen</button>`
+            : `<button class="spotlight-mini" onclick="openNew()">Buch auswählen</button>`
+        ),
+        spotlightCardHtml(
+          "next",
+          unread,
+          nextMeta,
+          unread
+            ? `<button class="spotlight-mini" onclick="openDetails('${unread.id}')">Ansehen</button>
+               <button class="spotlight-mini" onclick="randomUnreadBook();$('randomDialog').showModal()">Zufällig wählen</button>`
+            : `<button class="spotlight-mini" onclick="$('wishlistDialog').showModal();renderWishlist()">Wunschliste öffnen</button>`
+        ),
+        spotlightCardHtml(
+          "favorite",
+          favorite,
+          favMeta,
+          favorite
+            ? `<button class="spotlight-mini" onclick="openDetails('${favorite.id}')">Buch öffnen</button>`
+            : `<button class="spotlight-mini" onclick="$('filter').value='read';render()">Gelesene Bücher ansehen</button>`
+        )
+      ].join("");
+    }
+
+    function applyRevealAnimations(){
+      [
+        ...document.querySelectorAll(".dash-card"),
+        ...document.querySelectorAll(".series-card"),
+        ...document.querySelectorAll(".shelf"),
+        ...document.querySelectorAll(".book")
+      ].forEach((el, idx)=>{
+        el.style.setProperty("--i", String(idx % 14));
+        el.classList.add("reveal-in");
+      });
+    }
+
+    const __renderV10Base = render;
+    render = function(){
+      __renderV10Base();
+      renderFeaturedStrip();
+      requestAnimationFrame(()=>{
+        applyThemeUi();
+        applyRevealAnimations();
+      });
+    };
+
+
+    document.querySelectorAll("#themeToggle [data-theme]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        localStorage.setItem(THEME_KEY, btn.dataset.theme);
+        applyThemeUi();
+      });
+    });
+
+    document.querySelectorAll("#densityToggle [data-density]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        localStorage.setItem(DENSITY_KEY, btn.dataset.density);
+        applyThemeUi();
+        render();
+      });
+    });
+
+    $("ambientToggle").addEventListener("change", ()=>{
+      localStorage.setItem(AMBIENT_KEY, $("ambientToggle").checked ? "1" : "0");
+      applyThemeUi();
+    });
+
     $("quickScanBtn").addEventListener("click",()=>{
       $("quickScanLog").innerHTML="";
       $("quickScanStatus").textContent="Bereit.";
@@ -4111,6 +4683,7 @@
       window.addEventListener("load", ()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
     }
 
+    applyThemeUi();
     applyViewToggleUi();
     render();
     renderBackupReminder();

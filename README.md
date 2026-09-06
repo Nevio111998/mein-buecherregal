@@ -1,36 +1,45 @@
-# Mein Bücherregal – Version 11.3
+# Mein Bücherregal – Version 12.0
 
-V11.3 ist ein visueller Feinschliff auf Basis von V11.2.
+## Neu: Bibliotheksmodus
 
-## Neu
+Version 12.0 baut auf V11.3 auf. Die bestehende Bibliothek, die manuelle
+Reihenlogik, der Scanner und die Sicherheitsfunktionen bleiben erhalten.
 
-### Reihen-Plaketten
-Jedes Regal bekommt oben mittig ein edles Schild.
+Der neue Button „✦ Bibliotheksmodus“ öffnet eine immersive Präsentation der
+eigenen Sammlung. Der Modus zeigt alle Bücher, die zu deinen eigenen Reihen
+gehören, und blendet Dashboard, Suchleiste und Verwaltungsfunktionen aus.
 
-Bei Gruppierung nach Reihe:
-- Titel = exakt dein eigener Reihenname
-- darunter Autor · Genre
+### Bedienung
+- Zurück: jederzeit zur normalen Ansicht wechseln.
+- Regal-Auswahl: direkt zu einer Reihe springen.
+- Pfeile: vorheriges oder nächstes Regal.
+- Cover / Buchrücken: Ansicht wechseln, ohne die normale Einstellung zu ändern.
+- Licht: Warm, Mondlicht oder Aus.
+- Vollbild: optional, sofern der Browser die Fullscreen-API unterstützt.
+- Buch anklicken: die gewohnten Buchdetails öffnen.
+- Tastatur: Pfeil links/rechts für die Regalnavigation; Escape zum Verlassen,
+  sofern kein Dialog geöffnet ist.
 
-Beispiel:
-ASKIR
-Richard Schwartz · Fantasy
+Beim Verlassen werden die vorherige Suche, Filter, Gruppierung, Ansicht und
+Scrollposition wiederhergestellt. Die Lichtauswahl wird lokal gespeichert.
 
-Die Reihenlogik wird nicht verändert.
+### Smartphone
+Der Bibliotheksmodus funktioniert ohne Fullscreen-API. Auf iPhones kann die
+Vollbild-Schaltfläche je nach Safari-Version nicht verfügbar sein. Wird die
+Website zum Home-Bildschirm hinzugefügt, kann die installierte Web-App ohne
+die normale Safari-Adressleiste geöffnet werden. Kein Vollbild wird erzwungen.
 
-### Buchrücken wieder natürlicher
-Der Buchrücken-Cover-Look wurde wieder auf den ursprünglicheren Stil aus V10/V11 zurückgesetzt:
-- weniger künstliche Einfärbung
-- Coverfarben wirken wieder natürlicher
-- alte Schatten-/Materialwirkung ist zurück
+### Animationen
+Die bestehende Atmosphäre bleibt erhalten. Bei eingeschalteter
+Bewegungsreduzierung oder deaktivierter Atmosphäre werden Parallax-Bewegungen
+ausgeschaltet. Animationen sind für die Bedienung nicht erforderlich.
 
-### Bleibt erhalten
-- dekorative Regalstützen
-- cineastisches Ambiente
-- leichter Parallax-Effekt
-- einklappbarer Überblick
-- Themen
-- Sicherheit / Backup / Import
-- stabile Kamera
+## Update-Anleitung
+1. Vor dem Update ein aktuelles JSON-Backup erstellen und in iCloud Drive speichern.
+2. Die fünf Dateien aus diesem ZIP im GitHub-Repository ersetzen.
+3. Änderungen committen und GitHub Pages aktualisieren lassen.
+4. Die bestehende Website neu laden. Oben muss V12 stehen.
+5. Bibliotheksmodus über den neuen Button öffnen.
 
-## Update
-Nur GitHub Pages aktualisieren.
+Die Website-Daten nicht löschen und die installierte App nicht deinstallieren,
+da die Sammlung lokal gespeichert ist. Cloudflare muss nicht geändert werden.

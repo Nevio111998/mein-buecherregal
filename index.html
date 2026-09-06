@@ -2554,6 +2554,49 @@
 }
 
 
+    /* =====================================================
+       V13 — Curated exhibition shelves
+       ===================================================== */
+    .collection-view[hidden], .collection-manager[hidden]{display:none!important}
+    .collection-view{margin:0 0 22px;padding:18px;border:1px solid rgba(215,177,115,.19);border-radius:22px;background:radial-gradient(ellipse at 10% 0,rgba(216,179,107,.11),transparent 45%),linear-gradient(145deg,#2b211b,#171411);box-shadow:0 18px 36px rgba(0,0,0,.2)}
+    .collection-view-top{display:flex;align-items:start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    .collection-view h2{margin:3px 0 7px;font:700 clamp(25px,4vw,38px) Georgia,serif;color:#f1dfc7;letter-spacing:-.025em}
+    .collection-view p{font-size:12px;line-height:1.55;color:var(--muted);margin:0;max-width:660px;white-space:pre-wrap}
+    .collection-view-kicker,.collection-tile-kicker{font-size:10px;font-weight:900;letter-spacing:.13em;color:var(--gold);text-transform:uppercase}
+    .collection-view-controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:16px}
+    .collection-view-controls select{flex:1 1 210px;min-width:0;background:#171310;color:var(--text);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:11px}
+    .collection-view-count{font-size:11px;color:var(--muted);white-space:nowrap}
+    .collection-gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px;margin-top:18px}
+    .collection-tile{--collection-accent:#c9a66a;--collection-panel:#38251a;position:relative;min-width:0;overflow:hidden;border:1px solid rgba(225,191,133,.18);border-radius:20px;background:linear-gradient(160deg,var(--collection-panel),#171310 65%);box-shadow:0 18px 30px rgba(0,0,0,.24),inset 0 1px 0 rgba(255,255,255,.04);transition:transform .25s,box-shadow .25s}
+    .collection-tile:hover{transform:translateY(-3px);box-shadow:0 24px 38px rgba(0,0,0,.3)}
+    .collection-tile[data-collection-style="walnut"],.collection-exhibit[data-collection-style="walnut"]{--collection-accent:#b18b69;--collection-panel:#30201a}
+    .collection-tile[data-collection-style="midnight"],.collection-exhibit[data-collection-style="midnight"]{--collection-accent:#a0b5d9;--collection-panel:#202d42}
+    .collection-tile[data-collection-style="emerald"],.collection-exhibit[data-collection-style="emerald"]{--collection-accent:#b8c99a;--collection-panel:#24382c}
+    .collection-tile-art{height:196px;position:relative;display:flex;align-items:end;justify-content:center;gap:0;overflow:hidden;padding:20px 30px 23px;background:radial-gradient(ellipse at 50% 15%,color-mix(in srgb,var(--collection-accent) 18%,transparent),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.025),rgba(0,0,0,.16))}
+    .collection-tile-art::after{content:"";position:absolute;bottom:12px;left:12px;right:12px;height:10px;border-radius:3px;background:linear-gradient(#9b6b42,#53341f);box-shadow:0 7px 12px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.1)}
+    .collection-tile-aura{position:absolute;inset:-40px;background:radial-gradient(ellipse at 50% 55%,color-mix(in srgb,var(--collection-accent) 15%,transparent),transparent 65%);pointer-events:none}
+    .collection-tile-book{position:relative;z-index:1;width:88px;height:132px;margin:0 -9px;flex:0 0 auto;transform:rotate(calc((var(--tile-index) - 1) * 7deg)) translateY(calc(var(--tile-index) * -3px));filter:drop-shadow(0 10px 10px rgba(0,0,0,.35))}
+    .collection-tile-book:nth-child(3){z-index:3}.collection-tile-book:nth-child(2){z-index:2}
+    .collection-tile-cover{width:100%;height:100%;object-fit:cover;border-radius:5px;display:block;background:#30251e}
+    .collection-no-cover{display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:7px;background:linear-gradient(140deg,#635039,#251b17);color:#e6d5bd;font:700 11px Georgia,serif;line-height:1.2;border:1px solid rgba(235,208,160,.16)}
+    .collection-tile-empty{font:44px Georgia,serif;color:var(--collection-accent);opacity:.5;margin:auto}
+    .collection-tile-plate{position:absolute;z-index:4;bottom:5px;left:50%;transform:translateX(-50%);white-space:nowrap;font:700 8px Georgia,serif;letter-spacing:.09em;color:#e7d0ae;background:linear-gradient(#825934,#49301e);border:1px solid rgba(229,193,137,.28);border-radius:4px;padding:4px 12px;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+    .collection-tile-copy{padding:20px 20px 19px}
+    .collection-tile h3{font:700 25px/1.05 Georgia,serif;color:#f4e4ce;margin:9px 0 8px;overflow-wrap:anywhere}
+    .collection-tile p{font-size:12px;line-height:1.5;color:var(--muted);margin:0;white-space:pre-wrap;min-height:37px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+    .collection-tile-foot{display:flex;justify-content:space-between;gap:10px;margin:18px 0 14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);font-size:10px;color:var(--muted)}
+    .collection-tile-actions{display:flex;gap:8px;flex-wrap:wrap}.collection-tile-actions .btn{padding:10px 12px;font-size:11px;box-shadow:none}
+    .collection-empty{border:1px dashed rgba(224,190,132,.24);border-radius:20px;padding:35px 22px;text-align:center;background:radial-gradient(ellipse at top,rgba(216,179,107,.05),transparent 70%),rgba(255,255,255,.015);color:var(--muted)}
+    .collection-empty-symbol{font:40px Georgia,serif;color:var(--gold);margin-bottom:8px}.collection-empty h3{font:700 25px Georgia,serif;color:var(--text);margin:0 0 8px}.collection-empty p{font-size:12px;line-height:1.6;max-width:440px;margin:0 auto 18px}
+    .collection-exhibit{--collection-accent:#c9a66a}.collection-exhibit .shelf-plaque{border-color:color-mix(in srgb,var(--collection-accent) 45%,transparent);box-shadow:0 7px 12px rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.12),0 0 22px color-mix(in srgb,var(--collection-accent) 9%,transparent)}
+    .collection-exhibit .plaque-sub{white-space:normal;line-height:1.35;max-height:2.7em}.collection-shelf-label{font-size:10px;color:var(--collection-accent);letter-spacing:.04em}.collection-shelf-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.collection-shelf-edit{background:rgba(0,0,0,.2);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:7px 10px;color:var(--text);font-size:10px;cursor:pointer}.collection-shelf-empty{grid-column:1/-1;align-self:center;text-align:center;color:var(--muted);font-size:12px;padding:35px 12px}.collection-missing-note{font-size:11px;color:#e2b788;margin:0 0 10px;line-height:1.4}
+    .collection-manager{width:min(1040px,calc(100% - 20px));max-height:90vh}.collection-manager .modal-body{padding:10px 20px 24px}.collection-manager-head{display:flex;gap:14px;align-items:center;justify-content:space-between}.collection-manager-head h2{font:700 27px Georgia,serif;margin:0}.collection-manager-head .icon-btn{flex:0 0 auto}.collection-manager-intro{font-size:12px;color:var(--muted);line-height:1.55;margin:0 0 16px}.collection-manager-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}.collection-manager-count{font-size:11px;color:var(--muted)}.collection-manager-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:14px}.collection-status{min-height:1.2em;font-size:12px;color:#b9d8a7;margin-top:8px}
+    .collection-editor{width:min(970px,calc(100% - 20px));max-height:92vh}.collection-editor .modal-body{padding:12px 20px 24px}.collection-editor h2{font-family:Georgia,serif}.collection-editor-intro{font-size:12px;color:var(--muted);line-height:1.5;margin:0 0 16px}.collection-editor-form{display:flex;flex-direction:column;gap:16px}.collection-field{display:flex;flex-direction:column;gap:6px}.collection-field label{font-size:11px;font-weight:800;color:#d9c5a9}.collection-field input,.collection-field textarea,.collection-field select{background:#171310;border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:11px 12px;color:var(--text);width:100%;min-width:0;outline:none}.collection-field textarea{min-height:75px;resize:vertical}.collection-editor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.collection-editor-section{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.018);border-radius:16px;padding:14px}.collection-editor-section h3{font:700 20px Georgia,serif;margin:0 0 6px;color:#efdcc1}.collection-editor-section p{font-size:11px;color:var(--muted);line-height:1.45;margin:0 0 12px}.collection-selected-list,.collection-candidate-list{display:flex;flex-direction:column;gap:7px}.collection-candidate-list{max-height:300px;overflow-y:auto;padding-right:3px}.collection-selected-row,.collection-candidate-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.055);border-radius:11px;padding:8px;min-width:0}.collection-candidate-row{cursor:pointer}.collection-candidate-row:has(input:checked){border-color:rgba(216,179,107,.4);background:rgba(216,179,107,.06)}.collection-row-cover{width:38px;height:55px;flex:0 0 38px;object-fit:cover;border-radius:4px}.collection-row-text{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}.collection-row-text strong{font-size:12px;line-height:1.3;overflow-wrap:anywhere;color:var(--text)}.collection-row-text span,.collection-row-text small{font-size:10px;color:var(--muted);line-height:1.35}.collection-candidate-row input,.collection-quick-row input{width:20px;height:20px;flex:0 0 20px;accent-color:#b98a50}.collection-selected-index{font:700 12px Georgia,serif;color:var(--gold);width:18px;text-align:center;flex:0 0 18px}.collection-reorder{display:flex;gap:4px;flex-shrink:0}.collection-reorder button{background:#322820;border:1px solid rgba(255,255,255,.1);color:var(--text);border-radius:7px;width:28px;height:30px;cursor:pointer}.collection-reorder button:disabled{opacity:.3;cursor:default}.collection-picker-empty{padding:17px 12px;border-radius:11px;border:1px dashed rgba(255,255,255,.09);font-size:11px;color:var(--muted);line-height:1.5;text-align:center}.collection-editor-error{font-size:12px;color:#e5a6a1;min-height:1.2em}.collection-editor-footer{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.07);padding-top:16px}.collection-editor-footer .collection-save-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .collection-quick-dialog{width:min(520px,calc(100% - 20px))}.collection-quick-dialog .modal-body{padding:12px 20px 22px}.collection-quick-list{display:flex;flex-direction:column;gap:8px;margin:14px 0;max-height:45vh;overflow:auto}.collection-quick-row{display:flex;align-items:center;gap:12px;cursor:pointer;padding:12px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.025)}.collection-quick-row:has(input:checked){border-color:rgba(216,179,107,.38);background:rgba(216,179,107,.06)}.collection-quick-icon{font:21px Georgia,serif;color:var(--gold);width:29px;text-align:center}.collection-quick-row>span:nth-child(2){min-width:0;flex:1}.collection-quick-row strong,.collection-quick-row small{display:block}.collection-quick-row strong{font-size:13px;color:var(--text)}.collection-quick-row small{font-size:10px;color:var(--muted);margin-top:4px}.collection-quick-dialog h2{font-family:Georgia,serif}.collection-quick-dialog p{font-size:12px;line-height:1.5;color:var(--muted)}
+    .folio-actions [data-folio-action="collection"]{border-color:rgba(193,151,89,.35);color:#eed4a8}.library-mode-controls .library-mode-source select{height:36px;background:#29221d;color:#f6e9d7;border:1px solid rgba(233,203,157,.17);border-radius:10px;padding:0 10px}.library-mode-source{font-size:11px;color:#c8b7a2;display:flex;gap:6px;align-items:center;white-space:nowrap}
+    @media(max-width:700px){.collection-view{padding:14px}.collection-view-controls .btn{flex:1 1 auto}.collection-view-controls select{flex:1 1 100%}.collection-gallery,.collection-manager-list{grid-template-columns:1fr}.collection-editor-grid{grid-template-columns:1fr}.collection-manager .modal-body,.collection-editor .modal-body,.collection-quick-dialog .modal-body{padding:12px 14px 18px}.collection-editor-section{padding:11px}.collection-reorder{flex-direction:column}.collection-reorder button{height:26px}.collection-selected-row{gap:7px}.collection-row-cover{width:34px;height:49px;flex-basis:34px}.collection-tile-art{height:175px}.library-mode-source{flex:1 1 100%}.library-mode-source select{flex:1;min-width:0}}
+    @media(prefers-reduced-motion:reduce){.collection-tile{transition:none!important}.collection-tile:hover{transform:none!important}}
+
     @media(max-width:700px){
       .library-mode-bar{padding-top:calc(8px + env(safe-area-inset-top))}
       .library-mode-top{gap:9px;margin-bottom:8px}
@@ -2754,6 +2797,7 @@
       <span class="library-mode-count" id="libraryModeCount">0 Bücher</span>
     </div>
     <div class="library-mode-controls">
+      <label class="library-mode-source" for="libraryModeSource">Ansicht <select id="libraryModeSource"><option value="series">Reihen</option><option value="collections">Sammlungen</option></select></label>
       <div class="library-mode-navigation">
         <button class="library-mode-icon" id="libraryModePrev" type="button" aria-label="Vorheriges Regal">‹</button>
         <select id="libraryModeShelf" aria-label="Regal auswählen"><option value="">Regale laden …</option></select>
@@ -2778,13 +2822,14 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V12.3</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V13</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
         <button class="btn secondary" id="libraryModeBtn" type="button">✦ Bibliotheksmodus</button>
         <button class="btn secondary" id="quickScanBtn">📚 Schnellscan</button>
         <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
+        <button class="btn secondary" id="collectionsBtn" type="button">✦ Sammlungen</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
         <button class="btn secondary" id="moreExportBtn">🔒 Sicherheit & Export</button>
         <button class="btn secondary" id="sourceBtn">⚙ Datenquelle</button>
@@ -2805,6 +2850,7 @@
       <select id="groupBy">
         <option value="none">Ein Regal</option>
         <option value="series">Nach Reihe</option>
+        <option value="collections">Eigene Sammlungen</option>
         <option value="genre">Nach Genre</option>
         <option value="author">Nach Autor</option>
         <option value="status">Nach Status</option>
@@ -2884,10 +2930,16 @@
       <div class="library-stage-lights" aria-hidden="true"><i></i><i></i></div>
     </section>
 
+    <section class="collection-view" id="collectionView" hidden aria-label="Eigene Sammlungen">
+      <div class="collection-view-top"><div><div class="collection-view-kicker">✦ DEINE PERSÖNLICHE AUSSTELLUNG</div><h2 id="collectionViewHeading">Deine Ausstellungen</h2><p id="collectionViewDescription"></p></div><span class="collection-view-count" id="collectionViewCount"></span></div>
+      <div class="collection-view-controls"><select id="collectionSelect" aria-label="Sammlung auswählen"><option value="all">Alle Ausstellungsregale</option></select><button class="btn secondary" id="collectionViewEdit" type="button" data-collection-edit="" hidden>Ausstellung bearbeiten</button><button class="btn primary" id="collectionViewManage" type="button">✦ Sammlungen verwalten</button></div>
+      <div class="collection-gallery" id="collectionViewCards"></div>
+    </section>
+
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 12.3: echte Doppelseiten, langsameres Herausziehen und sanftes Zurücklegen – deine Bibliothek bleibt erhalten.
+      Version 13: echte Doppelseiten, langsameres Herausziehen und sanftes Zurücklegen – deine Bibliothek bleibt erhalten.
     </div>
   </div>
 
@@ -3107,7 +3159,7 @@
       <div class="security-card">
         <div class="security-title">Speicherstatus</div>
         <div class="security-grid">
-          <div><span>Lokale Sammlung</span><strong id="securityBookCount">–</strong></div>
+          <div><span>Lokale Sammlung</span><strong id="securityBookCount">–</strong></div><div><span>Ausstellungsregale</span><strong id="securityCollectionCount">–</strong></div>
           <div><span>Letztes Backup</span><strong id="securityLastBackup">–</strong></div>
           <div><span>Änderungen seit Backup</span><strong id="securityChanges">–</strong></div>
           <div><span>Browserspeicher</span><strong id="securityPersistence">–</strong></div>
@@ -3121,7 +3173,7 @@
       <div class="security-section">
         <h3>Backup</h3>
         <p>
-          Das JSON-Backup enthält deine Bücher, Reihen-Einstellungen, Datenquelle und wichtige App-Einstellungen.
+          Das JSON-Backup enthält deine Bücher, manuellen Reihen-Einstellungen, Sammlungen, Datenquelle und wichtige App-Einstellungen. Speichere die heruntergeladene Datei anschliessend in iCloud Drive.
         </p>
         <div class="export-grid">
           <button class="btn primary" id="exportJsonBtn">💾 Vollständiges JSON Backup</button>
@@ -3207,6 +3259,31 @@
       <div class="folio-body" id="detailsBody"></div>
     </div>
     <span class="sr-only" id="folioStatus" role="status" aria-live="polite"></span>
+  </dialog>
+
+  <dialog id="collectionsDialog" class="collection-manager" aria-labelledby="collectionsManagerHeading">
+    <div class="modal-head collection-manager-head"><h2 id="collectionsManagerHeading">✦ Deine Sammlungen</h2><button class="icon-btn" id="collectionsManagerClose" type="button" aria-label="Sammlungen schliessen">×</button></div>
+    <div class="modal-body"><p class="collection-manager-intro">Stelle deine Lieblingsbücher in eigenen Ausstellungsregalen zusammen. Ein Buch darf in mehreren Sammlungen stehen, ohne dass es in deiner Bibliothek dupliziert wird.</p>
+      <div class="collection-manager-toolbar"><span class="collection-manager-count" id="collectionsManagerCount"></span><button class="btn primary" id="collectionsManagerNew" type="button">＋ Neue Sammlung</button></div>
+      <div class="collection-manager-list" id="collectionsManagerList"></div><div class="collection-status" id="collectionStatus" role="status" aria-live="polite"></div>
+    </div>
+  </dialog>
+  <dialog id="collectionEditorDialog" class="collection-editor" aria-labelledby="collectionEditorHeading">
+    <div class="modal-head"><h2 id="collectionEditorHeading">Neue Ausstellung</h2><button class="icon-btn" id="collectionEditorClose" type="button" aria-label="Editor schliessen">×</button></div>
+    <div class="modal-body"><p class="collection-editor-intro">Deine Auswahl wird erst mit „Sammlung speichern“ übernommen. Du kannst dieselben Bücher in beliebig vielen Ausstellungen verwenden.</p>
+      <form id="collectionEditorForm" class="collection-editor-form">
+        <div class="collection-field"><label for="collectionName">Name deiner Sammlung</label><input id="collectionName" maxlength="120" required placeholder="z. B. Meine Top 10, Dark Fantasy …"></div>
+        <div class="collection-field"><label for="collectionDescription">Beschreibung / Schildtext</label><textarea id="collectionDescription" maxlength="2000" rows="2" placeholder="Eine kleine Geschichte über diese Auswahl …"></textarea></div>
+        <div class="collection-editor-grid"><div class="collection-field"><label for="collectionStyle">Stil des Ausstellungsregals</label><select id="collectionStyle"><option value="brass">Messing & warmes Holz</option><option value="walnut">Dunkles Holz</option><option value="midnight">Midnight</option><option value="emerald">Emerald</option></select></div><div class="collection-field"><label for="collectionCoverSelect">Titelbild der Ausstellung</label><select id="collectionCoverSelect"><option value="">Automatisch</option></select></div></div>
+        <div class="collection-editor-section"><h3>Ausgewählte Bücher</h3><p>Die Pfeile bestimmen deine persönliche Reihenfolge. Entfernen löscht nur den Verweis aus dieser Sammlung.</p><div class="collection-manager-count" id="collectionSelectedCount"></div><div class="collection-selected-list" id="collectionSelectedList"></div></div>
+        <div class="collection-editor-section"><h3>Bücher hinzufügen</h3><p>Suche in deiner bestehenden Bibliothek. Es werden keine neuen Buchdatensätze angelegt.</p><div class="collection-field"><label for="collectionBookSearch">Titel, Autor, Reihe oder ISBN</label><input id="collectionBookSearch" type="search" placeholder="Bücher suchen …"></div><p id="collectionCandidateCount" class="collection-manager-count" style="margin-top:10px"></p><div id="collectionCandidateList" class="collection-candidate-list"></div></div>
+        <div class="collection-editor-error" id="collectionEditorError" role="alert"></div><div class="collection-editor-footer"><button class="btn danger" id="collectionEditorDelete" type="button" hidden>Sammlung löschen</button><div class="collection-save-actions"><button class="btn secondary" id="collectionEditorCancel" type="button">Abbrechen</button><button class="btn primary" type="submit">Sammlung speichern</button></div></div>
+      </form>
+    </div>
+  </dialog>
+  <dialog id="addToCollectionDialog" class="collection-quick-dialog" aria-labelledby="addToCollectionHeading">
+    <div class="modal-head"><h2 id="addToCollectionHeading">In Sammlung aufnehmen</h2><button class="icon-btn" id="addToCollectionClose" type="button" aria-label="Schliessen">×</button></div>
+    <div class="modal-body"><div class="collection-view-kicker" id="addToCollectionTitle"></div><p id="addToCollectionIntro"></p><div id="addToCollectionList" class="collection-quick-list"></div><button class="btn secondary" id="addToCollectionNew" type="button">＋ Neue Sammlung mit diesem Buch</button><div class="collection-editor-error" id="addToCollectionError"></div><div class="modal-actions"><button class="btn secondary" id="addToCollectionCancel" type="button">Abbrechen</button><button class="btn primary" id="addToCollectionSave" type="button">Auswahl speichern</button></div></div>
   </dialog>
 
   <input type="file" id="importFile" accept="application/json" hidden />
@@ -3924,6 +4001,11 @@
       `;
 
       applyViewToggleUi();
+      renderCollectionViewToolbar();
+      if(groupBy==="collections"){
+        renderCollectionLibrary(q,f,viewMode);
+        return;
+      }
 
       if(!filtered.length){
         $("library").innerHTML = `<div class="empty">Noch keine passenden Bücher im Regal.<br><br><button class="btn primary" onclick="openNew()">＋ Erstes Buch hinzufügen</button></div>`;
@@ -4372,6 +4454,7 @@
               </div>` : ""}
               ${b.notes ? `<div class="folio-notes"><strong>Deine Notizen</strong>${esc(b.notes)}</div>` : ""}
               <div class="folio-actions">
+                <button type="button" data-folio-action="collection">✦ &nbsp; Zu Sammlung</button>
                 <button type="button" data-folio-action="edit">✎ &nbsp; Bearbeiten</button>
                 <button type="button" data-folio-action="favorite">${b.favorite ? "★ Favorit" : "☆ Als Favorit"}</button>
                 ${b.series ? `<button type="button" data-folio-action="series">Reihe öffnen</button>` : ""}
@@ -5456,6 +5539,7 @@
       const changes=readIntStorage(CHANGES_SINCE_BACKUP_KEY,0);
 
       $("securityBookCount").textContent=`${books.length} Bücher`;
+      $("securityCollectionCount").textContent=`${collections.length} Sammlungen`;
       $("securityLastBackup").textContent=formatBackupDate(last);
       $("securityChanges").textContent=String(changes);
 
@@ -5506,42 +5590,40 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),
-        app:"Mein Bücherregal",
-        version:"10.3",
-        schemaVersion:2,
-        books,
-        seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"13",schemaVersion:3,
+        books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),
         settings:{
-          bookApiUrl:getBookApiUrl(),
-          viewMode:localStorage.getItem(VIEW_MODE_KEY) || "covers"
+          bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
+          theme:getTheme(),density:getDensity(),ambient:ambientEnabled(),
+          overviewCollapsed:overviewCollapsed(),libraryLight:localStorage.getItem(LIBRARY_LIGHT_KEY)||"warm"
         }
       };
     }
 
     function normalizeBackupObject(data){
-      if(Array.isArray(data)){
-        return {
-          exportedAt:null,
-          app:"Mein Bücherregal",
-          version:"älteres Backup",
-          schemaVersion:1,
-          books:data,
-          seriesMeta:{},
-          settings:{}
-        };
-      }
-
-      if(!data || !Array.isArray(data.books)) throw new Error("invalid-backup");
-
+      const legacy=Array.isArray(data);
+      const obj=legacy?{books:data}:data;
+      if(!obj||typeof obj!=="object"||!Array.isArray(obj.books)) throw new Error("Diese Datei enthält keine gültige Bücherliste.");
+      if(Number(obj.schemaVersion||1)>3) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
+      if(obj.books.length>100000) throw new Error("Das Backup enthält zu viele Bücher.");
+      const seenIds=new Set();
+      const incoming=obj.books.map((b,i)=>{
+        if(!b||typeof b!=="object"||Array.isArray(b)) throw new Error(`Buch ${i+1} ist kein gültiger Datensatz.`);
+        const id=String(b.id||uid());
+        if(seenIds.has(id)) throw new Error("Das Backup enthält doppelte Buch-IDs. Bitte prüfe die Datei, bevor du sie importierst.");
+        seenIds.add(id);
+        return {...b,id};
+      });
+      const hasCollections=Object.prototype.hasOwnProperty.call(obj,"collections");
+      const meta=obj.seriesMeta;
       return {
-        exportedAt:data.exportedAt || null,
-        app:data.app || "Mein Bücherregal",
-        version:data.version || "älteres Backup",
-        schemaVersion:data.schemaVersion || 1,
-        books:data.books,
-        seriesMeta:data.seriesMeta && typeof data.seriesMeta==="object" ? data.seriesMeta : {},
-        settings:data.settings && typeof data.settings==="object" ? data.settings : {}
+        exportedAt:typeof obj.exportedAt==="string"?obj.exportedAt:null,
+        app:obj.app||"Mein Bücherregal",version:String(obj.version||"älteres Backup"),schemaVersion:obj.schemaVersion||1,
+        books:incoming,seriesMeta:meta&&typeof meta==="object"&&!Array.isArray(meta)?meta:{},
+        hasSeriesMeta:Object.prototype.hasOwnProperty.call(obj,"seriesMeta"),
+        collections:hasCollections?normalizeCollectionsV13(obj.collections,true):null,
+        hasCollections,
+        settings:obj.settings&&typeof obj.settings==="object"&&!Array.isArray(obj.settings)?obj.settings:{}
       };
     }
 
@@ -5570,21 +5652,19 @@
     }
 
     function renderImportPreview(){
-      const data=pendingImportBackup;
-      if(!data) return;
-
-      const newCount=countMergeNewBooks(data.books);
-      const source=data.settings?.bookApiUrl || "nicht im Backup enthalten";
-
-      $("importPreviewBody").innerHTML=`
-        <div class="import-summary">
-          <div><span>Backup vom</span><strong>${esc(formatBackupDate(data.exportedAt))}</strong></div>
-          <div><span>Backup-Version</span><strong>${esc(data.version)}</strong></div>
-          <div><span>Bücher im Backup</span><strong>${data.books.length}</strong></div>
-          <div><span>Aktuell auf Gerät</span><strong>${books.length}</strong></div>
-          <div><span>Beim Zusammenführen neu</span><strong>${newCount}</strong></div>
-          <div><span>Datenquelle</span><strong>${esc(source===DEFAULT_BOOK_API_URL ? "Standard-Datenquelle" : source)}</strong></div>
-        </div>`;
+      const data=pendingImportBackup;if(!data)return;
+      const merge=collectionImportPlan(data,"merge");
+      const source=data.settings?.bookApiUrl||"nicht im Backup enthalten";
+      $("importPreviewBody").innerHTML=`<div class="import-summary">
+        <div><span>Backup vom</span><strong>${esc(formatBackupDate(data.exportedAt))}</strong></div>
+        <div><span>Backup-Version</span><strong>${esc(data.version)}</strong></div>
+        <div><span>Bücher im Backup</span><strong>${data.books.length}</strong></div>
+        <div><span>Aktuell auf Gerät</span><strong>${books.length}</strong></div>
+        <div><span>Beim Zusammenführen neu</span><strong>${merge.added}</strong></div>
+        <div><span>Sammlungen im Backup</span><strong>${data.hasCollections?data.collections.length:"Nicht enthalten"}</strong></div>
+        <div><span>Sammlungen aktuell</span><strong>${collections.length}</strong></div>
+        <div><span>Datenquelle</span><strong>${esc(source===DEFAULT_BOOK_API_URL?"Standard-Datenquelle":source)}</strong></div>
+      </div><div class="import-warning">${data.hasCollections?"Ersetzen stellt auch die Sammlungen aus dieser Datei wieder her. Zusammenführen behält deine vorhandenen Sammlungen und ergänzt neue sowie fehlende Buchverweise.":"Dieses ältere Backup enthält keine Sammlungen. Bestehende Sammlungen werden deshalb bei beiden Importarten beibehalten."}<br><br>Vor einem Ersetzen wird eine Sicherheitskopie der aktuellen Sammlung angeboten. Speichere sie bitte zuerst ausserhalb der App.</div>`;
     }
 
     function applyImportedSettings(settings={}, replace=false){
@@ -5605,77 +5685,19 @@
     }
 
     function restoreBackupReplace(){
-      if(!pendingImportBackup) return;
-
+      if(!pendingImportBackup)return;
       const data=pendingImportBackup;
-      books=data.books.map(b=>({...b}));
-
-      saveJsonStorage(SERIES_META_KEY,data.seriesMeta||{});
-      applyImportedSettings(data.settings||{},true);
-
-      try{
-        localStorage.setItem(STORAGE_KEY,JSON.stringify(books));
-      }catch{
-        alert("Der lokale Speicher reicht für dieses Backup nicht aus.");
-        return;
-      }
-
-      localStorage.setItem(LAST_BACKUP_KEY,data.exportedAt || new Date().toISOString());
-      localStorage.setItem(CHANGES_SINCE_BACKUP_KEY,"0");
-
-      pendingImportBackup=null;
-      $("importPreviewDialog").close();
-      $("exportDialog").close();
-
-      applyViewToggleUi();
-      render();
-      renderBackupReminder();
-
-      alert(`${books.length} Bücher wurden aus dem Backup wiederhergestellt.`);
+      const plan=collectionImportPlan(data,"replace");
+      if(!confirm(`Aktuelle Sammlung (${books.length} Bücher) durch ${plan.books.length} Bücher aus dem Backup ersetzen? ${data.hasCollections?"Auch die Sammlungen werden ersetzt.":"Die vorhandenen Sammlungen bleiben erhalten."} Bitte bestätige erst, wenn du eine Sicherheitskopie der aktuellen Daten gespeichert hast.`))return;
+      if(commitImportV13(data,"replace",plan))alert(`${books.length} Bücher wurden wiederhergestellt. ${collections.length} Sammlungen sind verfügbar.`);
     }
 
     function restoreBackupMerge(){
-      if(!pendingImportBackup) return;
-
+      if(!pendingImportBackup)return;
       const data=pendingImportBackup;
-      const existing=new Set(books.map(backupBookKey));
-      let added=0;
-
-      for(const incoming of data.books){
-        const key=backupBookKey(incoming);
-        if(existing.has(key)) continue;
-
-        const copy={...incoming};
-        if(!copy.id || books.some(b=>b.id===copy.id)) copy.id=uid();
-
-        books.push(copy);
-        existing.add(key);
-        added++;
-      }
-
-      const currentMeta=loadJsonStorage(SERIES_META_KEY,{});
-      saveJsonStorage(SERIES_META_KEY,{...(data.seriesMeta||{}),...currentMeta});
-      applyImportedSettings(data.settings||{},false);
-
-      try{
-        localStorage.setItem(STORAGE_KEY,JSON.stringify(books));
-      }catch{
-        alert("Der lokale Speicher reicht für die zusammengeführte Sammlung nicht aus.");
-        return;
-      }
-
-      const changes=readIntStorage(CHANGES_SINCE_BACKUP_KEY,0);
-      localStorage.setItem(CHANGES_SINCE_BACKUP_KEY,String(changes+Math.max(1,added)));
-
-      pendingImportBackup=null;
-      $("importPreviewDialog").close();
-      $("exportDialog").close();
-
-      applyViewToggleUi();
-      render();
-      renderBackupReminder();
-
-      alert(`${added} neue Bücher wurden hinzugefügt. Vorhandene Bücher wurden nicht überschrieben.`);
+      const plan=collectionImportPlan(data,"merge");
+      if(!confirm(`${plan.added} neue Bücher und ${plan.collectionAdded} neue Sammlungen hinzufügen? Vorhandene Buchdaten bleiben unverändert; Sammlungsmitgliedschaften werden ergänzt.`))return;
+      if(commitImportV13(data,"merge",plan))alert(`${plan.added} neue Bücher und ${plan.collectionAdded} neue Sammlungen hinzugefügt. Vorhandene Bücher wurden nicht überschrieben.`);
     }
 
 
@@ -5698,16 +5720,12 @@
       a.href=URL.createObjectURL(blob);
       a.download=filename;
       a.click();
-      setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+      setTimeout(()=>URL.revokeObjectURL(a.href),60000);
     }
 
     function exportJsonBackup(){
       const backup=currentBackupObject();
-      downloadBlob(
-        JSON.stringify(backup,null,2),
-        "application/json",
-        `mein-buecherregal-backup-${new Date().toISOString().slice(0,10)}.json`
-      );
+      downloadBlob(JSON.stringify(backup,null,2),"application/json",`mein-buecherregal-backup-${backup.exportedAt.slice(0,10)}.json`);
       setBackupState(backup.exportedAt);
     }
 
@@ -6485,8 +6503,9 @@
       if(!immersiveActive) return;
       const owned=books.filter(b=>b.status!=="wishlist").length;
       const series=new Set(books.filter(b=>b.series&&b.status!=="wishlist").map(b=>seriesKey(b.series))).size;
+      const collectionMode=$("groupBy").value==="collections";
       $("libraryModeCount").textContent=`${owned} Bücher`;
-      $("libraryModeIntro").textContent=`${owned} Bücher · ${series} Reihen · eine Bibliothek voller Geschichten`;
+      $("libraryModeIntro").textContent=collectionMode?`${collections.length} Ausstellungen · ${owned} Bücher · deine persönliche Auswahl`:`${owned} Bücher · ${series} Reihen · eine Bibliothek voller Geschichten`;
       applyViewToggleUi();
       libraryModeMeasure();
       libraryModeUpdateNavigation();
@@ -6501,6 +6520,7 @@
         search:$("search").value,
         filter:$("filter").value,
         groupBy:$("groupBy").value,
+        collectionId:activeCollectionId,
         scrollY:window.scrollY,
         focus:document.activeElement
       };
@@ -6510,7 +6530,9 @@
 
       $("search").value="";
       $("filter").value="all";
-      $("groupBy").value="series";
+      $("groupBy").value=immersivePrevious.groupBy==="collections"?"collections":"series";
+      if($("groupBy").value==="collections"&&!collectionFind(activeCollectionId)) activeCollectionId="all";
+      $("libraryModeSource").value=$("groupBy").value;
       document.body.classList.add("immersive");
       $("libraryModeBar").hidden=false;
       $("libraryModeStage").hidden=false;
@@ -6542,6 +6564,7 @@
         $("search").value=previous.search;
         $("filter").value=previous.filter;
         $("groupBy").value=previous.groupBy;
+        activeCollectionId=previous.collectionId||"all";
       }
       render();
       requestAnimationFrame(()=>{
@@ -6566,6 +6589,13 @@
     $("libraryModePrev").addEventListener("click",()=>libraryModeGoTo(immersiveShelfIndex-1));
     $("libraryModeNext").addEventListener("click",()=>libraryModeGoTo(immersiveShelfIndex+1));
     $("libraryModeShelf").addEventListener("change",e=>libraryModeGoTo(Number(e.target.value)||0));
+    $("libraryModeSource").addEventListener("change",e=>{
+      $("groupBy").value=e.target.value==="collections"?"collections":"series";
+      if($("groupBy").value==="collections") activeCollectionId="all";
+      immersiveShelfIndex=0;
+      render();
+      libraryModeGoTo(0);
+    });
     document.querySelectorAll("[data-library-view]").forEach(btn=>{
       btn.addEventListener("click",()=>{
         immersiveView=btn.dataset.libraryView;
@@ -6661,7 +6691,11 @@
     $("printLibraryBtn").addEventListener("click",printLibrary);
     $("importJsonBtn").addEventListener("click",()=>$("importFile").click());
     $("persistStorageBtn").addEventListener("click",requestPersistentStorage);
-    $("replaceImportBtn").addEventListener("click",restoreBackupReplace);
+    $("replaceImportBtn").addEventListener("click",()=>{
+      const snapshot=currentBackupObject();
+      downloadBlob(JSON.stringify(snapshot,null,2),"application/json",`mein-buecherregal-vor-import-${snapshot.exportedAt.replace(/[:.]/g,"-")}.json`);
+      if(confirm("Eine Sicherheitskopie deiner aktuellen Bücher und Sammlungen wurde zum Download angeboten. Hast du die Datei in Dateien/iCloud gesichert oder möchtest du den Import trotzdem fortsetzen? Mit Abbrechen bleibt alles unverändert.")) restoreBackupReplace();
+    });
     $("mergeImportBtn").addEventListener("click",restoreBackupMerge);
 
     $("coverPhotoBtn").addEventListener("click",()=>$("coverPhotoFile").click());
@@ -6700,6 +6734,7 @@
       const b=books.find(x=>x.id===currentDetailBookId);
       if(!b) return;
       switch(button.dataset.folioAction){
+        case "collection": openAddToCollection(b.id); break;
         case "edit": openEdit(b.id); break;
         case "favorite": toggleFavorite(b.id); break;
         case "series":
@@ -6793,9 +6828,9 @@
         pendingImportBackup=normalizeBackupObject(raw);
         renderImportPreview();
         $("importPreviewDialog").showModal();
-      }catch{
+      }catch(err){
         pendingImportBackup=null;
-        alert("Diese Datei ist kein gültiges Bücherregal-Backup.");
+        alert(err?.message||"Diese Datei ist kein gültiges Bücherregal-Backup.");
       }finally{
         e.target.value="";
       }
@@ -6809,6 +6844,547 @@
     if("serviceWorker" in navigator){
       window.addEventListener("load", ()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
     }
+
+    /* =====================================================
+       V13 — Safe backup envelopes and collection-aware import
+       ===================================================== */
+
+
+    function collectionImportPlan(data,mode){
+      const incoming=data.books;
+      const plannedBooks=mode==="replace"?[]:books.map(b=>({...b}));
+      const idSet=new Set(plannedBooks.map(b=>String(b.id)));
+      const keyMap=new Map();
+      const idMap=new Map();
+      const identity=(b)=>collectionBookKey(b);
+      for(const b of plannedBooks){const key=identity(b);if(key&&!keyMap.has(key))keyMap.set(key,String(b.id))}
+      let added=0,skipped=0;
+      for(const b of incoming){
+        const oldId=String(b.id);
+        const key=identity(b);
+        let destination="";
+        if(mode==="merge"){
+          const sameId=plannedBooks.find(x=>String(x.id)===oldId);
+          if(sameId&&(!key||identity(sameId)===key))destination=oldId;
+          else if(key&&keyMap.has(key))destination=keyMap.get(key);
+        }
+        if(destination){skipped++;idMap.set(oldId,destination);continue}
+        let id=oldId;
+        while(!id||idSet.has(id))id=uid();
+        const copy={...b,id};
+        plannedBooks.push(copy);idSet.add(id);
+        if(key&&!keyMap.has(key))keyMap.set(key,id);
+        idMap.set(oldId,id);added++;
+      }
+      const incomingCollections=data.hasCollections?data.collections.map(c=>({
+        ...c,bookIds:collectionUniqueIds(c.bookIds.map(id=>idMap.get(id)||id)),
+        coverId:idMap.get(c.coverId)||c.coverId
+      })):null;
+      let plannedCollections;
+      let collectionAdded=0,collectionUpdated=0;
+      if(mode==="replace"){
+        // Older backups cannot restore collections. Keep existing curated choices,
+        // matching their old books to incoming editions when identities agree.
+        const oldToNew=new Map();
+        for(const oldBook of books){
+          const key=identity(oldBook);
+          if(key&&keyMap.has(key))oldToNew.set(String(oldBook.id),keyMap.get(key));
+          else if(plannedBooks.some(b=>String(b.id)===String(oldBook.id)))oldToNew.set(String(oldBook.id),String(oldBook.id));
+        }
+        plannedCollections=incomingCollections===null?collections.map(c=>({...c,
+          bookIds:collectionUniqueIds(c.bookIds.map(id=>oldToNew.get(id)||id)),
+          coverId:oldToNew.get(c.coverId)||c.coverId
+        })):incomingCollections;
+      }else{
+        plannedCollections=collections.map(c=>({...c,bookIds:[...c.bookIds]}));
+        for(const c of incomingCollections||[]){
+          const ix=plannedCollections.findIndex(x=>x.id===c.id);
+          if(ix>=0){
+            const current=plannedCollections[ix];
+            plannedCollections[ix]={...current,bookIds:collectionUniqueIds([...current.bookIds,...c.bookIds]),coverId:current.coverId||c.coverId};
+            collectionUpdated++;
+          }else{
+            const conflict=plannedCollections.some(x=>x.id===c.id);
+            plannedCollections.push({...c,id:conflict?uid():c.id});collectionAdded++;
+          }
+        }
+      }
+      return {books:plannedBooks,collections:normalizeCollectionsV13(plannedCollections,true),idMap,added,skipped,collectionAdded,collectionUpdated};
+    }
+    function backupSnapshotV13(){
+      return {
+        books,collections,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
+        settings:currentBackupObject().settings,
+        lastBackup:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
+      };
+    }
+    function restoreImportedSettingsV13(settings,mode){
+      if(mode!=="replace") return;
+      if(Object.prototype.hasOwnProperty.call(settings,"bookApiUrl")){
+        const source=String(settings.bookApiUrl||"").trim().replace(/\/+$/g,"");
+        if(source&&source!==DEFAULT_BOOK_API_URL&&/^https?:\/\//i.test(source))localStorage.setItem(BOOK_API_KEY,source);
+        else if(!source||source===DEFAULT_BOOK_API_URL)localStorage.removeItem(BOOK_API_KEY);
+      }
+      const set=(key,value,allowed)=>{if(allowed.includes(value))localStorage.setItem(key,value)};
+      set(VIEW_MODE_KEY,settings.viewMode,["covers","spines"]);
+      set(THEME_KEY,settings.theme,["library","midnight","emerald","crimson"]);
+      set(DENSITY_KEY,settings.density,["comfort","compact"]);
+      if(typeof settings.ambient==="boolean")localStorage.setItem(AMBIENT_KEY,settings.ambient?"1":"0");
+      if(typeof settings.overviewCollapsed==="boolean")localStorage.setItem(OVERVIEW_COLLAPSED_KEY,settings.overviewCollapsed?"1":"0");
+      set(LIBRARY_LIGHT_KEY,settings.libraryLight,["warm","moonlight","off"]);
+    }
+    function commitImportV13(data,mode,plan){
+      const old=backupSnapshotV13();
+      const meta=mode==="replace"?(data.hasSeriesMeta?data.seriesMeta:old.seriesMeta):{...data.seriesMeta,...old.seriesMeta};
+      const changes=mode==="replace"?0:readIntStorage(CHANGES_SINCE_BACKUP_KEY,0)+Math.max(1,plan.added+plan.collectionAdded+plan.collectionUpdated);
+      const previous={
+        books:localStorage.getItem(STORAGE_KEY),collections:localStorage.getItem(COLLECTIONS_KEY),seriesMeta:localStorage.getItem(SERIES_META_KEY),
+        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
+      };
+      const restoreRaw=(key,value)=>{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)};
+      try{
+        // The canonical book store is the largest write. Do it before modifying any settings.
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(plan.books));
+        localStorage.setItem(COLLECTIONS_KEY,JSON.stringify(plan.collections));
+        localStorage.setItem(SERIES_META_KEY,JSON.stringify(meta));
+        restoreImportedSettingsV13(data.settings,mode);
+        if(mode==="replace")localStorage.setItem(LAST_BACKUP_KEY,data.exportedAt||new Date().toISOString());
+        localStorage.setItem(CHANGES_SINCE_BACKUP_KEY,String(changes));
+      }catch(err){
+        for(const [key,value] of [
+          [STORAGE_KEY,previous.books],[COLLECTIONS_KEY,previous.collections],[SERIES_META_KEY,previous.seriesMeta],
+          [BOOK_API_KEY,previous.source],[VIEW_MODE_KEY,previous.view],[THEME_KEY,previous.theme],[DENSITY_KEY,previous.density],
+          [AMBIENT_KEY,previous.ambient],[OVERVIEW_COLLAPSED_KEY,previous.overview],[LIBRARY_LIGHT_KEY,previous.light],
+          [LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
+        ]){try{restoreRaw(key,value)}catch(rollbackErr){console.error("Rollback fehlgeschlagen:",key,rollbackErr)}}
+        books=old.books;collections=old.collections;
+        alert("Der Import konnte nicht vollständig gespeichert werden. Die bisherigen Daten wurden nach Möglichkeit wiederhergestellt. Bitte lösche keine Website-Daten und behalte deine Backup-Datei.");
+        return false;
+      }
+      books=plan.books;collections=plan.collections;
+      activeCollectionId="all";
+      localStorage.setItem(COLLECTIONS_CHOICE_KEY,"all");
+      pendingImportBackup=null;
+      $("importPreviewDialog").close();$("exportDialog").close();
+      applyThemeUi();applyOverviewUi();applyViewToggleUi();render();renderBackupReminder();
+      return true;
+    }
+
+
+
+
+
+    /* =====================================================
+       V13 — Curated collections. Membership is by stable book ID.
+       No book or manual-series metadata is copied into this store.
+       ===================================================== */
+    const COLLECTIONS_KEY = "my_bookshelf_collections_v1";
+    const COLLECTIONS_CHOICE_KEY = "my_bookshelf_collection_choice_v1";
+    const COLLECTION_STYLES = ["brass","walnut","midnight","emerald"];
+    const COLLECTION_STYLE_NAMES = {brass:"Messing",walnut:"Dunkles Holz",midnight:"Midnight",emerald:"Emerald"};
+    const COLLECTIONS_MAX = 500;
+    let collections = loadCollectionsV13();
+    let activeCollectionId = localStorage.getItem(COLLECTIONS_CHOICE_KEY)||"all";
+    let collectionDraft = null;
+    let collectionDraftDirty = false;
+    let collectionPickerBookId = null;
+    let collectionEditorReturn = null;
+    let collectionManagerFocus = null;
+
+    function collectionUniqueIds(values){
+      return [...new Set((Array.isArray(values)?values:[]).filter(x=>typeof x==="string" && x.trim()).map(x=>x.trim()))];
+    }
+    function normalizeCollectionsV13(value,strict=false){
+      if(!Array.isArray(value)){
+        if(strict) throw new Error("Die Sammlungen müssen eine Liste sein.");
+        return [];
+      }
+      if(value.length>COLLECTIONS_MAX) throw new Error("Das Backup enthält zu viele Sammlungen.");
+      const ids=new Set();
+      return value.map((c,i)=>{
+        if(!c || typeof c!=="object" || Array.isArray(c)) throw new Error(`Sammlung ${i+1} ist ungültig.`);
+        if(strict && (!Array.isArray(c.bookIds) || typeof c.title!=="string" || typeof c.id!=="string" || !c.id.trim())) throw new Error(`Sammlung ${i+1} ist unvollständig.`);
+        const id=typeof c.id==="string" && c.id.trim()?c.id.trim():uid();
+        if(ids.has(id)) throw new Error("Doppelte Sammlungs-ID im Backup.");
+        ids.add(id);
+        const title=String(c.title||"Unbenannte Sammlung").trim().slice(0,120);
+        return {
+          id,title:title||"Unbenannte Sammlung",
+          description:String(c.description||"").slice(0,2000),
+          style:COLLECTION_STYLES.includes(c.style)?c.style:"brass",
+          bookIds:collectionUniqueIds(c.bookIds),
+          coverId:typeof c.coverId==="string"?c.coverId:"",
+          createdAt:typeof c.createdAt==="string"?c.createdAt:new Date().toISOString(),
+          updatedAt:typeof c.updatedAt==="string"?c.updatedAt:new Date().toISOString()
+        };
+      });
+    }
+    function loadCollectionsV13(){
+      const raw=localStorage.getItem(COLLECTIONS_KEY);
+      if(!raw) return [];
+      try{return normalizeCollectionsV13(JSON.parse(raw))}
+      catch(err){
+        console.warn("Sammlungen konnten nicht gelesen werden. Die gespeicherten Daten bleiben unverändert.",err);
+        return [];
+      }
+    }
+    function collectionFind(id){return collections.find(c=>c.id===id)||null}
+    function collectionBook(id){return books.find(b=>String(b.id)===String(id))||null}
+    function collectionBooks(c){return c.bookIds.map(collectionBook).filter(Boolean)}
+    function collectionMissing(c){return c.bookIds.filter(id=>!collectionBook(id))}
+    function collectionStyle(c){return COLLECTION_STYLES.includes(c?.style)?c.style:"brass"}
+    function collectionCover(c){return collectionBook(c.coverId)?.cover||collectionBooks(c).find(b=>b.cover)?.cover||""}
+    function collectionBookKey(b){
+      const isbn=String(b?.isbn||"").replace(/[^0-9Xx]/g,"").toLowerCase();
+      if(isbn) return `isbn:${isbn}`;
+      const title=normalizeForSort(b?.title||"");
+      const author=normalizeForSort(b?.author||"");
+      return title||author?`text:${title}|${author}`:"";
+    }
+    function collectionSaveAll(next,{refresh=true}={}){
+      const normalized=normalizeCollectionsV13(next,true);
+      try{localStorage.setItem(COLLECTIONS_KEY,JSON.stringify(normalized))}
+      catch(err){
+        alert("Die Sammlungen konnten nicht gespeichert werden. Prüfe den verfügbaren Gerätespeicher und erstelle ein Backup.");
+        return false;
+      }
+      collections=normalized;
+      if(activeCollectionId!=="all"&&!collectionFind(activeCollectionId)){
+        activeCollectionId="all";
+        localStorage.setItem(COLLECTIONS_CHOICE_KEY,"all");
+      }
+      try{markLibraryChanged()}catch(err){console.warn("Backup-Zähler konnte nicht aktualisiert werden.",err)}
+      if(refresh){
+        render();
+        if($("collectionsDialog").open) renderCollectionsManager();
+      }
+      return true;
+    }
+    function collectionSetStatus(message){
+      const el=$("collectionStatus");
+      if(el) el.textContent=message||"";
+    }
+    function collectionImage(b,klass="collection-tile-cover"){
+      return b?.cover
+        ? `<img class="${klass}" src="${esc(b.cover)}" alt="" loading="lazy" onerror="this.replaceWith(document.createTextNode('📖'))">`
+        : `<span class="${klass} collection-no-cover" aria-hidden="true">${esc((b?.title||"Buch").slice(0,32))}</span>`;
+    }
+    function collectionCard(c,index){
+      const items=collectionBooks(c);
+      const showcase=[...items];
+      const coverIndex=showcase.findIndex(b=>b.id===c.coverId);
+      if(coverIndex>0) showcase.unshift(showcase.splice(coverIndex,1)[0]);
+      return `<article class="collection-tile" data-collection-style="${collectionStyle(c)}" style="--collection-index:${index}">
+        <div class="collection-tile-art" aria-hidden="true">
+          <span class="collection-tile-aura"></span>
+          ${showcase.slice(0,3).map((b,i)=>`<div class="collection-tile-book" style="--tile-index:${i}">${collectionImage(b)}</div>`).join("")||'<div class="collection-tile-empty">✦</div>'}
+          <span class="collection-tile-plate">✦ &nbsp; COLLECTION Nº ${String(index+1).padStart(2,"0")} &nbsp; ✦</span>
+        </div>
+        <div class="collection-tile-copy">
+          <div class="collection-tile-kicker">DEINE AUSSTELLUNG</div>
+          <h3>${esc(c.title)}</h3>
+          <p>${esc(c.description||"Eine persönliche Auswahl aus deiner Bibliothek.")}</p>
+          <div class="collection-tile-foot"><span>${items.length} ${items.length===1?"Buch":"Bücher"}</span><span>${esc(COLLECTION_STYLE_NAMES[collectionStyle(c)])}</span></div>
+          <div class="collection-tile-actions">
+            <button class="btn primary" type="button" data-collection-open="${esc(c.id)}">Ausstellung öffnen</button>
+            <button class="btn secondary" type="button" data-collection-edit="${esc(c.id)}" aria-label="${esc(c.title)} bearbeiten">Bearbeiten</button>
+          </div>
+        </div>
+      </article>`;
+    }
+    function renderCollectionsManager(){
+      const count=collections.length;
+      $("collectionsManagerCount").textContent=`${count} ${count===1?"Sammlung":"Sammlungen"} · ${new Set(collections.flatMap(c=>c.bookIds)).size} einzigartige Buchverweise`;
+      $("collectionsManagerList").innerHTML=collections.length
+        ? collections.map(collectionCard).join("")
+        : `<div class="collection-empty"><div class="collection-empty-symbol">✦</div><h3>Deine erste Ausstellung wartet</h3><p>Stelle eine persönliche Auswahl zusammen – zum Beispiel deine Top 10, Dark Fantasy oder Bücher für das nächste Leseabenteuer.</p><button class="btn primary" type="button" data-collection-new>Erste Sammlung erstellen</button></div>`;
+    }
+    function openCollectionsManager(){
+      if(immersiveActive){
+        // The presentation is read-only; return to the normal management surface.
+        exitLibraryMode();
+      }
+      const dialog=$("collectionsDialog");
+      if(dialog.open) return;
+      collectionManagerFocus=document.activeElement;
+      renderCollectionsManager();
+      dialog.showModal();
+      $("collectionsManagerNew").focus({preventScroll:true});
+    }
+    function closeCollectionsManager(){
+      const dialog=$("collectionsDialog");
+      if(dialog.open) dialog.close();
+      if(collectionManagerFocus?.isConnected) collectionManagerFocus.focus({preventScroll:true});
+      collectionManagerFocus=null;
+    }
+    function showCollection(id="all"){
+      if($("collectionsDialog").open) $("collectionsDialog").close();
+      if($("collectionEditorDialog").open) $("collectionEditorDialog").close();
+      if($("addToCollectionDialog").open) $("addToCollectionDialog").close();
+      activeCollectionId=collectionFind(id)?id:"all";
+      localStorage.setItem(COLLECTIONS_CHOICE_KEY,activeCollectionId);
+      $("search").value="";
+      $("filter").value="all";
+      $("groupBy").value="collections";
+      render();
+      requestAnimationFrame(()=>{
+        const target=activeCollectionId==="all"?$("collectionView"):document.querySelector(`#library [data-collection-id="${CSS.escape(activeCollectionId)}"]`);
+        target?.scrollIntoView({behavior:"auto",block:"start"});
+      });
+    }
+    function renderCollectionViewToolbar(){
+      const visible=$("groupBy").value==="collections";
+      const panel=$("collectionView");
+      panel.hidden=!visible;
+      if(!visible) return;
+      if(activeCollectionId!=="all"&&!collectionFind(activeCollectionId)) activeCollectionId="all";
+      const select=$("collectionSelect");
+      const options=[{id:"all",title:"Alle Ausstellungsregale"},...collections.map(c=>({id:c.id,title:c.title}))];
+      if(select.options.length!==options.length||options.some((o,i)=>select.options[i]?.value!==o.id||select.options[i]?.text!==o.title)){
+        select.replaceChildren(...options.map(o=>new Option(o.title,o.id)));
+      }
+      select.value=activeCollectionId;
+      const selected=collectionFind(activeCollectionId);
+      $("collectionViewHeading").textContent=selected?selected.title:"Deine Ausstellungen";
+      $("collectionViewDescription").textContent=selected
+        ? selected.description||"Eine persönliche Auswahl aus deiner Bibliothek."
+        : "Kuratierte Regale, eigene Reihenfolge und deine Lieblingsbücher – unabhängig von der automatischen Reihenübersicht.";
+      $("collectionViewCount").textContent=selected
+        ? `${collectionBooks(selected).length} Bücher · ${collections.length} Sammlungen`
+        : `${collections.length} ${collections.length===1?"Sammlung":"Sammlungen"}`;
+      $("collectionViewEdit").hidden=!selected;
+      $("collectionViewEdit").dataset.collectionEdit=selected?.id||"";
+      $("collectionViewCards").hidden=!!selected||immersiveActive;
+      if(!selected&&!immersiveActive){
+        $("collectionViewCards").innerHTML=collections.map(collectionCard).join("");
+      }
+    }
+    function collectionShelf(c,arr,viewMode){
+      const counts=collectionBooks(c).length;
+      const missing=collectionMissing(c).length;
+      return `<section class="shelf collection-exhibit" data-collection-id="${esc(c.id)}" data-collection-style="${collectionStyle(c)}">
+        <div class="shelf-support left" aria-hidden="true"></div><div class="shelf-support right" aria-hidden="true"></div><div class="shelf-top-trim" aria-hidden="true"></div>
+        <div class="shelf-plaque"><div class="plaque-ornament left">◆</div><div class="plaque-content"><div class="plaque-title">${esc(c.title)}</div><div class="plaque-sub">${esc(c.description||`${counts} Bücher · Persönliche Sammlung`)}</div></div><div class="plaque-ornament right">◆</div></div>
+        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(COLLECTION_STYLE_NAMES[collectionStyle(c)])}</div><div class="collection-shelf-controls"><span class="sort-note">Deine Reihenfolge</span>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
+        ${missing?`<div class="collection-missing-note">${missing} Buchverweise sind momentan nicht vorhanden. Du kannst sie im Editor entfernen oder über ein Backup wiederherstellen.</div>`:""}
+        <div class="books ${viewMode==="spines"?"bookshelf-mode":""}">${arr.map(b=>viewMode==="spines"?spineCard(b):bookCard(b)).join("")||`<div class="collection-shelf-empty">${counts?"Keine Bücher entsprechen dem aktuellen Filter.":"Dieses Regal ist noch leer. Füge im Editor Bücher hinzu."}</div>`}</div>
+      </section>`;
+    }
+    function renderCollectionLibrary(q,f,viewMode){
+      const items=activeCollectionId==="all"?collections:collections.filter(c=>c.id===activeCollectionId);
+      const matches=b=>{
+        const hay=[b.title,b.author,b.series,b.genre,b.isbn].join(" ").toLowerCase();
+        return (!q||hay.includes(q))&&(f==="all"||(f==="favorites"?!!b.favorite:b.status===f));
+      };
+      $("library").innerHTML=items.length
+        ? items.map(c=>collectionShelf(c,collectionBooks(c).filter(matches),viewMode)).join("")
+        : `<div class="collection-empty"><div class="collection-empty-symbol">✦</div><h3>Noch keine Ausstellungsregale</h3><p>Erstelle eine Sammlung und wähle deine vorhandenen Bücher aus. Die Originale bleiben in ihrer gewohnten Bibliothek.</p><button class="btn primary" type="button" data-collection-new>Sammlung erstellen</button></div>`;
+    }
+    function newCollectionDraft(initialBookId=""){
+      const now=new Date().toISOString();
+      return {id:uid(),title:"",description:"",style:"brass",bookIds:initialBookId?[String(initialBookId)]:[],coverId:"",createdAt:now,updatedAt:now};
+    }
+    function openCollectionEditor(id=null,initialBookId=""){
+      const existing=id?collectionFind(id):null;
+      if(id&&!existing) return;
+      if($("collectionsDialog").open) $("collectionsDialog").close();
+      collectionEditorReturn=collectionManagerFocus;
+      collectionDraft=existing?JSON.parse(JSON.stringify(existing)):newCollectionDraft(initialBookId);
+      collectionDraftDirty=false;
+      $("collectionEditorHeading").textContent=existing?"Ausstellung bearbeiten":"Neue Ausstellung";
+      $("collectionName").value=existing?.title||"";
+      $("collectionDescription").value=existing?.description||"";
+      $("collectionStyle").value=collectionStyle(collectionDraft);
+      $("collectionBookSearch").value="";
+      $("collectionCoverSelect").value="";
+      $("collectionEditorDelete").hidden=!existing;
+      $("collectionEditorError").textContent="";
+      renderCollectionDraft();
+      $("collectionEditorDialog").showModal();
+      $("collectionName").focus({preventScroll:true});
+    }
+    function collectionDraftSync(){
+      if(!collectionDraft) return;
+      collectionDraft.title=$("collectionName").value;
+      collectionDraft.description=$("collectionDescription").value;
+      collectionDraft.style=$("collectionStyle").value;
+      collectionDraftDirty=true;
+    }
+    function renderCollectionDraft(){
+      if(!collectionDraft) return;
+      const ids=collectionDraft.bookIds;
+      const selected=ids.map(collectionBook);
+      const coverSelect=$("collectionCoverSelect");
+      const previous=collectionDraft.coverId;
+      coverSelect.replaceChildren(new Option("Automatisch: erstes verfügbares Cover",""),...selected.filter(Boolean).map(b=>new Option(`${b.title||"Ohne Titel"} · ${b.author||""}`,String(b.id))));
+      if(!ids.includes(previous)) collectionDraft.coverId="";
+      coverSelect.value=collectionDraft.coverId;
+      $("collectionSelectedCount").textContent=`${selected.filter(Boolean).length} ausgewählt`;
+      $("collectionSelectedList").innerHTML=ids.length?ids.map((id,i)=>{
+        const b=collectionBook(id);
+        return `<div class="collection-selected-row" data-selected-id="${esc(id)}"><div class="collection-selected-index">${i+1}</div>${b?collectionImage(b,"collection-row-cover"):"<span class='collection-row-cover collection-no-cover'>?</span>"}<div class="collection-row-text"><strong>${esc(b?.title||"Buch nicht vorhanden")}</strong><span>${esc(b?.author||"Dieser Verweis kann entfernt werden.")}</span></div><div class="collection-reorder"><button type="button" data-collection-move="up" data-book-id="${esc(id)}" ${i===0?"disabled":""} aria-label="${esc(b?.title||"Buch")} nach oben">↑</button><button type="button" data-collection-move="down" data-book-id="${esc(id)}" ${i===ids.length-1?"disabled":""} aria-label="${esc(b?.title||"Buch")} nach unten">↓</button><button type="button" data-collection-remove="${esc(id)}" aria-label="${esc(b?.title||"Buch")} aus Sammlung entfernen">×</button></div></div>`;
+      }).join(""):`<div class="collection-picker-empty">Noch keine Bücher ausgewählt. Suche unten nach Titeln oder Autoren.</div>`;
+      renderCollectionCandidates();
+    }
+    function renderCollectionCandidates(){
+      if(!collectionDraft) return;
+      const q=normalizeForSort($("collectionBookSearch").value);
+      const selected=new Set(collectionDraft.bookIds);
+      const candidates=sortBooksSmart(books).filter(b=>!q||normalizeForSort([b.title,b.author,b.series,b.isbn].join(" ")).includes(q));
+      $("collectionCandidateCount").textContent=`${candidates.length} Treffer`;
+      $("collectionCandidateList").innerHTML=candidates.length?candidates.map(b=>{
+        const id=String(b.id);
+        return `<label class="collection-candidate-row">${collectionImage(b,"collection-row-cover")}<span class="collection-row-text"><strong>${esc(b.title||"Ohne Titel")}</strong><span>${esc(b.author||"Autor unbekannt")}${b.series?` · ${esc(b.series)}`:""}${b.volume?` · Band ${esc(b.volume)}`:""}</span><small>${esc(statusLabel(b.status||"unread"))}</small></span><input type="checkbox" data-collection-pick="${esc(id)}" ${selected.has(id)?"checked":""} aria-label="${esc(b.title||"Buch")} auswählen"></label>`;
+      }).join(""):`<div class="collection-picker-empty">Keine passenden Bücher gefunden.</div>`;
+    }
+    function collectionMove(id,direction){
+      const ids=collectionDraft?.bookIds;
+      if(!ids) return;
+      const i=ids.indexOf(id);
+      const to=i+(direction==="up"?-1:1);
+      if(i<0||to<0||to>=ids.length) return;
+      [ids[i],ids[to]]=[ids[to],ids[i]];
+      collectionDraftDirty=true;
+      renderCollectionDraft();
+    }
+    function collectionEditorClose(force=false){
+      if(!force&&collectionDraftDirty&&!confirm("Ungespeicherte Änderungen an dieser Sammlung verwerfen?")) return false;
+      $("collectionEditorDialog").close();
+      collectionDraft=null;
+      collectionDraftDirty=false;
+      return true;
+    }
+    function collectionEditorSave(){
+      if(!collectionDraft) return;
+      collectionDraftSync();
+      const title=collectionDraft.title.trim();
+      if(!title){$("collectionEditorError").textContent="Bitte gib der Sammlung einen Namen.";$("collectionName").focus();return}
+      if(title.length>120){$("collectionEditorError").textContent="Der Name darf höchstens 120 Zeichen lang sein.";return}
+      const next={...collectionDraft,title,description:collectionDraft.description.trim(),bookIds:collectionUniqueIds(collectionDraft.bookIds),updatedAt:new Date().toISOString()};
+      const existing=collections.findIndex(c=>c.id===next.id);
+      const updated=collections.map(c=>({...c,bookIds:[...c.bookIds]}));
+      if(existing>=0) updated[existing]=next;else updated.push(next);
+      if(!collectionSaveAll(updated,{refresh:false})) return;
+      collectionDraftDirty=false;
+      collectionEditorClose(true);
+      if(collectionPickerBookId && next.bookIds.includes(collectionPickerBookId)){
+        collectionPickerBookId=null;
+      }
+      render();
+      renderCollectionsManager();
+      $("collectionsDialog").showModal();
+      collectionSetStatus(`„${next.title}“ wurde gespeichert.`);
+    }
+    function collectionEditorDelete(){
+      if(!collectionDraft||!collectionFind(collectionDraft.id)) return;
+      const c=collectionFind(collectionDraft.id);
+      if(!confirm(`Sammlung „${c.title}“ wirklich löschen? Die Bücher selbst bleiben erhalten.`)) return;
+      const updated=collections.filter(x=>x.id!==c.id);
+      if(!collectionSaveAll(updated,{refresh:false})) return;
+      collectionDraftDirty=false;
+      collectionEditorClose(true);
+      render();renderCollectionsManager();
+      $("collectionsDialog").showModal();
+      collectionSetStatus("Sammlung gelöscht. Deine Bücher wurden nicht gelöscht.");
+    }
+    function openAddToCollection(bookId){
+      const b=collectionBook(bookId);
+      if(!b) return;
+      collectionPickerBookId=String(bookId);
+      $("addToCollectionTitle").textContent=b.title||"Buch";
+      $("addToCollectionIntro").textContent="Wähle aus, in welchen Sammlungen dieses Buch erscheinen soll. Die Änderung betrifft nur die Ausstellungsregale.";
+      $("addToCollectionError").textContent="";
+      renderAddToCollectionList();
+      const dialog=$("addToCollectionDialog");
+      if(!dialog.open) dialog.showModal();
+    }
+    function renderAddToCollectionList(){
+      const id=collectionPickerBookId;
+      $("addToCollectionList").innerHTML=collections.length?collections.map(c=>{
+        const checked=c.bookIds.includes(id);
+        return `<label class="collection-quick-row"><span class="collection-quick-icon">✦</span><span><strong>${esc(c.title)}</strong><small>${collectionBooks(c).length} Bücher</small></span><input type="checkbox" data-collection-quick="${esc(c.id)}" ${checked?"checked":""}></label>`;
+      }).join(""):`<div class="collection-picker-empty">Du hast noch keine Sammlungen. Erstelle deine erste Ausstellung.</div>`;
+    }
+    function saveAddToCollection(){
+      const id=collectionPickerBookId;
+      if(!id||!collectionBook(id)) return;
+      const desired=new Set([...$("addToCollectionList").querySelectorAll("[data-collection-quick]:checked")].map(el=>el.dataset.collectionQuick));
+      const updated=collections.map(c=>{
+        const bookIds=[...c.bookIds];
+        if(desired.has(c.id)&&!bookIds.includes(id)) bookIds.push(id);
+        if(!desired.has(c.id)){
+          const ix=bookIds.indexOf(id);
+          if(ix>=0) bookIds.splice(ix,1);
+        }
+        return {...c,bookIds,updatedAt:JSON.stringify(bookIds)===JSON.stringify(c.bookIds)?c.updatedAt:new Date().toISOString()};
+      });
+      // An unchanged choice is not a new library modification.
+      if(updated.every((c,i)=>JSON.stringify(c.bookIds)===JSON.stringify(collections[i].bookIds))){$("addToCollectionDialog").close();return}
+      if(!collectionSaveAll(updated)) return;
+      $("addToCollectionDialog").close();
+      const b=collectionBook(id);
+      if(b&&$("detailsDialog").open&&currentDetailBookId===b.id&&folioMotion.phase==="open") folioRefreshDetails(b);
+    }
+    function collectionNewFromBook(){
+      const id=collectionPickerBookId;
+      $("addToCollectionDialog").close();
+      if($("detailsDialog").open) folioCloseNow(false);
+      openCollectionEditor(null,id);
+    }
+    function collectionOpenEditorFromUi(id){
+      if(!collectionFind(id)) return;
+      if(immersiveActive) exitLibraryMode();
+      openCollectionEditor(id);
+    }
+    function collectionActionClick(e){
+      const el=e.target.closest("[data-collection-open],[data-collection-edit],[data-collection-new]");
+      if(!el) return;
+      if(el.hasAttribute("data-collection-new")){openCollectionEditor();return}
+      if(el.hasAttribute("data-collection-open")){showCollection(el.dataset.collectionOpen);return}
+      if(el.hasAttribute("data-collection-edit")) collectionOpenEditorFromUi(el.dataset.collectionEdit);
+    }
+    document.addEventListener("click",collectionActionClick);
+    $("collectionsBtn").addEventListener("click",openCollectionsManager);
+    $("collectionsManagerClose").addEventListener("click",closeCollectionsManager);
+    $("collectionsManagerNew").addEventListener("click",()=>openCollectionEditor());
+    $("collectionsDialog").addEventListener("cancel",e=>{e.preventDefault();closeCollectionsManager()});
+    $("collectionsDialog").addEventListener("close",()=>{
+      if(!$("collectionEditorDialog").open&&!$("addToCollectionDialog").open&&collectionManagerFocus?.isConnected)collectionManagerFocus.focus({preventScroll:true});
+    });
+    $("collectionViewManage").addEventListener("click",openCollectionsManager);
+    $("collectionSelect").addEventListener("change",e=>{activeCollectionId=e.target.value;localStorage.setItem(COLLECTIONS_CHOICE_KEY,activeCollectionId);render()});
+    $("groupBy").addEventListener("change",()=>{
+      if($("groupBy").value==="collections"&&!immersiveActive){
+        requestAnimationFrame(()=>$("collectionView").scrollIntoView({behavior:"auto",block:"start"}));
+      }
+    });
+    $("collectionEditorClose").addEventListener("click",()=>collectionEditorClose());
+    $("collectionEditorCancel").addEventListener("click",()=>collectionEditorClose());
+    $("collectionEditorDialog").addEventListener("cancel",e=>{e.preventDefault();collectionEditorClose()});
+    $("collectionEditorForm").addEventListener("submit",e=>{e.preventDefault();collectionEditorSave()});
+    $("collectionEditorDelete").addEventListener("click",collectionEditorDelete);
+    ["collectionName","collectionDescription","collectionStyle"].forEach(id=>$(id).addEventListener("input",collectionDraftSync));
+    $("collectionCoverSelect").addEventListener("change",e=>{if(collectionDraft){collectionDraft.coverId=e.target.value;collectionDraftDirty=true}});
+    $("collectionBookSearch").addEventListener("input",renderCollectionCandidates);
+    $("collectionCandidateList").addEventListener("change",e=>{
+      const input=e.target.closest("[data-collection-pick]");
+      if(!input||!collectionDraft) return;
+      const id=input.dataset.collectionPick;
+      if(input.checked&&!collectionDraft.bookIds.includes(id))collectionDraft.bookIds.push(id);
+      if(!input.checked){collectionDraft.bookIds=collectionDraft.bookIds.filter(x=>x!==id);if(collectionDraft.coverId===id)collectionDraft.coverId=""}
+      collectionDraftDirty=true;renderCollectionDraft();
+    });
+    $("collectionSelectedList").addEventListener("click",e=>{
+      const move=e.target.closest("[data-collection-move]");
+      if(move){collectionMove(move.dataset.bookId,move.dataset.collectionMove);return}
+      const remove=e.target.closest("[data-collection-remove]");
+      if(remove&&collectionDraft){collectionDraft.bookIds=collectionDraft.bookIds.filter(x=>x!==remove.dataset.collectionRemove);collectionDraftDirty=true;renderCollectionDraft()}
+    });
+    $("addToCollectionClose").addEventListener("click",()=>$("addToCollectionDialog").close());
+    $("addToCollectionCancel").addEventListener("click",()=>$("addToCollectionDialog").close());
+    $("addToCollectionSave").addEventListener("click",saveAddToCollection);
+    $("addToCollectionNew").addEventListener("click",collectionNewFromBook);
+    $("addToCollectionDialog").addEventListener("cancel",e=>{e.preventDefault();$("addToCollectionDialog").close()});
 
     initCinematicParallax();
     applyThemeUi();

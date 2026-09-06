@@ -1,37 +1,28 @@
-# Mein Bücherregal – V12.3
+# Mein Bücherregal – V13
 
-## Neu: Aufgeschlagenes Buch und natürliche Bewegungen
+## Schritt 3: Eigene Sammlungen und Ausstellungsregale
 
-Das Buch wird zuerst ein Stück aus dem Regal gezogen, dreht sich behutsam zur
-Vorderseite und gleitet dann in die Detailansicht. Der Rückweg ist bewusst
-langsamer: Das Cover schliesst sich, das Buch dreht sich zurück und rastet
-sanft an seinem ursprünglichen Platz ein.
+V13 baut auf V12.3 auf. Deine Bücher, die manuelle Reihenlogik, der Scanner, die Buchanimation und der Bibliotheksmodus bleiben erhalten.
 
-Die neue Detailansicht besitzt zwei dauerhaft vorhandene Pergamentseiten.
-Die Front hat eine echte Rückseite, die über den Buchrücken aufklappt. Eine
-zusätzliche Papierseite blättert darüber und verschwindet anschliessend,
-ohne eine der beiden Inhaltsseiten zu entfernen. Links bleiben Cover,
-Titel und Autor sichtbar. Rechts stehen Buchdaten, Fortschritt, Notizen
-und die gewohnten Aktionen.
+- Erstelle persönliche Ausstellungen wie „Meine Top 10“, „Dark Fantasy“ oder „Als Nächstes lesen“.
+- Wähle Bücher aus deiner bestehenden Bibliothek. Ein Buch kann in mehreren Sammlungen stehen, ohne dupliziert zu werden.
+- Ändere Reihenfolge, Schildtext, Titelbild und den Stil des Ausstellungsregals.
+- Öffne Sammlungen als Cover- oder Buchrückenregal; die normalen Reihenansichten bleiben unabhängig.
+- Im Bibliotheksmodus kannst du zwischen Reihen und Sammlungen wechseln.
+- Im Buchdetail gibt es „Zu Sammlung“, um ein Buch direkt in eine oder mehrere Ausstellungen aufzunehmen.
+- Eine gelöschte Sammlung löscht keine Bücher. Fehlende Buchverweise bleiben erkennbar und können im Editor entfernt werden.
 
-Auf schmalen Smartphones werden die Seiten lesbar untereinander angeordnet.
-Die Aufklappanimation wird daran angepasst. Bei aktivierter
-Bewegungsreduzierung werden die längeren Animationen übersprungen.
+## Datensicherheit
 
-## Unverändert
+Die Sammlungen werden separat unter `my_bookshelf_collections_v1` gespeichert. Sie enthalten nur Metadaten und Buch-IDs, keine zusätzlichen Buchkopien. Das neue JSON-Backup (Schema 3) enthält alle Bücher, die manuellen Reihen-Einstellungen, Sammlungen und wichtige App-Einstellungen. Alte Backups bleiben importierbar.
 
-- Alle lokalen Buchdaten und bisherigen Speicherschlüssel
-- Manuelle Reihen-Gesamtzahlen und Besitz-/Lesestatuslogik
-- JSON-Backup, Import und Zusammenführen
-- Bibliotheksmodus und Themen
-- Scanner und Cloudflare-Datenquelle
+Bei einem alten Backup ohne Sammlungen bleiben vorhandene Sammlungen erhalten. Beim Zusammenführen werden neue Buch-IDs den vorhandenen Datensätzen zugeordnet und Sammlungsverweise entsprechend angepasst. Bei Namens-/ID-Konflikten bleiben bestehende Sammlungsdaten vorrangig. Vor dem Ersetzen wird eine Sicherheitskopie zum Download angeboten. Prüfe unbedingt, dass sie ausserhalb der App gespeichert ist.
 
 ## Installation
 
-1. Zuerst ein aktuelles JSON-Backup in iCloud Drive sichern.
-2. Die fünf Dateien dieses ZIPs im bestehenden GitHub-Repository ersetzen.
-3. Committen und die installierte Website neu laden, bis V12.3 erscheint.
-4. Weder Website-Daten löschen noch die PWA deinstallieren.
+1. Vor dem Update ein aktuelles JSON-Backup erstellen und in iCloud Drive sichern.
+2. Die fünf Dateien aus diesem ZIP im bestehenden GitHub-Repository ersetzen und committen.
+3. GitHub Pages neu laden, bis V13 erscheint. Keine Website-Daten löschen und die PWA nicht deinstallieren.
+4. Über „✦ Sammlungen“ die erste Ausstellung erstellen.
 
-Cloudflare muss nicht geändert werden. Die visuellen Änderungen speichern
-keine neuen Felder in deiner Sammlung.
+Cloudflare muss nicht geändert werden. Es gibt weiterhin keine automatische Cloud-Synchronisierung. Die Kamera wurde nicht auf einem echten iPhone getestet.

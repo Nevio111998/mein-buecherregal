@@ -1,30 +1,21 @@
-# Mein Bücherregal – Version 10.2
+# Mein Bücherregal – Version 10.1
 
-## Kamera-Auswahl / 0.5x
+## iPhone / Safari Scanner Fix
 
-Neu beim normalen Scan und Schnellscan:
+Safari auf iOS stellt `BarcodeDetector` normalerweise nicht zur Verfügung.
+V10 hat deshalb den Scan abgebrochen, bevor Safari überhaupt nach
+Kamerazugriff fragen konnte.
 
-- Button **Kameras laden**
-- Dropdown mit allen Kameras, die Safari als einzelne Videogeräte meldet
-- Button **0.5x suchen**
-- Auswahl wird lokal gespeichert
-- dieselbe Kamera wird beim nächsten Scan wieder verwendet
-- Ultraweitwinkel / 0.5x wird automatisch markiert, wenn der Gerätename es erkennen lässt
+V10.1:
+- nutzt weiterhin den nativen BarcodeDetector, wenn vorhanden
+- verwendet auf iPhone/Safari automatisch ZXing als Fallback
+- funktioniert sowohl für:
+  - normalen „ISBN scannen“-Button
+  - Schnellscan
+- Schnellscan bleibt nach einem Buch offen und ist direkt für das nächste bereit
+- Duplikaterkennung bleibt aktiv
 
-## Wichtig bei iPhones
+Beim ersten Start des Scanners sollte Safari nun tatsächlich nach der
+Kameraberechtigung fragen.
 
-0.5x ist normalerweise die Ultraweitwinkel-Linse und nicht einfach digitaler Zoom.
-Safari entscheidet, welche physischen Kameras eine Web-App einzeln auswählen darf.
-
-Wenn dein iPhone die Ultraweitwinkel-Kamera separat meldet:
-- `0.5x suchen` wählt sie automatisch
-- oder du wählst sie im Dropdown
-
-Wenn Safari nur eine allgemeine Rückkamera meldet:
-- kann die Web-App die 0.5x-Linse nicht erzwingen
-- du kannst aber alle angezeigten Rückkameras einzeln ausprobieren
-
-## Update
-
-Nur GitHub Pages aktualisieren.
-Cloudflare bleibt unverändert.
+Für das Update nur GitHub Pages aktualisieren. Cloudflare bleibt unverändert.

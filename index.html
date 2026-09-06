@@ -1368,6 +1368,242 @@
       .scene-bar{grid-template-columns:1fr}
       .featured-strip{grid-template-columns:1fr}
     }
+
+    /* ---------- Version 11.1: einklappbarer Überblick + realistischere Regale ---------- */
+    .overview-shell{
+      margin:0 0 20px;
+      padding:14px;
+      border-radius:24px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.01)),
+        linear-gradient(180deg, rgba(28,23,20,.92), rgba(18,15,13,.96));
+      box-shadow:0 16px 30px rgba(0,0,0,.22);
+    }
+    .overview-head{
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      margin-bottom:8px;
+    }
+    .overview-kicker{
+      font-size:10px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--gold);
+      font-weight:900;
+      margin-bottom:4px;
+    }
+    .overview-head h2{
+      margin:0;
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:28px;
+      line-height:1;
+    }
+    .overview-sub{
+      color:var(--muted);
+      font-size:11px;
+      margin-top:6px;
+      line-height:1.4;
+    }
+    .collapse-btn{
+      white-space:nowrap;
+      min-width:220px;
+      text-align:center;
+    }
+    #overviewContent{
+      overflow:hidden;
+      transition:max-height .38s ease, opacity .28s ease, transform .28s ease;
+      max-height:5000px;
+      opacity:1;
+      transform:translateY(0);
+    }
+    .overview-shell.collapsed #overviewContent{
+      max-height:0;
+      opacity:0;
+      transform:translateY(-6px);
+      pointer-events:none;
+      margin-top:0;
+    }
+
+    /* Stronger shelf realism */
+    .shelf{
+      position:relative;
+      padding:24px 24px 34px;
+      margin:0 0 34px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.06) 0 1px, transparent 1px 30px),
+        linear-gradient(90deg, rgba(255,255,255,.02), transparent 10%, rgba(0,0,0,.10) 50%, transparent 90%),
+        linear-gradient(180deg, #3c220f 0%, #2a170b 42%, #241209 100%);
+      background-size: 32px 100%, 100% 100%, 100% 100%;
+      border-radius:18px 18px 10px 10px;
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.08),
+        inset 0 -12px 24px rgba(0,0,0,.18),
+        0 18px 32px rgba(0,0,0,.30);
+    }
+    .shelf::before{
+      content:"";
+      position:absolute;
+      inset:12px 10px 22px;
+      border-radius:12px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.02), transparent 20%, rgba(0,0,0,.12) 100%);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.03);
+      pointer-events:none;
+    }
+    .shelf::after{
+      content:"";
+      position:absolute;
+      left:-10px; right:-10px; bottom:-14px; height:22px;
+      background:
+        linear-gradient(180deg,#9c6239 0%, #6f4126 45%, #4a2b18 100%);
+      border-radius:5px 5px 8px 8px;
+      box-shadow:
+        0 10px 16px rgba(0,0,0,.38),
+        inset 0 2px 0 rgba(255,255,255,.12),
+        inset 0 -3px 0 rgba(0,0,0,.22);
+    }
+    .shelf-head{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      align-items:center;
+      margin-bottom:16px;
+    }
+    .shelf-title{
+      font-family:Georgia,"Times New Roman",serif;
+      font-size:15px;
+      letter-spacing:.01em;
+      color:#f0d9be;
+      text-shadow:0 1px 1px rgba(0,0,0,.35);
+    }
+    .books{
+      position:relative;
+      z-index:2;
+      align-items:end;
+    }
+    .books::after{
+      content:"";
+      position:absolute;
+      left:-6px; right:-6px; bottom:-4px; height:10px;
+      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.0));
+      opacity:.35;
+      pointer-events:none;
+    }
+
+    /* Cover mode polish */
+    .book.cover-mode .cover{
+      border-radius:8px;
+      box-shadow:
+        0 14px 18px rgba(0,0,0,.28),
+        0 2px 0 rgba(255,255,255,.03);
+      overflow:hidden;
+      position:relative;
+      background:#18120f;
+    }
+    .book.cover-mode .cover::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(255,255,255,.14), transparent 24%, transparent 70%, rgba(0,0,0,.18));
+      pointer-events:none;
+      mix-blend-mode:screen;
+    }
+    .book.cover-mode .cover::after{
+      content:"";
+      position:absolute;
+      top:0; right:-2px; bottom:0; width:8px;
+      background:linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.18));
+      opacity:.55;
+      pointer-events:none;
+    }
+    .book.cover-mode{
+      transform-origin:center bottom;
+    }
+    .book.cover-mode:hover{
+      transform:translateY(-8px) scale(1.02);
+    }
+
+    /* Better spine mode */
+    .books.bookshelf-mode{
+      display:flex;
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      gap:8px;
+      padding-bottom:4px;
+      align-items:flex-end;
+      scrollbar-width:thin;
+    }
+    .books.bookshelf-mode .book{
+      flex:0 0 auto;
+    }
+    .spine{
+      border-radius:6px 6px 2px 2px !important;
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow:
+        inset 1px 0 0 rgba(255,255,255,.08),
+        inset -2px 0 0 rgba(0,0,0,.16),
+        0 10px 14px rgba(0,0,0,.24);
+      background-blend-mode:overlay, normal !important;
+      overflow:hidden;
+      position:relative;
+    }
+    .spine::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.10), transparent 12%, transparent 82%, rgba(0,0,0,.18)),
+        repeating-linear-gradient(180deg, rgba(255,255,255,.03) 0 2px, rgba(0,0,0,.02) 2px 4px);
+      pointer-events:none;
+    }
+    .spine-cover-art{
+      opacity:.28;
+      filter:saturate(1.05) contrast(1.04);
+      mix-blend-mode:screen;
+    }
+    .spine-no-cover{
+      opacity:.95;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.10), transparent 25%, rgba(0,0,0,.16)),
+        linear-gradient(180deg, var(--fallback-bg), color-mix(in srgb, var(--fallback-bg) 70%, black));
+    }
+    .spine-label{
+      text-shadow:0 1px 2px rgba(0,0,0,.55);
+    }
+    .spine-author-top{
+      letter-spacing:.08em;
+      font-size:8px;
+      opacity:.92;
+    }
+    .spine-title-v{
+      font-size:var(--title-size);
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+    .spine-footer{
+      font-size:8px;
+      opacity:.96;
+    }
+    .spine-band-num{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.28);
+    }
+
+    /* Small mobile tune */
+    @media(max-width:700px){
+      .collapse-btn{min-width:unset;width:100%}
+      .overview-head h2{font-size:24px}
+      .shelf{padding:18px 16px 30px}
+      .shelf-head{align-items:flex-start;flex-direction:column}
+    }
+
     @media(max-width:700px){
       .hero{padding:18px}
       .featured-strip{gap:12px}
@@ -1481,7 +1717,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V11</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V11.1</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -1548,24 +1784,38 @@
       </div>
     </div>
 
-    <div id="featuredStrip" class="featured-strip"></div>
 
-    <div id="dashboard" class="dashboard"></div>
-    <div id="backupReminder"></div>
-    <div class="intelligence-head">
-      <div>
-        <h2>Reihen-Übersicht</h2>
-        <div style="color:var(--muted);font-size:11px;margin-top:4px">
-          Reihenaufteilung und Gesamtzahl bestimmst du selbst. Ungelesene Bücher zählen trotzdem als im Regal vorhanden.
+    <div class="overview-shell">
+      <div class="overview-head">
+        <div>
+          <div class="overview-kicker">ÜBERBLICK</div>
+          <h2 id="overviewTitle">Bibliotheks-Dashboard</h2>
+          <div class="overview-sub">Spotlight, Statistik und Reihen-Übersicht kannst du jetzt ein- und ausklappen.</div>
         </div>
+        <button class="btn secondary collapse-btn" id="overviewToggleBtn" type="button">▾ Überblick einklappen</button>
+      </div>
+
+      <div id="overviewContent">
+        <div id="featuredStrip" class="featured-strip"></div>
+        <div id="dashboard" class="dashboard"></div>
+        <div id="backupReminder"></div>
+        <div class="intelligence-head">
+          <div>
+            <h2>Reihen-Übersicht</h2>
+            <div style="color:var(--muted);font-size:11px;margin-top:4px">
+              Reihenaufteilung und Gesamtzahl bestimmst du selbst. Ungelesene Bücher zählen trotzdem als im Regal vorhanden.
+            </div>
+          </div>
+        </div>
+        <div id="seriesInsights" class="series-insights"></div>
       </div>
     </div>
-    <div id="seriesInsights" class="series-insights"></div>
+
     <div class="stats" id="stats" style="display:none"></div>
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 11: Komfort- und Ansichtsupdate mit Regal-Themen, Spotlight-Bereich, Animationen und einem deutlich stärkeren Bibliotheksgefühl.
+      Version 11.1: einklappbarer Überblick, deutlich realistischere Holzregale und ein stärkeres Buchrücken-Regal.
     </div>
   </div>
 
@@ -1898,6 +2148,7 @@
     const THEME_KEY = "my_bookshelf_theme_v1";
     const DENSITY_KEY = "my_bookshelf_density_v1";
     const AMBIENT_KEY = "my_bookshelf_ambient_v1";
+    const OVERVIEW_COLLAPSED_KEY = "my_bookshelf_overview_collapsed_v1";
     let books = loadBooks();
     let currentStream = null;
     let scanTimer = null;
@@ -4384,7 +4635,9 @@
       document.body.classList.toggle("density-comfort", density !== "compact");
       document.body.classList.toggle("ambient-on", ambient);
 
-      document.querySelectorAll("#themeToggle [data-theme]").forEach(btn=>{
+      $("overviewToggleBtn").addEventListener("click", toggleOverview);
+
+    document.querySelectorAll("#themeToggle [data-theme]").forEach(btn=>{
         btn.classList.toggle("active", btn.dataset.theme === theme);
       });
       document.querySelectorAll("#densityToggle [data-density]").forEach(btn=>{
@@ -4395,6 +4648,25 @@
 
       const themeMeta = document.querySelector('meta[name="theme-color"]');
       if(themeMeta) themeMeta.setAttribute("content", themeColorFor(theme));
+    }
+
+    function overviewCollapsed(){
+      return localStorage.getItem(OVERVIEW_COLLAPSED_KEY) === "1";
+    }
+
+    function applyOverviewUi(){
+      const shell = document.querySelector(".overview-shell");
+      const btn = $("overviewToggleBtn");
+      if(!shell || !btn) return;
+
+      const collapsed = overviewCollapsed();
+      shell.classList.toggle("collapsed", collapsed);
+      btn.textContent = collapsed ? "▸ Überblick ausklappen" : "▾ Überblick einklappen";
+    }
+
+    function toggleOverview(){
+      localStorage.setItem(OVERVIEW_COLLAPSED_KEY, overviewCollapsed() ? "0" : "1");
+      applyOverviewUi();
     }
 
     function spotlightCardHtml(kind, book, metaHtml="", actionHtml=""){
@@ -4493,6 +4765,7 @@
       renderFeaturedStrip();
       requestAnimationFrame(()=>{
         applyThemeUi();
+        applyOverviewUi();
         applyRevealAnimations();
       });
     };
@@ -4684,6 +4957,7 @@
     }
 
     applyThemeUi();
+    applyOverviewUi();
     applyViewToggleUi();
     render();
     renderBackupReminder();

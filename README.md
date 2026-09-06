@@ -1,48 +1,43 @@
-# Mein Bücherregal – Version 11
+# Mein Bücherregal – Version 11.1
 
-Version 11 ist ein Komfort- und Ansichtsupdate auf Basis von V10.3.
+V11.1 baut direkt auf V11 auf.
 
-## Neu
+## Neu in V11.1
 
-### Regal-Themen
-- Klassisch
-- Midnight
-- Emerald
-- Crimson
+### 1) Einklappbarer Überblick
+Der obere Bereich mit:
+- Spotlight
+- Statistiken
+- Reihen-Übersicht
 
-Die Auswahl wird lokal gespeichert.
+kann jetzt eingeklappt und wieder ausgeklappt werden.
 
-### Dichte / Layout
-- Komfort
-- Kompakt
+### 2) Realistischere Regale
+Die Regalansicht wurde deutlich überarbeitet:
+- kräftigere Holzoptik
+- mehr Tiefe
+- sichtbarere Brettkante
+- mehr Schatten und Innenstruktur
+- stärkeres Bibliotheksgefühl
 
-Damit kannst du selbst entscheiden, ob das Regal luftiger oder platzsparender dargestellt wird.
+### 3) Schönere Cover-Regale
+Die Coveransicht wirkt jetzt hochwertiger:
+- stärkere Schatten
+- glänzendere Coverfläche
+- leichter Buchkanten-Effekt
+- besseres Hover-Feeling
 
-### Atmosphäre
-- Licht- und Staub-Effekte
-- sanfte Bewegung
-- Hero-Glanz
-- dezente Reveal-Animationen
-
-Die Atmosphäre kann ein- und ausgeschaltet werden.
-
-### Spotlight-Bereich
-Oben gibt es jetzt drei kuratierte Karten:
-- aktuelles Buch
-- nächstes Abenteuer
-- Lieblingsstück
-
-### Visueller Feinschliff
-- stärkeres Hero-Design
-- stimmungsvollere Panels
-- bessere Hover- und Lift-Effekte
-- schönere Regale
-- epischerer Gesamteindruck
+### 4) Schönere Buchrücken-Regale
+Die Buchrückenansicht wurde ebenfalls aufgewertet:
+- realistischere Materialwirkung
+- stärkere Struktur
+- bessere Lesbarkeit
+- schönere horizontale Regalwirkung
+- angenehmeres Scrollen im Buchrücken-Regal
 
 ## Wichtig
-Die stabile Kameralösung aus V10.1/V10.3 bleibt erhalten.
-Datensicherheit, Backups und Import-Logik aus V10.3 bleiben ebenfalls bestehen.
+- Themen, Sicherheit, Backup und Import bleiben erhalten
+- Kamera bleibt unverändert stabil
 
 ## Update
 Nur GitHub Pages aktualisieren.
-Cloudflare bleibt unverändert.

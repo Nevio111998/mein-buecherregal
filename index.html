@@ -230,6 +230,7 @@
       <div class="actions">
         <button class="btn secondary" id="importBtn">Import</button>
         <button class="btn secondary" id="exportBtn">Backup</button>
+        <button class="btn secondary" id="sourceBtn">⚙ Datenquelle</button>
         <button class="btn primary" id="addBtn">＋ Buch hinzufügen</button>
       </div>
     </div>
@@ -254,7 +255,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Buchdaten & Cover werden über mehrere Suchwege geladen; problematische Ausgaben können über verifizierte lokale Fallbacks ergänzt werden. Deine Sammlung bleibt lokal auf deinem Gerät.
+      Buchdaten werden aus externen Katalogen geladen (K10plus, Google Books, Open Library). Es gibt keine fest im Code hinterlegten Bücher. Deine Sammlung bleibt lokal auf deinem Gerät.
     </div>
   </div>
 
@@ -338,6 +339,31 @@
     </div>
   </dialog>
 
+
+  <dialog id="sourceDialog">
+    <div class="modal-head">
+      <h2>Externe Buchdatenbank</h2>
+      <button class="icon-btn" data-close="sourceDialog">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);line-height:1.5;margin-top:0">
+        Für die zuverlässigere Suche nach deutschen Ausgaben nutzt die App einen kleinen
+        kostenlosen API-Vermittler. Füge hier einmal die URL deines Cloudflare Workers ein.
+      </p>
+      <div class="field">
+        <label>Book-API URL</label>
+        <input id="bookApiUrl" placeholder="https://mein-buecherregal-api.DEINNAME.workers.dev">
+      </div>
+      <div class="scan-status" id="sourceStatus" style="margin-top:12px">
+        Noch keine externe K10plus-Verbindung gespeichert.
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn secondary" id="testSourceBtn">Verbindung testen</button>
+        <button type="button" class="btn primary" id="saveSourceBtn">Speichern</button>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="detailsDialog">
     <div class="modal-head">
       <h2>Buch</h2>
@@ -350,6 +376,7 @@
 
   <script>
     const STORAGE_KEY = "my_bookshelf_v1";
+    const BOOK_API_KEY = "my_bookshelf_book_api_v1";
     let books = loadBooks();
     let currentStream = null;
     let scanTimer = null;
@@ -524,47 +551,29 @@
       return overlap / Math.max(A.size, B.size);
     }
 
-    const knownEditionFallbacks = {
-      "9783453534421": {
-        isbn: "9783453534421",
-        title: "Red Rising - Im Haus der Feinde",
-        author: "Pierce Brown",
-        series: "Red Rising",
-        volume: "2",
-        genre: "Science-Fiction & Fantasy",
-        cover: "https://books.google.com/books/content?vid=ISBN9783453534421&printsec=frontcover&img=1&zoom=2&source=gbs_api"
-      },
-      "9783453534438": {
-        isbn: "9783453534438",
-        title: "Red Rising - Tag der Entscheidung",
-        author: "Pierce Brown",
-        series: "Red Rising",
-        volume: "3",
-        genre: "Science-Fiction & Fantasy",
-        // Google Books indexes the German eBook more reliably than this paperback edition.
-        cover: "https://books.google.com/books/content?vid=ISBN9783641147433&printsec=frontcover&img=1&zoom=2&source=gbs_api"
+    function getBookApiUrl(){
+      return (localStorage.getItem(BOOK_API_KEY) || "").trim().replace(/\/+$/,"");
+    }
+
+    async function lookupViaBookApi(params){
+      const base = getBookApiUrl();
+      if(!base) return null;
+
+      try{
+        const qs = new URLSearchParams();
+        Object.entries(params).forEach(([k,v]) => {
+          if(v) qs.set(k, v);
+        });
+        const res = await fetch(`${base}/lookup?${qs.toString()}`, {
+          headers: {"Accept":"application/json"}
+        });
+        if(!res.ok) return null;
+        const data = await res.json();
+        if(!data?.ok || !data?.book) return null;
+        return data;
+      }catch{
+        return null;
       }
-    };
-
-    function findKnownEdition(isbn="", title="", author=""){
-      const cleanIsbn = String(isbn).replace(/[^0-9Xx]/g,"");
-      if(cleanIsbn && knownEditionFallbacks[cleanIsbn]){
-        return knownEditionFallbacks[cleanIsbn];
-      }
-
-      const nt = normText(title);
-      const na = normText(author);
-      if(!nt) return null;
-
-      return Object.values(knownEditionFallbacks).find(b => {
-        const titleMatch =
-          normText(b.title) === nt ||
-          normText(b.title).includes(nt) ||
-          nt.includes(normText(b.title)) ||
-          tokenScore(title, b.title) >= 0.60;
-        const authorMatch = !na || tokenScore(author, b.author) >= 0.60;
-        return titleMatch && authorMatch;
-      }) || null;
     }
 
     async function lookupOpenLibraryByISBN(isbn){
@@ -675,21 +684,27 @@
         return;
       }
 
-      // Known problematic editions: use verified local fallback immediately.
-      const known = findKnownEdition(isbn, $("title").value.trim(), $("author").value.trim());
-      if(known){
-        fillBookData(known, "verifiziertem Editions-Fallback");
-        return;
+      const apiUrl = getBookApiUrl();
+      if(apiUrl){
+        $("scanStatus").textContent = "Suche in externen Bibliothekskatalogen …";
+        const external = await lookupViaBookApi({isbn});
+        if(external){
+          fillBookData(external.book, external.source || "externer Buchdatenbank");
+          return;
+        }
       }
 
-      $("scanStatus").textContent = "Suche bei Open Library …";
+      $("scanStatus").textContent = apiUrl
+        ? "Kein Katalogtreffer. Suche zusätzlich bei Open Library …"
+        : "K10plus ist noch nicht verbunden. Suche bei Open Library …";
+
       const ol = await lookupOpenLibraryByISBN(isbn);
       if(ol){
         fillBookData(ol, "Open Library");
         return;
       }
 
-      $("scanStatus").textContent = "Kein Treffer bei Open Library. Suche bei Google Books …";
+      $("scanStatus").textContent = "Suche zusätzlich bei Google Books …";
       const gb = await lookupGoogleBooks(`isbn:${isbn}`);
       if(gb){
         if(!gb.isbn) gb.isbn = isbn;
@@ -697,35 +712,20 @@
         return;
       }
 
-      // More permissive Google Books query: some editions are indexed under another ISBN.
-      $("scanStatus").textContent = "ISBN nicht direkt verknüpft. Versuche eine breitere Suche …";
-      const broadByIsbn = await lookupGoogleBooks(isbn);
-      if(broadByIsbn){
-        if(!broadByIsbn.isbn) broadByIsbn.isbn = isbn;
-        fillBookData(broadByIsbn, "Google Books");
-        return;
-      }
-
       const title = $("title").value.trim();
-      const author = $("author").value.trim();
       if(title){
         await lookupByTitle();
         return;
       }
 
-      $("scanStatus").textContent =
-        "Diese ISBN ist in den Buchdatenbanken nicht sauber verknüpft. Gib Titel und optional Autor ein und drücke „Titel suchen“.";
+      $("scanStatus").textContent = apiUrl
+        ? "Kein Treffer in den verbundenen externen Katalogen. Versuche Titel + Autor."
+        : "Kein Treffer. Verbinde unter ⚙ Datenquelle zuerst die K10plus-Suche oder versuche Titel + Autor.";
     }
 
     async function lookupByTitle(){
       const title = $("title").value.trim();
       const author = $("author").value.trim();
-
-      const known = findKnownEdition($("isbn").value, title, author);
-      if(known){
-        fillBookData(known, "verifiziertem Editions-Fallback");
-        return;
-      }
 
       if(!title){
         $("scanStatus").textContent = "Bitte zuerst den Buchtitel eingeben.";
@@ -733,31 +733,39 @@
         return;
       }
 
+      const apiUrl = getBookApiUrl();
+      if(apiUrl){
+        $("scanStatus").textContent = "Suche Titel und Autor in externen Bibliothekskatalogen …";
+        const external = await lookupViaBookApi({title, author});
+        if(external && tokenScore(title, external.book.title || "") >= 0.30){
+          fillBookData(external.book, external.source || "externer Buchdatenbank");
+          return;
+        }
+      }
+
       const queries = [
-        author ? `"${title}" "${author}"` : `"${title}"`,
         author ? `${title} ${author}` : title,
-        author ? `intitle:"${title}" inauthor:"${author}"` : `intitle:"${title}"`,
         author ? `intitle:${title} inauthor:${author}` : `intitle:${title}`
       ];
 
       for(let i=0;i<queries.length;i++){
         $("scanStatus").textContent = `Google Books: Suchvariante ${i+1}/${queries.length} …`;
         const result = await lookupGoogleBooks(queries[i], title, author);
-        if(result && tokenScore(title, result.title) >= 0.45){
+        if(result && tokenScore(title, result.title) >= 0.40){
           fillBookData(result, "Google Books");
           return;
         }
       }
 
-      $("scanStatus").textContent = "Google Books ohne sicheren Treffer. Suche bei Open Library nach Titel und Autor …";
+      $("scanStatus").textContent = "Suche zusätzlich bei Open Library …";
       const ol = await lookupOpenLibraryByTitle(title, author);
-      if(ol && tokenScore(title, ol.title) >= 0.35){
-        fillBookData(ol, "Open Library Titelsuche");
+      if(ol && tokenScore(title, ol.title) >= 0.30){
+        fillBookData(ol, "Open Library");
         return;
       }
 
       $("scanStatus").textContent =
-        "Diese Ausgabe ist in den freien Buchdatenbanken nicht sauber hinterlegt. Du kannst sie trotzdem manuell speichern.";
+        "Kein Treffer in den verbundenen externen Buchdatenbanken.";
     }
 
     async function startScan(){
@@ -867,6 +875,44 @@
         stopScan();
         $(btn.dataset.close).close();
       });
+    });
+
+    $("sourceBtn").addEventListener("click", ()=>{
+      $("bookApiUrl").value = getBookApiUrl();
+      $("sourceStatus").textContent = getBookApiUrl()
+        ? "Externe Buchdatenbank ist konfiguriert."
+        : "Noch keine externe K10plus-Verbindung gespeichert.";
+      $("sourceDialog").showModal();
+    });
+
+    $("saveSourceBtn").addEventListener("click", ()=>{
+      const value = $("bookApiUrl").value.trim().replace(/\/+$/,"");
+      if(value) localStorage.setItem(BOOK_API_KEY, value);
+      else localStorage.removeItem(BOOK_API_KEY);
+      $("sourceStatus").textContent = value
+        ? "Gespeichert ✓"
+        : "Verbindung entfernt.";
+    });
+
+    $("testSourceBtn").addEventListener("click", async ()=>{
+      const value = $("bookApiUrl").value.trim().replace(/\/+$/,"");
+      if(!value){
+        $("sourceStatus").textContent = "Bitte zuerst die Worker-URL einfügen.";
+        return;
+      }
+      $("sourceStatus").textContent = "Teste Verbindung …";
+      try{
+        const res = await fetch(`${value}/health`, {headers:{"Accept":"application/json"}});
+        const data = await res.json();
+        if(res.ok && data?.ok){
+          localStorage.setItem(BOOK_API_KEY, value);
+          $("sourceStatus").textContent = "Verbindung funktioniert ✓ K10plus-Suche ist aktiv.";
+        }else{
+          $("sourceStatus").textContent = "Worker antwortet, aber nicht wie erwartet.";
+        }
+      }catch{
+        $("sourceStatus").textContent = "Keine Verbindung. Prüfe die Worker-URL.";
+      }
     });
 
     $("exportBtn").addEventListener("click", ()=>{

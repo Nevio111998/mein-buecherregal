@@ -1,25 +1,28 @@
-# Mein Bücherregal – Version 9
+# Mein Bücherregal – Version 9 FIXED
 
-## Library Intelligence
-- Serien-Vollständigkeit
-- fehlende Bände
-- externe Reihensuche über den Cloudflare Worker
-- manuelle Gesamtzahl als Override, falls externe Daten unsicher sind
-- Reihen-Detailansicht
-- Duplikat-Warnung
-- Lesefortschritt pro Buch
-- Re-Reads
+Diese Version enthält die tatsächlichen Version-9-Funktionen.
+
+Sofort sichtbar:
+- V9-Badge neben "Mein Bücherregal"
+- neues Dashboard
+- "Reihen-Intelligenz"
+- Button "Reihen prüfen"
+
+Neue Buchfelder:
 - Erscheinungsjahr
-- Seitenzahl
+- Seiten
+- aktuelle Seite
+- Re-Reads
+- Standort
 - Tags
-- physischer Standort im echten Regal
-- erweitertes Dashboard
 
-## Update
-### GitHub Pages
-App-Dateien aus diesem Paket hochladen und bestehende Dateien ersetzen.
+Weitere Funktionen:
+- Duplikat-Warnung
+- Reihen-Vollständigkeit
+- fehlende Bände
+- Reihen-Detailansicht
+- manuelle Gesamtzahl einer Reihe
+- erweiterte Detailansicht
 
-### Cloudflare
-`book-api-worker-v8.js` in den bestehenden Worker kopieren und deployen.
-
-Die bestehende lokale Sammlung bleibt kompatibel.
+Der Service Worker wurde auf Network-First umgestellt, damit alte index.html-Versionen
+nicht mehr hartnäckig im Cache hängen bleiben.

@@ -730,13 +730,81 @@
       .books{grid-template-columns: repeat(auto-fill,minmax(92px,1fr));gap:16px 10px}
       .shelf{padding:14px 12px 24px}
     }
+  
+    /* === Version 9: Library Intelligence === */
+    .version-badge{
+      display:inline-flex;align-items:center;gap:6px;
+      margin-left:10px;padding:6px 9px;border-radius:999px;
+      background:linear-gradient(180deg,#8a5a34,#684126);
+      color:#fff;font-size:11px;font-weight:900;vertical-align:middle;
+      box-shadow:0 6px 14px rgba(0,0,0,.24)
+    }
+    .dashboard{
+      display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));
+      gap:12px;margin:14px 0 22px
+    }
+    .dash-card{
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:16px;padding:14px;
+      background:
+        radial-gradient(circle at top left,rgba(216,179,107,.07),transparent 60%),
+        rgba(255,255,255,.03);
+      box-shadow:0 10px 24px rgba(0,0,0,.14)
+    }
+    .dash-card .k{font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.07em}
+    .dash-card .v{font-size:27px;font-weight:900;margin-top:6px;letter-spacing:-.03em}
+    .dash-card .s{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.3}
+    .intelligence-head{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+      margin:4px 0 12px
+    }
+    .intelligence-head h2{font-size:18px;margin:0;font-family:Georgia,"Times New Roman",serif}
+    .series-insights{
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:12px;margin-bottom:24px
+    }
+    .series-card{
+      background:rgba(255,255,255,.028);
+      border:1px solid rgba(255,255,255,.07);
+      border-radius:15px;padding:14px;
+      cursor:pointer;transition:.15s ease
+    }
+    .series-card:hover{transform:translateY(-2px);background:rgba(255,255,255,.045)}
+    .series-card h3{margin:0;font-size:16px;font-family:Georgia,"Times New Roman",serif}
+    .series-card .meta{font-size:11px;color:var(--muted);margin-top:4px}
+    .series-progress{height:8px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;margin:10px 0 7px}
+    .series-progress span{display:block;height:100%;background:linear-gradient(90deg,#8a5a34,#d8b36b);border-radius:999px}
+    .series-ok{font-size:11px;color:#9fc993;font-weight:800}
+    .series-missing{font-size:11px;color:#e2b9aa}
+    .duplicate-warning{
+      display:none;margin:10px 0 14px;padding:10px 12px;border-radius:12px;
+      background:#4a2c1f;border:1px solid rgba(231,177,129,.24);
+      color:#f2cfb6;font-size:12px;line-height:1.4
+    }
+    .duplicate-warning.show{display:block}
+    .details-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+    .details-info{background:#171310;border:1px solid rgba(255,255,255,.06);border-radius:11px;padding:9px 10px}
+    .details-info .k{font-size:9px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+    .details-info .v{font-size:12px;margin-top:4px}
+    .tag-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+    .tag-chip{font-size:10px;padding:5px 8px;border-radius:999px;background:#302720;color:#decfc4;border:1px solid rgba(255,255,255,.06)}
+    .series-detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-top:16px}
+    .series-volume{background:#171310;border:1px solid rgba(255,255,255,.07);border-radius:13px;padding:12px;min-height:105px}
+    .series-volume.missing{border-style:dashed;opacity:.78}
+    .series-volume .num{font-size:10px;color:var(--gold);font-weight:900}
+    .series-volume .ttl{font-size:13px;font-weight:800;line-height:1.25;margin-top:7px}
+    .series-volume .sub{font-size:10px;color:var(--muted);margin-top:5px}
+    .series-config{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+    @media(max-width:1000px){.dashboard{grid-template-columns:repeat(3,minmax(0,1fr))}}
+    @media(max-width:700px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.series-config{grid-template-columns:1fr}}
+
   </style>
 </head>
 <body>
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal</h1>
+        <h1>Mein Bücherregal <span class="version-badge">V9</span></h1>
         <p>Deine private Bibliothek – schön, simpel und kostenlos.</p>
       </div>
       <div class="actions">
@@ -770,7 +838,13 @@
       </div>
     </div>
 
-    <div class="stats" id="stats"></div>
+    <div id="dashboard" class="dashboard"></div>
+    <div class="intelligence-head">
+      <h2>Reihen-Intelligenz</h2>
+      <button class="btn secondary" id="refreshSeriesBtn">↻ Reihen prüfen</button>
+    </div>
+    <div id="seriesInsights" class="series-insights"></div>
+    <div class="stats" id="stats" style="display:none"></div>
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
@@ -793,6 +867,7 @@
         <video id="video" playsinline muted></video>
         <div class="scan-status" id="scanStatus">Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.</div>
       </div>
+      <div id="duplicateWarning" class="duplicate-warning"></div>
 
       <form id="bookForm">
         <input type="hidden" id="bookId">
@@ -829,6 +904,30 @@
           <div class="field">
             <label>Genre</label>
             <input id="genre" placeholder="z. B. Fantasy">
+          </div>
+          <div class="field">
+            <label>Erscheinungsjahr</label>
+            <input id="publishedYear" inputmode="numeric" placeholder="z. B. 2024">
+          </div>
+          <div class="field">
+            <label>Seiten</label>
+            <input id="pages" inputmode="numeric" placeholder="z. B. 720">
+          </div>
+          <div class="field">
+            <label>Aktuelle Seite</label>
+            <input id="currentPage" inputmode="numeric" placeholder="z. B. 320">
+          </div>
+          <div class="field">
+            <label>Re-Reads</label>
+            <input id="rereads" inputmode="numeric" placeholder="0">
+          </div>
+          <div class="field">
+            <label>Standort</label>
+            <input id="location" placeholder="z. B. Wohnzimmer oben">
+          </div>
+          <div class="field full">
+            <label>Tags</label>
+            <input id="tags" placeholder="z. B. Epic Fantasy, Lieblingsbuch, Re-Read">
           </div>
           <div class="field">
             <label>Bewertung</label>
@@ -891,6 +990,15 @@
     </div>
   </dialog>
 
+  
+  <dialog id="seriesDialog">
+    <div class="modal-head">
+      <h2>Reihe</h2>
+      <button class="icon-btn" data-close="seriesDialog">×</button>
+    </div>
+    <div class="modal-body" id="seriesDetailsBody"></div>
+  </dialog>
+
   <dialog id="detailsDialog">
     <div class="modal-head">
       <h2>Buch</h2>
@@ -905,6 +1013,7 @@
     const STORAGE_KEY = "my_bookshelf_v1";
     const BOOK_API_KEY = "my_bookshelf_book_api_v1";
     const VIEW_MODE_KEY = "my_bookshelf_view_mode_v1";
+    const SERIES_META_KEY = "my_bookshelf_series_meta_v1";
     let books = loadBooks();
     let currentStream = null;
     let scanTimer = null;
@@ -982,11 +1091,228 @@
       });
     }
 
+
+    function loadJsonStorage(key, fallback={}){
+      try{
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      }catch{
+        return fallback;
+      }
+    }
+
+    function saveJsonStorage(key, value){
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function seriesKey(name=""){
+      return normalizeForSort(name);
+    }
+
+    function cleanTags(v){
+      if(Array.isArray(v)) return [...new Set(v.map(x=>String(x).trim()).filter(Boolean))];
+      return [...new Set(String(v||"").split(",").map(x=>x.trim()).filter(Boolean))];
+    }
+
+    function readingPercent(b){
+      const pages = Number(b.pages||0);
+      const current = Number(b.currentPage||0);
+      if(pages>0) return Math.max(0,Math.min(100,Math.round((current/pages)*100)));
+      return b.status==="read" ? 100 : 0;
+    }
+
+    function getSeriesGroups(){
+      const groups = {};
+      books.filter(b=>b.series && b.status!=="wishlist").forEach(b=>{
+        const key = seriesKey(b.series);
+        if(!groups[key]) groups[key] = {name:b.series,books:[]};
+        groups[key].books.push(b);
+      });
+      Object.values(groups).forEach(g=>g.books=sortBooksSmart(g.books));
+      return groups;
+    }
+
+    function getSeriesInfo(g){
+      const meta = loadJsonStorage(SERIES_META_KEY,{});
+      const m = meta[seriesKey(g.name)] || {};
+      const nums = [...new Set(g.books.map(b=>volumeNumber(b.volume)).filter(Number.isFinite))].sort((a,b)=>a-b);
+      let total = Number(m.totalVolumes||0);
+      if(!total && nums.length) total = Math.max(...nums);
+      const missing = [];
+      if(total){
+        for(let n=1;n<=total;n++) if(!nums.includes(n)) missing.push(n);
+      }
+      return {
+        total,
+        owned:nums.length,
+        nums,
+        missing,
+        complete:!!total && missing.length===0 && nums.length>=total,
+        source:m.source||"lokal",
+        remoteTitles:m.remoteTitles||{},
+        checkedAt:m.checkedAt||""
+      };
+    }
+
+    function renderDashboard(){
+      const owned = books.filter(b=>b.status!=="wishlist");
+      const read = owned.filter(b=>b.status==="read").length;
+      const reading = owned.filter(b=>b.status==="reading").length;
+      const unread = owned.filter(b=>b.status==="unread").length;
+      const wish = books.filter(b=>b.status==="wishlist").length;
+      const fav = books.filter(b=>!!b.favorite).length;
+      const rereads = owned.reduce((s,b)=>s+Number(b.rereads||0),0);
+      const groups = Object.values(getSeriesGroups());
+      const complete = groups.filter(g=>getSeriesInfo(g).complete).length;
+      const pct = owned.length ? Math.round(read/owned.length*100) : 0;
+      $("dashboard").innerHTML = `
+        <div class="dash-card"><div class="k">Bibliothek</div><div class="v">${books.length}</div><div class="s">${owned.length} im Besitz · ${wish} Wunschliste</div></div>
+        <div class="dash-card"><div class="k">Gelesen</div><div class="v">${pct}%</div><div class="s">${read} gelesen · ${reading} aktuell · ${unread} offen</div></div>
+        <div class="dash-card"><div class="k">Reihen</div><div class="v">${groups.length}</div><div class="s">${complete} vollständig</div></div>
+        <div class="dash-card"><div class="k">Favoriten</div><div class="v">${fav}</div><div class="s">deine Highlights</div></div>
+        <div class="dash-card"><div class="k">Re-Reads</div><div class="v">${rereads}</div><div class="s">zusätzliche Lesedurchgänge</div></div>
+        <div class="dash-card"><div class="k">Offen</div><div class="v">${Math.max(0,owned.length-read)}</div><div class="s">noch nicht abgeschlossen</div></div>
+      `;
+    }
+
+    function renderSeriesInsights(){
+      const groups = Object.values(getSeriesGroups())
+        .filter(g=>g.books.length>=2 || loadJsonStorage(SERIES_META_KEY,{})[seriesKey(g.name)]?.totalVolumes)
+        .sort((a,b)=>a.name.localeCompare(b.name,"de"));
+      if(!groups.length){
+        $("seriesInsights").innerHTML = `<div class="empty">Sobald du mindestens zwei Bände derselben Reihe hast, erscheint hier die Reihen-Vollständigkeit.</div>`;
+        return;
+      }
+      $("seriesInsights").innerHTML = groups.map(g=>{
+        const info = getSeriesInfo(g);
+        const pct = info.total ? Math.min(100,Math.round(info.owned/info.total*100)) : 0;
+        const encoded = encodeURIComponent(g.name);
+        return `
+          <div class="series-card" onclick="openSeriesDetails(decodeURIComponent('${encoded}'))">
+            <h3>${esc(g.name)}</h3>
+            <div class="meta">${info.owned}${info.total ? ` / ${info.total}` : ""} Bände im Regal</div>
+            <div class="series-progress"><span style="width:${pct}%"></span></div>
+            ${info.complete
+              ? `<div class="series-ok">✓ Reihe vollständig</div>`
+              : info.total
+                ? `<div class="series-missing">Fehlt: ${info.missing.length ? "Band "+info.missing.join(", ") : "–"}</div>`
+                : `<div class="series-missing">Gesamtzahl unbekannt · „Reihen prüfen“ nutzen</div>`}
+          </div>`;
+      }).join("");
+    }
+
+    function checkDuplicate(){
+      if(!$("duplicateWarning")) return;
+      const currentId = $("bookId").value || "";
+      const isbn = $("isbn").value.replace(/[^0-9Xx]/g,"");
+      const title = normalizeForSort($("title").value);
+      const author = normalizeForSort($("author").value);
+      const dup = books.find(b=>{
+        if(b.id===currentId) return false;
+        const bi = String(b.isbn||"").replace(/[^0-9Xx]/g,"");
+        if(isbn && bi && isbn===bi) return true;
+        return title && author &&
+          normalizeForSort(b.title||"")===title &&
+          normalizeForSort(b.author||"")===author;
+      });
+      if(dup){
+        $("duplicateWarning").classList.add("show");
+        $("duplicateWarning").innerHTML = `⚠ Bereits vorhanden: <strong>${esc(dup.title)}</strong>${dup.volume ? ` · Band ${esc(dup.volume)}` : ""}`;
+      }else{
+        $("duplicateWarning").classList.remove("show");
+        $("duplicateWarning").textContent = "";
+      }
+    }
+
+    async function fetchSeriesRemote(seriesName,author=""){
+      const base = getBookApiUrl();
+      if(!base) return null;
+      try{
+        const qs = new URLSearchParams({series:seriesName});
+        if(author) qs.set("author",author);
+        const res = await fetch(`${base}/series?${qs.toString()}`,{headers:{"Accept":"application/json"}});
+        if(!res.ok) return null;
+        const data = await res.json();
+        return data?.ok ? data : null;
+      }catch{
+        return null;
+      }
+    }
+
+    async function refreshSeriesIntelligence(oneSeries=""){
+      const groups = Object.values(getSeriesGroups()).filter(g=>!oneSeries || seriesKey(g.name)===seriesKey(oneSeries));
+      if(!groups.length) return;
+      const meta = loadJsonStorage(SERIES_META_KEY,{});
+      $("refreshSeriesBtn").textContent = "Prüfe …";
+      for(const g of groups){
+        const author = g.books.find(b=>b.author)?.author || "";
+        const remote = await fetchSeriesRemote(g.name,author);
+        if(!remote) continue;
+        const key = seriesKey(g.name);
+        const existing = meta[key] || {};
+        meta[key] = {
+          ...existing,
+          totalVolumes:Number(existing.manualTotal||0) || Number(remote.totalVolumes||0),
+          remoteTitles:remote.titles||{},
+          source:remote.source||"extern",
+          checkedAt:new Date().toISOString()
+        };
+      }
+      saveJsonStorage(SERIES_META_KEY,meta);
+      $("refreshSeriesBtn").textContent = "↻ Reihen prüfen";
+      renderDashboard(); renderSeriesInsights();
+      if(oneSeries && $("seriesDialog").open) openSeriesDetails(oneSeries,true);
+    }
+
+    function setSeriesTotal(seriesName,total){
+      const meta = loadJsonStorage(SERIES_META_KEY,{});
+      const key = seriesKey(seriesName);
+      const n = Number(total||0);
+      meta[key] = {...(meta[key]||{}), manualTotal:n, totalVolumes:n, source:"manuell"};
+      saveJsonStorage(SERIES_META_KEY,meta);
+      renderDashboard(); renderSeriesInsights(); openSeriesDetails(seriesName,true);
+    }
+
+    function openSeriesDetails(seriesName,refreshOnly=false){
+      const g = getSeriesGroups()[seriesKey(seriesName)];
+      if(!g) return;
+      const info = getSeriesInfo(g);
+      const byVol = {};
+      g.books.forEach(b=>{
+        const v=volumeNumber(b.volume);
+        if(Number.isFinite(v)) byVol[v]=b;
+      });
+      const max = info.total || (info.nums.length ? Math.max(...info.nums) : g.books.length);
+      const cards=[];
+      for(let i=1;i<=max;i++){
+        const b=byVol[i];
+        if(b){
+          cards.push(`<div class="series-volume"><div class="num">Band ${i} · im Regal</div><div class="ttl">${esc(b.title)}</div><div class="sub">${esc(statusLabel(b.status))}</div></div>`);
+        }else{
+          cards.push(`<div class="series-volume missing"><div class="num">Band ${i} · fehlt</div><div class="ttl">${esc(info.remoteTitles[i]||"Noch nicht im Regal")}</div><div class="sub">fehlender Band</div></div>`);
+        }
+      }
+      const encoded=encodeURIComponent(seriesName);
+      $("seriesDetailsBody").innerHTML = `
+        <h3 style="font-family:Georgia,serif;font-size:26px;margin:0">${esc(seriesName)}</h3>
+        <p style="color:var(--muted);margin:6px 0 0">${info.owned}${info.total ? ` von ${info.total}` : ""} Bänden · Quelle: ${esc(info.source)}</p>
+        <div class="series-config">
+          <div class="field"><label>Gesamtzahl Bände</label><input id="seriesTotalOverride" type="number" min="0" value="${info.total||""}" placeholder="z. B. 10"></div>
+          <div class="field"><label>Extern prüfen</label><button class="btn secondary" type="button" onclick="refreshSeriesIntelligence(decodeURIComponent('${encoded}'))">↻ Reihe prüfen</button></div>
+        </div>
+        <button class="btn secondary" type="button" onclick="setSeriesTotal(decodeURIComponent('${encoded}'),$('seriesTotalOverride').value)">Gesamtzahl speichern</button>
+        <div class="series-detail-grid">${cards.join("")}</div>`;
+      if(!refreshOnly && !$("seriesDialog").open) $("seriesDialog").showModal();
+    }
+
     function render(){
       const q = $("search").value.trim().toLowerCase();
       const f = $("filter").value;
       const groupBy = $("groupBy").value;
       const viewMode = currentViewMode();
+
+      renderDashboard();
+      renderSeriesInsights();
 
       const filtered = sortBooksSmart(books.filter(b => {
         const hay = [b.title,b.author,b.series,b.genre,b.isbn].join(" ").toLowerCase();
@@ -1139,6 +1465,13 @@
       $("status").value = "unread";
       $("rating").value = "0";
       $("favorite").value = "false";
+      $("publishedYear").value = "";
+      $("pages").value = "";
+      $("currentPage").value = "";
+      $("rereads").value = "0";
+      $("location").value = "";
+      $("tags").value = "";
+      $("duplicateWarning").classList.remove("show");
       $("scanStatus").textContent = "Du kannst den Barcode auf der Buchrückseite scannen oder die ISBN unten eingeben.";
       $("editDialog").showModal();
     }
@@ -1165,6 +1498,13 @@
         $(k).value = src;
       });
       $("favorite").value = b.favorite ? "true" : "false";
+      $("publishedYear").value = b.publishedYear || "";
+      $("pages").value = b.pages || "";
+      $("currentPage").value = b.currentPage || "";
+      $("rereads").value = b.rereads || 0;
+      $("location").value = b.location || "";
+      $("tags").value = cleanTags(b.tags || []).join(", ");
+      checkDuplicate();
       $("deleteBtn").style.display = "inline-block";
       $("detailsDialog").close();
       $("editDialog").showModal();
@@ -1174,6 +1514,9 @@
       const b = books.find(x=>x.id===id);
       if(!b) return;
       const stars = b.rating ? "★".repeat(Number(b.rating)) + "☆".repeat(5-Number(b.rating)) : "Noch nicht bewertet";
+      const progress = readingPercent(b);
+      const tags = cleanTags(b.tags || []);
+      const seriesEncoded = b.series ? encodeURIComponent(b.series) : "";
       $("detailsBody").innerHTML = `
         <div class="details">
           <div>
@@ -1187,14 +1530,34 @@
               <span class="pill">${esc(statusLabel(b.status))}</span>
               ${b.series ? `<span class="pill">${esc(b.series)}${b.volume ? " · Band "+esc(b.volume) : ""}</span>` : ""}
               ${b.genre ? `<span class="pill">${esc(b.genre)}</span>` : ""}
+              ${b.favorite ? `<span class="pill">★ Favorit</span>` : ""}
             </div>
-            ${b.isbn ? `<p><strong>ISBN:</strong> ${esc(b.isbn)}</p>` : ""}
+
+            <div class="details-info-grid">
+              ${b.publishedYear ? `<div class="details-info"><div class="k">Erscheinungsjahr</div><div class="v">${esc(b.publishedYear)}</div></div>` : ""}
+              ${b.location ? `<div class="details-info"><div class="k">Standort</div><div class="v">${esc(b.location)}</div></div>` : ""}
+              ${b.rereads ? `<div class="details-info"><div class="k">Re-Reads</div><div class="v">${esc(b.rereads)}</div></div>` : ""}
+              ${b.isbn ? `<div class="details-info"><div class="k">ISBN</div><div class="v">${esc(b.isbn)}</div></div>` : ""}
+            </div>
+
+            ${(b.pages || b.currentPage) ? `
+              <div style="background:#171310;border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:11px;margin:10px 0">
+                <div style="display:flex;justify-content:space-between;gap:8px;font-size:12px">
+                  <strong>Lesefortschritt</strong><span>${progress}%</span>
+                </div>
+                <div class="series-progress"><span style="width:${progress}%"></span></div>
+                <div style="font-size:10px;color:var(--muted)">${b.currentPage || 0}${b.pages ? ` / ${b.pages} Seiten` : " Seiten"}</div>
+              </div>` : ""}
+
+            ${tags.length ? `<div class="tag-list">${tags.map(t=>`<span class="tag-chip">${esc(t)}</span>`).join("")}</div>` : ""}
             ${b.notes ? `<p style="white-space:pre-wrap">${esc(b.notes)}</p>` : ""}
+
             <div class="detail-actions">
               <button class="btn primary" onclick="openEdit('${b.id}')">Bearbeiten</button>
               <button class="btn secondary fav-btn ${b.favorite ? "active" : ""}" onclick="toggleFavorite('${b.id}')">
                 ${b.favorite ? "★ Favorit" : "☆ Als Favorit"}
               </button>
+              ${b.series ? `<button class="btn secondary" onclick="openSeriesDetails(decodeURIComponent('${seriesEncoded}'))">Reihe öffnen</button>` : ""}
             </div>
           </div>
         </div>
@@ -1210,8 +1573,11 @@
       if(data.genre && !$("genre").value) $("genre").value = data.genre;
       if(data.series && !$("series").value) $("series").value = data.series;
       if(data.volume && !$("volume").value) $("volume").value = data.volume;
+      if(data.publishedYear && !$("publishedYear").value) $("publishedYear").value = data.publishedYear;
+      if(data.pages && !$("pages").value) $("pages").value = data.pages;
       if(data.isbn && !$("isbn").value) $("isbn").value = data.isbn;
       $("scanStatus").textContent = `Buch gefunden über ${sourceLabel} ✓`;
+      checkDuplicate();
       return true;
     }
 
@@ -1525,10 +1891,20 @@
         status: $("status").value,
         rating: Number($("rating").value || 0),
         favorite: $("favorite").value === "true",
+        publishedYear: Number($("publishedYear").value || 0) || "",
+        pages: Number($("pages").value || 0) || "",
+        currentPage: Number($("currentPage").value || 0) || "",
+        rereads: Number($("rereads").value || 0) || 0,
+        location: $("location").value.trim(),
+        tags: cleanTags($("tags").value),
         cover: $("cover").value.trim(),
         notes: $("notes").value.trim(),
         updatedAt: new Date().toISOString()
       };
+      if(obj.pages && obj.currentPage >= obj.pages){
+        obj.currentPage = obj.pages;
+        obj.status = "read";
+      }
       const ix = books.findIndex(b=>b.id===obj.id);
       if(ix>=0) books[ix]=obj; else books.unshift(obj);
       saveBooks();
@@ -1557,6 +1933,13 @@
     render();
       });
     });
+
+    ["isbn","title","author"].forEach(id=>{
+      $(id).addEventListener("input",checkDuplicate);
+      $(id).addEventListener("change",checkDuplicate);
+    });
+
+    $("refreshSeriesBtn").addEventListener("click",()=>refreshSeriesIntelligence());
 
     $("search").addEventListener("input", render);
     $("filter").addEventListener("change", render);

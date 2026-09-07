@@ -1,4 +1,4 @@
-/* Mein Bücherregal V15.9.1 — Charakter- & Beziehungsnetz */
+/* Mein Bücherregal V15.9.2 — Charakter- & Beziehungsnetz */
 (function(){
   'use strict';
   const KEY='my_bookshelf_character_network_v1';
@@ -132,7 +132,7 @@
           <div class="cn-view-tools" aria-label="Netzansicht steuern">
             <label class="cn-field cn-focus-field"><span>Figur suchen / fokussieren</span><select id="cnFocusSelect" aria-label="Figur fokussieren"><option value="">Alle Figuren</option></select></label>
             <label class="cn-view-check"><input type="checkbox" id="cnNeighborhood"> Nur direktes Umfeld</label>
-            <label class="cn-view-check"><input type="checkbox" id="cnLabels"> Beziehungsnamen</label>
+            <label class="cn-view-check"><input type="checkbox" id="cnLabels"> Beziehungsnamen</label><span class="cn-density-hint" id="cnDensityHint" hidden>Bei vielen Linien zeigt die App Namen nur im Fokus.</span>
             <div class="cn-view-actions"><button type="button" class="cn-mini" id="cnZoomOut" aria-label="Verkleinern">−</button><label class="cn-zoom-field"><span>Zoom</span><input type="range" id="cnZoomRange" min="1" max="300" step="1" value="100" aria-label="Zoomstufe"></label><button type="button" class="cn-mini" id="cnZoomIn" aria-label="Vergrössern">＋</button><output id="cnZoomReadout" for="cnZoomRange">100 %</output><button type="button" class="cn-mini" id="cnFit">Einpassen</button><button type="button" class="cn-mini" id="cnOneToOne">1:1</button><button type="button" class="cn-mini" id="cnExpand" aria-pressed="false">⛶ Grossansicht</button></div>
           </div>
           <div class="cn-board"><div class="cn-graph-area"><div class="cn-canvas" id="cnCanvas"><div class="cn-viewport" id="cnViewport" tabindex="0" role="region" aria-label="Verschiebbares Charakter-Netz" aria-describedby="cnGraphHelp"><div class="cn-world" id="cnWorld"></div></div><div class="cn-pan-controls" aria-label="Netz verschieben"><button type="button" data-cn-pan="up" aria-label="Nach oben verschieben">↑</button><button type="button" data-cn-pan="left" aria-label="Nach links verschieben">←</button><button type="button" data-cn-pan="down" aria-label="Nach unten verschieben">↓</button><button type="button" data-cn-pan="right" aria-label="Nach rechts verschieben">→</button></div></div><p class="cn-graph-help" id="cnGraphHelp">Freie Fläche ziehen: verschieben · Mausrad oder zwei Finger: zoomen · Figur anklicken: Verbindungen hervorheben · Pfeiltasten: verschieben</p><div class="cn-inspector" id="cnInspector" aria-live="polite"></div></div><div class="cn-side"><section class="cn-panel"><h4>Figuren</h4><div class="cn-list" id="cnCharacters"></div></section><section class="cn-panel"><h4>Beziehungen</h4><div class="cn-list" id="cnRelationships"></div></section></div></div>
@@ -205,7 +205,7 @@
     if(!w||!h){g.pendingInitial=true;return}
     g.pendingInitial=false;graphFit();
     // Smaller networks start at a readable scale; Einpassen remains a true overview.
-    if(g.data?.chars.length<=50&&g.scale<.72)graphZoom(.72);
+    if(g.data?.chars.length<=18&&g.scale<.68)graphZoom(.68);
   }
   function graphZoom(next,px,py){
     const g=graphView,l=g.layout;if(!l)return;
@@ -232,17 +232,18 @@
     const g=graphView,l=g.layout,byId=new Map(chars.map(c=>[c.id,c])),pos=new Map(l.nodes.map(p=>[p.id,p]));
     const groups=new Map();rels.forEach(r=>{const k=[r.from,r.to].sort().join('\u0000');if(!groups.has(k))groups.set(k,[]);groups.get(k).push(r)});
     const offsets=new Map();groups.forEach(group=>group.forEach((r,i)=>offsets.set(r.id,(i-(group.length-1)/2)*42)));
+    const clusters=(l.groups||[]).map(group=>`<div class="cn-cluster" style="left:${group.x}px;top:${group.y}px;width:${group.width}px;height:${group.height}px"><div class="cn-cluster-title">${safeEsc(group.label)} <span>${safeEsc(group.count)} Figur${Number(group.count)===1?'':'en'}</span></div></div>`).join('');
     const edges=rels.map(r=>{
       const a=pos.get(r.from),b=pos.get(r.to);if(!a||!b)return '';
       const geom=graphEdgeGeometry(a,b,offsets.get(r.id)||0),label=r.label||REL_TYPES[r.type]?.label||'';
-      return `<g class="cn-link" data-cn-edge="${safeEsc(r.id)}" data-cn-from="${safeEsc(r.from)}" data-cn-to="${safeEsc(r.to)}"><path class="cn-edge ${safeEsc(r.type)}" d="${geom.path}" style="stroke-width:${1.4+Number(r.strength||3)*.55}"/><path class="cn-edge-hit" d="${geom.path}" data-cn-relation="${safeEsc(r.id)}"/><text class="cn-edge-label" x="${geom.x}" y="${geom.y-7}" text-anchor="middle">${safeEsc(label.length>28?label.slice(0,27)+'…':label)}</text></g>`;
+      return `<g class="cn-link" data-cn-edge="${safeEsc(r.id)}" data-cn-from="${safeEsc(r.from)}" data-cn-to="${safeEsc(r.to)}"><path class="cn-edge ${safeEsc(r.type)}" d="${geom.path}" style="stroke-width:${1.25+Number(r.strength||3)*.46}"/><path class="cn-edge-hit" d="${geom.path}" data-cn-relation="${safeEsc(r.id)}"/><text class="cn-edge-label" x="${geom.x}" y="${geom.y-7}" text-anchor="middle">${safeEsc(label.length>28?label.slice(0,27)+'…':label)}</text></g>`;
     }).join('');
     const nodes=chars.map(c=>{
       const p=pos.get(c.id),caption=c.faction||c.role||'Figur';
       return `<button type="button" class="cn-node ${c.importance==='legendary'?'legendary':''}" data-cn-character="${safeEsc(c.id)}" style="left:${p.x}px;top:${p.y}px" title="${safeEsc(c.name+' · '+caption)}"><span class="cn-avatar">${c.importance==='legendary'?'♛':'♞'}</span><strong>${safeEsc(c.name)}</strong><small>${safeEsc(caption)}</small></button>`;
     }).join('');
     const world=el('cnWorld');world.style.width=l.width+'px';world.style.height=l.height+'px';
-    world.innerHTML=`<svg class="cn-canvas-svg" viewBox="0 0 ${l.width} ${l.height}" width="${l.width}" height="${l.height}" aria-hidden="true">${edges}</svg>${nodes}`;
+    world.innerHTML=`${clusters}<svg class="cn-canvas-svg" viewBox="0 0 ${l.width} ${l.height}" width="${l.width}" height="${l.height}" aria-hidden="true">${edges}</svg>${nodes}`;
     graphRefreshSelection();
   }
   function graphRefreshSelection(){
@@ -254,6 +255,9 @@
     const world=el('cnWorld');if(!world)return;
     el('cnNeighborhood').disabled=!selected;
     world.classList.toggle('cn-show-labels',g.showLabels);
+    const dense=d.rels.length>16&&!selected&&!relId;
+    world.classList.toggle('is-dense',dense);
+    if(el('cnDensityHint'))el('cnDensityHint').hidden=!(dense&&g.showLabels);
     world.querySelectorAll('.cn-node').forEach(n=>{
       const id=n.dataset.cnCharacter;n.classList.toggle('is-selected',id===selected);
       n.classList.toggle('is-related',related.has(id));

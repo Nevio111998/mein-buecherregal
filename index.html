@@ -10,7 +10,7 @@
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="reading-sessions.css?v=15.8" />
   <link rel="stylesheet" href="worldbuilding.css?v=15.8.2" />
-  <link rel="stylesheet" href="character-network.css?v=15.9.1" />
+  <link rel="stylesheet" href="character-network.css?v=15.9.2" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <title>Mein Bücherregal</title>
   <style>
@@ -3189,7 +3189,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.9.1</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.9.2</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -6189,7 +6189,7 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.9.1",schemaVersion:9,
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.9.2",schemaVersion:9,
         books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),readingSessions:window.ReadingSessions.backup(),worldbuilding:window.Worldbuilding.backup(),characterNetwork:window.CharacterNetwork.backup(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
@@ -8584,8 +8584,8 @@ $("decorForm").addEventListener("submit",e=>{ e.preventDefault(); saveDecorSelec
     renderBackupReminder();
   </script>
   <script src="worldbuilding.js?v=15.8.2"></script>
-  <script src="character-network-layout.js?v=15.9.1"></script>
-  <script src="character-network.js?v=15.9.1"></script>
+  <script src="character-network-layout.js?v=15.9.2"></script>
+  <script src="character-network.js?v=15.9.2"></script>
   <script src="reading-sessions.js?v=15.8"></script>
 </body>
 </html>

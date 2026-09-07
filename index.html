@@ -3093,23 +3093,34 @@
     @media(max-width:1000px){.dashboard{grid-template-columns:repeat(3,minmax(0,1fr))}}
     @media(max-width:700px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.series-config{grid-template-columns:1fr}}
 
-  
+/* =====================================================
+   V15.3 — Epische Fantasy-Deko statt Emoji-Standard
+   ===================================================== */
+.decor-dialog{width:min(760px,calc(100% - 22px));border-color:rgba(232,193,128,.18);background:radial-gradient(circle at 18% 0%,rgba(216,179,107,.12),transparent 34%),linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99))}
+.decor-topbar{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);border-bottom:1px solid rgba(232,193,128,.12)}
+.decor-topbar h2{font-family:Georgia,"Times New Roman",serif;color:#f2ddbd}.decor-hero{padding:18px;border-radius:18px;border:1px solid rgba(232,193,128,.12);background:radial-gradient(circle at 82% 14%,rgba(216,179,107,.12),transparent 28%),linear-gradient(145deg,rgba(255,255,255,.042),rgba(255,255,255,.015));margin-bottom:14px}.decor-kicker{color:var(--gold);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;margin-bottom:8px}.decor-hero h3{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:28px;color:#f2ddbd}.decor-hero p{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+.decor-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.decor-form-grid .full{grid-column:1/-1}.decor-preview-wrap{margin-top:14px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.14)}.decor-preview-label{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:10px}.decor-preview{min-height:132px;position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 20% 16%,rgba(255,255,255,.08),transparent 18%),linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.10)),linear-gradient(180deg,#5f3d27,#3f2718 48%,#8b6140 48.5%,#6a432c 58%,#24150e 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 22px rgba(0,0,0,.18)}.decor-preview::after{content:"";position:absolute;left:0;right:0;bottom:30px;height:10px;background:linear-gradient(180deg,#a87a54,#71462b);box-shadow:0 8px 0 #412818}
+.decor-form-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}.decor-form-actions > div{display:flex;gap:10px;flex-wrap:wrap}.decor-status{margin-top:8px;color:var(--muted);font-size:11px}
 
-    /* =====================================================
-       V15.2 — Deko sauber ins Regal integriert
-       ===================================================== */
-    .decor-dialog{width:min(760px,calc(100% - 22px));border-color:rgba(232,193,128,.18);background:radial-gradient(circle at 18% 0%,rgba(216,179,107,.12),transparent 34%),linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99))}
-    .decor-topbar{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);border-bottom:1px solid rgba(232,193,128,.12)}
-    .decor-topbar h2{font-family:Georgia,"Times New Roman",serif;color:#f2ddbd}.decor-hero{padding:18px;border-radius:18px;border:1px solid rgba(232,193,128,.12);background:radial-gradient(circle at 82% 14%,rgba(216,179,107,.12),transparent 28%),linear-gradient(145deg,rgba(255,255,255,.042),rgba(255,255,255,.015));margin-bottom:14px}.decor-kicker{color:var(--gold);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;margin-bottom:8px}.decor-hero h3{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:28px;color:#f2ddbd}.decor-hero p{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
-    .decor-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.decor-form-grid .full{grid-column:1/-1}.decor-preview-wrap{margin-top:14px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.14)}.decor-preview-label{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:10px}.decor-preview{min-height:108px;position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 20% 16%,rgba(255,255,255,.08),transparent 18%),linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.10)),linear-gradient(180deg,#5f3d27,#3f2718 48%,#8b6140 48.5%,#6a432c 58%,#24150e 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 22px rgba(0,0,0,.18)}.decor-preview::after{content:"";position:absolute;left:0;right:0;bottom:28px;height:10px;background:linear-gradient(180deg,#a87a54,#71462b);box-shadow:0 8px 0 #412818}.decor-form-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}.decor-form-actions > div{display:flex;gap:10px;flex-wrap:wrap}.decor-status{margin-top:8px;color:var(--muted);font-size:11px}
+.shelf-decor-layer{position:absolute;inset:0;pointer-events:none;z-index:7}
+.shelf-decor-item{position:absolute;display:flex;align-items:flex-end;justify-content:center;width:74px;height:92px;border:0;padding:0;pointer-events:auto;cursor:pointer;background:transparent;box-shadow:none;transition:transform .28s ease,filter .28s ease;filter:drop-shadow(0 10px 10px rgba(0,0,0,.18))}
+.shelf-decor-item::before{content:"";position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:44px;height:8px;border-radius:999px;background:radial-gradient(ellipse,rgba(0,0,0,.44),transparent 70%);filter:blur(1px);opacity:.92}
+.shelf-decor-art{position:relative;z-index:1;display:block;width:100%;height:100%}
+.shelf-decor-svg{display:block;width:100%;height:100%;overflow:visible}
+.shelf-decor-left{top:4px;left:12px}.shelf-decor-right{top:4px;right:12px}.shelf-decor-center{top:46px;left:50%;transform:translateX(-50%);width:66px;height:82px}
+.shelf-decor-left:hover,.shelf-decor-right:hover{transform:translateY(-2px) scale(1.03);filter:drop-shadow(0 12px 14px rgba(0,0,0,.24)) saturate(1.05)}.shelf-decor-center:hover{transform:translateX(-50%) translateY(-2px) scale(1.03);filter:drop-shadow(0 12px 14px rgba(0,0,0,.24)) saturate(1.05)}
+.decor-type-candle{animation:decorFloat 4.8s ease-in-out infinite}.decor-type-crystal{animation:decorFloat 5.6s ease-in-out infinite}.decor-type-owl{animation:decorFloat 6.2s ease-in-out infinite}
+.decor-flame{transform-origin:50% 52%;animation:decorFlame 2.4s ease-in-out infinite}.decor-crystal-core{animation:decorPulse 3.2s ease-in-out infinite}.decor-glow-amber{animation:decorGlowAmber 2.8s ease-in-out infinite}.decor-glow-arcane{animation:decorGlowArcane 3.4s ease-in-out infinite}
+@keyframes decorFlame{0%,100%{transform:scale(1) rotate(-3deg)}50%{transform:scale(1.08) rotate(3deg)}}
+@keyframes decorPulse{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+@keyframes decorGlowAmber{0%,100%{opacity:.45}50%{opacity:.78}} @keyframes decorGlowArcane{0%,100%{opacity:.35}50%{opacity:.68}} @keyframes decorFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 
-    .shelf-decor-layer{position:absolute;inset:0;pointer-events:none;z-index:7}.shelf-decor-item{position:absolute;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:0;border-radius:50%;pointer-events:auto;cursor:pointer;color:#f6e4bf;background:transparent;box-shadow:none;transition:transform .22s ease,filter .22s ease}.shelf-decor-item::before{content:"";position:absolute;left:50%;bottom:3px;transform:translateX(-50%);width:36px;height:8px;border-radius:999px;background:radial-gradient(ellipse,rgba(0,0,0,.42),transparent 70%);filter:blur(1px);opacity:.85}.shelf-decor-item::after{content:"";position:absolute;inset:5px;border-radius:13px;background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.035)),rgba(58,36,23,.72);border:1px solid rgba(244,212,150,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 12px rgba(0,0,0,.22);z-index:0}.shelf-decor-icon{position:relative;z-index:1;font-size:25px;line-height:1;filter:drop-shadow(0 2px 1px rgba(0,0,0,.28))}.shelf-decor-item:hover{filter:saturate(1.08) brightness(1.05)}
-    .shelf-decor-left{top:18px;left:18px}.shelf-decor-right{top:18px;right:18px}.shelf-decor-center{top:67px;left:50%;transform:translateX(-50%);width:36px;height:36px}.shelf-decor-center .shelf-decor-icon{font-size:20px}.shelf-decor-center:hover{transform:translateX(-50%) translateY(-2px) scale(1.03)}.shelf-decor-left:hover,.shelf-decor-right:hover{transform:translateY(-2px) scale(1.03)}
-    .decor-type-candle .shelf-decor-icon{filter:drop-shadow(0 0 6px rgba(255,190,91,.75)) drop-shadow(0 2px 1px rgba(0,0,0,.28))}.decor-type-candle::after{background:radial-gradient(circle at 50% 28%,rgba(255,190,91,.25),transparent 42%),linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.035)),rgba(58,36,23,.62)}.decor-type-sword::after,.decor-type-shield::after,.decor-type-helmet::after{background:linear-gradient(180deg,rgba(181,205,222,.14),rgba(255,255,255,.03)),rgba(36,31,29,.72);border-color:rgba(186,207,221,.16)}.decor-type-plant::after,.decor-type-owl::after{background:linear-gradient(180deg,rgba(112,170,106,.14),rgba(255,255,255,.03)),rgba(38,47,30,.70);border-color:rgba(164,210,130,.15)}.decor-type-crystal::after{background:radial-gradient(circle at 48% 30%,rgba(173,137,255,.22),transparent 50%),rgba(42,31,55,.68)}
-    .shelf:has(.shelf-decor-left) .books:not(.bookshelf-mode){padding-left:48px}.shelf:has(.shelf-decor-right) .books:not(.bookshelf-mode){padding-right:48px}.shelf:has(.shelf-decor-left) .books.bookshelf-mode{padding-left:56px}.shelf:has(.shelf-decor-right) .books.bookshelf-mode{padding-right:56px}
-    .shelf-decor-config,.collection-decor-btn{border:none;border-radius:999px;padding:0;width:34px;height:34px;font-size:0;color:#f3deba;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);cursor:pointer;box-shadow:0 8px 14px rgba(0,0,0,.12);opacity:.45;transition:opacity .2s ease,background .2s ease,transform .2s ease}.shelf-decor-config::before,.collection-decor-btn::before{content:"🕯️";font-size:14px;line-height:1}.shelf:hover .shelf-decor-config,.shelf:hover .collection-decor-btn{opacity:1}.shelf-decor-config:hover,.collection-decor-btn:hover{background:rgba(216,179,107,.14);transform:translateY(-1px);opacity:1}.collection-shelf-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
-    .decor-preview .decor-preview-item{position:absolute;top:28px;z-index:2}.decor-preview .decor-preview-item.left{left:28px}.decor-preview .decor-preview-item.center{left:50%;transform:translateX(-50%)}.decor-preview .decor-preview-item.right{right:28px}.decor-preview .decor-preview-item span{width:56px;height:56px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),rgba(42,28,19,.86);border:1px solid rgba(244,212,150,.18);box-shadow:0 10px 18px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.10);font-size:28px}
-    @media(max-width:700px){.decor-form-grid{grid-template-columns:1fr}.decor-form-actions .btn{width:100%}.decor-form-actions > div{width:100%}.shelf-decor-item{width:36px;height:36px}.shelf-decor-icon{font-size:21px}.shelf-decor-left{top:19px;left:12px}.shelf-decor-right{top:19px;right:12px}.shelf-decor-center{top:66px;width:32px;height:32px}.shelf-decor-center .shelf-decor-icon{font-size:18px}.shelf-decor-config,.collection-decor-btn{width:32px;height:32px}.collection-shelf-actions{justify-content:flex-start}.shelf:has(.shelf-decor-left) .books,.shelf:has(.shelf-decor-right) .books{padding-left:0;padding-right:0}}
+.shelf:has(.shelf-decor-left) .books:not(.bookshelf-mode){padding-left:58px}.shelf:has(.shelf-decor-right) .books:not(.bookshelf-mode){padding-right:58px}.shelf:has(.shelf-decor-left) .books.bookshelf-mode{padding-left:66px}.shelf:has(.shelf-decor-right) .books.bookshelf-mode{padding-right:66px}
+.shelf-decor-config,.collection-decor-btn{border:none;border-radius:999px;padding:0;width:34px;height:34px;font-size:0;color:#f3deba;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);cursor:pointer;box-shadow:0 8px 14px rgba(0,0,0,.12);opacity:.45;transition:opacity .2s ease,background .2s ease,transform .2s ease}.shelf-decor-config::before,.collection-decor-btn::before{content:"✦";font-size:15px;line-height:1}.shelf:hover .shelf-decor-config,.shelf:hover .collection-decor-btn{opacity:1}.shelf-decor-config:hover,.collection-decor-btn:hover{background:rgba(216,179,107,.14);transform:translateY(-1px);opacity:1}.collection-shelf-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+
+.decor-preview .decor-preview-item{position:absolute;top:22px;z-index:2;width:78px;height:92px}.decor-preview .decor-preview-item.left{left:22px}.decor-preview .decor-preview-item.center{left:50%;transform:translateX(-50%)}.decor-preview .decor-preview-item.right{right:22px}.decor-preview .decor-preview-item .preview-art{display:block;width:100%;height:100%}
+.decor-preview .decor-preview-item.center{top:14px;width:70px;height:84px}
+@media(max-width:700px){.decor-form-grid{grid-template-columns:1fr}.decor-form-actions .btn{width:100%}.decor-form-actions > div{width:100%}.shelf-decor-item{width:60px;height:76px}.shelf-decor-left{top:8px;left:6px}.shelf-decor-right{top:8px;right:6px}.shelf-decor-center{top:50px;width:56px;height:70px}.shelf-decor-config,.collection-decor-btn{width:32px;height:32px}.collection-shelf-actions{justify-content:flex-start}.shelf:has(.shelf-decor-left) .books,.shelf:has(.shelf-decor-right) .books{padding-left:0;padding-right:0}.decor-preview .decor-preview-item{width:60px;height:76px}.decor-preview .decor-preview-item.center{width:54px;height:68px}}
 
 </style>
 </head>
@@ -3158,7 +3169,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.2</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.3</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3167,7 +3178,7 @@
         <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
         <button class="btn secondary" id="collectionsBtn" type="button">✦ Sammlungen</button>
         <button class="btn secondary" id="journalBtn" type="button">📖 Lesejournal</button>
-        <button class="btn secondary" id="decorBtn" type="button">🕯️ Regal-Deko</button>
+        <button class="btn secondary" id="decorBtn" type="button">✦ Regal-Deko</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
         <button class="btn secondary" id="moreExportBtn">🔒 Sicherheit & Export</button>
         <button class="btn secondary" id="sourceBtn">⚙ Datenquelle</button>
@@ -3277,7 +3288,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 15.2: Regal-Deko sitzt jetzt sauber in echten Regal-Slots und wirkt stärker wie Teil des Regals.
+      Version 15.3: Regal-Deko nutzt jetzt kleine Fantasy-Illustrationen statt Standard-Emojis und wirkt deutlich epischer.
     </div>
   </div>
 
@@ -3751,14 +3762,14 @@
 
   <dialog id="decorDialog" class="decor-dialog" aria-labelledby="decorHeading">
     <div class="modal-head decor-topbar">
-      <h2 id="decorHeading">🕯️ Regal-Deko</h2>
+      <h2 id="decorHeading">✦ Regal-Deko</h2>
       <button class="icon-btn" id="decorClose" type="button" aria-label="Dekoration schliessen">×</button>
     </div>
     <div class="modal-body">
       <div class="decor-hero">
         <div class="decor-kicker">INDIVIDUELLE REGAL-SZENE</div>
         <h3>Dekoriere jedes Regal separat</h3>
-        <p>Wähle links, mittig und rechts kleine Deko-Objekte. Deine Bücher, Reihen, Sammlungen und Journaleinträge werden nicht verändert.</p>
+        <p>Wähle links, mittig und rechts kleine Fantasy-Objekte. Die Deko wird wie ein Teil des Regals inszeniert und verändert deine Bücher, Reihen und Sammlungen nicht.</p>
       </div>
 
       <form id="decorForm" class="decor-form">
@@ -4572,7 +4583,7 @@
             </div>
 
             <div class="shelf-head">
-              <button class="shelf-decor-config" type="button" data-open-decor="${esc(shelfTargetIdV151(groupBy,name))}" title="Regal-Deko bearbeiten">🕯️ Deko</button>
+              <button class="shelf-decor-config" type="button" data-open-decor="${esc(shelfTargetIdV151(groupBy,name))}" title="Regal-Deko bearbeiten">✦ Deko</button>
               <div class="sort-note">Sortierung: Reihe → Band → Autor → Titel</div>
             </div>
 
@@ -6108,7 +6119,7 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.2",schemaVersion:5,
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.3",schemaVersion:5,
         books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
@@ -7699,7 +7710,7 @@
         <div class="shelf-support left" aria-hidden="true"></div><div class="shelf-support right" aria-hidden="true"></div><div class="shelf-top-trim" aria-hidden="true"></div>
         ${renderShelfDecorV151(collectionTargetIdV151(c.id))}
         <div class="shelf-plaque"><div class="plaque-ornament left">◆</div><div class="plaque-content"><div class="plaque-title">${esc(c.title)}</div><div class="plaque-sub">${esc(c.description||`${counts} ${counts===1?"Buch":"Bücher"} · ${accentLabel}`)}</div></div><div class="plaque-ornament right">◆</div></div>
-        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(accentLabel)}</div><div class="collection-shelf-actions"><button class="collection-decor-btn" type="button" data-open-decor="${esc(collectionTargetIdV151(c.id))}" title="Regal-Deko bearbeiten">🕯️ Deko</button>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
+        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(accentLabel)}</div><div class="collection-shelf-actions"><button class="collection-decor-btn" type="button" data-open-decor="${esc(collectionTargetIdV151(c.id))}" title="Regal-Deko bearbeiten">✦ Deko</button>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
         ${missing?`<div class="collection-missing-note">${missing} Buchverweise sind momentan nicht vorhanden. Du kannst sie im Editor entfernen oder über ein Backup wiederherstellen.</div>`:""}
         <div class="books ${viewMode==="spines"?"bookshelf-mode":""}">${arr.map(b=>viewMode==="spines"?spineCard(b):bookCard(b)).join("")||`<div class="collection-shelf-empty">${counts?"Keine Bücher entsprechen dem aktuellen Filter.":"Dieses Regal ist noch leer. Füge im Editor Bücher hinzu."}</div>`}</div>
       </section>`;
@@ -7920,241 +7931,180 @@
     $("addToCollectionNew").addEventListener("click",collectionNewFromBook);
     $("addToCollectionDialog").addEventListener("cancel",e=>{e.preventDefault();$("addToCollectionDialog").close()});
 
+/* =====================================================
+   V15.3 — Epische Fantasy-Deko statt Emoji-Standard
+   ===================================================== */
+const DECOR_OPTIONS_V151 = [
+  {id:"",label:"Keine Deko"},
+  {id:"plant",label:"Mystische Pflanze"},
+  {id:"candle",label:"Messing-Kerze"},
+  {id:"sword",label:"Relikt-Schwert"},
+  {id:"shield",label:"Wappenschild"},
+  {id:"helmet",label:"Ritterhelm"},
+  {id:"vase",label:"Antike Vase"},
+  {id:"hourglass",label:"Sanduhr"},
+  {id:"owl",label:"Eulenfigur"},
+  {id:"crystal",label:"Arkaner Kristall"}
+];
 
+function decorIdsV151(){
+  return new Set(DECOR_OPTIONS_V151.map(x=>x.id));
+}
 
-    /* =====================================================
-       V15.2 — Deko sauber ins Regal integriert
-       ===================================================== */
-    const DECOR_OPTIONS_V151 = [
-      {id:"",label:"Keine Deko",icon:""},
-      {id:"plant",label:"Kleine Pflanze",icon:"🪴"},
-      {id:"candle",label:"Kerze",icon:"🕯️"},
-      {id:"sword",label:"Schwert",icon:"⚔️"},
-      {id:"shield",label:"Schild",icon:"🛡️"},
-      {id:"helmet",label:"Helm",icon:"🪖"},
-      {id:"vase",label:"Vase",icon:"🏺"},
-      {id:"hourglass",label:"Sanduhr",icon:"⏳"},
-      {id:"owl",label:"Eule",icon:"🦉"},
-      {id:"crystal",label:"Kristall",icon:"🔮"}
-    ];
+function normalizeShelfDecorV151(value){
+  const source = value && typeof value==="object" && !Array.isArray(value)
+    ? (value.targets && typeof value.targets==="object" && !Array.isArray(value.targets) ? value.targets : value)
+    : {};
+  const allowed=decorIdsV151();
+  const targets={};
 
-    function decorIdsV151(){
-      return new Set(DECOR_OPTIONS_V151.map(x=>x.id));
-    }
+  Object.entries(source).forEach(([target,entry])=>{
+    if(!target || !entry || typeof entry!=="object" || Array.isArray(entry)) return;
+    const clean={
+      left:allowed.has(String(entry.left||"")) ? String(entry.left||"") : "",
+      center:allowed.has(String(entry.center||"")) ? String(entry.center||"") : "",
+      right:allowed.has(String(entry.right||"")) ? String(entry.right||"") : ""
+    };
+    if(clean.left || clean.center || clean.right) targets[String(target)]=clean;
+  });
 
-    function normalizeShelfDecorV151(value){
-      const source = value && typeof value==="object" && !Array.isArray(value)
-        ? (value.targets && typeof value.targets==="object" && !Array.isArray(value.targets) ? value.targets : value)
-        : {};
-      const allowed=decorIdsV151();
-      const targets={};
+  return {targets};
+}
 
-      Object.entries(source).forEach(([target,entry])=>{
-        if(!target || !entry || typeof entry!=="object" || Array.isArray(entry)) return;
-        const clean={
-          left:allowed.has(String(entry.left||"")) ? String(entry.left||"") : "",
-          center:allowed.has(String(entry.center||"")) ? String(entry.center||"") : "",
-          right:allowed.has(String(entry.right||"")) ? String(entry.right||"") : ""
-        };
-        if(clean.left || clean.center || clean.right) targets[String(target)]=clean;
-      });
+function loadShelfDecorV151(){
+  try{return normalizeShelfDecorV151(JSON.parse(localStorage.getItem(SHELF_DECOR_KEY)||"{}"));}
+  catch(err){console.warn("Regal-Deko konnte nicht geladen werden.",err);return {targets:{}};}
+}
 
-      return {targets};
-    }
+function shelfDecorSnapshotV151(){ return JSON.parse(JSON.stringify(shelfDecor||{targets:{}})); }
 
-    function loadShelfDecorV151(){
-      try{
-        return normalizeShelfDecorV151(JSON.parse(localStorage.getItem(SHELF_DECOR_KEY)||"{}"));
-      }catch(err){
-        console.warn("Regal-Deko konnte nicht geladen werden.",err);
-        return {targets:{}};
-      }
-    }
+function saveShelfDecorV151(){
+  shelfDecor=normalizeShelfDecorV151(shelfDecor);
+  try{ localStorage.setItem(SHELF_DECOR_KEY,JSON.stringify(shelfDecor)); }
+  catch(err){ alert("Die Regal-Deko konnte nicht gespeichert werden. Bitte erstelle ein Backup und prüfe den Speicher."); throw err; }
+  markLibraryChanged();
+  render();
+}
 
-    function shelfDecorSnapshotV151(){
-      return JSON.parse(JSON.stringify(shelfDecor||{targets:{}}));
-    }
+function decorOptionByIdV151(id){ return DECOR_OPTIONS_V151.find(x=>x.id===id) || DECOR_OPTIONS_V151[0]; }
+function decorItemOptionsHtmlV151(selected=""){ return DECOR_OPTIONS_V151.map(o=>`<option value="${esc(o.id)}" ${selected===o.id?"selected":""}>${esc(o.label)}</option>`).join(""); }
+function shelfTargetIdV151(groupBy,name){ return `shelf:${groupBy}:${name}`; }
+function collectionTargetIdV151(id){ return `collection:${id}`; }
+function shelfTargetLabelV151(groupBy,name){ const labelMap={series:"Reihe",genre:"Genre",author:"Autor",status:"Status",none:"Regal"}; return `${labelMap[groupBy]||"Regal"} · ${name}`; }
 
-    function saveShelfDecorV151(){
-      shelfDecor=normalizeShelfDecorV151(shelfDecor);
-      try{
-        localStorage.setItem(SHELF_DECOR_KEY,JSON.stringify(shelfDecor));
-      }catch(err){
-        alert("Die Regal-Deko konnte nicht gespeichert werden. Bitte erstelle ein Backup und prüfe den Speicher.");
-        throw err;
-      }
-      markLibraryChanged();
-      render();
-    }
+function decorTargetsV151(){
+  const groupBy=$("groupBy")?.value || "series";
+  if(groupBy==="collections") return collections.map(c=>({id:collectionTargetIdV151(c.id),label:`Ausstellung · ${c.title}`}));
+  const names=new Set();
+  books.forEach(b=>{
+    let key="Meine Bücher";
+    if(groupBy==="series") key=b.series||"Ohne Reihe";
+    if(groupBy==="genre") key=b.genre||"Ohne Genre";
+    if(groupBy==="author") key=b.author||"Ohne Autor";
+    if(groupBy==="status") key=statusLabel(b.status||"unread");
+    names.add(key);
+  });
+  return [...names].sort((a,b)=>normalizeForSort(a).localeCompare(normalizeForSort(b),"de")).map(name=>({id:shelfTargetIdV151(groupBy,name),label:shelfTargetLabelV151(groupBy,name)}));
+}
 
-    function decorOptionByIdV151(id){
-      return DECOR_OPTIONS_V151.find(x=>x.id===id) || DECOR_OPTIONS_V151[0];
-    }
+function shelfDecorEntryV151(targetId){
+  const root=shelfDecor?.targets||{};
+  return root[targetId] ? {left:root[targetId].left||"",center:root[targetId].center||"",right:root[targetId].right||""} : {left:"",center:"",right:""};
+}
 
-    function decorItemOptionsHtmlV151(selected=""){
-      return DECOR_OPTIONS_V151.map(o=>`<option value="${esc(o.id)}" ${selected===o.id?"selected":""}>${esc(o.label)}</option>`).join("");
-    }
+function decorSvgV153(id,mode="shelf"){
+  const size = mode==="preview" ? "preview" : "shelf";
+  switch(id){
+    case "plant": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><rect x="29" y="67" width="22" height="9" rx="2" fill="#6d4024"/><path d="M31 68h18l-2 8H33z" fill="#8c5b34"/><path d="M40 68c-4-10-5-21-2-32" stroke="#6ea65b" stroke-width="2.4" stroke-linecap="round"/><path d="M40 68c4-10 5-21 2-32" stroke="#4f8542" stroke-width="2.4" stroke-linecap="round"/><path d="M38 50c-12-3-16-14-10-21 8 1 14 7 16 17" fill="#609d4f"/><path d="M43 48c13-4 17-14 11-22-9 2-15 8-17 18" fill="#74b763"/><path d="M39 42c-8-8-7-18 1-24 6 7 7 15 2 24" fill="#88ca78"/><circle cx="57" cy="25" r="2" fill="#bde59f" opacity=".65"/></svg>`;
+    case "candle": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><ellipse cx="40" cy="72" rx="15" ry="5" fill="#5b341e"/><path d="M32 71h16l-3 7H35z" fill="#8a5a35"/><rect x="37" y="43" width="6" height="28" rx="2" fill="#ece1c6"/><rect x="36" y="40" width="8" height="5" rx="2" fill="#f7efda"/><path class="decor-glow-amber" d="M40 36c8 0 14 5 14 13 0 1-28 1-28 0 0-8 6-13 14-13z" fill="rgba(255,188,95,.24)"/><path class="decor-flame" d="M40 24c4 5 6 9 6 13 0 4-3 8-6 8s-6-4-6-8c0-3 2-8 6-13z" fill="#ffcc6f"/><path class="decor-flame" d="M40 28c2 3 3 5 3 8 0 2-1 4-3 4s-3-2-3-4c0-2 1-5 3-8z" fill="#fff2b1"/></svg>`;
+    case "sword": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><rect x="28" y="72" width="24" height="4" rx="2" fill="#795135"/><rect x="38" y="22" width="4" height="40" rx="2" fill="#c4d0d9" transform="rotate(18 40 42)"/><path d="M38 19l4-8 4 8-4 4z" fill="#dbe5ee" transform="rotate(18 42 19)"/><rect x="35" y="57" width="12" height="4" rx="2" fill="#d0a865" transform="rotate(18 41 59)"/><rect x="38" y="60" width="4" height="13" rx="2" fill="#80542d" transform="rotate(18 40 66)"/><path d="M32 46c8 3 12 8 16 16" stroke="#6b3f20" stroke-width="2" opacity=".45"/></svg>`;
+    case "shield": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><rect x="38" y="58" width="4" height="16" rx="2" fill="#7d532f"/><path d="M40 22l18 7v15c0 11-8 18-18 24-10-6-18-13-18-24V29z" fill="#7a2d24" stroke="#d8b171" stroke-width="2"/><path d="M40 28l11 4v10c0 7-4 12-11 17-7-5-11-10-11-17V32z" fill="#95382e" opacity=".85"/><circle cx="40" cy="44" r="6" fill="#e0bb74"/><path d="M40 35l2.2 5.2 5.6.5-4.2 3.6 1.3 5.4L40 47l-4.9 2.7 1.3-5.4-4.2-3.6 5.6-.5z" fill="#f7e4a7"/></svg>`;
+    case "helmet": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><rect x="38" y="62" width="4" height="12" rx="2" fill="#765137"/><path d="M16 50c0-13 10-24 24-24s24 11 24 24v2c-3 1-6 2-10 3l-3 8H29l-3-8c-4-1-7-2-10-3z" fill="#9aa7b4"/><path d="M22 49c0-10 8-18 18-18s18 8 18 18" fill="none" stroke="#dce6ef" stroke-width="3" opacity=".55"/><rect x="35" y="47" width="10" height="12" rx="2" fill="#39424c"/><rect x="32" y="46" width="4" height="12" rx="2" fill="#b6c3d1"/><rect x="44" y="46" width="4" height="12" rx="2" fill="#b6c3d1"/><path d="M40 22l4 7h-8z" fill="#d7b26f"/></svg>`;
+    case "vase": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><path d="M31 28h18c0 8-4 9-4 15 0 6 6 10 6 18 0 7-5 12-11 12s-11-5-11-12c0-8 6-12 6-18 0-6-4-7-4-15z" fill="#8c5c36" stroke="#d7b26f" stroke-width="1.6"/><path d="M34 26h12v4H34z" fill="#e5c07d"/><path d="M40 27c0 0-4-8-3-13 4 2 5 5 6 11" stroke="#6ea65b" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M41 24c4-6 7-7 12-6-2 5-6 7-11 10" stroke="#7fc975" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M39 24c-4-5-7-6-11-5 1 4 5 7 10 9" stroke="#5e964d" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+    case "hourglass": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><rect x="26" y="22" width="28" height="4" rx="2" fill="#8d6039"/><rect x="26" y="66" width="28" height="4" rx="2" fill="#8d6039"/><rect x="30" y="22" width="4" height="48" rx="2" fill="#d9b679"/><rect x="46" y="22" width="4" height="48" rx="2" fill="#d9b679"/><path d="M34 28h12c0 8-6 11-6 18s6 9 6 18H34c0-9 6-11 6-18s-6-10-6-18z" fill="rgba(189,225,239,.18)" stroke="#bed5df" stroke-width="1.6"/><path d="M36 33h8c0 4-2 6-4 8-2-2-4-4-4-8z" fill="#dfbf76"/><path d="M36 58h8c0-4-2-6-4-8-2 2-4 4-4 8z" fill="#c89a4d"/><circle cx="40" cy="47" r="1.4" fill="#f0d08e"/></svg>`;
+    case "owl": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><rect x="30" y="68" width="20" height="5" rx="2" fill="#7a5332"/><path d="M40 24c14 0 19 10 19 22 0 13-7 22-19 22s-19-9-19-22c0-12 5-22 19-22z" fill="#7e6247"/><path d="M30 28l5 6-10 2z" fill="#8e7051"/><path d="M50 28l-5 6 10 2z" fill="#8e7051"/><circle cx="33" cy="44" r="8" fill="#ecdfbf"/><circle cx="47" cy="44" r="8" fill="#ecdfbf"/><circle cx="33" cy="44" r="3.5" fill="#202428"/><circle cx="47" cy="44" r="3.5" fill="#202428"/><path d="M40 47l4 5h-8z" fill="#d6a259"/><path d="M32 56c4 5 12 5 16 0" stroke="#d6c8a6" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`;
+    case "crystal": return `<svg class="shelf-decor-svg decor-svg-${size}" viewBox="0 0 80 92" aria-hidden="true"><ellipse cx="40" cy="82" rx="18" ry="4" fill="rgba(0,0,0,.28)"/><rect x="29" y="68" width="22" height="7" rx="2" fill="#6f4730"/><path class="decor-glow-arcane" d="M40 24c16 0 22 10 22 22 0 1-44 1-44 0 0-12 6-22 22-22z" fill="rgba(140,120,255,.18)"/><path class="decor-crystal-core" d="M40 18l12 16-5 28H33l-5-28z" fill="#99d8ff"/><path d="M40 18l5 16-5 28-5-28z" fill="#d5f0ff" opacity=".7"/><path d="M28 36l10-10-4 18-8 4z" fill="#7d60d7" opacity=".7"/><path d="M52 36l-10-10 4 18 8 4z" fill="#6e48db" opacity=".72"/><path d="M40 18l12 16-5 28H33l-5-28z" fill="none" stroke="#d8ecff" stroke-width="1.5"/></svg>`;
+    default: return "";
+  }
+}
 
-    function shelfTargetIdV151(groupBy,name){
-      return `shelf:${groupBy}:${name}`;
-    }
+function renderDecorPreviewV151(){
+  const slots=[["left",decorOptionByIdV151($("decorLeft").value)],["center",decorOptionByIdV151($("decorCenter").value)],["right",decorOptionByIdV151($("decorRight").value)]];
+  $("decorPreview").innerHTML=slots.map(([pos,item])=> item.id ? `<div class="decor-preview-item ${pos}"><span class="preview-art" title="${esc(item.label)}">${decorSvgV153(item.id,"preview")}</span></div>` : "").join("");
+}
 
-    function collectionTargetIdV151(id){
-      return `collection:${id}`;
-    }
+function syncDecorFormV151(){
+  const entry=shelfDecorEntryV151($("decorTargetSelect").value);
+  $("decorLeft").innerHTML=decorItemOptionsHtmlV151(entry.left);
+  $("decorCenter").innerHTML=decorItemOptionsHtmlV151(entry.center);
+  $("decorRight").innerHTML=decorItemOptionsHtmlV151(entry.right);
+  $("decorStatus").textContent="";
+  renderDecorPreviewV151();
+}
 
-    function shelfTargetLabelV151(groupBy,name){
-      const labelMap={series:"Reihe",genre:"Genre",author:"Autor",status:"Status",none:"Regal"};
-      return `${labelMap[groupBy]||"Regal"} · ${name}`;
-    }
+function renderDecorTargetsV151(preferred=""){
+  const targets=decorTargetsV151();
+  const select=$("decorTargetSelect");
+  select.replaceChildren(...targets.map(t=>new Option(t.label,t.id)));
+  if(!targets.length){
+    select.replaceChildren(new Option("Noch keine Regale vorhanden",""));
+    $("decorLeft").innerHTML=decorItemOptionsHtmlV151("");
+    $("decorCenter").innerHTML=decorItemOptionsHtmlV151("");
+    $("decorRight").innerHTML=decorItemOptionsHtmlV151("");
+    renderDecorPreviewV151();
+    return;
+  }
+  select.value=targets.some(t=>t.id===preferred) ? preferred : targets[0].id;
+  syncDecorFormV151();
+}
 
-    function decorTargetsV151(){
-      const groupBy=$("groupBy")?.value || "series";
-      if(groupBy==="collections"){
-        return collections.map(c=>({id:collectionTargetIdV151(c.id),label:`Ausstellung · ${c.title}`}));
-      }
+function openDecorDialog(targetId=""){
+  if(immersiveActive) exitLibraryMode();
+  renderDecorTargetsV151(targetId);
+  $("decorDialog").showModal();
+  $("decorTargetSelect").focus({preventScroll:true});
+}
+function closeDecorDialog(){ if($("decorDialog").open) $("decorDialog").close(); }
 
-      const names=new Set();
-      books.forEach(b=>{
-        let key="Meine Bücher";
-        if(groupBy==="series") key=b.series||"Ohne Reihe";
-        if(groupBy==="genre") key=b.genre||"Ohne Genre";
-        if(groupBy==="author") key=b.author||"Ohne Autor";
-        if(groupBy==="status") key=statusLabel(b.status||"unread");
-        names.add(key);
-      });
+function saveDecorSelectionV151(){
+  const target=$("decorTargetSelect").value;
+  if(!target){ $("decorStatus").textContent="Es ist noch kein Regal auswählbar."; return; }
+  const entry={left:$("decorLeft").value,center:$("decorCenter").value,right:$("decorRight").value};
+  shelfDecor=shelfDecor||{targets:{}}; shelfDecor.targets=shelfDecor.targets||{};
+  if(entry.left || entry.center || entry.right) shelfDecor.targets[target]=entry; else delete shelfDecor.targets[target];
+  saveShelfDecorV151();
+  $("decorStatus").textContent="Fantasy-Deko gespeichert ✓";
+  if($("decorDialog").open) renderDecorTargetsV151(target);
+}
 
-      return [...names]
-        .sort((a,b)=>normalizeForSort(a).localeCompare(normalizeForSort(b),"de"))
-        .map(name=>({id:shelfTargetIdV151(groupBy,name),label:shelfTargetLabelV151(groupBy,name)}));
-    }
+function clearDecorSelectionV151(){
+  const target=$("decorTargetSelect").value;
+  if(!target) return;
+  shelfDecor=shelfDecor||{targets:{}};
+  delete (shelfDecor.targets||{})[target];
+  saveShelfDecorV151();
+  $("decorStatus").textContent="Dekoration entfernt.";
+  if($("decorDialog").open) renderDecorTargetsV151(target);
+}
 
-    function shelfDecorEntryV151(targetId){
-      const root=shelfDecor?.targets||{};
-      return root[targetId]
-        ? {left:root[targetId].left||"",center:root[targetId].center||"",right:root[targetId].right||""}
-        : {left:"",center:"",right:""};
-    }
+function renderShelfDecorV151(targetId){
+  const entry=shelfDecorEntryV151(targetId);
+  const slots=[["shelf-decor-left",entry.left],["shelf-decor-center",entry.center],["shelf-decor-right",entry.right]];
+  const items=slots.map(([cls,id])=>{ const item=decorOptionByIdV151(id); return item.id ? `<button class="shelf-decor-item ${cls} decor-type-${esc(item.id)}" type="button" data-open-decor="${esc(targetId)}" title="${esc(item.label)}" aria-label="${esc(item.label)} anpassen"><span class="shelf-decor-art">${decorSvgV153(item.id,"shelf")}</span></button>` : ""; }).join("");
+  return `<div class="shelf-decor-layer">${items}</div>`;
+}
 
-    function renderDecorPreviewV151(){
-      const slots=[
-        ["left",decorOptionByIdV151($("decorLeft").value)],
-        ["center",decorOptionByIdV151($("decorCenter").value)],
-        ["right",decorOptionByIdV151($("decorRight").value)]
-      ];
-      $("decorPreview").innerHTML=slots.map(([pos,item])=>
-        item.id ? `<div class="decor-preview-item ${pos}"><span title="${esc(item.label)}">${esc(item.icon)}</span></div>` : ""
-      ).join("");
-    }
-
-    function syncDecorFormV151(){
-      const entry=shelfDecorEntryV151($("decorTargetSelect").value);
-      $("decorLeft").innerHTML=decorItemOptionsHtmlV151(entry.left);
-      $("decorCenter").innerHTML=decorItemOptionsHtmlV151(entry.center);
-      $("decorRight").innerHTML=decorItemOptionsHtmlV151(entry.right);
-      $("decorStatus").textContent="";
-      renderDecorPreviewV151();
-    }
-
-    function renderDecorTargetsV151(preferred=""){
-      const targets=decorTargetsV151();
-      const select=$("decorTargetSelect");
-      select.replaceChildren(...targets.map(t=>new Option(t.label,t.id)));
-
-      if(!targets.length){
-        select.replaceChildren(new Option("Noch keine Regale vorhanden",""));
-        $("decorLeft").innerHTML=decorItemOptionsHtmlV151("");
-        $("decorCenter").innerHTML=decorItemOptionsHtmlV151("");
-        $("decorRight").innerHTML=decorItemOptionsHtmlV151("");
-        renderDecorPreviewV151();
-        return;
-      }
-
-      select.value=targets.some(t=>t.id===preferred) ? preferred : targets[0].id;
-      syncDecorFormV151();
-    }
-
-    function openDecorDialog(targetId=""){
-      if(immersiveActive) exitLibraryMode();
-      renderDecorTargetsV151(targetId);
-      $("decorDialog").showModal();
-      $("decorTargetSelect").focus({preventScroll:true});
-    }
-
-    function closeDecorDialog(){
-      if($("decorDialog").open) $("decorDialog").close();
-    }
-
-    function saveDecorSelectionV151(){
-      const target=$("decorTargetSelect").value;
-      if(!target){
-        $("decorStatus").textContent="Es ist noch kein Regal auswählbar.";
-        return;
-      }
-      const entry={
-        left:$("decorLeft").value,
-        center:$("decorCenter").value,
-        right:$("decorRight").value
-      };
-
-      shelfDecor=shelfDecor||{targets:{}};
-      shelfDecor.targets=shelfDecor.targets||{};
-      if(entry.left || entry.center || entry.right) shelfDecor.targets[target]=entry;
-      else delete shelfDecor.targets[target];
-
-      saveShelfDecorV151();
-      $("decorStatus").textContent="Dekoration gespeichert ✓";
-      if($("decorDialog").open) renderDecorTargetsV151(target);
-    }
-
-    function clearDecorSelectionV151(){
-      const target=$("decorTargetSelect").value;
-      if(!target) return;
-      shelfDecor=shelfDecor||{targets:{}};
-      delete (shelfDecor.targets||{})[target];
-      saveShelfDecorV151();
-      $("decorStatus").textContent="Dekoration entfernt.";
-      if($("decorDialog").open) renderDecorTargetsV151(target);
-    }
-
-    function renderShelfDecorV151(targetId){
-      const entry=shelfDecorEntryV151(targetId);
-      const slots=[
-        ["shelf-decor-left",entry.left],
-        ["shelf-decor-center",entry.center],
-        ["shelf-decor-right",entry.right]
-      ];
-      const items=slots.map(([cls,id])=>{
-        const item=decorOptionByIdV151(id);
-        return item.id
-          ? `<button class="shelf-decor-item ${cls} decor-type-${esc(item.id)}" type="button" data-open-decor="${esc(targetId)}" title="${esc(item.label)}" aria-label="${esc(item.label)} anpassen"><span class="shelf-decor-icon">${esc(item.icon)}</span></button>`
-          : "";
-      }).join("");
-      return `<div class="shelf-decor-layer">${items}</div>`;
-    }
-
-    document.addEventListener("click",e=>{
-      const btn=e.target.closest("[data-open-decor]");
-      if(btn){
-        openDecorDialog(btn.dataset.openDecor);
-        return;
-      }
-    });
-
-    $("decorBtn").addEventListener("click",()=>openDecorDialog());
-    $("decorClose").addEventListener("click",closeDecorDialog);
-    $("decorCancel").addEventListener("click",closeDecorDialog);
-    $("decorDialog").addEventListener("cancel",e=>{e.preventDefault();closeDecorDialog()});
-    $("decorTargetSelect").addEventListener("change",syncDecorFormV151);
-    $("decorLeft").addEventListener("change",renderDecorPreviewV151);
-    $("decorCenter").addEventListener("change",renderDecorPreviewV151);
-    $("decorRight").addEventListener("change",renderDecorPreviewV151);
-    $("decorClearBtn").addEventListener("click",clearDecorSelectionV151);
-    $("decorForm").addEventListener("submit",e=>{
-      e.preventDefault();
-      saveDecorSelectionV151();
-    });
-
+document.addEventListener("click",e=>{ const btn=e.target.closest("[data-open-decor]"); if(btn){ openDecorDialog(btn.dataset.openDecor); return; } });
+$("decorBtn").addEventListener("click",()=>openDecorDialog());
+$("decorClose").addEventListener("click",closeDecorDialog);
+$("decorCancel").addEventListener("click",closeDecorDialog);
+$("decorDialog").addEventListener("cancel",e=>{e.preventDefault();closeDecorDialog()});
+$("decorTargetSelect").addEventListener("change",syncDecorFormV151);
+$("decorLeft").addEventListener("change",renderDecorPreviewV151);
+$("decorCenter").addEventListener("change",renderDecorPreviewV151);
+$("decorRight").addEventListener("change",renderDecorPreviewV151);
+$("decorClearBtn").addEventListener("click",clearDecorSelectionV151);
+$("decorForm").addEventListener("submit",e=>{ e.preventDefault(); saveDecorSelectionV151(); });
 
     /* =====================================================
        V14 — Lesejournal & Jahresrückblick

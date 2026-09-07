@@ -3094,7 +3094,7 @@
     @media(max-width:700px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.series-config{grid-template-columns:1fr}}
 
 /* =====================================================
-   V15.3 — Epische Fantasy-Deko statt Emoji-Standard
+   V15.4 — Epische Fantasy-Deko statt Emoji-Standard
    ===================================================== */
 .decor-dialog{width:min(760px,calc(100% - 22px));border-color:rgba(232,193,128,.18);background:radial-gradient(circle at 18% 0%,rgba(216,179,107,.12),transparent 34%),linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99))}
 .decor-topbar{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);border-bottom:1px solid rgba(232,193,128,.12)}
@@ -3103,7 +3103,7 @@
 .decor-form-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}.decor-form-actions > div{display:flex;gap:10px;flex-wrap:wrap}.decor-status{margin-top:8px;color:var(--muted);font-size:11px}
 
 .shelf-decor-layer{position:absolute;inset:0;pointer-events:none;z-index:7}
-.shelf-decor-item{position:absolute;display:flex;align-items:flex-end;justify-content:center;width:74px;height:92px;border:0;padding:0;pointer-events:auto;cursor:pointer;background:transparent;box-shadow:none;transition:transform .28s ease,filter .28s ease;filter:drop-shadow(0 10px 10px rgba(0,0,0,.18))}
+.shelf-decor-item{position:absolute;display:flex;align-items:flex-end;justify-content:center;width:74px;height:92px;border:0;padding:0;pointer-events:none;cursor:default;background:transparent;box-shadow:none;transition:transform .28s ease,filter .28s ease;filter:drop-shadow(0 10px 10px rgba(0,0,0,.18))}
 .shelf-decor-item::before{content:"";position:absolute;left:50%;bottom:8px;transform:translateX(-50%);width:44px;height:8px;border-radius:999px;background:radial-gradient(ellipse,rgba(0,0,0,.44),transparent 70%);filter:blur(1px);opacity:.92}
 .shelf-decor-art{position:relative;z-index:1;display:block;width:100%;height:100%}
 .shelf-decor-svg{display:block;width:100%;height:100%;overflow:visible}
@@ -3169,7 +3169,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.3</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.4</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3288,7 +3288,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 15.3: Regal-Deko nutzt jetzt kleine Fantasy-Illustrationen statt Standard-Emojis und wirkt deutlich epischer.
+      Version 15.4: Die Deko-Steuerung sitzt nur noch im oberen Menü, damit im Regal nichts mehr überlappt und die Ansicht sauber bleibt.
     </div>
   </div>
 
@@ -4583,7 +4583,7 @@
             </div>
 
             <div class="shelf-head">
-              <button class="shelf-decor-config" type="button" data-open-decor="${esc(shelfTargetIdV151(groupBy,name))}" title="Regal-Deko bearbeiten">✦ Deko</button>
+              
               <div class="sort-note">Sortierung: Reihe → Band → Autor → Titel</div>
             </div>
 
@@ -6119,7 +6119,7 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.3",schemaVersion:5,
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.4",schemaVersion:5,
         books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
@@ -7710,7 +7710,7 @@
         <div class="shelf-support left" aria-hidden="true"></div><div class="shelf-support right" aria-hidden="true"></div><div class="shelf-top-trim" aria-hidden="true"></div>
         ${renderShelfDecorV151(collectionTargetIdV151(c.id))}
         <div class="shelf-plaque"><div class="plaque-ornament left">◆</div><div class="plaque-content"><div class="plaque-title">${esc(c.title)}</div><div class="plaque-sub">${esc(c.description||`${counts} ${counts===1?"Buch":"Bücher"} · ${accentLabel}`)}</div></div><div class="plaque-ornament right">◆</div></div>
-        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(accentLabel)}</div><div class="collection-shelf-actions"><button class="collection-decor-btn" type="button" data-open-decor="${esc(collectionTargetIdV151(c.id))}" title="Regal-Deko bearbeiten">✦ Deko</button>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
+        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(accentLabel)}</div><div class="collection-shelf-actions">${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
         ${missing?`<div class="collection-missing-note">${missing} Buchverweise sind momentan nicht vorhanden. Du kannst sie im Editor entfernen oder über ein Backup wiederherstellen.</div>`:""}
         <div class="books ${viewMode==="spines"?"bookshelf-mode":""}">${arr.map(b=>viewMode==="spines"?spineCard(b):bookCard(b)).join("")||`<div class="collection-shelf-empty">${counts?"Keine Bücher entsprechen dem aktuellen Filter.":"Dieses Regal ist noch leer. Füge im Editor Bücher hinzu."}</div>`}</div>
       </section>`;
@@ -7932,7 +7932,7 @@
     $("addToCollectionDialog").addEventListener("cancel",e=>{e.preventDefault();$("addToCollectionDialog").close()});
 
 /* =====================================================
-   V15.3 — Epische Fantasy-Deko statt Emoji-Standard
+   V15.4 — Epische Fantasy-Deko statt Emoji-Standard
    ===================================================== */
 const DECOR_OPTIONS_V151 = [
   {id:"",label:"Keine Deko"},
@@ -8090,11 +8090,10 @@ function clearDecorSelectionV151(){
 function renderShelfDecorV151(targetId){
   const entry=shelfDecorEntryV151(targetId);
   const slots=[["shelf-decor-left",entry.left],["shelf-decor-center",entry.center],["shelf-decor-right",entry.right]];
-  const items=slots.map(([cls,id])=>{ const item=decorOptionByIdV151(id); return item.id ? `<button class="shelf-decor-item ${cls} decor-type-${esc(item.id)}" type="button" data-open-decor="${esc(targetId)}" title="${esc(item.label)}" aria-label="${esc(item.label)} anpassen"><span class="shelf-decor-art">${decorSvgV153(item.id,"shelf")}</span></button>` : ""; }).join("");
+  const items=slots.map(([cls,id])=>{ const item=decorOptionByIdV151(id); return item.id ? `<div class="shelf-decor-item ${cls} decor-type-${esc(item.id)}" title="${esc(item.label)}" aria-hidden="true"><span class="shelf-decor-art">${decorSvgV153(item.id,"shelf")}</span></div>` : ""; }).join("");
   return `<div class="shelf-decor-layer">${items}</div>`;
 }
 
-document.addEventListener("click",e=>{ const btn=e.target.closest("[data-open-decor]"); if(btn){ openDecorDialog(btn.dataset.openDecor); return; } });
 $("decorBtn").addEventListener("click",()=>openDecorDialog());
 $("decorClose").addEventListener("click",closeDecorDialog);
 $("decorCancel").addEventListener("click",closeDecorDialog);

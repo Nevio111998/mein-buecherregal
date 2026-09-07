@@ -5,7 +5,7 @@
   "display": "standalone",
   "background_color": "#171310",
   "theme_color": "#1f1a17",
-  "description": "Private digitale Bibliothek mit ISBN- und Titelsuche.",
+  "description": "Private digitale Bibliothek mit Sammlungen, Lesejournal und Lese-Sessions.",
   "icons": [
     {
       "src": "icon.svg",

@@ -8,6 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Mein Bücherregal" />
   <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="reading-sessions.css?v=15.7" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <title>Mein Bücherregal</title>
   <style>
@@ -3186,7 +3187,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.6</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.7</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3195,6 +3196,7 @@
         <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
         <button class="btn secondary" id="collectionsBtn" type="button">✦ Sammlungen</button>
         <button class="btn secondary" id="journalBtn" type="button">📖 Lesejournal</button>
+        <button class="btn secondary" id="readingSessionsBtn" type="button">⏱ Lese-Session</button>
         <button class="btn secondary" id="decorBtn" type="button">✦ Regal-Deko</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
         <button class="btn secondary" id="moreExportBtn">🔒 Sicherheit & Export</button>
@@ -3305,7 +3307,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 15.6: Grössere Fantasy-Deko mit legendären Objekten sowie sanften Glow- und Feuer-Effekten. Mittlere Deko bleibt entfernt.
+      Version 15.7: Lese-Sessions mit Timer, Pausen, Seitenerfassung und Lesezeit-Statistiken. Alle bisherigen Funktionen bleiben erhalten.
     </div>
   </div>
 
@@ -3672,6 +3674,7 @@
       </div>
 
       <div id="journalStats" class="journal-stats"></div>
+        <div class="reading-session-journal-link"><button type="button" class="btn secondary" id="journalSessionsBtn">⏱ Lesezeit & Sessions ansehen</button></div>
       <div id="journalMonths" class="journal-months"></div>
 
       <div class="journal-section">
@@ -3819,6 +3822,36 @@
         </div>
         <div id="decorStatus" class="decor-status" role="status"></div>
       </form>
+    </div>
+  </dialog>
+
+  <dialog id="readingSessionsDialog" class="rs-dialog" aria-labelledby="rsHeading">
+    <div class="modal-head rs-topbar"><h2 id="rsHeading">⏱ Lese-Sessions</h2><button type="button" class="icon-btn" id="rsClose" aria-label="Lese-Sessions schliessen">×</button></div>
+    <div class="modal-body rs-body">
+      <div class="rs-hero"><div><div class="rs-kicker">DEIN LESECOCKPIT</div><h3>Zeit für ein neues Kapitel.</h3><p>Halte deine Lesezeit fest und sieh, wie dein Abenteuer wächst.</p></div><span class="rs-hero-emblem" aria-hidden="true">✦</span></div>
+      <div id="rsAlert" class="rs-alert" role="alert" hidden></div>
+      <div class="rs-stats" id="rsStats"></div>
+      <section class="rs-section"><div class="rs-section-head"><h3>Deine aktuelle Session</h3><span id="rsStatus" class="rs-status" role="status">Bereit</span></div>
+        <label class="rs-field"><span>Buch auswählen</span><select id="rsBook"></select></label>
+        <div class="rs-active-book" id="rsActiveBook"></div>
+        <div class="rs-timer" id="rsTimer" aria-label="Vergangene Lesezeit">00:00:00</div>
+        <div class="rs-timer-caption" id="rsTimerCaption">Wähle ein Buch und starte deine Lesezeit.</div>
+        <div class="rs-controls"><button class="btn primary" type="button" id="rsStart">▶ Session starten</button><button class="btn secondary" type="button" id="rsPause" hidden>Pause</button><button class="btn secondary" type="button" id="rsResume" hidden>Weiterlesen</button><button class="btn primary" type="button" id="rsFinish" hidden>Session beenden</button><button class="btn secondary" type="button" id="rsDiscard" hidden>Verwerfen</button></div>
+      </section>
+      <section class="rs-section" id="rsEditorSection" hidden><div class="rs-section-head"><h3 id="rsEditorHeading">Session speichern</h3></div>
+        <form id="rsForm" class="rs-form"><div class="rs-form-grid">
+          <label class="rs-field"><span>Datum & Startzeit</span><input id="rsStartedAt" type="datetime-local" required /></label>
+          <label class="rs-field"><span>Lesezeit (Minuten)</span><input id="rsDuration" type="number" min="0.01" max="1440" step="0.01" inputmode="decimal" required /></label>
+          <label class="rs-field"><span>Von Seite</span><input id="rsPageFrom" type="number" min="0" step="1" inputmode="numeric" placeholder="Optional" /></label>
+          <label class="rs-field"><span>Bis Seite</span><input id="rsPageTo" type="number" min="0" step="1" inputmode="numeric" placeholder="Optional" /></label>
+          <label class="rs-field rs-full"><span>Kurze Notiz</span><textarea id="rsNote" rows="3" maxlength="2000" placeholder="Was ist passiert? Wie hat dir das Kapitel gefallen?"></textarea></label>
+          <label class="rs-checkbox rs-full"><input id="rsFinishedBook" type="checkbox" /><span>Dieses Buch als gelesen abschliessen</span></label>
+          <label class="rs-checkbox rs-full" id="rsSyncRow"><input id="rsSyncProgress" type="checkbox" checked /><span>Lesefortschritt im Buch aktualisieren</span></label>
+        </div><p class="rs-hint" id="rsEditorHint"></p><div class="rs-form-actions"><button class="btn secondary" type="button" id="rsCancelEdit">Abbrechen</button><button class="btn primary" type="submit" id="rsSave">Session speichern</button></div></form>
+      </section>
+      <section class="rs-section"><div class="rs-section-head"><h3>Dein Lesekalender</h3><span class="rs-muted">Letzte 7 Tage</span></div><div class="rs-week" id="rsWeek"></div></section>
+      <section class="rs-section"><div class="rs-section-head"><div><h3>Session-Verlauf</h3><p class="rs-muted">Gespeicherte Lesezeiten und Seiten.</p></div><button type="button" class="btn secondary" id="rsManual">＋ Manuell nachtragen</button></div><label class="rs-field rs-history-filter"><span>Verlauf filtern</span><select id="rsHistoryFilter"></select></label><div class="rs-history" id="rsHistory"></div></section>
+      <p class="rs-footer-note">Lokal gespeichert. Der Timer läuft auch bei geschlossenem Fenster weiter, solange er nicht pausiert ist. Die endgültige Dauer kannst du vor dem Speichern korrigieren. Für einen Gerätewechsel nutze dein JSON-Backup.</p>
     </div>
   </dialog>
 
@@ -4997,6 +5030,7 @@
               <div class="folio-actions">
                 <button type="button" data-folio-action="collection">✦ &nbsp; Zu Sammlung</button>
                 <button type="button" data-folio-action="journal">📖 &nbsp; Journal</button>
+                <button type="button" data-folio-action="session">⏱ &nbsp; Lese-Session</button>
                 <button type="button" data-folio-action="edit">✎ &nbsp; Bearbeiten</button>
                 <button type="button" data-folio-action="favorite">${b.favorite ? "★ Favorit" : "☆ Als Favorit"}</button>
                 ${b.series ? `<button type="button" data-folio-action="series">Reihe öffnen</button>` : ""}
@@ -6132,8 +6166,8 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.4",schemaVersion:5,
-        books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.7",schemaVersion:6,
+        books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),readingSessions:window.ReadingSessions.backup(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
           theme:getTheme(),density:getDensity(),ambient:ambientEnabled(),
@@ -6147,7 +6181,7 @@
       const legacy=Array.isArray(data);
       const obj=legacy?{books:data}:data;
       if(!obj||typeof obj!=="object"||!Array.isArray(obj.books)) throw new Error("Diese Datei enthält keine gültige Bücherliste.");
-      if(Number(obj.schemaVersion||1)>5) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
+      if(Number(obj.schemaVersion||1)>6) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
       if(obj.books.length>100000) throw new Error("Das Backup enthält zu viele Bücher.");
       const seenIds=new Set();
       const incoming=obj.books.map((b,i)=>{
@@ -6159,6 +6193,7 @@
       });
       const hasCollections=Object.prototype.hasOwnProperty.call(obj,"collections");
       const hasReadingJournal=Object.prototype.hasOwnProperty.call(obj,"readingJournal");
+      const hasReadingSessions=Object.prototype.hasOwnProperty.call(obj,"readingSessions");
       const meta=obj.seriesMeta;
       return {
         exportedAt:typeof obj.exportedAt==="string"?obj.exportedAt:null,
@@ -6169,6 +6204,8 @@
         hasCollections,
         readingJournal:hasReadingJournal?normalizeReadingJournalV14(obj.readingJournal,true):null,
         hasReadingJournal,
+        readingSessions:hasReadingSessions?window.ReadingSessions.normalizeBackup(obj.readingSessions):null,
+        hasReadingSessions,
         settings:obj.settings&&typeof obj.settings==="object"&&!Array.isArray(obj.settings)?obj.settings:{}
       };
     }
@@ -6211,6 +6248,8 @@
         <div><span>Sammlungen aktuell</span><strong>${collections.length}</strong></div>
         <div><span>Journal-Einträge im Backup</span><strong>${data.hasReadingJournal?Object.keys(data.readingJournal).length:"Nicht enthalten"}</strong></div>
         <div><span>Journal-Einträge aktuell</span><strong>${Object.keys(readingJournal||{}).length}</strong></div>
+        <div><span>Lese-Sessions im Backup</span><strong>${data.hasReadingSessions?data.readingSessions.entries.length:"Nicht enthalten"}</strong></div>
+        <div><span>Lese-Sessions aktuell</span><strong>${window.ReadingSessions.count()}</strong></div>
         <div><span>Datenquelle</span><strong>${esc(source===DEFAULT_BOOK_API_URL?"Standard-Datenquelle":source)}</strong></div>
       </div><div class="import-warning">${data.hasCollections?"Ersetzen stellt auch die Sammlungen aus dieser Datei wieder her. Zusammenführen behält deine vorhandenen Sammlungen und ergänzt neue sowie fehlende Buchverweise.":"Dieses ältere Backup enthält keine Sammlungen. Bestehende Sammlungen werden deshalb bei beiden Importarten beibehalten."}<br><br>Vor einem Ersetzen wird eine Sicherheitskopie der aktuellen Sammlung angeboten. Speichere sie bitte zuerst ausserhalb der App.</div>`;
     }
@@ -6236,7 +6275,7 @@
       if(!pendingImportBackup)return;
       const data=pendingImportBackup;
       const plan=collectionImportPlan(data,"replace");
-      if(!confirm(`Aktuelle Sammlung (${books.length} Bücher) durch ${plan.books.length} Bücher aus dem Backup ersetzen? ${data.hasCollections?"Auch die Sammlungen werden ersetzt.":"Die vorhandenen Sammlungen bleiben erhalten."} Bitte bestätige erst, wenn du eine Sicherheitskopie der aktuellen Daten gespeichert hast.`))return;
+      if(!confirm(`Aktuelle Sammlung (${books.length} Bücher) durch ${plan.books.length} Bücher aus dem Backup ersetzen? ${data.hasCollections?"Auch die Sammlungen werden ersetzt.":"Die vorhandenen Sammlungen bleiben erhalten."} ${data.hasReadingSessions?" Auch der Session-Verlauf wird ersetzt.":" Ältere Backups ohne Sessions behalten deinen vorhandenen Session-Verlauf."} Bitte bestätige erst, wenn du eine Sicherheitskopie der aktuellen Daten gespeichert hast.`))return;
       if(commitImportV13(data,"replace",plan))alert(`${books.length} Bücher wurden wiederhergestellt. ${collections.length} Sammlungen sind verfügbar.`);
     }
 
@@ -7301,6 +7340,7 @@
       switch(button.dataset.folioAction){
         case "collection": openAddToCollection(b.id); break;
         case "journal": openJournalEntry(b.id); break;
+        case "session": window.ReadingSessions.open(b.id); break;
         case "edit": openEdit(b.id); break;
         case "favorite": toggleFavorite(b.id); break;
         case "series":
@@ -7479,6 +7519,7 @@
     }
     function backupSnapshotV13(){
       return {
+        readingSessions:window.ReadingSessions.memorySnapshot(),
         books,collections,readingJournal:JSON.parse(JSON.stringify(readingJournal||{})),seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
         settings:currentBackupObject().settings,
         lastBackup:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
@@ -7508,10 +7549,13 @@
       const old=backupSnapshotV13();
       const meta=mode==="replace"?(data.hasSeriesMeta?data.seriesMeta:old.seriesMeta):{...data.seriesMeta,...old.seriesMeta};
       const plannedJournal=journalImportPlanV14(data,plan,mode);
+      let plannedSessions;
+      try{plannedSessions=window.ReadingSessions.planImport(data,mode,plan)}
+      catch(err){alert(err.message);return false}
       const changes=mode==="replace"?0:readIntStorage(CHANGES_SINCE_BACKUP_KEY,0)+Math.max(1,plan.added+plan.collectionAdded+plan.collectionUpdated);
       const previous={
         books:localStorage.getItem(STORAGE_KEY),collections:localStorage.getItem(COLLECTIONS_KEY),seriesMeta:localStorage.getItem(SERIES_META_KEY),
-        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),journal:localStorage.getItem(READING_JOURNAL_KEY),decor:localStorage.getItem(SHELF_DECOR_KEY),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
+        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),journal:localStorage.getItem(READING_JOURNAL_KEY),decor:localStorage.getItem(SHELF_DECOR_KEY),sessions:localStorage.getItem("my_bookshelf_reading_sessions_v1"),activeSession:localStorage.getItem("my_bookshelf_active_reading_session_v1"),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
       };
       const restoreRaw=(key,value)=>{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)};
       try{
@@ -7519,6 +7563,9 @@
         localStorage.setItem(STORAGE_KEY,JSON.stringify(plan.books));
         localStorage.setItem(COLLECTIONS_KEY,JSON.stringify(plan.collections));
         localStorage.setItem(READING_JOURNAL_KEY,JSON.stringify(plannedJournal));
+        localStorage.setItem("my_bookshelf_reading_sessions_v1",JSON.stringify(plannedSessions.entries));
+        if(plannedSessions.active)localStorage.setItem("my_bookshelf_active_reading_session_v1",JSON.stringify(plannedSessions.active));
+        else localStorage.removeItem("my_bookshelf_active_reading_session_v1");
         localStorage.setItem(SERIES_META_KEY,JSON.stringify(meta));
         restoreImportedSettingsV13(data.settings,mode);
         if(mode==="replace")localStorage.setItem(LAST_BACKUP_KEY,data.exportedAt||new Date().toISOString());
@@ -7528,13 +7575,13 @@
           [STORAGE_KEY,previous.books],[COLLECTIONS_KEY,previous.collections],[SERIES_META_KEY,previous.seriesMeta],
           [BOOK_API_KEY,previous.source],[VIEW_MODE_KEY,previous.view],[THEME_KEY,previous.theme],[DENSITY_KEY,previous.density],
           [AMBIENT_KEY,previous.ambient],[OVERVIEW_COLLAPSED_KEY,previous.overview],[LIBRARY_LIGHT_KEY,previous.light],
-          [READING_JOURNAL_KEY,previous.journal],[SHELF_DECOR_KEY,previous.decor],[LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
+          [READING_JOURNAL_KEY,previous.journal],[SHELF_DECOR_KEY,previous.decor],["my_bookshelf_reading_sessions_v1",previous.sessions],["my_bookshelf_active_reading_session_v1",previous.activeSession],[LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
         ]){try{restoreRaw(key,value)}catch(rollbackErr){console.error("Rollback fehlgeschlagen:",key,rollbackErr)}}
-        books=old.books;collections=old.collections;readingJournal=old.readingJournal||{};shelfDecor=loadShelfDecorV151();
+        books=old.books;collections=old.collections;readingJournal=old.readingJournal||{};shelfDecor=loadShelfDecorV151();window.ReadingSessions.restoreMemory(old.readingSessions);
         alert("Der Import konnte nicht vollständig gespeichert werden. Die bisherigen Daten wurden nach Möglichkeit wiederhergestellt. Bitte lösche keine Website-Daten und behalte deine Backup-Datei.");
         return false;
       }
-      books=plan.books;collections=plan.collections;readingJournal=plannedJournal;shelfDecor=loadShelfDecorV151();
+      books=plan.books;collections=plan.collections;readingJournal=plannedJournal;shelfDecor=loadShelfDecorV151();window.ReadingSessions.applyImported(plannedSessions);
       activeCollectionId="all";
       localStorage.setItem(COLLECTIONS_CHOICE_KEY,"all");
       pendingImportBackup=null;
@@ -8491,5 +8538,6 @@ $("decorForm").addEventListener("submit",e=>{ e.preventDefault(); saveDecorSelec
     render();
     renderBackupReminder();
   </script>
+  <script src="reading-sessions.js?v=15.7"></script>
 </body>
 </html>

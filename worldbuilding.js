@@ -1,4 +1,4 @@
-/* Mein Bücherregal V15.8.1 — Private Reihen-Chronik */
+/* Mein Bücherregal V15.8.2 — Private Reihen-Chronik */
 (function(){
   'use strict';
   const KEY='my_bookshelf_worldbuilding_v1';
@@ -172,7 +172,7 @@
         <div class="modal-head wb-topbar"><h2 id="wbEntryHeading">Neuer Eintrag</h2><button type="button" class="icon-btn" id="wbEntryClose" aria-label="Eintrag schliessen">×</button></div>
         <div class="modal-body wb-entry-body"><form id="wbForm" class="wb-form"><div class="wb-form-grid">
           <label class="wb-field wb-full"><span>Reihe *</span><select id="wbEntrySeries" required></select></label>
-          <label class="wb-field"><span>Typ</span><select id="wbEntryType"></select></label>
+          <label class="wb-field"><span>Typ</span><select id="wbEntryType" name="type" required><option value="quote">Zitat</option><option value="character">Charakter</option><option value="place">Ort</option><option value="faction">Fraktion</option><option value="lore">Lore / Worldbuilding</option></select></label>
           <label class="wb-field"><span>Wichtigkeit</span><select id="wbImportance"><option value="normal">Normal</option><option value="important">Wichtig</option><option value="legendary">Legendär</option></select></label>
           <label class="wb-field wb-full"><span>Aus welchem Band? (optional)</span><select id="wbEntrySource"></select></label>
           <label class="wb-field wb-full"><span>Kapitel / Seite / Quelle (optional)</span><input id="wbSourceReference" placeholder="z. B. Band 3 · Kapitel 12 · Seite 184"></label>

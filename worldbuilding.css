@@ -1,4 +1,4 @@
-/* V15.8.1 — Reihen-Chronik */
+/* V15.8.2 — Reihen-Chronik */
 .wb-dialog{width:min(1080px,calc(100% - 22px));border-color:rgba(232,193,128,.16);background:radial-gradient(circle at 20% 0%,rgba(216,179,107,.12),transparent 32%),linear-gradient(145deg,rgba(32,24,20,.99),rgba(16,13,12,.99))}
 .wb-entry-dialog{width:min(840px,calc(100% - 22px));border-color:rgba(232,193,128,.16);background:linear-gradient(145deg,rgba(33,25,20,.99),rgba(17,14,13,.99))}
 .wb-topbar{background:rgba(20,16,14,.9);border-bottom:1px solid rgba(232,193,128,.12)}

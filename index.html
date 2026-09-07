@@ -9,7 +9,7 @@
   <meta name="apple-mobile-web-app-title" content="Mein Bücherregal" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="reading-sessions.css?v=15.8" />
-  <link rel="stylesheet" href="worldbuilding.css?v=15.8" />
+  <link rel="stylesheet" href="worldbuilding.css?v=15.8.1" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <title>Mein Bücherregal</title>
   <style>
@@ -3188,7 +3188,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.8</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.8.1</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3197,7 +3197,7 @@
         <button class="btn secondary" id="randomBtn">🎲 Nächstes Buch</button>
         <button class="btn secondary" id="collectionsBtn" type="button">✦ Sammlungen</button>
         <button class="btn secondary" id="journalBtn" type="button">📖 Lesejournal</button>
-        <button class="btn secondary" id="worldbuildingBtn" type="button">🜁 Welt & Zitate</button>
+        <button class="btn secondary" id="worldbuildingBtn" type="button">🜁 Reihen-Chronik</button>
         <button class="btn secondary" id="readingSessionsBtn" type="button">⏱ Lese-Session</button>
         <button class="btn secondary" id="decorBtn" type="button">✦ Regal-Deko</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
@@ -4425,6 +4425,10 @@
                   onclick="setSeriesIgnored(decodeURIComponent('${encoded}'),true)">
             Nicht als Reihe behandeln
           </button>
+          <button class="btn secondary" type="button"
+                  onclick="window.Worldbuilding.open({series:decodeURIComponent('${encoded}')})">
+            🜁 Reihen-Chronik öffnen
+          </button>
         </div>
 
         ${cards.length ? `<div class="series-detail-grid">${cards.join("")}</div>` : ""}
@@ -5033,7 +5037,7 @@
               <div class="folio-actions">
                 <button type="button" data-folio-action="collection">✦ &nbsp; Zu Sammlung</button>
                 <button type="button" data-folio-action="journal">📖 &nbsp; Journal</button>
-                <button type="button" data-folio-action="worldbuilding">🜁 &nbsp; Welt & Zitate</button>
+                <button type="button" data-folio-action="worldbuilding">🜁 &nbsp; Reihen-Chronik</button>
                 <button type="button" data-folio-action="session">⏱ &nbsp; Lese-Session</button>
                 <button type="button" data-folio-action="edit">✎ &nbsp; Bearbeiten</button>
                 <button type="button" data-folio-action="favorite">${b.favorite ? "★ Favorit" : "☆ Als Favorit"}</button>
@@ -6018,6 +6022,10 @@
                   onclick="setSeriesIgnored(decodeURIComponent('${encoded}'),true)">
             Nicht als Reihe behandeln
           </button>
+          <button class="btn secondary" type="button"
+                  onclick="window.Worldbuilding.open({series:decodeURIComponent('${encoded}')})">
+            🜁 Reihen-Chronik öffnen
+          </button>
         </div>
 
         ${missingText}
@@ -6170,7 +6178,7 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.8",schemaVersion:7,
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.8.1",schemaVersion:8,
         books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),readingSessions:window.ReadingSessions.backup(),worldbuilding:window.Worldbuilding.backup(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
@@ -6185,7 +6193,7 @@
       const legacy=Array.isArray(data);
       const obj=legacy?{books:data}:data;
       if(!obj||typeof obj!=="object"||!Array.isArray(obj.books)) throw new Error("Diese Datei enthält keine gültige Bücherliste.");
-      if(Number(obj.schemaVersion||1)>7) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
+      if(Number(obj.schemaVersion||1)>8) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
       if(obj.books.length>100000) throw new Error("Das Backup enthält zu viele Bücher.");
       const seenIds=new Set();
       const incoming=obj.books.map((b,i)=>{
@@ -6211,7 +6219,7 @@
         hasReadingJournal,
         readingSessions:hasReadingSessions?window.ReadingSessions.normalizeBackup(obj.readingSessions):null,
         hasReadingSessions,
-        worldbuilding:hasWorldbuilding?window.Worldbuilding.normalizeBackup(obj.worldbuilding):null,
+        worldbuilding:hasWorldbuilding?window.Worldbuilding.normalizeBackup(obj.worldbuilding,incoming):null,
         hasWorldbuilding,
         settings:obj.settings&&typeof obj.settings==="object"&&!Array.isArray(obj.settings)?obj.settings:{}
       };
@@ -8553,7 +8561,7 @@ $("decorForm").addEventListener("submit",e=>{ e.preventDefault(); saveDecorSelec
     render();
     renderBackupReminder();
   </script>
-  <script src="worldbuilding.js?v=15.8"></script>
+  <script src="worldbuilding.js?v=15.8.1"></script>
   <script src="reading-sessions.js?v=15.8"></script>
 </body>
 </html>

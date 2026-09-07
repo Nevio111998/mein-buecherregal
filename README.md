@@ -1,10 +1,12 @@
-# Mein Bücherregal – Version 15.5
+# Mein Bücherregal – Version 15.6
 
-Neu in Version 15.5:
+Neu in Version 15.6:
 
-- Mittlere Regal-Deko entfernt (nur noch links/rechts, sauber ohne Überlappung)
-- Neue epische Fantasy-Dekos: Drachenstatue, Ritterfigur, Runenfackel, Königskrone
-- Bestehende Bücher, Sammlungen, Journal- und Rückblickdaten bleiben erhalten
-- Fokus auf stabile Weiterentwicklung von Version 15.4.2
+- grössere Regal-Deko links und rechts
+- Mitteldeko bleibt dauerhaft entfernt
+- legendäre Dekoobjekte mit sanften Gloweffekten
+- leichte Feuer-/Aura-Effekte bei Kerzen und Runenfackeln
+- legendäre Objekte: Drachenstatue, Ritterwächter, Runenfackel, Königskrone
+- bestehende Bücher, Sammlungen, Journale und Rückblicke bleiben erhalten
 
 Einfach die Dateien im bestehenden GitHub-Repository ersetzen und committen.

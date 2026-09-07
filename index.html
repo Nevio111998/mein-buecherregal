@@ -3094,196 +3094,22 @@
     @media(max-width:700px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.series-config{grid-template-columns:1fr}}
 
   
+
     /* =====================================================
-       V15.1 — saubere individuelle Regal-Dekoration
+       V15.2 — Deko sauber ins Regal integriert
        ===================================================== */
-    .decor-dialog{
-      width:min(760px,calc(100% - 22px));
-      border-color:rgba(232,193,128,.18);
-      background:
-        radial-gradient(circle at 18% 0%,rgba(216,179,107,.12),transparent 34%),
-        linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99));
-    }
-    .decor-topbar{
-      background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);
-      border-bottom:1px solid rgba(232,193,128,.12);
-    }
-    .decor-topbar h2{
-      font-family:Georgia,"Times New Roman",serif;
-      color:#f2ddbd;
-    }
-    .decor-hero{
-      padding:18px;
-      border-radius:18px;
-      border:1px solid rgba(232,193,128,.12);
-      background:
-        radial-gradient(circle at 82% 14%,rgba(216,179,107,.12),transparent 28%),
-        linear-gradient(145deg,rgba(255,255,255,.042),rgba(255,255,255,.015));
-      margin-bottom:14px;
-    }
-    .decor-kicker{
-      color:var(--gold);
-      font-size:10px;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      font-weight:900;
-      margin-bottom:8px;
-    }
-    .decor-hero h3{
-      margin:0;
-      font-family:Georgia,"Times New Roman",serif;
-      font-size:28px;
-      color:#f2ddbd;
-    }
-    .decor-hero p{
-      margin:8px 0 0;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.5;
-    }
-    .decor-form-grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
-    }
-    .decor-form-grid .full{grid-column:1/-1}
-    .decor-preview-wrap{
-      margin-top:14px;
-      padding:14px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.06);
-      background:rgba(0,0,0,.14);
-    }
-    .decor-preview-label{
-      color:var(--muted);
-      font-size:10px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      font-weight:900;
-      margin-bottom:10px;
-    }
-    .decor-preview{
-      min-height:108px;
-      position:relative;
-      border-radius:16px;
-      overflow:hidden;
-      background:
-        radial-gradient(circle at 20% 16%,rgba(255,255,255,.08),transparent 18%),
-        linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.10)),
-        linear-gradient(180deg,#5f3d27,#3f2718 48%,#8b6140 48.5%,#6a432c 58%,#24150e 100%);
-      box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 22px rgba(0,0,0,.18);
-    }
-    .decor-preview::after{
-      content:"";
-      position:absolute;
-      left:0;right:0;bottom:28px;height:10px;
-      background:linear-gradient(180deg,#a87a54,#71462b);
-      box-shadow:0 8px 0 #412818;
-    }
-    .decor-form-actions{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
-    .decor-form-actions > div{display:flex;gap:10px;flex-wrap:wrap}
-    .decor-status{margin-top:8px;color:var(--muted);font-size:11px}
-    .shelf-decor-layer{
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      z-index:5;
-    }
-    .shelf-decor-item{
-      position:absolute;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      width:50px;
-      height:50px;
-      border-radius:16px;
-      pointer-events:auto;
-      cursor:pointer;
-      border:1px solid rgba(244,212,150,.20);
-      background:
-        linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),
-        rgba(42,28,19,.88);
-      color:#f6e4bf;
-      box-shadow:0 10px 18px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.09);
-      backdrop-filter:blur(2px);
-      transition:transform .22s ease, box-shadow .22s ease, filter .22s ease;
-    }
-    .shelf-decor-item:hover{
-      transform:translateY(-2px) scale(1.03);
-      box-shadow:0 14px 20px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.12), 0 0 18px rgba(216,179,107,.16);
-      filter:saturate(1.06);
-    }
-    .shelf-decor-left{top:74px;left:18px}
-    .shelf-decor-center{top:88px;left:50%;transform:translateX(-50%)}
-    .shelf-decor-center:hover{transform:translateX(-50%) translateY(-2px) scale(1.03)}
-    .shelf-decor-right{top:74px;right:18px}
-    .shelf-decor-icon{
-      font-size:24px;
-      line-height:1;
-      filter:drop-shadow(0 1px 0 rgba(0,0,0,.25));
-    }
-    .shelf-decor-config,.collection-decor-btn{
-      border:none;
-      border-radius:999px;
-      padding:8px 12px;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.03em;
-      color:#f3deba;
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08);
-      cursor:pointer;
-      transition:background .2s ease, transform .2s ease, box-shadow .2s ease;
-      box-shadow:0 8px 14px rgba(0,0,0,.14);
-    }
-    .shelf-decor-config:hover,.collection-decor-btn:hover{
-      background:rgba(216,179,107,.15);
-      transform:translateY(-1px);
-      box-shadow:0 11px 16px rgba(0,0,0,.18);
-    }
-    .collection-shelf-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      align-items:center;
-    }
-    .decor-preview .decor-preview-item{
-      position:absolute;
-      top:28px;
-      z-index:2;
-    }
-    .decor-preview .decor-preview-item.left{left:28px}
-    .decor-preview .decor-preview-item.center{left:50%;transform:translateX(-50%)}
-    .decor-preview .decor-preview-item.right{right:28px}
-    .decor-preview .decor-preview-item span{
-      width:56px;height:56px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius:18px;
-      background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)), rgba(42,28,19,.86);
-      border:1px solid rgba(244,212,150,.18);
-      box-shadow:0 10px 18px rgba(0,0,0,.26), inset 0 1px 0 rgba(255,255,255,.10);
-      font-size:28px;
-    }
-    @media(max-width:700px){
-      .decor-form-grid{grid-template-columns:1fr}
-      .decor-form-actions .btn{width:100%}
-      .decor-form-actions > div{width:100%}
-      .shelf-decor-item{width:42px;height:42px}
-      .shelf-decor-icon{font-size:20px}
-      .shelf-decor-left,.shelf-decor-right{top:78px}
-      .shelf-decor-center{top:94px}
-      .collection-shelf-actions{justify-content:flex-start}
-    }
+    .decor-dialog{width:min(760px,calc(100% - 22px));border-color:rgba(232,193,128,.18);background:radial-gradient(circle at 18% 0%,rgba(216,179,107,.12),transparent 34%),linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99))}
+    .decor-topbar{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);border-bottom:1px solid rgba(232,193,128,.12)}
+    .decor-topbar h2{font-family:Georgia,"Times New Roman",serif;color:#f2ddbd}.decor-hero{padding:18px;border-radius:18px;border:1px solid rgba(232,193,128,.12);background:radial-gradient(circle at 82% 14%,rgba(216,179,107,.12),transparent 28%),linear-gradient(145deg,rgba(255,255,255,.042),rgba(255,255,255,.015));margin-bottom:14px}.decor-kicker{color:var(--gold);font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:900;margin-bottom:8px}.decor-hero h3{margin:0;font-family:Georgia,"Times New Roman",serif;font-size:28px;color:#f2ddbd}.decor-hero p{margin:8px 0 0;color:var(--muted);font-size:12px;line-height:1.5}
+    .decor-form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.decor-form-grid .full{grid-column:1/-1}.decor-preview-wrap{margin-top:14px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.14)}.decor-preview-label{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;margin-bottom:10px}.decor-preview{min-height:108px;position:relative;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 20% 16%,rgba(255,255,255,.08),transparent 18%),linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.10)),linear-gradient(180deg,#5f3d27,#3f2718 48%,#8b6140 48.5%,#6a432c 58%,#24150e 100%);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 16px 22px rgba(0,0,0,.18)}.decor-preview::after{content:"";position:absolute;left:0;right:0;bottom:28px;height:10px;background:linear-gradient(180deg,#a87a54,#71462b);box-shadow:0 8px 0 #412818}.decor-form-actions{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px}.decor-form-actions > div{display:flex;gap:10px;flex-wrap:wrap}.decor-status{margin-top:8px;color:var(--muted);font-size:11px}
+
+    .shelf-decor-layer{position:absolute;inset:0;pointer-events:none;z-index:7}.shelf-decor-item{position:absolute;display:flex;align-items:center;justify-content:center;width:42px;height:42px;border:0;border-radius:50%;pointer-events:auto;cursor:pointer;color:#f6e4bf;background:transparent;box-shadow:none;transition:transform .22s ease,filter .22s ease}.shelf-decor-item::before{content:"";position:absolute;left:50%;bottom:3px;transform:translateX(-50%);width:36px;height:8px;border-radius:999px;background:radial-gradient(ellipse,rgba(0,0,0,.42),transparent 70%);filter:blur(1px);opacity:.85}.shelf-decor-item::after{content:"";position:absolute;inset:5px;border-radius:13px;background:linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.035)),rgba(58,36,23,.72);border:1px solid rgba(244,212,150,.13);box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 12px rgba(0,0,0,.22);z-index:0}.shelf-decor-icon{position:relative;z-index:1;font-size:25px;line-height:1;filter:drop-shadow(0 2px 1px rgba(0,0,0,.28))}.shelf-decor-item:hover{filter:saturate(1.08) brightness(1.05)}
+    .shelf-decor-left{top:18px;left:18px}.shelf-decor-right{top:18px;right:18px}.shelf-decor-center{top:67px;left:50%;transform:translateX(-50%);width:36px;height:36px}.shelf-decor-center .shelf-decor-icon{font-size:20px}.shelf-decor-center:hover{transform:translateX(-50%) translateY(-2px) scale(1.03)}.shelf-decor-left:hover,.shelf-decor-right:hover{transform:translateY(-2px) scale(1.03)}
+    .decor-type-candle .shelf-decor-icon{filter:drop-shadow(0 0 6px rgba(255,190,91,.75)) drop-shadow(0 2px 1px rgba(0,0,0,.28))}.decor-type-candle::after{background:radial-gradient(circle at 50% 28%,rgba(255,190,91,.25),transparent 42%),linear-gradient(180deg,rgba(255,255,255,.13),rgba(255,255,255,.035)),rgba(58,36,23,.62)}.decor-type-sword::after,.decor-type-shield::after,.decor-type-helmet::after{background:linear-gradient(180deg,rgba(181,205,222,.14),rgba(255,255,255,.03)),rgba(36,31,29,.72);border-color:rgba(186,207,221,.16)}.decor-type-plant::after,.decor-type-owl::after{background:linear-gradient(180deg,rgba(112,170,106,.14),rgba(255,255,255,.03)),rgba(38,47,30,.70);border-color:rgba(164,210,130,.15)}.decor-type-crystal::after{background:radial-gradient(circle at 48% 30%,rgba(173,137,255,.22),transparent 50%),rgba(42,31,55,.68)}
+    .shelf:has(.shelf-decor-left) .books:not(.bookshelf-mode){padding-left:48px}.shelf:has(.shelf-decor-right) .books:not(.bookshelf-mode){padding-right:48px}.shelf:has(.shelf-decor-left) .books.bookshelf-mode{padding-left:56px}.shelf:has(.shelf-decor-right) .books.bookshelf-mode{padding-right:56px}
+    .shelf-decor-config,.collection-decor-btn{border:none;border-radius:999px;padding:0;width:34px;height:34px;font-size:0;color:#f3deba;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);cursor:pointer;box-shadow:0 8px 14px rgba(0,0,0,.12);opacity:.45;transition:opacity .2s ease,background .2s ease,transform .2s ease}.shelf-decor-config::before,.collection-decor-btn::before{content:"🕯️";font-size:14px;line-height:1}.shelf:hover .shelf-decor-config,.shelf:hover .collection-decor-btn{opacity:1}.shelf-decor-config:hover,.collection-decor-btn:hover{background:rgba(216,179,107,.14);transform:translateY(-1px);opacity:1}.collection-shelf-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+    .decor-preview .decor-preview-item{position:absolute;top:28px;z-index:2}.decor-preview .decor-preview-item.left{left:28px}.decor-preview .decor-preview-item.center{left:50%;transform:translateX(-50%)}.decor-preview .decor-preview-item.right{right:28px}.decor-preview .decor-preview-item span{width:56px;height:56px;display:flex;align-items:center;justify-content:center;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04)),rgba(42,28,19,.86);border:1px solid rgba(244,212,150,.18);box-shadow:0 10px 18px rgba(0,0,0,.26),inset 0 1px 0 rgba(255,255,255,.10);font-size:28px}
+    @media(max-width:700px){.decor-form-grid{grid-template-columns:1fr}.decor-form-actions .btn{width:100%}.decor-form-actions > div{width:100%}.shelf-decor-item{width:36px;height:36px}.shelf-decor-icon{font-size:21px}.shelf-decor-left{top:19px;left:12px}.shelf-decor-right{top:19px;right:12px}.shelf-decor-center{top:66px;width:32px;height:32px}.shelf-decor-center .shelf-decor-icon{font-size:18px}.shelf-decor-config,.collection-decor-btn{width:32px;height:32px}.collection-shelf-actions{justify-content:flex-start}.shelf:has(.shelf-decor-left) .books,.shelf:has(.shelf-decor-right) .books{padding-left:0;padding-right:0}}
 
 </style>
 </head>
@@ -3332,7 +3158,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.1</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.2</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3451,7 +3277,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 15.1: individuelle Regal-Dekorationen mit Pflanzen, Kerzen, Schwertern, Schilden, Helmen und mehr. V14-Daten bleiben erhalten.
+      Version 15.2: Regal-Deko sitzt jetzt sauber in echten Regal-Slots und wirkt stärker wie Teil des Regals.
     </div>
   </div>
 
@@ -4746,7 +4572,7 @@
             </div>
 
             <div class="shelf-head">
-              <button class="shelf-decor-config" type="button" data-open-decor="${esc(shelfTargetIdV151(groupBy,name))}">🕯️ Deko</button>
+              <button class="shelf-decor-config" type="button" data-open-decor="${esc(shelfTargetIdV151(groupBy,name))}" title="Regal-Deko bearbeiten">🕯️ Deko</button>
               <div class="sort-note">Sortierung: Reihe → Band → Autor → Titel</div>
             </div>
 
@@ -6282,7 +6108,7 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.1",schemaVersion:5,
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.2",schemaVersion:5,
         books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
@@ -7873,7 +7699,7 @@
         <div class="shelf-support left" aria-hidden="true"></div><div class="shelf-support right" aria-hidden="true"></div><div class="shelf-top-trim" aria-hidden="true"></div>
         ${renderShelfDecorV151(collectionTargetIdV151(c.id))}
         <div class="shelf-plaque"><div class="plaque-ornament left">◆</div><div class="plaque-content"><div class="plaque-title">${esc(c.title)}</div><div class="plaque-sub">${esc(c.description||`${counts} ${counts===1?"Buch":"Bücher"} · ${accentLabel}`)}</div></div><div class="plaque-ornament right">◆</div></div>
-        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(accentLabel)}</div><div class="collection-shelf-actions"><button class="collection-decor-btn" type="button" data-open-decor="${esc(collectionTargetIdV151(c.id))}">🕯️ Deko</button>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
+        <div class="shelf-head"><div class="collection-shelf-label">✦ &nbsp; ${counts} ${counts===1?"Buch":"Bücher"} · ${esc(accentLabel)}</div><div class="collection-shelf-actions"><button class="collection-decor-btn" type="button" data-open-decor="${esc(collectionTargetIdV151(c.id))}" title="Regal-Deko bearbeiten">🕯️ Deko</button>${!immersiveActive?`<button class="collection-shelf-edit" type="button" data-collection-edit="${esc(c.id)}">Ausstellung bearbeiten</button>`:""}</div></div>
         ${missing?`<div class="collection-missing-note">${missing} Buchverweise sind momentan nicht vorhanden. Du kannst sie im Editor entfernen oder über ein Backup wiederherstellen.</div>`:""}
         <div class="books ${viewMode==="spines"?"bookshelf-mode":""}">${arr.map(b=>viewMode==="spines"?spineCard(b):bookCard(b)).join("")||`<div class="collection-shelf-empty">${counts?"Keine Bücher entsprechen dem aktuellen Filter.":"Dieses Regal ist noch leer. Füge im Editor Bücher hinzu."}</div>`}</div>
       </section>`;
@@ -8097,7 +7923,7 @@
 
 
     /* =====================================================
-       V15.1 — saubere individuelle Regal-Dekoration
+       V15.2 — Deko sauber ins Regal integriert
        ===================================================== */
     const DECOR_OPTIONS_V151 = [
       {id:"",label:"Keine Deko",icon:""},
@@ -8301,7 +8127,7 @@
       const items=slots.map(([cls,id])=>{
         const item=decorOptionByIdV151(id);
         return item.id
-          ? `<button class="shelf-decor-item ${cls}" type="button" data-open-decor="${esc(targetId)}" title="${esc(item.label)}"><span class="shelf-decor-icon">${esc(item.icon)}</span></button>`
+          ? `<button class="shelf-decor-item ${cls} decor-type-${esc(item.id)}" type="button" data-open-decor="${esc(targetId)}" title="${esc(item.label)}" aria-label="${esc(item.label)} anpassen"><span class="shelf-decor-icon">${esc(item.icon)}</span></button>`
           : "";
       }).join("");
       return `<div class="shelf-decor-layer">${items}</div>`;

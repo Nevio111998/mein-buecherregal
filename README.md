@@ -1,46 +1,16 @@
-# Mein Bücherregal – Version 15.1
+# Mein Bücherregal – Version 15.2
 
-Version 15.1 baut sauber auf Version 14 auf.
+Version 15.2 korrigiert und veredelt die Regal-Dekoration aus 15.1.
 
-## Wichtig
+## Neu verbessert
 
-Diese Version ersetzt die fehlerhafte V15. Die Versionsnummer wurde absichtlich
-auf 15.1 gesetzt, damit alte Browser- oder Service-Worker-Caches nicht mit der
-kaputten Version kollidieren.
-
-## Neu: individuelle Regal-Dekoration
-
-Du kannst jetzt jedes Regal mit kleinen Deko-Elementen gestalten.
-
-Zur Auswahl stehen:
-
-- kleine Pflanze
-- Kerze
-- Schwert
-- Schild
-- Helm
-- Vase
-- Sanduhr
-- Eule
-- Kristall
-
-Pro Regal gibt es drei Positionen:
-
-- links
-- mitte
-- rechts
-
-Das funktioniert für normale Reihen-Regale und für Ausstellungsregale aus den
-Sammlungen.
-
-## Bedienung
-
-Öffne oben **🕯️ Regal-Deko** oder klicke direkt auf den Deko-Button an einem Regal.
-
-## Backup
-
-Das Backup nutzt Schema 5. Die Deko wird in den Einstellungen des JSON-Backups
-mitgespeichert und beim Import mit „Ersetzen“ wiederhergestellt.
+- Deko sitzt jetzt in festen Regal-Slots statt über den Büchern.
+- Linke und rechte Deko sitzen oben an den Regalpfosten.
+- Mittlere Deko sitzt kleiner unter dem Namensschild.
+- Bei Deko links/rechts bekommen die Bücher mehr Abstand, damit nichts überlappt.
+- Der Deko-Button am Regal ist kleiner und dezenter.
+- Deko wirkt stärker wie ein echtes Regalobjekt statt wie ein Overlay-Button.
+- Kerzen, Schilde, Schwerter, Pflanzen und Kristalle haben passendere kleine Objektstile.
 
 ## Bleibt erhalten
 

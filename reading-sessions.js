@@ -1,4 +1,4 @@
-/* Mein Bücherregal V15.7 — isolated reading-session module.
+/* Mein Bücherregal V15.7.1 — isolated reading-session module.
    No book, series, collection or journal data is modified on module startup. */
 (function(){
   'use strict';
@@ -24,6 +24,37 @@
   const newId=()=>typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():'rs-'+Date.now()+'-'+Math.random().toString(36).slice(2);
   const totalPages=b=>{const n=Number(b?.pages);return Number.isSafeInteger(n)&&n>0?n:0};
   const storedPage=b=>{const n=Number(b?.currentPage);return Number.isSafeInteger(n)&&n>=0?n:0};
+  const bookProgressText=b=>{const page=storedPage(b),total=totalPages(b);if(total)return `${page} / ${total} Seiten · ${Math.min(100,Math.round(page/total*100))}%`;return b.status==='read'?(page?`${page} Seiten · abgeschlossen`:'Abgeschlossen'):`${page} Seiten`};
+  // Read the canonical book store when committing progress. A second tab may
+  // have changed a book while a timer was running; never overwrite that copy
+  // with the potentially stale book array captured when the session began.
+  function currentBookStore(){
+    const raw=localStorage.getItem(STORAGE_KEY);
+    if(raw===null)throw new Error('Die Bücher konnten nicht geladen werden. Bitte prüfe dein Backup und lade die App neu.');
+    let list;
+    try{list=JSON.parse(raw)}catch(err){throw new Error('Die gespeicherte Bücherliste ist nicht lesbar. Es wurde nichts überschrieben. Bitte prüfe dein Backup.')}
+    if(!Array.isArray(list))throw new Error('Die gespeicherte Bücherliste ist ungültig. Es wurde nichts überschrieben.');
+    return list;
+  }
+  function planProgress(record,finishBook){
+    const latest=currentBookStore();
+    const b=latest.find(x=>String(x.id)===String(record.bookId));
+    if(!b)throw new Error('Das Buch ist nicht mehr in der Bibliothek vorhanden. Die Session bleibt erhalten.');
+    if(b.status==='wishlist')throw new Error('Der Fortschritt kann nur für ein Buch aus deiner Bibliothek übernommen werden.');
+    const total=totalPages(b),end=record.pagesTo;
+    if(end===null&&!finishBook)throw new Error('Bitte gib eine Endseite ein, damit der Lesefortschritt aktualisiert werden kann. Alternativ kannst du das Häkchen entfernen und nur die Lesezeit speichern.');
+    if(end!==null&&total&&end>total)throw new Error(`Die Endseite liegt über den ${total} Gesamtseiten des Buches.`);
+    const updated={...b};
+    if(end!==null)updated.currentPage=Math.max(storedPage(b),end);
+    if(finishBook){updated.status='read';if(total)updated.currentPage=total}
+    else if(b.status==='unread')updated.status='reading';
+    updated.updatedAt=iso();
+    const nextBooks=latest.map(x=>String(x.id)===String(b.id)?updated:x);
+    const nextJournal={...readingJournal},old=nextJournal[String(b.id)]||{};
+    nextJournal[String(b.id)]={...old,startedAt:old.startedAt||dateKey(record.startedAt),finishedAt:finishBook?(old.finishedAt||dateKey(record.endedAt)):(old.finishedAt||''),updatedAt:iso()};
+    return {book:updated,books:nextBooks,journal:nextJournal};
+  }
+
   function normalizeEntry(raw){
     if(!raw||typeof raw!=='object'||Array.isArray(raw))throw new Error('Ungültiger Session-Datensatz.');
     const id=String(raw.id||'').trim(),bookId=String(raw.bookId||'').trim();
@@ -60,7 +91,10 @@
     if(nextBooks!==null)writes.push([STORAGE_KEY,JSON.stringify(nextBooks)]);
     if(nextJournal!==null)writes.push([READING_JOURNAL_KEY,JSON.stringify(nextJournal)]);
     const previous=writes.map(([key])=>[key,localStorage.getItem(key)]);
-    try{for(const [key,value] of writes){if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)}}
+    try{
+      for(const [key,value] of writes){if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)}
+      for(const [key,value] of writes){if(localStorage.getItem(key)!==value)throw new Error('Gespeicherte Daten konnten nicht bestätigt werden.')}
+    }
     catch(err){for(const [key,value] of previous){try{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)}catch(rollbackErr){console.error('Session rollback:',key,rollbackErr)}}throw new Error('Die Session konnte nicht vollständig gespeichert werden. Die bisherigen Daten wurden nach Möglichkeit wiederhergestellt. Bitte prüfe den Speicher und behalte dein Backup.');}
     records=nextRecords;active=nextActive;
     if(nextBooks!==null)books=nextBooks;
@@ -78,21 +112,78 @@
   function stats(){const now=new Date(),today=dateKey(now),week=new Date(now.getFullYear(),now.getMonth(),now.getDate());week.setDate(week.getDate()-(week.getDay()+6)%7);const month=new Date(now.getFullYear(),now.getMonth(),1);const totals={today:0,week:0,month:0,total:0,pages:0};for(const r of records){totals.total+=r.durationMs;totals.pages+=r.pagesFrom!==null&&r.pagesTo!==null?Math.max(0,r.pagesTo-r.pagesFrom):0;const end=new Date(r.endedAt);if(dateKey(end)===today)totals.today+=r.durationMs;if(end>=week)totals.week+=r.durationMs;if(end>=month)totals.month+=r.durationMs}return totals}
   function renderStats(){const s=stats();el('rsStats').innerHTML=[['Heute',formatDuration(s.today),'Lesezeit'],['Diese Woche',formatDuration(s.week),'Seit Montag'],['Dieser Monat',formatDuration(s.month),'Lesezeit'],['Insgesamt',formatDuration(s.total),`${records.length} Sessions · ${s.pages} Seiten`]].map(([label,value,sub])=>`<div class="rs-stat"><span>${label}</span><strong>${value}</strong><small>${sub}</small></div>`).join('')}
   function renderWeek(){const days=[];const now=new Date();for(let i=6;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-i);const key=dateKey(d);const ms=records.filter(r=>dateKey(r.endedAt)===key).reduce((n,r)=>n+r.durationMs,0);days.push({d,key,ms})}const max=Math.max(1,...days.map(d=>d.ms));el('rsWeek').innerHTML=days.map(d=>`<div class="rs-day" title="${escapeText(d.d.toLocaleDateString('de-CH'))}: ${formatDuration(d.ms)}"><span>${d.ms?Math.round(d.ms/60000)+'m':'–'}</span><div class="rs-day-bar"><i style="height:${Math.max(4,d.ms/max*100)}%;opacity:${d.ms?1:.18}"></i></div><small>${d.d.toLocaleDateString('de-CH',{weekday:'short'})}</small></div>`).join('')}
-  function renderHistory(){const filtered=records.filter(r=>historyFilter==='all'||r.bookId===historyFilter).slice().sort((a,b)=>b.endedAt.localeCompare(a.endedAt));el('rsHistory').innerHTML=filtered.length?filtered.map(r=>{const b=findBook(r.bookId),pages=r.pagesFrom!==null&&r.pagesTo!==null?`${r.pagesFrom}–${r.pagesTo} · ${r.pagesTo-r.pagesFrom} Seiten`:'Keine Seiten erfasst';return `<article class="rs-history-row">${bookCover(b)}<div class="rs-history-main"><strong>${escapeText(bookName(r.bookId,r.bookTitle))}</strong><span>${escapeText(formatDate(r.endedAt))} · ${escapeText(formatDuration(r.durationMs))}</span><small>${escapeText(pages)}</small>${r.note?`<p>${escapeText(r.note)}</p>`:''}</div><div class="rs-history-actions"><button class="rs-small" type="button" data-rs-edit="${escapeText(r.id)}">Bearbeiten</button><button class="rs-small" type="button" data-rs-delete="${escapeText(r.id)}">Löschen</button></div></article>`}).join(''):'<div class="rs-empty">Noch keine gespeicherten Sessions. Deine nächste Lesestunde wartet bereits.</div>'}
+  function renderHistory(){
+    const filtered=records.filter(r=>historyFilter==='all'||r.bookId===historyFilter).slice().sort((a,b)=>b.endedAt.localeCompare(a.endedAt));
+    el('rsHistory').innerHTML=filtered.length?filtered.map(r=>{
+      const b=findBook(r.bookId),pages=r.pagesFrom!==null&&r.pagesTo!==null?`${r.pagesFrom}–${r.pagesTo} · ${r.pagesTo-r.pagesFrom} Seiten`:'Keine Seiten erfasst';
+      const canSync=!!b&&b.status!=='wishlist'&&r.pagesTo!==null;
+      return `<article class="rs-history-row">${bookCover(b)}<div class="rs-history-main"><strong>${escapeText(bookName(r.bookId,r.bookTitle))}</strong><span>${escapeText(formatDate(r.endedAt))} · ${escapeText(formatDuration(r.durationMs))}</span><small>${escapeText(pages)}</small>${r.note?`<p>${escapeText(r.note)}</p>`:''}</div><div class="rs-history-actions">${canSync?`<button class="rs-small rs-small-progress" type="button" data-rs-sync="${escapeText(r.id)}" title="Endseite aus dieser Session ins Buch übernehmen">Fortschritt übernehmen</button>`:''}<button class="rs-small" type="button" data-rs-edit="${escapeText(r.id)}">Bearbeiten</button><button class="rs-small" type="button" data-rs-delete="${escapeText(r.id)}">Löschen</button></div></article>`;
+    }).join(''):'<div class="rs-empty">Noch keine gespeicherten Sessions. Deine nächste Lesestunde wartet bereits.</div>';
+  }
+
   function refreshAll(){if(refreshing)return;refreshing=true;try{paintTimer();renderStats();fillHistoryFilter();renderHistory()}finally{refreshing=false}}
   function open(bookId=''){clearError();if(bookId&&findBook(bookId))selectedBookId=String(bookId);fillBookSelect();refreshAll();if(!DIALOG.open)DIALOG.showModal();if(storeError)fail(storeError);el('rsBook').focus({preventScroll:true})}
   function close(){DIALOG.close()}
-  function start(){try{guard();if(active)throw new Error('Es läuft bereits eine Session. Bitte beende oder verwerfe sie zuerst.');const b=findBook(el('rsBook').value);if(!b||b.status==='wishlist')throw new Error('Bitte wähle ein Buch aus deiner Bibliothek.');const now=Date.now();const draft={id:newId(),bookId:String(b.id),bookTitle:b.title||'',bookAuthor:b.author||'',startedAt:new Date(now).toISOString(),elapsedMs:0,segmentStartedAt:now,paused:false,stoppedAt:null,pagesFrom:storedPage(b),note:''};transaction(records,draft);editorMode='';el('rsEditorSection').hidden=true;selectedBookId=String(b.id);refreshAll();clearError()}catch(err){fail(err.message)}}
+  function start(){try{guard();clearProgressResult();if(active)throw new Error('Es läuft bereits eine Session. Bitte beende oder verwerfe sie zuerst.');const b=findBook(el('rsBook').value);if(!b||b.status==='wishlist')throw new Error('Bitte wähle ein Buch aus deiner Bibliothek.');const now=Date.now();const draft={id:newId(),bookId:String(b.id),bookTitle:b.title||'',bookAuthor:b.author||'',startedAt:new Date(now).toISOString(),elapsedMs:0,segmentStartedAt:now,paused:false,stoppedAt:null,pagesFrom:storedPage(b),note:''};transaction(records,draft);editorMode='';el('rsEditorSection').hidden=true;selectedBookId=String(b.id);refreshAll();clearError()}catch(err){fail(err.message)}}
   function pause(){try{if(!active||active.paused)return;transaction(records,frozen());refreshAll()}catch(err){fail(err.message)}}
   function resume(){try{guard();if(!active||!active.paused)return;transaction(records,{...active,paused:false,segmentStartedAt:Date.now(),stoppedAt:null});refreshAll()}catch(err){fail(err.message)}}
   function discard(){if(!active)return;if(!confirm('Diese laufende Session wirklich verwerfen? Sie wird nicht im Verlauf gespeichert.'))return;try{transaction(records,null);editorMode='';el('rsEditorSection').hidden=true;refreshAll();clearError()}catch(err){fail(err.message)}}
-  function fillEditor(mode,record=null){editorMode=mode;editingId=mode==='edit'?record.id:'';editorDirty=false;const b=findBook(record?.bookId||active?.bookId||selectedBookId);const startAt=record?.startedAt||(mode==='timer'?active?.startedAt:new Date(Date.now()-1800000).toISOString());const duration=record?.durationMs??(mode==='timer'?elapsed():1800000);el('rsEditorHeading').textContent=mode==='manual'?'Session nachtragen':mode==='edit'?'Session bearbeiten':'Session abschliessen';el('rsStartedAt').value=localInput(startAt);el('rsDuration').value=(Math.max(600,duration)/60000).toFixed(2).replace(/\.00$/,'');el('rsPageFrom').value=record?.pagesFrom??active?.pagesFrom??(b?storedPage(b):'');el('rsPageTo').value=record?.pagesTo??'';el('rsNote').value=record?.note??active?.note??'';el('rsFinishedBook').checked=false;el('rsSyncProgress').checked=mode!=='edit';el('rsSyncRow').hidden=mode==='edit';el('rsEditorHint').textContent=mode==='edit'?'Änderungen an einer alten Session verändern den Buchfortschritt nicht rückwirkend.':mode==='timer'?'Die gestoppte Lesezeit ist eingetragen. Korrigiere sie bei Bedarf, bevor du speicherst.':'Trage eine frühere Session ein. Die Zeiten im Kalender werden dem Enddatum zugeordnet.';el('rsCancelEdit').textContent=mode==='timer'?'Zurück zum Timer':'Abbrechen';el('rsFinishedBook').closest('label').hidden=mode==='edit';el('rsEditorSection').hidden=false;el('rsEditorSection').scrollIntoView({block:'nearest',behavior:'smooth'});el('rsDuration').focus({preventScroll:true})}
+  function showProgressResult(message){
+    el('rsSaveResult').textContent=message;
+    el('rsSaveResult').hidden=false;
+  }
+  function clearProgressResult(){el('rsSaveResult').hidden=true;el('rsSaveResult').textContent=''}
+  function editorBook(){return findBook(editorMode==='edit'?records.find(r=>r.id===editingId)?.bookId:active&&editorMode==='timer'?active.bookId:el('rsBook').value)}
+  function updateProgressPreview(){
+    const node=el('rsProgressPreview');
+    if(!editorMode||editorMode==='edit'){node.hidden=true;return}
+    node.hidden=false;
+    const b=editorBook(),sync=el('rsSyncProgress').checked,finishBook=el('rsFinishedBook').checked;
+    if(!b){node.textContent='Wähle ein Buch aus.';return}
+    const end=validPages(el('rsPageTo').value),total=totalPages(b);
+    if(!sync){node.textContent=`${b.title}: Nur die Session speichern. Der Buchfortschritt bleibt unverändert.`;return}
+    if(finishBook){node.textContent=`${b.title}: Als gelesen abschliessen${total?' · '+total+' / '+total+' Seiten':''}.`;return}
+    if(end===null||Number.isNaN(end)){node.textContent=`${b.title}: Gib eine Endseite ein, damit der Fortschritt übernommen werden kann.`;return}
+    const next=Math.max(storedPage(b),end);
+    node.textContent=`${b.title}: ${bookProgressText(b)} → ${next}${total?' / '+total:''} Seiten${total?' · '+Math.min(100,Math.round(next/total*100))+'%':''}.`;
+  }
+  function fillEditor(mode,record=null){clearProgressResult();editorMode=mode;editingId=mode==='edit'?record.id:'';editorDirty=false;const b=findBook(record?.bookId||active?.bookId||selectedBookId);const startAt=record?.startedAt||(mode==='timer'?active?.startedAt:new Date(Date.now()-1800000).toISOString());const duration=record?.durationMs??(mode==='timer'?elapsed():1800000);el('rsEditorHeading').textContent=mode==='manual'?'Session nachtragen':mode==='edit'?'Session bearbeiten':'Session abschliessen';el('rsStartedAt').value=localInput(startAt);el('rsDuration').value=(Math.max(600,duration)/60000).toFixed(2).replace(/\.00$/,'');el('rsPageFrom').value=record?.pagesFrom??active?.pagesFrom??(b?storedPage(b):'');el('rsPageTo').value=record?.pagesTo??'';el('rsNote').value=record?.note??active?.note??'';el('rsFinishedBook').checked=false;el('rsSyncProgress').checked=mode!=='edit';el('rsSyncRow').hidden=mode==='edit';el('rsEditorHint').textContent=mode==='edit'?'Änderungen an einer alten Session verändern den Buchfortschritt nicht rückwirkend.':mode==='timer'?'Die gestoppte Lesezeit ist eingetragen. Korrigiere sie bei Bedarf, bevor du speicherst.':'Trage eine frühere Session ein. Die Zeiten im Kalender werden dem Enddatum zugeordnet.';el('rsCancelEdit').textContent=mode==='timer'?'Zurück zum Timer':'Abbrechen';el('rsFinishedBook').closest('label').hidden=mode==='edit';el('rsEditorSection').hidden=false;el('rsEditorSection').scrollIntoView({block:'nearest',behavior:'smooth'});el('rsDuration').focus({preventScroll:true});updateProgressPreview()}
   function finish(){try{if(!active)return;transaction(records,{...frozen(),stoppedAt:iso()});fillEditor('timer');refreshAll()}catch(err){fail(err.message)}}
   function manual(){if(active){fail('Bitte beende oder verwerfe zuerst die laufende Session, bevor du eine weitere manuell nachträgst.');return}if(editorDirty&&!confirm('Ungespeicherte Änderungen verwerfen?'))return;fillEditor('manual')}
   function edit(id){const record=records.find(r=>r.id===id);if(!record)return;if(editorMode&&editorDirty&&!confirm('Ungespeicherte Änderungen verwerfen?'))return;selectedBookId=record.bookId;if(!findBook(record.bookId))throw new Error('Das Buch dieser Session ist nicht mehr vorhanden. Der Verlauf bleibt erhalten.');if(!active){fillBookSelect();el('rsBook').value=record.bookId}fillEditor('edit',record)}
   function cancelEdit(){if(editorDirty&&!confirm('Ungespeicherte Änderungen verwerfen?'))return;if(editorMode==='timer'&&active){el('rsEditorSection').hidden=true;editorMode='';refreshAll();return}editorMode='';editingId='';editorDirty=false;el('rsEditorSection').hidden=true;if(active)selectedBookId=active.bookId;fillBookSelect();refreshAll()}
   function makeRecord(){const b=findBook(editorMode==='edit'?records.find(r=>r.id===editingId)?.bookId:active&&editorMode==='timer'?active.bookId:el('rsBook').value);if(!b)throw new Error('Bitte wähle ein gültiges Buch.');const start=new Date(el('rsStartedAt').value).getTime();const minutes=Number(el('rsDuration').value);if(!Number.isFinite(start)||start>Date.now()+300000)throw new Error('Bitte gib ein gültiges Startdatum ein, das nicht in der Zukunft liegt.');if(!Number.isFinite(minutes)||minutes<.01||minutes>1440)throw new Error('Die Lesezeit muss zwischen 0,01 und 1.440 Minuten liegen.');const duration=Math.round(minutes*60000);const existing=editorMode==='edit'?records.find(r=>r.id===editingId):null;let end;if(editorMode==='timer')end=validTime(active?.stoppedAt||iso());else if(editorMode==='edit'&&existing)end=validTime(existing.endedAt)+(start-validTime(existing.startedAt));else end=start+duration;if(!Number.isFinite(end)||end<start||end>Date.now()+300000)throw new Error('Die Session-Endzeit ist ungültig oder liegt in der Zukunft. Bitte korrigiere die Zeit.');const from=validPages(el('rsPageFrom').value),to=validPages(el('rsPageTo').value);if(Number.isNaN(from)||Number.isNaN(to)||(from!==null&&to!==null&&to<from))throw new Error('Bitte prüfe die Seiten. Die Endseite darf nicht vor der Startseite liegen.');const record={id:existing?.id||(active&&editorMode==='timer'?active.id:newId()),bookId:String(b.id),bookTitle:b.title||'',bookAuthor:b.author||'',startedAt:new Date(start).toISOString(),endedAt:new Date(end).toISOString(),durationMs:duration,pagesFrom:from,pagesTo:to,note:el('rsNote').value.trim().slice(0,2000),source:existing?.source||(editorMode==='manual'?'manual':'timer'),createdAt:existing?.createdAt||iso(),updatedAt:iso()};record.source=existing?.source||(editorMode==='manual'?'manual':'timer');return {record,b}}
-  function save(event){event.preventDefault();try{guard();if(!editorMode)return;const {record,b}=makeRecord();const finishBook=el('rsFinishedBook').checked;const syncProgress=editorMode!=='edit'&&el('rsSyncProgress').checked;let nextBooks=null,nextJournal=null;if(syncProgress){const updated={...b};if(record.pagesTo!==null)updated.currentPage=Math.max(storedPage(b),record.pagesTo);if(finishBook){updated.status='read';if(totalPages(b))updated.currentPage=totalPages(b)}else if(b.status==='unread')updated.status='reading';updated.updatedAt=iso();nextBooks=books.map(x=>String(x.id)===String(b.id)?updated:x);if(!finishBook&&totalPages(b)&&record.pagesTo!==null&&record.pagesTo>totalPages(b))throw new Error('Die Endseite liegt über der Gesamtseitenzahl des Buches.');if(finishBook||editorMode==='timer'||editorMode==='manual'){nextJournal={...readingJournal};const old=nextJournal[String(b.id)]||{};nextJournal[String(b.id)]={...old,startedAt:old.startedAt||dateKey(record.startedAt),finishedAt:finishBook?(old.finishedAt||dateKey(record.endedAt)):(old.finishedAt||''),updatedAt:iso()}}}const nextRecords=editorMode==='edit'?records.map(r=>r.id===record.id?record:r):[...records,record];if(nextRecords.length>MAX_ENTRIES)throw new Error('Der Session-Verlauf ist zu gross.');transaction(nextRecords,editorMode==='timer'?null:active,nextBooks,nextJournal);editorMode='';editingId='';editorDirty=false;el('rsEditorSection').hidden=true;selectedBookId=record.bookId;fillBookSelect();changed();clearError();el('rsStatus').textContent='Gespeichert';}catch(err){fail(err.message)}}
+  function save(event){
+    event.preventDefault();
+    try{
+      guard();if(!editorMode)return;
+      const {record}=makeRecord();
+      const finishBook=el('rsFinishedBook').checked;
+      const syncProgress=editorMode!=='edit'&&el('rsSyncProgress').checked;
+      const plan=syncProgress?planProgress(record,finishBook):null;
+      const nextRecords=editorMode==='edit'?records.map(r=>r.id===record.id?record:r):[...records,record];
+      if(nextRecords.length>MAX_ENTRIES)throw new Error('Der Session-Verlauf ist zu gross.');
+      transaction(nextRecords,editorMode==='timer'?null:active,plan?.books??null,plan?.journal??null);
+      editorMode='';editingId='';editorDirty=false;el('rsEditorSection').hidden=true;
+      selectedBookId=record.bookId;fillBookSelect();changed();clearError();
+      showProgressResult(plan?`Session gespeichert. ${plan.book.title}: ${bookProgressText(plan.book)}. Der Buchfortschritt wurde aktualisiert.`:'Session gespeichert. Der Buchfortschritt wurde nicht verändert.');
+    }catch(err){fail(err.message)}
+  }
+  function syncFromHistory(id){
+    guard();const record=records.find(r=>r.id===id);
+    if(!record)throw new Error('Die Session wurde nicht gefunden.');
+    const b=findBook(record.bookId);
+    if(!b)throw new Error('Das Buch dieser Session ist nicht mehr vorhanden.');
+    if(record.pagesTo===null)throw new Error('Diese Session hat keine Endseite. Bitte bearbeite sie zuerst und trage die Endseite ein.');
+    const total=totalPages(b);
+    const label=`${b.title}: Endseite ${record.pagesTo}${total?' von '+total:''} übernehmen? Ein bereits höherer Fortschritt wird nicht zurückgesetzt. Der Session-Verlauf bleibt unverändert.`;
+    if(!confirm(label))return;
+    const plan=planProgress(record,false);
+    transaction(records,active,plan.books,plan.journal);
+    changed();clearError();
+    showProgressResult(`${plan.book.title}: ${bookProgressText(plan.book)}. Fortschritt aus der gespeicherten Session übernommen.`);
+  }
+
   function remove(id){const record=records.find(r=>r.id===id);if(!record)return;if(!confirm(`Session vom ${formatDate(record.endedAt)} löschen? Das Buch und sein Lesefortschritt bleiben unverändert.`))return;try{transaction(records.filter(r=>r.id!==id),active);if(editingId===id){editorMode='';editingId='';el('rsEditorSection').hidden=true}changed();clearError()}catch(err){fail(err.message)}}
   // Backup snapshots never restart a timer in the future. Running drafts are
   // frozen at export time and restored paused, including their elapsed time.
@@ -107,12 +198,13 @@
   el('journalSessionsBtn').addEventListener('click',()=>open());
   el('rsClose').addEventListener('click',close);
   DIALOG.addEventListener('cancel',event=>{event.preventDefault();close()});
-  el('rsBook').addEventListener('change',event=>{selectedBookId=event.target.value;refreshAll()});
+  el('rsBook').addEventListener('change',event=>{selectedBookId=event.target.value;refreshAll();updateProgressPreview()});
   el('rsStart').addEventListener('click',start);el('rsPause').addEventListener('click',pause);el('rsResume').addEventListener('click',resume);el('rsFinish').addEventListener('click',finish);el('rsDiscard').addEventListener('click',discard);
   el('rsManual').addEventListener('click',manual);el('rsCancelEdit').addEventListener('click',cancelEdit);el('rsForm').addEventListener('submit',save);
-  el('rsForm').addEventListener('input',()=>{editorDirty=true});
+  el('rsForm').addEventListener('input',()=>{editorDirty=true;updateProgressPreview()});
+  el('rsForm').addEventListener('change',updateProgressPreview);
   el('rsHistoryFilter').addEventListener('change',event=>{historyFilter=event.target.value;renderHistory()});
-  el('rsHistory').addEventListener('click',event=>{const editButton=event.target.closest('[data-rs-edit]'),deleteButton=event.target.closest('[data-rs-delete]');try{if(editButton)edit(editButton.dataset.rsEdit);if(deleteButton)remove(deleteButton.dataset.rsDelete)}catch(err){fail(err.message)}});
+  el('rsHistory').addEventListener('click',event=>{const syncButton=event.target.closest('[data-rs-sync]'),editButton=event.target.closest('[data-rs-edit]'),deleteButton=event.target.closest('[data-rs-delete]');try{if(syncButton)syncFromHistory(syncButton.dataset.rsSync);else if(editButton)edit(editButton.dataset.rsEdit);else if(deleteButton)remove(deleteButton.dataset.rsDelete)}catch(err){fail(err.message)}});
   fillBookSelect();refreshAll();
   // The interval only paints the clock: timestamps, never interval ticks, are
   // the source of truth. A paused session remains paused after reload.

@@ -1,5 +1,5 @@
-const CACHE="bookshelf-v15.7";
-const STATIC=["./index.html","./reading-sessions.js?v=15.7","./reading-sessions.css?v=15.7","./manifest.webmanifest","./icon.svg"];
+const CACHE="bookshelf-v15.7.1";
+const STATIC=["./index.html","./reading-sessions.js?v=15.7.1","./reading-sessions.css?v=15.7.1","./manifest.webmanifest","./icon.svg"];
 self.addEventListener("install",event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)));self.skipWaiting()});
 self.addEventListener("activate",event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("bookshelf-v")&&k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});
 self.addEventListener("fetch",event=>{

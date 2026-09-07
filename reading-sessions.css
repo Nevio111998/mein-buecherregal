@@ -1,4 +1,4 @@
-/* V15.7 — Reading sessions. Scoped to the new feature. */
+/* V15.7.1 — Reading sessions. Scoped to the new feature. */
 .rs-dialog{width:min(1080px,calc(100% - 20px));max-height:92vh;max-height:92dvh;padding:0;border:1px solid rgba(224,186,122,.2);border-radius:22px;color:#eadfce;background:radial-gradient(ellipse at 15% 0%,rgba(134,90,41,.17),transparent 35%),linear-gradient(145deg,#2a211b,#171310 68%);box-shadow:0 28px 90px rgba(0,0,0,.56)}
 .rs-dialog::backdrop{background:rgba(5,4,3,.78);backdrop-filter:blur(5px)}
 .rs-dialog *{box-sizing:border-box}.rs-dialog [hidden]{display:none!important}
@@ -61,3 +61,9 @@
 @media(max-width:700px){.rs-dialog{width:calc(100% - 12px);max-height:96dvh;border-radius:15px}.rs-body{padding:12px;max-height:calc(96dvh - 60px)}.rs-hero{padding:18px}.rs-hero-emblem{font-size:40px}.rs-stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rs-stat{padding:12px}.rs-section{padding:14px}.rs-section-head h3{font-size:20px}.rs-form-grid{grid-template-columns:1fr}.rs-full{grid-column:1}.rs-history-row{grid-template-columns:40px minmax(0,1fr)}.rs-history-row .rs-cover{width:40px;height:58px;flex-basis:40px}.rs-history-actions{grid-column:2;justify-content:flex-start}.rs-timer{font-size:clamp(34px,8.5vw,54px)}.rs-controls .btn{flex:1 1 auto}.rs-field select,.rs-field input,.rs-field textarea{font-size:16px}.rs-week{gap:4px}.rs-day{font-size:9px}.rs-day small{font-size:9px}}
 @media(max-width:370px){.rs-hero h3{font-size:24px}.rs-stat strong{font-size:20px}.rs-timer{font-size:32px}.rs-controls .btn{width:100%}.rs-form-actions .btn{flex:1 1 100%}}
 @media(prefers-reduced-motion:reduce){.rs-dialog *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+/* V15.7.1 — explicit progress feedback. */
+.rs-save-result{margin:12px 0;padding:12px 14px;border:1px solid rgba(134,190,119,.36);border-radius:11px;background:rgba(59,105,65,.15);color:#d5edca;font-size:12px;line-height:1.55;overflow-wrap:anywhere}
+.rs-progress-preview{grid-column:1/-1;margin:12px 0 0;padding:11px 13px;border-radius:10px;border:1px solid rgba(224,186,122,.16);background:rgba(224,186,122,.045);color:#d8c5aa;font-size:11px;line-height:1.55;overflow-wrap:anywhere}
+.rs-small-progress{border-color:rgba(194,158,95,.29);color:#edcf96;background:rgba(156,110,48,.10)}
+.rs-small-progress:hover{background:rgba(194,158,95,.2)}

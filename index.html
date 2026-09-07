@@ -8,7 +8,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Mein Bücherregal" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <link rel="stylesheet" href="reading-sessions.css?v=15.7" />
+  <link rel="stylesheet" href="reading-sessions.css?v=15.7.1" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <title>Mein Bücherregal</title>
   <style>
@@ -3187,7 +3187,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.7</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.7.1</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3307,7 +3307,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 15.7: Lese-Sessions mit Timer, Pausen, Seitenerfassung und Lesezeit-Statistiken. Alle bisherigen Funktionen bleiben erhalten.
+      Version 15.7.1: Lese-Sessions übernehmen den Buchfortschritt mit sichtbarer Bestätigung. Bereits gespeicherte Sessions können nachträglich übernommen werden.
     </div>
   </div>
 
@@ -3830,6 +3830,7 @@
     <div class="modal-body rs-body">
       <div class="rs-hero"><div><div class="rs-kicker">DEIN LESECOCKPIT</div><h3>Zeit für ein neues Kapitel.</h3><p>Halte deine Lesezeit fest und sieh, wie dein Abenteuer wächst.</p></div><span class="rs-hero-emblem" aria-hidden="true">✦</span></div>
       <div id="rsAlert" class="rs-alert" role="alert" hidden></div>
+      <div id="rsSaveResult" class="rs-save-result" role="status" aria-live="polite" hidden></div>
       <div class="rs-stats" id="rsStats"></div>
       <section class="rs-section"><div class="rs-section-head"><h3>Deine aktuelle Session</h3><span id="rsStatus" class="rs-status" role="status">Bereit</span></div>
         <label class="rs-field"><span>Buch auswählen</span><select id="rsBook"></select></label>
@@ -3843,11 +3844,11 @@
           <label class="rs-field"><span>Datum & Startzeit</span><input id="rsStartedAt" type="datetime-local" required /></label>
           <label class="rs-field"><span>Lesezeit (Minuten)</span><input id="rsDuration" type="number" min="0.01" max="1440" step="0.01" inputmode="decimal" required /></label>
           <label class="rs-field"><span>Von Seite</span><input id="rsPageFrom" type="number" min="0" step="1" inputmode="numeric" placeholder="Optional" /></label>
-          <label class="rs-field"><span>Bis Seite</span><input id="rsPageTo" type="number" min="0" step="1" inputmode="numeric" placeholder="Optional" /></label>
+          <label class="rs-field"><span>Endseite (aktueller Buchstand)</span><input id="rsPageTo" type="number" min="0" step="1" inputmode="numeric" placeholder="z. B. 120" /></label>
           <label class="rs-field rs-full"><span>Kurze Notiz</span><textarea id="rsNote" rows="3" maxlength="2000" placeholder="Was ist passiert? Wie hat dir das Kapitel gefallen?"></textarea></label>
           <label class="rs-checkbox rs-full"><input id="rsFinishedBook" type="checkbox" /><span>Dieses Buch als gelesen abschliessen</span></label>
           <label class="rs-checkbox rs-full" id="rsSyncRow"><input id="rsSyncProgress" type="checkbox" checked /><span>Lesefortschritt im Buch aktualisieren</span></label>
-        </div><p class="rs-hint" id="rsEditorHint"></p><div class="rs-form-actions"><button class="btn secondary" type="button" id="rsCancelEdit">Abbrechen</button><button class="btn primary" type="submit" id="rsSave">Session speichern</button></div></form>
+        </div><p class="rs-progress-preview" id="rsProgressPreview" aria-live="polite"></p><p class="rs-hint" id="rsEditorHint"></p><div class="rs-form-actions"><button class="btn secondary" type="button" id="rsCancelEdit">Abbrechen</button><button class="btn primary" type="submit" id="rsSave">Session speichern</button></div></form>
       </section>
       <section class="rs-section"><div class="rs-section-head"><h3>Dein Lesekalender</h3><span class="rs-muted">Letzte 7 Tage</span></div><div class="rs-week" id="rsWeek"></div></section>
       <section class="rs-section"><div class="rs-section-head"><div><h3>Session-Verlauf</h3><p class="rs-muted">Gespeicherte Lesezeiten und Seiten.</p></div><button type="button" class="btn secondary" id="rsManual">＋ Manuell nachtragen</button></div><label class="rs-field rs-history-filter"><span>Verlauf filtern</span><select id="rsHistoryFilter"></select></label><div class="rs-history" id="rsHistory"></div></section>
@@ -6166,7 +6167,7 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.7",schemaVersion:6,
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.7.1",schemaVersion:6,
         books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),readingSessions:window.ReadingSessions.backup(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
@@ -8538,6 +8539,6 @@ $("decorForm").addEventListener("submit",e=>{ e.preventDefault(); saveDecorSelec
     render();
     renderBackupReminder();
   </script>
-  <script src="reading-sessions.js?v=15.7"></script>
+  <script src="reading-sessions.js?v=15.7.1"></script>
 </body>
 </html>

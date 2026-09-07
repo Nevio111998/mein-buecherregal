@@ -1,19 +1,13 @@
-# Mein Bücherregal – V15.7
+# Mein Bücherregal – V15.7.1
 
-Diese Version baut auf der vorhandenen V15.6 auf. Alle Buch-, Reihen-, Sammlungs-, Journal- und Dekorationsfunktionen bleiben bestehen.
+Diese Version ist ein gezieltes Update der Lese-Sessions auf Basis von V15.7. Alle bisherigen Buch-, Reihen-, Sammlungs-, Journal-, Deko- und Sessionfunktionen bleiben erhalten. Cloudflare muss nicht geändert werden.
 
-## Lese-Sessions
+## Fortschrittsübernahme
 
-Über „⏱ Lese-Session“ oder direkt aus den Buchdetails kannst du einen Timer starten, pausieren, fortsetzen und eine Session speichern. Der Timer verwendet Zeitstempel, damit ein Neuladen nicht bei null beginnt. Pausen werden nicht als Lesezeit gezählt. Ein laufender Timer zählt auch weiter, wenn die App geschlossen wird; prüfe und korrigiere daher die Dauer vor dem Speichern.
+Trage beim Abschliessen einer Session die tatsächliche Endseite ein und lasse „Lesefortschritt im Buch aktualisieren“ aktiviert. Die Vorschau zeigt den bisherigen und den neuen Buchstand. Nach dem Speichern wird der neue Seitenstand ausdrücklich bestätigt. Ein vorhandener höherer Fortschritt wird nicht zurückgesetzt. Wird ein Buch ausdrücklich als gelesen abgeschlossen, wird bei bekannter Gesamtseitenzahl die letzte Seite gesetzt. Ohne Endseite wird eine normale Fortschrittsübernahme mit einer verständlichen Meldung abgelehnt; zum reinen Speichern der Lesezeit kann das Häkchen entfernt werden.
 
-Du kannst Seiten von/bis, Notizen und ein Abschlussdatum erfassen oder eine Session manuell nachtragen. Das Aktualisieren des Buchfortschritts ist optional. Die Verlaufsliste zeigt Zeiten, Seiten und Notizen; Bearbeiten oder Löschen verändert den Buchfortschritt nicht rückwirkend.
+Im Session-Verlauf gibt es „Fortschritt übernehmen“ für vorhandene Einträge mit Endseite. Nach Bestätigung wird der Buchstand übernommen, ohne die Session zu duplizieren oder den Verlauf zu verändern. So können bereits gespeicherte Sessions nachträglich abgeglichen werden. Das Bearbeiten oder Löschen einer alten Session verändert den Buchfortschritt weiterhin nicht automatisch.
 
-## Backup und Sicherheit
+## Daten und Installation
 
-Schema 6 enthält die gespeicherten Sessions sowie eine eventuell aktive Session als pausierten, wiederherstellbaren Entwurf. Backups ohne Session-Daten lassen bestehende Session-Daten erhalten. Ein Import mit Session-Daten wird abgelehnt, wenn eine aktuelle aktive Session dadurch überschrieben würde. Vor einem Ersetzen weiterhin zuerst ein JSON-Backup ausserhalb der App speichern.
-
-Die Session-Daten nutzen eigene lokale Speicherschlüssel. Es gibt keine Cloud-Synchronisation. Cloudflare bleibt unverändert.
-
-## GitHub-Update
-
-Die sieben Dateien im ZIP im bestehenden Repository ersetzen bzw. ergänzen und committen. Die beiden neuen Dateien reading-sessions.js und reading-sessions.css müssen mit hochgeladen werden. Alle bisherigen Website-Daten erhalten.
+Die bestehenden lokalen Speicherschlüssel und Backup-Schema 6 bleiben unverändert. Es werden keine bestehenden Sessions migriert oder gelöscht. Vor dem Update ein aktuelles JSON-Backup ausserhalb der App sichern. Anschliessend alle sieben Dateien aus dem ZIP im bestehenden GitHub-Repository ersetzen und committen. Insbesondere `reading-sessions.js` und `reading-sessions.css` müssen mit hochgeladen werden. Die Versionierung des Service Workers und der Assets wurde auf 15.7.1 angehoben. Keine Website-Daten löschen.

@@ -1,13 +1,38 @@
-# Mein Bücherregal – V15.7.1
+# Mein Bücherregal – Version 15.8
 
-Diese Version ist ein gezieltes Update der Lese-Sessions auf Basis von V15.7. Alle bisherigen Buch-, Reihen-, Sammlungs-, Journal-, Deko- und Sessionfunktionen bleiben erhalten. Cloudflare muss nicht geändert werden.
+Version 15.8 baut auf V15.7.1 auf.
 
-## Fortschrittsübernahme
+## Neu: Zitate, Charaktere & Worldbuilding
 
-Trage beim Abschliessen einer Session die tatsächliche Endseite ein und lasse „Lesefortschritt im Buch aktualisieren“ aktiviert. Die Vorschau zeigt den bisherigen und den neuen Buchstand. Nach dem Speichern wird der neue Seitenstand ausdrücklich bestätigt. Ein vorhandener höherer Fortschritt wird nicht zurückgesetzt. Wird ein Buch ausdrücklich als gelesen abgeschlossen, wird bei bekannter Gesamtseitenzahl die letzte Seite gesetzt. Ohne Endseite wird eine normale Fortschrittsübernahme mit einer verständlichen Meldung abgelehnt; zum reinen Speichern der Lesezeit kann das Häkchen entfernt werden.
+Die App hat jetzt ein privates Fantasy-Wiki:
 
-Im Session-Verlauf gibt es „Fortschritt übernehmen“ für vorhandene Einträge mit Endseite. Nach Bestätigung wird der Buchstand übernommen, ohne die Session zu duplizieren oder den Verlauf zu verändern. So können bereits gespeicherte Sessions nachträglich abgeglichen werden. Das Bearbeiten oder Löschen einer alten Session verändert den Buchfortschritt weiterhin nicht automatisch.
+- Zitate
+- Charaktere
+- Orte
+- Fraktionen
+- Lore / Worldbuilding-Notizen
+- Tags
+- Wichtigkeit: normal, wichtig, legendär
+- Spoiler-Markierung
 
-## Daten und Installation
+Du öffnest es oben über **🜁 Welt & Zitate** oder direkt in einer Buchdetailansicht.
 
-Die bestehenden lokalen Speicherschlüssel und Backup-Schema 6 bleiben unverändert. Es werden keine bestehenden Sessions migriert oder gelöscht. Vor dem Update ein aktuelles JSON-Backup ausserhalb der App sichern. Anschliessend alle sieben Dateien aus dem ZIP im bestehenden GitHub-Repository ersetzen und committen. Insbesondere `reading-sessions.js` und `reading-sessions.css` müssen mit hochgeladen werden. Die Versionierung des Service Workers und der Assets wurde auf 15.7.1 angehoben. Keine Website-Daten löschen.
+## Wichtig
+
+Es wird nichts automatisch aus externen Datenbanken geladen. Das ist bewusst so: Du trägst nur ein, was du selbst gelesen hast. Dadurch bleibt das Ganze spoilerfrei und passt zu deinen eigenen Reihen-Namen.
+
+## Backup
+
+Das JSON-Backup nutzt jetzt Schema 7 und enthält zusätzlich deine Worldbuilding-Einträge. Beim Import werden Buch-IDs sauber mitgeführt.
+
+## Bleibt erhalten
+
+- Bücher & Reihen
+- Sammlungen & Ausstellungsregale
+- Lesejournal & Jahresrückblick
+- Lese-Sessions
+- Deko
+- Backup / Import
+- Cloudflare-Datenquelle
+
+Beim Update alle Dateien aus dem ZIP in GitHub ersetzen und committen.

@@ -1,13 +1,14 @@
-# Mein Bücherregal – V15.8.2
+# Mein Bücherregal – Version 15.9
 
-## Fehlerbehebung: Typ-Auswahl
+Neu in Version 15.9:
 
-Die beim Umbau auf die Reihen-Chronik versehentlich entfernten Auswahloptionen sind wieder vorhanden: Zitat, Charakter, Ort, Fraktion und Lore / Worldbuilding. Die Auswahl bleibt beim Bearbeiten und bei „Speichern & weiterer Eintrag“ erhalten.
+- Charakter- & Beziehungsnetz pro Reihe
+- Figuren mit Rolle, Fraktion, Status, Wichtigkeit, Tags und Notizen
+- Beziehungen zwischen Figuren: Verbündet, Feind, Familie, Mentor, Rivale, Romance, Eid, Fraktion oder unklar
+- grafische Netzansicht mit Linien und Figurenkarten
+- Import von Charakteren aus der bestehenden Reihen-Chronik
+- Backup erweitert auf Schema 9 inklusive Charakter-Netz
 
-Die Reihen-Chronik bleibt ansonsten unverändert. Alle bestehenden Einträge, Bücher, Sammlungen, manuellen Reihen, Lese-Sessions, Journale und Dekorationen bleiben erhalten. Backup-Schema 8 und der bestehende lokale Speicherschlüssel werden weiterverwendet. Es ist keine Datenmigration erforderlich.
+Bestehende Bücher, Sammlungen, Lese-Sessions, Reihen-Chronik, Lesejournal und Deko bleiben erhalten.
 
-## Installation
-
-Vor dem Update ein aktuelles JSON-Backup ausserhalb der App speichern. Alle neun Dateien aus dieser ZIP ins bestehende GitHub-Repository hochladen und committen. Keine Website-Daten löschen. Die Cloudflare-API bleibt unverändert.
-
-Der Service-Worker-Cache wurde auf V15.8.2 aktualisiert, damit die PWA die korrigierte JavaScript-Datei lädt.
+Beim Update alle Dateien hochladen. Cloudflare bleibt unverändert.

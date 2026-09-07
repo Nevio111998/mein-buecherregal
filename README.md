@@ -1,6 +1,6 @@
-# Mein Bücherregal – Version 15.4
+# Mein Bücherregal – Version 15.4.1
 
-Version 15.4 korrigiert und veredelt die Regal-Dekoration aus 15.1.
+Version 15.4.1 korrigiert und veredelt die Regal-Dekoration aus 15.1.
 
 ## Neu verbessert
 
@@ -27,4 +27,7 @@ Version 15.4 korrigiert und veredelt die Regal-Dekoration aus 15.1.
 Cloudflare muss nicht geändert werden.
 
 
-Neu in Version 15.4: Die Regal-Deko wurde von Emoji-Platzhaltern auf kleine Fantasy-Illustrationen umgestellt. Pflanze, Kerze, Schwert, Schild, Helm, Vase, Sanduhr, Eule und Kristall wirken jetzt wie richtige Regalobjekte.
+Neu in Version 15.4.1: Die Regal-Deko wurde von Emoji-Platzhaltern auf kleine Fantasy-Illustrationen umgestellt. Pflanze, Kerze, Schwert, Schild, Helm, Vase, Sanduhr, Eule und Kristall wirken jetzt wie richtige Regalobjekte.
+
+
+Neu in Version 15.4.1: Mobile Regalansicht optimiert. Auf kleinen Displays gibt es mehr oberen Abstand, kleinere linke/rechte Deko und keine überlappende Mitteldeko mehr.

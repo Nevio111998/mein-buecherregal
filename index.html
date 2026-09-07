@@ -3094,7 +3094,7 @@
     @media(max-width:700px){.dashboard{grid-template-columns:repeat(2,minmax(0,1fr))}.series-config{grid-template-columns:1fr}}
 
 /* =====================================================
-   V15.4 — Epische Fantasy-Deko statt Emoji-Standard
+   V15.4.1 — Epische Fantasy-Deko statt Emoji-Standard
    ===================================================== */
 .decor-dialog{width:min(760px,calc(100% - 22px));border-color:rgba(232,193,128,.18);background:radial-gradient(circle at 18% 0%,rgba(216,179,107,.12),transparent 34%),linear-gradient(145deg,rgba(33,25,20,.98),rgba(17,14,13,.99))}
 .decor-topbar{background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01)),rgba(20,16,14,.90);border-bottom:1px solid rgba(232,193,128,.12)}
@@ -3121,6 +3121,22 @@
 .decor-preview .decor-preview-item{position:absolute;top:22px;z-index:2;width:78px;height:92px}.decor-preview .decor-preview-item.left{left:22px}.decor-preview .decor-preview-item.center{left:50%;transform:translateX(-50%)}.decor-preview .decor-preview-item.right{right:22px}.decor-preview .decor-preview-item .preview-art{display:block;width:100%;height:100%}
 .decor-preview .decor-preview-item.center{top:14px;width:70px;height:84px}
 @media(max-width:700px){.decor-form-grid{grid-template-columns:1fr}.decor-form-actions .btn{width:100%}.decor-form-actions > div{width:100%}.shelf-decor-item{width:60px;height:76px}.shelf-decor-left{top:8px;left:6px}.shelf-decor-right{top:8px;right:6px}.shelf-decor-center{top:50px;width:56px;height:70px}.shelf-decor-config,.collection-decor-btn{width:32px;height:32px}.collection-shelf-actions{justify-content:flex-start}.shelf:has(.shelf-decor-left) .books,.shelf:has(.shelf-decor-right) .books{padding-left:0;padding-right:0}.decor-preview .decor-preview-item{width:60px;height:76px}.decor-preview .decor-preview-item.center{width:54px;height:68px}}
+
+
+    @media(max-width:700px){
+      /* V15.4.1 mobile shelf cleanup */
+      .shelf{padding:88px 14px 28px !important;}
+      .shelf-plaque{top:14px; width:calc(100% - 116px); min-width:0; max-width:none; padding:8px 10px 7px;}
+      .plaque-title{font-size:13px;}
+      .plaque-sub{font-size:8px; letter-spacing:.09em;}
+      .shelf-decor-item{width:34px; height:54px;}
+      .shelf-decor-left{top:26px; left:18px;}
+      .shelf-decor-right{top:26px; right:18px;}
+      .shelf-decor-center{display:none !important;}
+      .books{grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 12px; padding-top:6px;}
+      .book{min-width:0;}
+      .shelf-support{top:16px; bottom:16px;}
+    }
 
 </style>
 </head>
@@ -3169,7 +3185,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.4</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V15.4.1</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3288,7 +3304,7 @@
     <div id="library" class="shelf-wrap"></div>
 
     <div class="footer-note">
-      Version 15.4: Die Deko-Steuerung sitzt nur noch im oberen Menü, damit im Regal nichts mehr überlappt und die Ansicht sauber bleibt.
+      Version 15.4.1: Mobile Regalansicht bereinigt — mehr Abstand oben, kleinere seitliche Deko und keine überlappende Mitteldeko auf kleinen Displays.
     </div>
   </div>
 
@@ -6329,7 +6345,23 @@
           th,td{border-bottom:1px solid #ddd;padding:6px;text-align:left}
           th{background:#f4f4f4}
           @media print{body{margin:10mm}section{break-inside:avoid}}
-        </style></head><body>
+        
+    @media(max-width:700px){
+      /* V15.4.1 mobile shelf cleanup */
+      .shelf{padding:88px 14px 28px !important;}
+      .shelf-plaque{top:14px; width:calc(100% - 116px); min-width:0; max-width:none; padding:8px 10px 7px;}
+      .plaque-title{font-size:13px;}
+      .plaque-sub{font-size:8px; letter-spacing:.09em;}
+      .shelf-decor-item{width:34px; height:54px;}
+      .shelf-decor-left{top:26px; left:18px;}
+      .shelf-decor-right{top:26px; right:18px;}
+      .shelf-decor-center{display:none !important;}
+      .books{grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 12px; padding-top:6px;}
+      .book{min-width:0;}
+      .shelf-support{top:16px; bottom:16px;}
+    }
+
+</style></head><body>
         <h1>Mein Bücherregal</h1>
         <div class="meta">${rows.length} Bücher · erstellt am ${new Date().toLocaleDateString("de-CH")}</div>
         ${body}
@@ -7932,7 +7964,7 @@
     $("addToCollectionDialog").addEventListener("cancel",e=>{e.preventDefault();$("addToCollectionDialog").close()});
 
 /* =====================================================
-   V15.4 — Epische Fantasy-Deko statt Emoji-Standard
+   V15.4.1 — Epische Fantasy-Deko statt Emoji-Standard
    ===================================================== */
 const DECOR_OPTIONS_V151 = [
   {id:"",label:"Keine Deko"},

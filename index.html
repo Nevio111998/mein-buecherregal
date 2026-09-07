@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="reading-sessions.css?v=15.8" />
   <link rel="stylesheet" href="worldbuilding.css?v=15.8.2" />
   <link rel="stylesheet" href="character-network.css?v=15.9.3" />
+  <link rel="stylesheet" href="world-timeline.css?v=16.0" />
   <link rel="icon" href="icon.svg" type="image/svg+xml" />
   <title>Mein Bücherregal</title>
   <style>
@@ -3189,7 +3190,7 @@
   <div class="app">
     <div class="hero">
       <div class="brand">
-        <h1>Mein Bücherregal <span class="version-badge">V15.9.3</span></h1>
+        <h1>Mein Bücherregal <span class="version-badge">V16.0</span></h1>
         <p>Deine private Bibliothek – jetzt atmosphärischer, komfortabler und deutlich epischer.</p>
       </div>
       <div class="actions">
@@ -3200,6 +3201,7 @@
         <button class="btn secondary" id="journalBtn" type="button">📖 Lesejournal</button>
         <button class="btn secondary" id="worldbuildingBtn" type="button">🜁 Reihen-Chronik</button>
         <button class="btn secondary" id="characterNetworkBtn" type="button">♞ Charakter-Netz</button>
+        <button class="btn secondary" id="worldTimelineBtn" type="button">⌛ Ereignis-Chronik</button>
         <button class="btn secondary" id="readingSessionsBtn" type="button">⏱ Lese-Session</button>
         <button class="btn secondary" id="decorBtn" type="button">✦ Regal-Deko</button>
         <button class="btn secondary" id="wishlistBtn">🛒 Wunschliste</button>
@@ -4435,6 +4437,10 @@
                   onclick="window.CharacterNetwork.open({series:decodeURIComponent('${encoded}')})">
             ♞ Charakter-Netz öffnen
           </button>
+          <button class="btn secondary" type="button"
+                  onclick="window.WorldTimeline.open({series:decodeURIComponent('${encoded}')})">
+            ⌛ Ereignis-Chronik öffnen
+          </button>
         </div>
 
         ${cards.length ? `<div class="series-detail-grid">${cards.join("")}</div>` : ""}
@@ -5045,6 +5051,7 @@
                 <button type="button" data-folio-action="journal">📖 &nbsp; Journal</button>
                 <button type="button" data-folio-action="worldbuilding">🜁 &nbsp; Reihen-Chronik</button>
                 <button type="button" data-folio-action="characterNetwork">♞ &nbsp; Charakter-Netz</button>
+                <button type="button" data-folio-action="worldTimeline">⌛ &nbsp; Ereignis-Chronik</button>
                 <button type="button" data-folio-action="session">⏱ &nbsp; Lese-Session</button>
                 <button type="button" data-folio-action="edit">✎ &nbsp; Bearbeiten</button>
                 <button type="button" data-folio-action="favorite">${b.favorite ? "★ Favorit" : "☆ Als Favorit"}</button>
@@ -6037,6 +6044,10 @@
                   onclick="window.CharacterNetwork.open({series:decodeURIComponent('${encoded}')})">
             ♞ Charakter-Netz öffnen
           </button>
+          <button class="btn secondary" type="button"
+                  onclick="window.WorldTimeline.open({series:decodeURIComponent('${encoded}')})">
+            ⌛ Ereignis-Chronik öffnen
+          </button>
         </div>
 
         ${missingText}
@@ -6189,8 +6200,8 @@
 
     function currentBackupObject(){
       return {
-        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"15.9.3",schemaVersion:9,
-        books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),readingSessions:window.ReadingSessions.backup(),worldbuilding:window.Worldbuilding.backup(),characterNetwork:window.CharacterNetwork.backup(),
+        exportedAt:new Date().toISOString(),app:"Mein Bücherregal",version:"16.0",schemaVersion:10,
+        books,seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),collections:collections.map(c=>({...c,bookIds:[...c.bookIds]})),readingJournal:readingJournalSnapshotV14(),readingSessions:window.ReadingSessions.backup(),worldbuilding:window.Worldbuilding.backup(),characterNetwork:window.CharacterNetwork.backup(),worldTimeline:window.WorldTimeline.backup(),
         settings:{
           bookApiUrl:getBookApiUrl(),viewMode:localStorage.getItem(VIEW_MODE_KEY)||"covers",
           theme:getTheme(),density:getDensity(),ambient:ambientEnabled(),
@@ -6204,7 +6215,7 @@
       const legacy=Array.isArray(data);
       const obj=legacy?{books:data}:data;
       if(!obj||typeof obj!=="object"||!Array.isArray(obj.books)) throw new Error("Diese Datei enthält keine gültige Bücherliste.");
-      if(Number(obj.schemaVersion||1)>9) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
+      if(Number(obj.schemaVersion||1)>10) throw new Error("Das Backup stammt aus einer neueren App-Version. Bitte zuerst die App aktualisieren.");
       if(obj.books.length>100000) throw new Error("Das Backup enthält zu viele Bücher.");
       const seenIds=new Set();
       const incoming=obj.books.map((b,i)=>{
@@ -6219,6 +6230,7 @@
       const hasReadingSessions=Object.prototype.hasOwnProperty.call(obj,"readingSessions");
       const hasWorldbuilding=Object.prototype.hasOwnProperty.call(obj,"worldbuilding");
       const hasCharacterNetwork=Object.prototype.hasOwnProperty.call(obj,"characterNetwork");
+      const hasWorldTimeline=Object.prototype.hasOwnProperty.call(obj,"worldTimeline");
       const meta=obj.seriesMeta;
       return {
         exportedAt:typeof obj.exportedAt==="string"?obj.exportedAt:null,
@@ -6235,6 +6247,8 @@
         hasWorldbuilding,
         characterNetwork:hasCharacterNetwork?window.CharacterNetwork.normalizeBackup(obj.characterNetwork):null,
         hasCharacterNetwork,
+        worldTimeline:hasWorldTimeline?window.WorldTimeline.normalizeBackup(obj.worldTimeline):null,
+        hasWorldTimeline,
         settings:obj.settings&&typeof obj.settings==="object"&&!Array.isArray(obj.settings)?obj.settings:{}
       };
     }
@@ -6281,6 +6295,8 @@
         <div><span>Lese-Sessions aktuell</span><strong>${window.ReadingSessions.count()}</strong></div>
         <div><span>Welt-Einträge im Backup</span><strong>${data.hasWorldbuilding?data.worldbuilding.entries.length:"Nicht enthalten"}</strong></div>
         <div><span>Welt-Einträge aktuell</span><strong>${window.Worldbuilding.count()}</strong></div>
+        <div><span>Ereignisse im Backup</span><strong>${data.hasWorldTimeline?data.worldTimeline.entries.length:"Nicht enthalten"}</strong></div>
+        <div><span>Ereignisse aktuell</span><strong>${window.WorldTimeline.count()}</strong></div>
         <div><span>Charakter-Netz im Backup</span><strong>${data.hasCharacterNetwork?data.characterNetwork.characters.length+" Figuren / "+data.characterNetwork.relationships.length+" Beziehungen":"Nicht enthalten"}</strong></div>
         <div><span>Charakter-Netz aktuell</span><strong>${window.CharacterNetwork.countCharacters()} Figuren / ${window.CharacterNetwork.countRelationships()} Beziehungen</strong></div>
         <div><span>Datenquelle</span><strong>${esc(source===DEFAULT_BOOK_API_URL?"Standard-Datenquelle":source)}</strong></div>
@@ -7375,6 +7391,7 @@
         case "journal": openJournalEntry(b.id); break;
         case "worldbuilding": window.Worldbuilding.open(b.id); break;
         case "characterNetwork": window.CharacterNetwork.open(b.series?{series:b.series}:b.id); break;
+        case "worldTimeline": window.WorldTimeline.open({bookId:b.id}); break;
         case "session": window.ReadingSessions.open(b.id); break;
         case "edit": openEdit(b.id); break;
         case "favorite": toggleFavorite(b.id); break;
@@ -7557,6 +7574,7 @@
         readingSessions:window.ReadingSessions.memorySnapshot(),
         worldbuilding:window.Worldbuilding.memorySnapshot(),
         characterNetwork:window.CharacterNetwork.memorySnapshot(),
+        worldTimeline:window.WorldTimeline.memorySnapshot(),
         books,collections,readingJournal:JSON.parse(JSON.stringify(readingJournal||{})),seriesMeta:loadJsonStorage(SERIES_META_KEY,{}),
         settings:currentBackupObject().settings,
         lastBackup:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
@@ -7595,10 +7613,13 @@
       let plannedCharacterNetwork;
       try{plannedCharacterNetwork=window.CharacterNetwork.planImport(data,mode,plan)}
       catch(err){alert(err.message);return false}
+      let plannedTimeline;
+      try{plannedTimeline=window.WorldTimeline.planImport(data,mode,plan,plannedCharacterNetwork)}
+      catch(err){alert(err.message);return false}
       const changes=mode==="replace"?0:readIntStorage(CHANGES_SINCE_BACKUP_KEY,0)+Math.max(1,plan.added+plan.collectionAdded+plan.collectionUpdated);
       const previous={
         books:localStorage.getItem(STORAGE_KEY),collections:localStorage.getItem(COLLECTIONS_KEY),seriesMeta:localStorage.getItem(SERIES_META_KEY),
-        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),journal:localStorage.getItem(READING_JOURNAL_KEY),decor:localStorage.getItem(SHELF_DECOR_KEY),sessions:localStorage.getItem("my_bookshelf_reading_sessions_v1"),activeSession:localStorage.getItem("my_bookshelf_active_reading_session_v1"),worldbuilding:localStorage.getItem("my_bookshelf_worldbuilding_v1"),characterNetwork:localStorage.getItem("my_bookshelf_character_network_v1"),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
+        source:localStorage.getItem(BOOK_API_KEY),view:localStorage.getItem(VIEW_MODE_KEY),theme:localStorage.getItem(THEME_KEY),density:localStorage.getItem(DENSITY_KEY),ambient:localStorage.getItem(AMBIENT_KEY),overview:localStorage.getItem(OVERVIEW_COLLAPSED_KEY),light:localStorage.getItem(LIBRARY_LIGHT_KEY),journal:localStorage.getItem(READING_JOURNAL_KEY),decor:localStorage.getItem(SHELF_DECOR_KEY),sessions:localStorage.getItem("my_bookshelf_reading_sessions_v1"),activeSession:localStorage.getItem("my_bookshelf_active_reading_session_v1"),worldbuilding:localStorage.getItem("my_bookshelf_worldbuilding_v1"),characterNetwork:localStorage.getItem("my_bookshelf_character_network_v1"),worldTimeline:localStorage.getItem("my_bookshelf_world_timeline_v1"),last:localStorage.getItem(LAST_BACKUP_KEY),changes:localStorage.getItem(CHANGES_SINCE_BACKUP_KEY)
       };
       const restoreRaw=(key,value)=>{if(value===null)localStorage.removeItem(key);else localStorage.setItem(key,value)};
       try{
@@ -7611,6 +7632,7 @@
         else localStorage.removeItem("my_bookshelf_active_reading_session_v1");
         localStorage.setItem("my_bookshelf_worldbuilding_v1",JSON.stringify(plannedWorldbuilding.entries));
         localStorage.setItem("my_bookshelf_character_network_v1",JSON.stringify({characters:plannedCharacterNetwork.characters,relationships:plannedCharacterNetwork.relationships}));
+        localStorage.setItem("my_bookshelf_world_timeline_v1",JSON.stringify(plannedTimeline));
         localStorage.setItem(SERIES_META_KEY,JSON.stringify(meta));
         restoreImportedSettingsV13(data.settings,mode);
         if(mode==="replace")localStorage.setItem(LAST_BACKUP_KEY,data.exportedAt||new Date().toISOString());
@@ -7620,13 +7642,13 @@
           [STORAGE_KEY,previous.books],[COLLECTIONS_KEY,previous.collections],[SERIES_META_KEY,previous.seriesMeta],
           [BOOK_API_KEY,previous.source],[VIEW_MODE_KEY,previous.view],[THEME_KEY,previous.theme],[DENSITY_KEY,previous.density],
           [AMBIENT_KEY,previous.ambient],[OVERVIEW_COLLAPSED_KEY,previous.overview],[LIBRARY_LIGHT_KEY,previous.light],
-          [READING_JOURNAL_KEY,previous.journal],[SHELF_DECOR_KEY,previous.decor],["my_bookshelf_reading_sessions_v1",previous.sessions],["my_bookshelf_active_reading_session_v1",previous.activeSession],["my_bookshelf_worldbuilding_v1",previous.worldbuilding],["my_bookshelf_character_network_v1",previous.characterNetwork],[LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
+          [READING_JOURNAL_KEY,previous.journal],[SHELF_DECOR_KEY,previous.decor],["my_bookshelf_reading_sessions_v1",previous.sessions],["my_bookshelf_active_reading_session_v1",previous.activeSession],["my_bookshelf_worldbuilding_v1",previous.worldbuilding],["my_bookshelf_character_network_v1",previous.characterNetwork],["my_bookshelf_world_timeline_v1",previous.worldTimeline],[LAST_BACKUP_KEY,previous.last],[CHANGES_SINCE_BACKUP_KEY,previous.changes]
         ]){try{restoreRaw(key,value)}catch(rollbackErr){console.error("Rollback fehlgeschlagen:",key,rollbackErr)}}
-        books=old.books;collections=old.collections;readingJournal=old.readingJournal||{};shelfDecor=loadShelfDecorV151();window.ReadingSessions.restoreMemory(old.readingSessions);window.Worldbuilding.restoreMemory(old.worldbuilding);window.CharacterNetwork.restoreMemory(old.characterNetwork);
+        books=old.books;collections=old.collections;readingJournal=old.readingJournal||{};shelfDecor=loadShelfDecorV151();window.ReadingSessions.restoreMemory(old.readingSessions);window.Worldbuilding.restoreMemory(old.worldbuilding);window.CharacterNetwork.restoreMemory(old.characterNetwork);window.WorldTimeline.restoreMemory(old.worldTimeline);
         alert("Der Import konnte nicht vollständig gespeichert werden. Die bisherigen Daten wurden nach Möglichkeit wiederhergestellt. Bitte lösche keine Website-Daten und behalte deine Backup-Datei.");
         return false;
       }
-      books=plan.books;collections=plan.collections;readingJournal=plannedJournal;shelfDecor=loadShelfDecorV151();window.ReadingSessions.applyImported(plannedSessions);window.Worldbuilding.applyImported(plannedWorldbuilding);window.CharacterNetwork.applyImported(plannedCharacterNetwork);
+      books=plan.books;collections=plan.collections;readingJournal=plannedJournal;shelfDecor=loadShelfDecorV151();window.ReadingSessions.applyImported(plannedSessions);window.Worldbuilding.applyImported(plannedWorldbuilding);window.CharacterNetwork.applyImported(plannedCharacterNetwork);window.WorldTimeline.applyImported(plannedTimeline);
       activeCollectionId="all";
       localStorage.setItem(COLLECTIONS_CHOICE_KEY,"all");
       pendingImportBackup=null;
@@ -8587,5 +8609,7 @@ $("decorForm").addEventListener("submit",e=>{ e.preventDefault(); saveDecorSelec
   <script src="character-network-layout.js?v=15.9.3"></script>
   <script src="character-network.js?v=15.9.3"></script>
   <script src="reading-sessions.js?v=15.8"></script>
+  <script src="world-timeline-core.js?v=16.0"></script>
+  <script src="world-timeline.js?v=16.0"></script>
 </body>
 </html>

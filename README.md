@@ -1,37 +1,35 @@
-# Mein Bücherregal – V15.9.3
+# Mein Bücherregal — V16.0
 
-## Figuren-Atlas & Beziehungsnetz
+Die Chronik der Welten ergänzt die funktionierende V15.9.3. Bücher, manuell gepflegte Reihen, Sammlungen, Journal, Lese-Sessions, Worldbuilding, Figuren-Atlas und Deko bleiben unverändert.
 
-Diese Version baut auf V15.9.2 auf und verbessert ausschliesslich die Darstellung und Bedienung des Charakter- & Beziehungsnetzes. Alle bisherigen Bücher, Sammlungen, Reihen, Journale, Lese-Sessions, Chronik-Einträge, Figuren und Beziehungen bleiben erhalten.
+## Neu: Ereignis-Chronik
 
-### Neu
+- Eine eigene, vertikale Zeitleiste pro manuell benannter Reihe.
+- Ereignisse in beliebiger Anzahl innerhalb der Speichergrenzen des Geräts anlegen, bearbeiten und löschen.
+- Freie chronologische Reihenfolge: Position beim Anlegen wählen oder später mit ↑ und ↓ verändern. Es werden keine Daten, fehlenden Bände oder Reihenfolgen automatisch erfunden.
+- Ereignistypen: Ereignis, Schlacht, Reise, Bündnis & Politik, Enthüllung, Charakterereignis, Magie & Welt und Sonstiges.
+- Titel, ausführliche Beschreibung, persönliche Notizen, Tags und Wichtigkeit.
+- Optionaler Quellband, Kapitel/Seite und frei formulierter Zeitpunkt innerhalb der Geschichte.
+- Orte und Fraktionen frei eintragen; vorhandene Einträge aus der Reihen-Chronik werden als Vorschläge angeboten.
+- Mehrere bestehende Charaktere aus dem Figuren-Atlas verknüpfen. Keine doppelte Erfassung nötig.
+- Suche, Typ- und Figurenfilter, Spoiler-Verdeckung und „Speichern & weiteres Ereignis“.
+- Zugriff über das obere Menü, Buchdetails und die Reihenübersicht.
+- Alle Texte stammen ausschliesslich von dir; keine externen Ereignisse oder Spoiler werden geladen.
 
-- Figuren-Atlas als übersichtliche Startansicht mit responsiven Gruppen-Karten.
-- Suche nach Name, Rolle oder Fraktion und Filter für einzelne Gruppen.
-- Figur anklicken: direktes Beziehungsnetz öffnen und die ausgewählte Figur fokussieren.
-- Verbindungen zur ausgewählten Figur werden zusätzlich in einer lesbaren Liste angezeigt; andere Figuren lassen sich darüber direkt öffnen.
-- Das vollständige Netz bleibt verfügbar, inklusive aller Linien, Zoom, Verschieben, Einpassen, 1:1 und Grossansicht.
-- Neue, kompakte Graph-Anordnung mit getrennten Gruppenüberschriften und mehr Platz für die Figurenkarten.
-- Verbesserte Darstellung auf schmalen Handybildschirmen.
-- Die Initialisierung des Charakter-Moduls wurde korrigiert, damit auch Einträge mit fehlenden Zeitstempeln geladen werden können.
+## Daten & Backup
 
-Die Gruppierung verwendet ausschliesslich deine vorhandenen Fraktions- und Rollenangaben. Sie verändert keine Namen und führt keine Fraktionen automatisch zusammen. Alle neuen Ansichts- und Filtereinstellungen sind rein lokal im laufenden Fenster und werden nicht in die Bibliotheksdaten geschrieben.
+Die Ereignisse werden separat unter `my_bookshelf_world_timeline_v1` im lokalen Speicher gespeichert. Die App hat weiterhin keine automatische Synchronisation zwischen Geräten. Das JSON-Backup enthält die vollständige Ereignis-Chronik und verwendet Schema 10. Ältere Backups bleiben lesbar; ein Backup ohne Ereignisbereich löscht beim Import keine vorhandene Chronik. Beim Zusammenführen bleiben vorhandene Einträge erhalten, und ID-Konflikte werden ohne Überschreiben behandelt. Buch- und Figurenverknüpfungen werden beim Import möglichst über stabile IDs und Identitäten zugeordnet; historische Namen und Quellen bleiben erhalten, wenn ein Ziel nicht mehr existiert.
 
-### Installation
+## Installation
 
-1. Vor dem Update ein aktuelles JSON-Backup erstellen und ausserhalb der App speichern.
-2. Alle 12 Dateien aus dem GitHub-ZIP in das bestehende Repository hochladen und die bisherigen Dateien ersetzen.
-3. Committen und warten, bis GitHub Pages die neue Version veröffentlicht hat. Die Versionsanzeige oben muss V15.9.3 zeigen.
-4. Die App neu öffnen. Es ist keine Neueingabe und kein Import der Figuren notwendig.
+1. In der aktuellen App unter „Sicherheit & Export“ ein vollständiges JSON-Backup erstellen und ausserhalb der App, beispielsweise in iCloud Drive, speichern.
+2. Das ZIP entpacken und **alle 15 Dateien** direkt in das bestehende GitHub-Repository hochladen. Die neuen Dateien sind `world-timeline-core.js`, `world-timeline.js` und `world-timeline.css`.
+3. Änderungen committen und die GitHub-Pages-Veröffentlichung abwarten. Danach die Seite neu öffnen und die angezeigte Version V16.0 prüfen.
+4. Cloudflare muss nicht geändert werden. Bitte weder die App löschen noch Website-Daten leeren, um ein Update zu erzwingen.
 
-Cloudflare muss nicht geändert werden. Bitte keine App, Browser- oder Website-Daten löschen. Die Daten liegen weiterhin lokal im Browser; dieses Update richtet keine Cloud-Synchronisierung ein.
+GitHub Pages: https://nevio111998.github.io/mein-buecherregal/
+Cloudflare Worker (unverändert): https://mein-buecherregal-api.neviodipalma.workers.dev
 
-### Technische Hinweise
+## Testhinweis
 
-- Character-Network-Speicher: `my_bookshelf_character_network_v1` (unverändert).
-- Backup-Schema: 9 (unverändert).
-- Keine Migration oder Änderung an der Struktur der gespeicherten Figuren und Beziehungen.
-- Aktualisierter Service-Worker-Cache: `bookshelf-v15.9.3`.
-- Die Dateien `character-network.js`, `character-network-layout.js` und `character-network.css` müssen zusammen mit der neuen `index.html` installiert werden.
-
-Die Darstellung wurde mit synthetischen Daten und einem isolierten Chromium-Test sowie einem Start der vollständigen App geprüft. Ein Test auf deinem persönlichen iPhone war nicht möglich.
+Die JavaScript-Syntax, Datenlogik, eine vollständige App mit Beispielbibliothek, der mobile Dialog sowie Backup-Zusammenführen, Ersetzen und Rücksetzung bei simuliertem Speicherfehler wurden geprüft. Der direkte Aufruf über localhost war in der Testumgebung administrativ gesperrt; die Browser-Integration wurde deshalb mit vollständig eingebetteten lokalen App-Dateien und isoliertem Beispielspeicher getestet. Ein echter iPhone- oder produktiver GitHub-Pages-Test wurde nicht durchgeführt.

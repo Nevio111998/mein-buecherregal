@@ -103,9 +103,9 @@
   function applyImported(snapshot){state=normalizeState(snapshot);render()}
   function restoreMemory(snapshot){state=normalizeState(snapshot);render()}
   function planImport(data,mode){
-    if(!data.hasCharacterNetwork){return mode==='replace'?clone(state):clone(state)}
+    if(!data.hasCharacterNetwork){return {...clone(state),characterIdMap:Object.fromEntries(state.characters.map(c=>[c.id,c.id]))}}
     const incoming=normalizeState(data.characterNetwork);
-    if(mode==='replace')return incoming;
+    if(mode==='replace')return {...incoming,characterIdMap:Object.fromEntries(incoming.characters.map(c=>[c.id,c.id]))};
     const result=clone(state);const charIds=new Map(result.characters.map(c=>[c.id,c]));
     const charKey=c=>`${normalize(c.series)}|${normalize(c.name)}`;
     const byKey=new Map(result.characters.map(c=>[charKey(c),c]));
@@ -116,7 +116,7 @@
     const relKeys=new Set(result.relationships.map(relKey));
     incoming.relationships.forEach(r=>{const add={...r,from:idMap.get(r.from)||r.from,to:idMap.get(r.to)||r.to};const k=relKey(add);if(relKeys.has(k))return;while(relIds.has(add.id))add.id=newId();result.relationships.push(add);relIds.add(add.id);relKeys.add(k)});
     if(result.characters.length>MAX_CHARACTERS||result.relationships.length>MAX_RELATIONSHIPS)throw new Error('Zu viele Einträge nach dem Zusammenführen des Charakter-Netzes.');
-    return normalizeState(result);
+    return {...normalizeState(result),characterIdMap:Object.fromEntries(idMap)};
   }
 
   function ensureUi(){

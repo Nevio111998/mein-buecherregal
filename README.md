@@ -1,14 +1,18 @@
-# Mein Bücherregal – Version 15.9
+# Mein Bücherregal – V15.9.1
 
-Neu in Version 15.9:
+## Neues Charakter-Netz
 
-- Charakter- & Beziehungsnetz pro Reihe
-- Figuren mit Rolle, Fraktion, Status, Wichtigkeit, Tags und Notizen
-- Beziehungen zwischen Figuren: Verbündet, Feind, Familie, Mentor, Rivale, Romance, Eid, Fraktion oder unklar
-- grafische Netzansicht mit Linien und Figurenkarten
-- Import von Charakteren aus der bestehenden Reihen-Chronik
-- Backup erweitert auf Schema 9 inklusive Charakter-Netz
+- Mehr Platz: Netz über die volle Dialogbreite, Listen darunter.
+- Deterministische automatische Anordnung mit Abstand zwischen Figurenkarten; getrennte Figurengruppen werden separat platziert.
+- Zoomen per Mausrad, Trackpad, Zwei-Finger-Geste, Schieberegler oder Plus/Minus.
+- Freie Fläche ziehen zum Verschieben; Pfeiltasten oder Richtungsschaltflächen als Alternative.
+- Einpassen, 1:1-Ansicht und grosse Netzansicht.
+- Figur wählen und zentrieren; auf Wunsch nur ihr direktes Umfeld anzeigen.
+- Beziehungsnamen werden standardmässig nur bei ausgewählten Verbindungen angezeigt; optional alle Namen einblenden.
+- Figuren und Beziehungen lassen sich weiterhin über die Listen oder die Auswahlleiste bearbeiten.
 
-Bestehende Bücher, Sammlungen, Lese-Sessions, Reihen-Chronik, Lesejournal und Deko bleiben erhalten.
+## Datensicherheit und Installation
 
-Beim Update alle Dateien hochladen. Cloudflare bleibt unverändert.
+Dies ist ein reines Darstellungsupdate auf Basis von V15.9. Die gespeicherten Figuren, Beziehungen, Bücher, Reihen, Sammlungen, Lese-Sessions, Journale und Dekorationen bleiben unverändert. Backup-Schema 9 bleibt bestehen. Die neue Netzansicht speichert keine zusätzlichen Daten.
+
+Vor dem Update ein JSON-Backup ausserhalb der App erstellen. Danach alle 12 Dateien aus dem ZIP im bestehenden GitHub-Repository ersetzen beziehungsweise hinzufügen und committen. Insbesondere die neue Datei `character-network-layout.js` muss mit hochgeladen werden. Cloudflare muss nicht geändert werden. Keine Website-Daten löschen.

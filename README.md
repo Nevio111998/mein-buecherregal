@@ -1,97 +1,63 @@
-# My Bookshelf (Mein Bücherregal)
+# Mein Bücherregal
 
-**A personal reading companion and worldbuilding journal — built for the way I read.**
+A personal digital bookshelf and reading journal, built mainly for my own use.
 
-I created *Mein Bücherregal* as a personal project to keep track of my books, reading progress and favourite fantasy universes in one place. A conventional reading list wasn't enough: I also wanted to remember characters, places, important events and the connections between stories without losing my own notes or running into unwanted spoilers.
+I read a lot of fantasy, especially long series with many characters, places and events. I wanted one place to keep track of my books, remember where I left off and collect notes about the worlds I'm reading about. So I made this little web app and keep adding things whenever I feel something is missing.
 
-The result is a continuously evolving, browser-based application that combines a digital bookshelf with reading journals, series organisation and a personal knowledge base for fictional worlds.
+**[Open Mein Bücherregal](https://nevio111998.github.io/mein-buecherregal/)**
 
-**[Open the live application](https://nevio111998.github.io/mein-buecherregal/)** · Interface language: German
+The app itself is in German. It's made around my own reading habits, but anyone who finds it is welcome to try it.
 
-## What can you do with it?
+## What you can do
 
-- **Personal bookshelf:** Organise books and maintain a library with searchable entries and reading-related information.
-- **Series and collections:** Group books into manually managed series and collections rather than relying on automatically guessed reading orders.
-- **Reading journal:** Keep personal notes and document thoughts about books while reading.
-- **Reading sessions:** Record individual reading sessions and follow your reading activity.
-- **Worldbuilding notes:** Organise information about the fictional worlds you explore.
-- **Character atlas:** Keep track of characters and their relationships to series and stories.
-- **Event timelines:** Build a separate chronological timeline for each series, with events such as battles, journeys, alliances, discoveries and character developments.
-- **Cross-referenced details:** Connect timeline events to existing characters and optionally record source books, chapter/page references, locations, factions, tags and importance.
-- **Search and filters:** Find timeline entries by text, event type or associated character; hide spoilers when needed.
-- **Personalisation:** Add decorative and organisational details to make the library feel like your own space.
-- **Backup and restore:** Export your collection as JSON and import it again, including the interconnected world and timeline information.
+- **Bookshelf:** Keep your books together in a personal library.
+- **Series and collections:** Organise books into series and collections, including your own reading order.
+- **Reading journal:** Write down your thoughts and notes as you read.
+- **Reading sessions:** Keep a record of your reading activity.
+- **Worldbuilding:** Save details about fictional worlds, places and factions.
+- **Character atlas:** Collect information about characters and their connections.
+- **Series timelines:** Create events for each series, such as battles, journeys, discoveries or important character moments. Move events up and down to put them in the order you want.
+- **Linked notes:** Connect events with characters and books, add chapter or page references, tags and extra notes.
+- **Spoiler protection:** Hide timeline details you don't want to see at a glance.
+- **Search and filters:** Find books and timeline entries more easily.
+- **Backup and restore:** Export your data as a JSON file and import it later.
 
-All story events and descriptions are entered by the user. The application does **not** generate fictional lore, reading orders or plot information automatically.
+Everything about the stories is entered manually. The app doesn't make up events, characters or book orders, and it doesn't automatically pull in spoilers.
 
-## Why I built it
+## How it's built
 
-I enjoy long fantasy series with large casts, complex histories and interconnected worlds. As a reader, I wanted more than a list of books marked *read* or *unread*: a place to preserve the details I care about and return to them months later.
+It's a small web app made with **HTML, CSS and JavaScript**, hosted on **GitHub Pages**. It also includes a web app manifest and a layout designed to work on mobile screens.
 
-This project started as a tool for my own reading habits and grew feature by feature. It also became a practical exercise in frontend development, structured data modelling, state management and building reliable import/export workflows.
+The different parts of the app handle the bookshelf, reading sessions, worldbuilding, characters and timelines. For example, the timeline feature is split into:
 
-## Technology and architecture
+- `world-timeline-core.js` — event data, sorting and import logic
+- `world-timeline.js` — timeline interface and interactions
+- `world-timeline.css` — timeline styling
 
-The application is delivered as a lightweight web app through **GitHub Pages**. Its interface is built with **HTML, CSS and JavaScript**, with progressive-web-app metadata for a more app-like experience on supported devices.
+There's also a Cloudflare Worker endpoint used by the project. Most importantly, **your own library and notes are kept in your browser**, not in this GitHub repository. No account is needed.
 
-| Area | Implementation |
-| --- | --- |
-| Frontend | HTML, CSS and vanilla JavaScript |
-| Deployment | GitHub Pages |
-| App-like experience | Web app manifest and mobile-oriented UI |
-| Data | Browser-local storage and JSON backup files |
-| Domain model | Books, series, collections, characters, worldbuilding notes and events |
-| Timeline module | `world-timeline-core.js`, `world-timeline.js` and `world-timeline.css` |
-| External integration | A separately configured Cloudflare Worker endpoint |
+## Your data and backups
 
-The application is designed around **personal, locally stored data** rather than user accounts or a central online library. It does not automatically synchronize reading data between devices.
+The app doesn't automatically sync between devices. Each browser keeps its own local data, so saving a backup is a good idea, particularly before clearing browser data or moving to another device.
 
-### Technical challenges
+Use **Sicherheit & Export** in the app to download a JSON backup. You can later restore it or merge it with an existing library. The backup includes the event timelines and their links to books and characters.
 
-**Preserving existing data while adding features.** New modules must work with previously saved libraries and older backup formats. The current backup uses schema version 10; older imports remain supported.
+Older backups are supported. Importing an older backup without timeline information won't automatically erase a timeline you already have.
 
-**Safe merging and ID conflicts.** Import logic supports merging and replacing data. When imported timeline records collide with existing IDs, it avoids silently overwriting unrelated entries.
+## Using it
 
-**Maintaining relationships.** Timeline events may reference books and characters. During import, the application attempts to reconnect those references using stable IDs and identifying details, while preserving historical names when a target is unavailable.
+Just open the [live app](https://nevio111998.github.io/mein-buecherregal/) and start adding your books.
 
-**Keeping the timeline user-controlled.** Events can be inserted, reordered, edited and filtered. Their chronology comes from the reader rather than an external database or an automatically inferred order.
-
-**Handling storage failures.** The backup/import implementation includes validation and recovery logic intended to avoid leaving partially applied changes when storage operations fail.
-
-## Run locally
-
-Clone or download this repository and serve its files from the project root using a local HTTP server, for example:
+If you prefer to run your own copy locally, clone or download the repository and start a local server in its folder:
 
 ```sh
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000` in your browser. You can also try the published version through the live-app link above.
+Then visit `http://localhost:8000`.
 
-**Important:** Browser storage is tied to its origin and browser profile. Local development and the GitHub Pages version do not automatically share the same library. Export a backup from the original installation before switching devices, browsers or origins.
+Keep in mind that the local version and the GitHub Pages version use separate browser storage. If you want the same library in both, transfer it using a JSON backup.
 
-## Data ownership and backups
+## A small note
 
-Personal library entries, notes and timelines are stored in the browser. The application provides a JSON backup that includes the world-event timeline (stored locally under `my_bookshelf_world_timeline_v1`) and related application data.
-
-- **Export** a full backup before major changes or clearing browser data.
-- **Merge** incoming data with existing entries, retaining existing records and resolving conflicting IDs.
-- **Replace** data through the supported import process when a full restoration is intended.
-- **Older backups** remain readable; a backup without a timeline section does not erase an existing timeline simply because that section is absent.
-- **No automatic device sync:** Backups must be transferred manually when moving to a new browser or device.
-
-The GitHub Pages website hosts the application code, not a copy of each visitor's personal library.
-
-## Verification and limitations
-
-During development, JavaScript syntax, timeline data logic, example-library interactions, mobile dialog behaviour and backup merge/replace/error-recovery scenarios were checked in a controlled test environment. These checks should not be confused with a comprehensive automated cross-browser test suite.
-
-The earlier development test environment could not directly run a localhost browser integration test, and a production iPhone/GitHub Pages test was not documented there. Real-device compatibility should therefore be verified separately rather than assumed from those checks.
-
-This is primarily a **personal project**, not a commercial reading platform. It has no built-in account system or automatic multi-device synchronisation, and user-generated notes depend on the browser's local storage unless backed up.
-
-## Project direction
-
-I continue to shape this application around my own reading experience, prioritising practical features, data portability and careful evolution of the existing library over unnecessary complexity.
-
-The main engineering lesson is that even a personal tool benefits from clear data models, backwards compatibility and thoughtful treatment of user data.
+This is a personal side project that I update whenever I have an idea for something I'd like to use. It's not a commercial service, and there isn't any automatic cloud backup or syncing. If you use it for your own books, make regular backups so your notes stay safe.

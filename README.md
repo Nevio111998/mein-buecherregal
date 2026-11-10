@@ -11,6 +11,7 @@ The app itself is in German. It's made around my own reading habits, but anyone 
 ## What you can do
 
 - **Bookshelf:** Keep your books together in a personal library.
+- **Add books by ISBN:** If you have the physical book, take a photo of its ISBN barcode to scan it. Otherwise, enter the ISBN manually. The app looks up details such as the title, author and cover image and fills in available information automatically. You can add any remaining details yourself if you want.
 - **Series and collections:** Organise books into series and collections, including your own reading order.
 - **Reading journal:** Write down your thoughts and notes as you read.
 - **Reading sessions:** Keep a record of your reading activity.
